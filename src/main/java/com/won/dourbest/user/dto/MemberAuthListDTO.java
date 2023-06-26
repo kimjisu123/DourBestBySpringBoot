@@ -4,11 +4,14 @@ import lombok.*;
 
 @Getter
 @Setter
-@ToString
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
+@ToString
 public class MemberAuthListDTO {
 
-    private MemberAuthDTO memberAuthCode;
-    private MemberDTO memberCode;
+    private int memberAuthCode;
+    private int memberCode;
+
+    // 권한
+    private MemberAuthDTO memberAuth;
 }

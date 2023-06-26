@@ -1,16 +1,20 @@
-package com.won.dourbest.user.dto;
+package com.won.dourbest.common.dto;
+
 
 import lombok.*;
 
+import java.util.Date;
+
 @Getter
 @Setter
-@ToString
-@NoArgsConstructor
 @AllArgsConstructor
-public class MembershipDTO {
+@NoArgsConstructor
+@ToString
+public class MemberShipDTO {
 
     private int membershipCode;
     private String membershipName;
     private int accrualRate;
     private String membershipContent;
+
 }

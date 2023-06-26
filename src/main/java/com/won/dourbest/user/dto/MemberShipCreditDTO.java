@@ -1,17 +1,21 @@
 package com.won.dourbest.user.dto;
 
+
 import lombok.*;
 
-import java.util.Date;
+import java.util.List;
+
 @Getter
 @Setter
-@ToString
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
+@ToString
 public class MemberShipCreditDTO {
 
-    private int memberCreditCode;
-    private Date paymentDate;
-    private CreditDTO paymentCode;
+    private int membershipCreditCode; // 멤버십결제
+    private int memberCode; //회원코드
+    private String cardCompany; // 카드사
+    private String cardNumber; // 카드번호
 
+    private List<MemberShipCreditListDTO> shipCreditList;
 }

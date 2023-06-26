@@ -1,17 +1,17 @@
 package com.won.dourbest.user.dto;
 
-import com.won.dourbest.seller.dto.FundingDTO;
 import lombok.*;
 
-import java.util.List;
-
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @ToString
-public class LikeFundingListDTO {
+public class LikeFundingDTO {
 
-    private List<FundingDTO> funding;
-    private List<MemberDTO> member;
+
+    private int findingCode;
+    private int memberCode;
+
+    private FundingDTO funding;
 }
