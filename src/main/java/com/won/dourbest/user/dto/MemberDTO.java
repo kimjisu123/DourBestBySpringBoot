@@ -4,6 +4,11 @@ import lombok.*;
 
 import java.util.Date;
 
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class MemberDTO {
 
     private int memberCode;
