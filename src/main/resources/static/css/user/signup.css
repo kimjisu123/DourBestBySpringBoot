@@ -1,0 +1,362 @@
+
+.signupPage{height: 1053px;
+    padding-top:55px;
+    padding-bottom:75px;
+}
+.new memberInfo{
+    margin: 0 auto;
+    width : 700px;
+    padding-right: 7rem;
+    padding-left: 7rem;
+}
+
+
+.signup h1{
+    margin-top: 50px;
+    margin-bottom: 50px;
+    font-size: 30px;
+    line-height: 35px;
+    text-align: center;
+    letter-spacing: -1px;
+    color: rgb(51, 51, 51);
+
+}
+
+.memberInfo {
+
+    margin:auto;
+
+}
+
+.new2 input {
+
+    width: 400px;
+    margin: 0px auto;
+    height: 46px;
+    padding: 4px 11px 1px 15px;
+    border-radius: 4px;
+    border: 1px solid #b4b4b4;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.5;
+    color: black;
+    outline: none;
+    box-sizing: border-box;
+
+}
+
+.new label {
+
+    padding-top: 12px;
+    width: 110px;
+    font-weight: 1000;
+    color: rgb(51, 51, 51);
+    line-height: 20px;
+
+}
+
+.new > div {
+
+    display: inline-flex;
+    padding: 10px 5px;
+
+}
+
+.new div legend {
+
+
+    padding-top: 79px;
+}
+
+
+.personalterms{
+
+    display: flex;
+
+}
+
+.newid-info{
+
+
+    padding: 10px 20px;
+
+}
+.new ::placeholder {
+
+    width: 100%;
+    text-align: left;
+
+}
+
+
+.signupPage {
+
+    width: 700px;
+    margin: 0px auto;
+    letter-spacing: -0.6px;
+    background-color: rgb(255, 255, 255);
+}
+
+
+.signtop {
+
+    padding-bottom: 10px;
+    border-bottom: 2px solid rgb(51, 51, 51);
+    font-size: 12px;
+    color: rgb(102, 102, 102);
+    line-height: 17px;
+    text-align: right;
+
+}
+
+
+
+.new button{
+
+
+    margin: 0px auto;
+    width: 155px;
+    height: 46px;
+    text-align: center;
+    border-radius: 4px;
+    border: 1px solid #f35f4c;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #f35f4c;
+    outline: none;
+    box-sizing: border-box;
+    float:right;
+}
+
+
+#signSubmit {
+
+    width: 200px;
+    padding-top: 30px;
+    margin: 0px auto;
+    height: 46px;
+    padding: 4px 11px 1px 15px;
+    border-radius: 4px;
+    border: 1px solid #f35f4c;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.5;
+    background-color: #f35f4c;
+    color: white;
+    outline: none;
+    box-sizing: border-box;
+
+}
+
+.new button:hover {
+
+    background-color: #f14933;
+    color: white;
+    transition: .4s;
+
+}
+
+.signSubmit:hover {
+
+    background-color: #f14933;
+    border-color: #f14933;
+    transition: .3s;
+
+}
+
+
+.error{
+    font-size: 1px;
+    height: 20px;
+    color:red;
+    font-weight: 700;
+    display: none;
+}
+
+.adress-info div {
+
+    margin-block-start: 1px;
+    flex-direction: column;
+    margin-bottom: -36px;
+
+}
+
+.persnalterms {
+
+    flex: auto;
+}
+
+.persnalterms p {
+
+
+    text-align: right;
+}
+
+#termstitle {
+
+    font-size: 30px;
+}
+
+.persnalterms .c {
+
+    font-size: 12px;
+    color: rgb(102, 102, 102);
+    padding-top: 4px;
+    padding-left: 36px;
+}
+
+.focusment2 {
+    display: flex;
+    font-size: 25px;
+    margin-bottom: 20px;
+    color:#3c3c3c;
+}
+
+.focus {
+    width: 700px;
+    margin: 40px auto;
+    border-bottom: 1px solid rgb(51, 51, 51);
+
+}
+
+.reason > p {
+    margin-bottom: 13px;
+    font-size: 15px;
+}
+
+.reviewContents {
+    width: 100%;
+    height: 150px;
+    padding: 10px;
+    box-sizing: border-box;
+    border: solid 1.5px #D3D3D3;
+    border-radius: 5px;
+    font-size: 16px;
+    resize: none;
+    margin-bottom: 5px;
+}
+.review-close {
+    color: #aaaaaa;
+    position: absolute;
+    font-size: 28px;
+    font-weight: bold;
+    top: 5px;
+    right: 10px;
+    transition: all .1s ease-in;
+}
+
+.review-close:hover,
+.review-close:focus {
+    color: #f35f4c;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-title{
+    font-weight: bold;
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+.modal-content {
+    position: relative;
+    background-color: #fefefe;
+    padding: 40px;
+    width: 500px;
+    border: 1px solid #888;
+    border-radius: 16px;
+}
+.modal-container{
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    align-items: center;
+}
+
+.reviewmodal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-title{
+    margin-top: 0px;
+}
+
+.reviewDiv{
+    display: inline-flex;
+    position: relative;
+    height: 100%;
+    margin-bottom: 20px;
+}
+
+
+.focus .terms-boxs {
+
+    height:500px;
+    overflow-x:hidden;
+    overflow-y:auto;
+
+}
+
+.new2 input:focus:invalid{
+
+
+    border: 2px solid #f35f4c;
+    cursor: pointer;
+
+}
+
+.focus .personalterms checkbox {
+
+    display: flex;
+    padding: 5px;
+}
+
+.focus .reason {
+
+    justify-content: space-between;
+}
+
+
+
+.focus .modal-buttons{
+
+    border: none;
+    color: #3c3c3c;
+    width: 76px;
+
+
+}
+
+.focus .modal-buttons:hover {
+
+    background-color: white;
+    color: #3c3c3c;
+    font-weight: 800px;
+    transition: .4s;
+}
+
+.personalterms h1 {
+
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+
+.focusment2 checkbox {
+
+    padding-left: 15px;
+
+}
+
+.modal-content p{
+
+
+
+}
