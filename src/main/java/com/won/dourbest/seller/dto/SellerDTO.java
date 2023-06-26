@@ -19,6 +19,6 @@ public class SellerDTO {
     private String sellerSns;
     private String sellerUrl;
     private String sellerKakao;
-    private MemberDTO member;
+    private int memberCode;
     private List<FundingDTO> funding;
 }

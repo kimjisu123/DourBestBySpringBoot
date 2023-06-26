@@ -14,5 +14,5 @@ public class AdvertisementDTO {
     private int advertisementCode;
     private Date adStartDate;
     private Date adEndDate;
-    private FundingDTO funding;
+    private int fundingCode;
 }

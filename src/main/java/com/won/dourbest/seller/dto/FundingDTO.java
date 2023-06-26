@@ -24,9 +24,9 @@ public class FundingDTO {
     private Date endDate;
     private int fundingGoalMoney;
     private String returnRole;
-    private SellerDTO seller;
-    private CategoryDTO category;
-    private PlanDTO plan;
+    private int sellerCode;
+    private int categoryCode;
+    private int planCode;
 
     // 펀딩 태그 리스트
     private List<FundingTagDTO> tagList;
