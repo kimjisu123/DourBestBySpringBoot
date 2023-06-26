@@ -14,5 +14,5 @@ public class FundingOptionDTO {
     private String optionContents;
     private int optionPrice;
     private int limitQuantity;
-    private FundingDTO funding;
+    private int fundingCode;
 }

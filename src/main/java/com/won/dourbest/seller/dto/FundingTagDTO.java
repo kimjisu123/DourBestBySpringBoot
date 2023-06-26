@@ -10,5 +10,5 @@ import lombok.*;
 public class FundingTagDTO {
 
     private TagDTO tag;
-    private FundingDTO funding;
+    private int fundingCode;
 }

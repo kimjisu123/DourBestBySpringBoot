@@ -17,7 +17,7 @@ public class SellerInquiryDTO {
     private String inquiryContent;
     private Date inquiryDate;
     private char answerStatus;
-    private FundingDTO funding;
-    private MemberDTO member;
-    private CategoryDTO category;
+    private int fundingCode;
+    private int memberCode;
+    private int categoryCode;
 }

@@ -15,5 +15,5 @@ public class FundingNoticeDTO {
     private String noticeTitle;
     private Date noticeDate;
     private String noticeContent;
-    private FundingDTO funding;
+    private int fundingCode;
 }

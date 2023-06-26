@@ -16,6 +16,6 @@ public class FundingReportDTO {
     private String reportContent;
     private Date reportDate;
     private FundingDTO funding;
-    private MemberDTO member;
-    private CategoryDTO category;
+    private int memberCode;
+    private int categoryCode;
 }

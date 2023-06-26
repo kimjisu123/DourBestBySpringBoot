@@ -14,6 +14,6 @@ public class ReviewAnswersDTO {
     private int reviewAnswerCode;
     private String reviewsAnswerContent;
     private Date reviewDate;
-    private ReviewDTO review;
+    private int reviewCode;
 
 }

@@ -17,5 +17,5 @@ public class FundingFileDTO {
     private Date uploadDate;
     private String fileType;
     private char deletionStatus;
-    private FundingDTO funding;
+    private int fundingCode;
 }
