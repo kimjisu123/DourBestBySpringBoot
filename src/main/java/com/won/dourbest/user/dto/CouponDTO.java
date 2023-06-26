@@ -1,4 +1,4 @@
-package com.won.dourbest.user.member.dto;
+package com.won.dourbest.user.dto;
 
 import lombok.*;
 
