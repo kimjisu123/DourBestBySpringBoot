@@ -10,7 +10,7 @@ import lombok.*;
 public class LikeFundingDTO {
 
 
-    private int findingCode;
+    private int fundingCode;
     private int memberCode;
 
     private FundingDTO funding;
