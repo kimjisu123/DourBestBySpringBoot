@@ -1,0 +1,16 @@
+server:
+  port: 8989
+
+mybatis:
+  # mapper.xml location Setting
+  mapper-locations: mappers/**/*Mapper.xml  # alias Setting
+#  type-aliases-package: com.ohgiraffers.thymeleafspringboot
+  configuration:
+    map-underscore-to-camel-case: true
+
+spring:
+  datasource:
+    driver-class-name: oracle.jdbc.OracleDriver
+    url: jdbc:oracle:thin:@oracle.coffit.site:1521:XE
+    username: C##DOURBEST
+    password: DOURBEST
