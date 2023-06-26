@@ -1,4 +1,4 @@
-package com.won.dourbest.common;
+package com.won.dourbest.common.dto;
 
 public class CategoryDTO {
 
