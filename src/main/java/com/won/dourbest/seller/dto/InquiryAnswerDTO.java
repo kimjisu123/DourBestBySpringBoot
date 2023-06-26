@@ -2,6 +2,8 @@ package com.won.dourbest.seller.dto;
 
 import lombok.*;
 
+import java.util.Date;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -11,6 +13,6 @@ public class InquiryAnswerDTO {
 
     private int inquiryAnswerCode;
     private String inquiryAnswerContent;
-    private java.util.Date inquiryAnswerDate;
+    private Date inquiryAnswerDate;
     private SellerInquiryDTO sellerInquiry;
 }

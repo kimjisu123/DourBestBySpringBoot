@@ -1,7 +1,8 @@
 package com.won.dourbest.seller.dto;
 
-import com.won.dourbest.user.dto.MemberDTO;
 import lombok.*;
+
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,6 +19,6 @@ public class SellerDTO {
     private String sellerSns;
     private String sellerUrl;
     private String sellerKakao;
-
     private MemberDTO member;
+    private List<FundingDTO> funding;
 }

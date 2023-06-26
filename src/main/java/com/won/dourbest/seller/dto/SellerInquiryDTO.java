@@ -1,10 +1,9 @@
 package com.won.dourbest.seller.dto;
 
 import com.won.dourbest.common.dto.CategoryDTO;
-import com.won.dourbest.user.dto.MemberDTO;
 import lombok.*;
 
-import java.util.List;
+import java.util.Date;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,9 +15,9 @@ public class SellerInquiryDTO {
     private int sellerInquiryCode;
     private String inquiryTitle;
     private String inquiryContent;
-    private java.util.Date inquiryDate;
+    private Date inquiryDate;
     private char answerStatus;
-    private List<FundingDTO> funding;
-    private List<MemberDTO> member;
+    private FundingDTO funding;
+    private MemberDTO member;
     private CategoryDTO category;
 }
