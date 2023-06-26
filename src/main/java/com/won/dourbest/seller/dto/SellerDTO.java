@@ -1,5 +1,13 @@
 package com.won.dourbest.seller.dto;
 
+import com.won.dourbest.user.dto.MemberDTO;
+import lombok.*;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@ToString
 public class SellerDTO {
 
     private int sellerCode;

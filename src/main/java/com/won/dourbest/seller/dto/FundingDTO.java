@@ -1,7 +1,13 @@
 package com.won.dourbest.seller.dto;
 
-import com.won.dourbest.common.CategoryDTO;
+import com.won.dourbest.common.dto.CategoryDTO;
+import lombok.*;
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@ToString
 public class FundingDTO {
 
     private int fundingCode;
