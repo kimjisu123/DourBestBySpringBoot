@@ -35,13 +35,6 @@ section{
 
 .swiper-slide > a > div p {
     text-align: left;
-
-}
-
-.slider-text {
-    position: absolute;
-    top: 50%;
-    left: 50%;
 }
 
 .swiper-slide {
