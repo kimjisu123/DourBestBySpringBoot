@@ -2,8 +2,6 @@ package com.won.dourbest.seller.dto;
 
 import lombok.*;
 
-import java.util.List;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -11,6 +9,6 @@ import java.util.List;
 @ToString
 public class FundingTagDTO {
 
-    private List<TagDTO> tag;
-    private List<FundingDTO> funding;
+    private TagDTO tag;
+    private FundingDTO funding;
 }

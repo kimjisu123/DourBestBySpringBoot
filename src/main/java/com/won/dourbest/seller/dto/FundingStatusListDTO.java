@@ -6,13 +6,13 @@ import java.util.Date;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Setter
 @Getter
+@Setter
 @ToString
-public class AdvertisementDTO {
+public class FundingStatusListDTO {
 
-    private int advertisementCode;
-    private Date adStartDate;
-    private Date adEndDate;
+    private int fundingStatusHistoryCode;
+    private Date changeDate;
+    private FundingStatusDTO fundingStatus;
     private FundingDTO funding;
 }

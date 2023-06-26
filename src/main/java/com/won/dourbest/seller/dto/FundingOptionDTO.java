@@ -2,8 +2,6 @@ package com.won.dourbest.seller.dto;
 
 import lombok.*;
 
-import java.util.List;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -16,5 +14,5 @@ public class FundingOptionDTO {
     private String optionContents;
     private int optionPrice;
     private int limitQuantity;
-    private List<FundingDTO> funding;
+    private FundingDTO funding;
 }

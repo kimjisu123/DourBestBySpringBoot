@@ -1,8 +1,8 @@
 package com.won.dourbest.seller.dto;
 
-import com.won.dourbest.user.dto.MemberDTO;
 import lombok.*;
 
+import java.util.Date;
 import java.util.List;
 
 @NoArgsConstructor
@@ -15,8 +15,11 @@ public class ReviewDTO {
     private int reviewCode;
     private String reviewTitle;
     private String reviewContent;
-    private java.util.Date creationDate;
+    private Date creationDate;
     private char answerStatus;
-    private List<FundingDTO> funding;
-    private List<MemberDTO> member;
+    private FundingDTO funding;
+    private MemberDTO member;
+
+    // 후기 파일 리스트
+    private List<ReviewFileDTO> reviewFileList;
 }

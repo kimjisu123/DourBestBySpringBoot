@@ -2,7 +2,8 @@ package com.won.dourbest.seller.dto;
 
 import lombok.*;
 
-import java.util.List;
+import java.util.Date;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -12,7 +13,7 @@ public class FundingNoticeDTO {
 
     private int fundingNoticeCode;
     private String noticeTitle;
-    private java.util.Date noticeDate;
+    private Date noticeDate;
     private String noticeContent;
-    private List<FundingDTO> funding;
+    private FundingDTO funding;
 }

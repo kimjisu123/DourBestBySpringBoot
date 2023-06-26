@@ -2,7 +2,7 @@ package com.won.dourbest.seller.dto;
 
 import lombok.*;
 
-import java.util.List;
+import java.util.Date;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -14,8 +14,8 @@ public class FundingFileDTO {
     private int fundingFileCode;
     private String fileOriginalName;
     private String fileModificationName;
-    private java.util.Date uploadDate;
-    private char fileType;
-    private String deletionStatus;
-    private List<FundingDTO> funding;
+    private Date uploadDate;
+    private String fileType;
+    private char deletionStatus;
+    private FundingDTO funding;
 }

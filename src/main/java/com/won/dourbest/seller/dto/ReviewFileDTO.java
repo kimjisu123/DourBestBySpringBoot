@@ -2,6 +2,8 @@ package com.won.dourbest.seller.dto;
 
 import lombok.*;
 
+import java.util.Date;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -12,7 +14,7 @@ public class ReviewFileDTO {
     private int reviewFileCode;
     private String fileOriginalName;
     private String fileModificationName;
-    private java.util.Date uploadDate;
+    private Date uploadDate;
     private char deletionStatus;
     private ReviewDTO review;
 }
