@@ -19,4 +19,6 @@ public class PointListDTO {
     private int pointCode;
     private int memberCode;
 
+    //
+
 }
