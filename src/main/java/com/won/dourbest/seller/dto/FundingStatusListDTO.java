@@ -13,6 +13,6 @@ public class FundingStatusListDTO {
 
     private int fundingStatusHistoryCode;
     private Date changeDate;
-    private FundingStatusDTO fundingStatus;
-    private FundingDTO funding;
+    private int fundingStatusCode;
+    private int fundingCode;
 }

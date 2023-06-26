@@ -14,5 +14,5 @@ public class InquiryAnswerDTO {
     private int inquiryAnswerCode;
     private String inquiryAnswerContent;
     private Date inquiryAnswerDate;
-    private SellerInquiryDTO sellerInquiry;
+    private int sellerInquiryCode;
 }

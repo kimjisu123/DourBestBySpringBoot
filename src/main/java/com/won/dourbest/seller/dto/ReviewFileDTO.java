@@ -16,5 +16,5 @@ public class ReviewFileDTO {
     private String fileModificationName;
     private Date uploadDate;
     private char deletionStatus;
-    private ReviewDTO review;
+    private int reviewCode;
 }
