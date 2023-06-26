@@ -15,4 +15,5 @@ public class FundingOptionDTO {
     private int optionPrice;
     private int limitQuantity;
     private int fundingCode;
+
 }

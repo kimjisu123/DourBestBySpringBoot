@@ -18,4 +18,5 @@ public class FundingReportDTO {
     private FundingDTO funding;
     private int memberCode;
     private int categoryCode;
+
 }

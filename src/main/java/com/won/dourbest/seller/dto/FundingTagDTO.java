@@ -11,4 +11,5 @@ public class FundingTagDTO {
 
     private TagDTO tag;
     private int fundingCode;
+
 }
