@@ -1,11 +1,9 @@
 <!DOCTYPE html>
-<html th:replace="~{/layouts/base :: layout(~{::title}, ~{::main}, ~{::link}, ~{::script})}"
+<html th:replace="~{/layouts/base :: layout(~{::main}, ~{::link}, ~{::script})}"
       xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>메인 페이지 타이틀</title>
     <link rel="stylesheet" th:href="@{/css/user/mypage/mypage.css}">
 </head>
-<body>
 <main>
     <article class="profile-wrap">
         <h2 class="sr-only">나의 프로필</h2>
@@ -206,10 +204,5 @@
         </section>
     </div>
 </main>
-</body>
-<script th:src="@{/js/common/main.js}"></script>
-<!-- Swiper JS -->
-<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
-<!-- Initialize Swiper -->
-<script th:src="@{/js/common/swiper.js}"></script>
+<script src=""></script>
 </html>
