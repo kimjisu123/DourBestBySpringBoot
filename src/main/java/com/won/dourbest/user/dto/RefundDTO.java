@@ -14,6 +14,8 @@ public class RefundDTO {
     private char approvalStatus;
     private String refundReason;
     private Date refundDate;
-    private CreditDTO paymentCode;
+    private int paymentCode;
+
+
 
 }

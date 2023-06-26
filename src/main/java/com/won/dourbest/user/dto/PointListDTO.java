@@ -3,6 +3,8 @@ package com.won.dourbest.user.dto;
 import lombok.*;
 
 import java.util.Date;
+import java.util.List;
+
 @Getter
 @Setter
 @ToString
@@ -15,6 +17,6 @@ public class PointListDTO {
     private int pointAmount;
     private int pointTotalAmount;
     private int pointCode;
-    private MemberDTO memberCode;
+    private int memberCode;
 
 }

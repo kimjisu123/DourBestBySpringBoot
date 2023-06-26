@@ -1,6 +1,5 @@
 package com.won.dourbest.user.dto;
 
-import com.won.dourbest.seller.dto.FundingDTO;
 import lombok.*;
 
 @Getter
@@ -13,7 +12,8 @@ public class OrderDTO {
     private int orderCode;
     private int orderCount;
     private int price;
-    private FundingDTO fundingCode;
-    private MemberDTO memberCode;
+    private int fundingCode;
+    private int memberCode;
     private String orderRequest;
+
 }
