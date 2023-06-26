@@ -3,7 +3,15 @@ package com.won.dourbest.user.dto;
 import lombok.*;
 
 import java.util.Date;
+<<<<<<< HEAD
 
+=======
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+>>>>>>> giwon
 public class MemberDTO {
 
     private int memberCode;
@@ -17,4 +25,8 @@ public class MemberDTO {
     private char adultStatus;
     private MembershipDTO membershipCode;
 
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> giwon
