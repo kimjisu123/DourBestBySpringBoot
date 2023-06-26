@@ -4,20 +4,19 @@ import lombok.*;
 
 import java.util.Date;
 
+
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor
 @AllArgsConstructor
-
+@NoArgsConstructor
 public class AdminInquiriesDTO {
-    private int inquiresCode;
+    private int inquiriesCode;
     private String contactSubject;
-
-    private String  contactDetails;
+    private String contactDetails;
     private Date dateCreationInquiry;
     private char whetherAnswer;
+    private int categoryCode;
 
-    private Category categoryCode;
-
+    private CategoryDTO categoryDTO;
 }

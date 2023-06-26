@@ -8,8 +8,8 @@ import java.util.Date;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class EventDTO {
 
     private int eventCode;
@@ -17,5 +17,6 @@ public class EventDTO {
     private String eventContent;
     private Date startDate;
     private Date endDate;
-    private AdminDTO adminCode;
+    private int adminCode;
+
 }

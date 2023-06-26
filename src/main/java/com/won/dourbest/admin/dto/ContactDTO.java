@@ -1,15 +1,16 @@
 package com.won.dourbest.admin.dto;
 
+
 import lombok.*;
 
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class ContactDTO {
     private int contactCode;
-    private String ContactName;
-    private String ContactDetails;
-    private AdminDTO adminCode;
+    private String contactName;
+    private String contactDetails;
+    private int adminCode;
 }

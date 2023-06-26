@@ -4,17 +4,16 @@ import lombok.*;
 
 import java.util.Date;
 
+
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class NoticeDTO {
-
     private int noticeCode;
-    private String noticeTitle;
-    private int noticeContent;
-
+    private String noticeName;
+    private String noticeContent;
     private Date noticeRegiDate;
-    private AdminDTO adminCode;
+    private int adminCode;
 }

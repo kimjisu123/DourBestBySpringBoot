@@ -6,11 +6,11 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class AdminAuthlistDTO {
+    private int adminCode;
+    private int AdminAuthName;
 
-    private AdminDTO adminCode;
-
-    private AdminInquiriesDTO adminAuthName;
+    private AdminAuthDTO adminAuth;
 }

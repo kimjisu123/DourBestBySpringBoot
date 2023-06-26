@@ -8,12 +8,12 @@ import java.util.Date;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class BlacklistListDTO {
 
     private int blacklistCode;
-    private AdminDTO adminCode;
-    private MemberDTO memberCode;
-    private Date addtionalDate;
+    private int adminCode;
+    private int memberCode;
+    private Date additionalDate;
 }

@@ -8,14 +8,16 @@ import java.util.Date;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class AdminQnaDTO {
 
     private int adminQnaCode;
-    private String AnswerContent;
+    private String answerContent;
     private Date answerDate;
-    private AdminDTO AdminCde;
-    private AdminInquiriesDTO inquiriesCode;
+    private int adminCode;
+    private int inquiriesCode;
+
+    private AdminInquiriesDTO adminInquiriesDTO;
 
 }
