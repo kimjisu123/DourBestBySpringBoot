@@ -10,7 +10,6 @@ import lombok.*;
 @ToString
 public class LikeFundingDTO {
 
-
     private int fundingCode;
     private int memberCode;
 

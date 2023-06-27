@@ -19,10 +19,8 @@ public class CouponListDTO {
     private char couponRegiStatus; //등록 여부
     private char couponUseStatus; // 사용여부
 
-    private CouponDTO couponCode; // 쿠폰 코드(FK)
+    private CouponDTO coupon; // 쿠폰 코드(FK)
     private int memberCode; // 회원 코드 (FK)
-
-
 
 
 }

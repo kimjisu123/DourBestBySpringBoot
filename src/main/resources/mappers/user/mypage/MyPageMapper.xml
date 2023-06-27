@@ -5,5 +5,75 @@
 <mapper namespace="com.won.dourbest.user.mypage.repository.MypageMapper">
 
 
+    <resultMap id="MypageMainMap" type="com.won.dourbest.user.dto.MypageMainDTO">
+        <id property="memberId" column="MEMBER_ID"/>
+        <result property="memberName" column="MEMBER_NAME"/>
+        <result property="membershipName" column="MEMBERSHIP_NAME"/>
+        <result property="pointTotalAmount" column="POINT_TOTAL_AMOUNT"/>
+        <result property="couponCount" column="COUPON_COUNT"/>
+    </resultMap>
+
+    <resultMap type="com.won.dourbest.user.dto.MypageDTO" id="MypageResultMap" extends="MypageMainMap">
+        <result property="readyCount" column="READY_COUNT"/>
+        <result property="ingCount" column="ING_COUNT"/>
+        <result property="finishCount" column="FINISH_COUNT"/>
+    </resultMap>
+
+    <resultMap id="MemberCoupResultMap" type="com.won.dourbest.user.dto.MemberCouponListDTO" extends="MypageResultMap">
+        <collection property="couponList" resultMap="CoupListResultMap"/>
+    </resultMap>
+
+    <resultMap id="CoupListResultMap" type="com.won.dourbest.user.dto.CouponListDTO">
+        <id property="couponListCode" column="COUPONLIST_CODE"/>
+        <result property="serialNumber" column="SERIAL_NUMBER"/>
+        <result property="validDate" column="VALID_DATE"/>
+        <association property="coupon" resultMap="CouponMap"/>
+    </resultMap>
+
+    <resultMap id="CouponMap" type="com.won.dourbest.user.dto.CouponDTO">
+        <id property="couponCode" column="COUPON_CODE"/>
+        <result property="couponName" column="COUPON_NAME"/>
+        <result property="couponContent" column="COUPON_CONTENT"/>
+        <result property="couponDiscount" column="COUPON_DISCOUNT"/>
+    </resultMap>
+
+    <select id="findById" resultMap="MypageResultMap">
+        SELECT
+            T1.MEMBER_ID,
+            T1.MEMBER_NAME,
+            T1.MEMBERSHIP_NAME,
+            T1.POINT_TOTAL_AMOUNT,
+            T1.COUPON_COUNT,
+            T1.READY_COUNT,
+            T1.ING_COUNT,
+            T1.FINISH_COUNT
+        FROM (SELECT
+                  M.MEMBER_ID,
+                  M.MEMBER_NAME,
+                  TM.MEMBERSHIP_NAME,
+                  PL.POINT_TOTAL_AMOUNT,
+                  COUNT(TC.COUPON_CODE) COUPON_COUNT,
+                  COUNT(DECODE(D.DELIVERY_STATUS, '배송준비중','1')) READY_COUNT,
+                  COUNT(DECODE(D.DELIVERY_STATUS, '배송중','1')) ING_COUNT,
+                  COUNT(DECODE(D.DELIVERY_STATUS, '배송완료','1')) FINISH_COUNT
+              FROM TBL_MEMBER M
+                       JOIN TBL_MEMBERSHIP TM ON (M.MEMBERSHIP_CODE = TM.MEMBERSHIP_CODE)
+                       LEFT JOIN TBL_COUPONLIST TC ON (TC.MEMBER_CODE = M.MEMBER_CODE)
+                       LEFT JOIN TBL_ORDER O ON (M.MEMBER_CODE = O.MEMBER_CODE)
+                       JOIN TBL_CREDIT T ON (O.ORDER_CODE = T.ORDER_CODE)
+                       JOIN TBL_DELIVERY TD ON (T.PAYMENT_CODE = TD.PAYMENT_CODE)
+                       JOIN TBL_DELIVERYLIST D ON (TD.DELIVERY_CODE = D.DELIVERY_CODE)
+                       LEFT JOIN TBL_POINTLIST PL ON (M.MEMBER_CODE = PL.MEMBER_CODE)
+              where M.MEMBER_ID = 'user01'
+              group by M.MEMBER_ID, M.MEMBER_NAME, TM.MEMBERSHIP_NAME, PL.POINT_TOTAL_AMOUNT
+              ORDER BY PL.POINT_TOTAL_AMOUNT DESC) T1
+        WHERE ROWNUM = 1
+    </select>
+
+
+    <select id="findByCoupon" resultMap="MemberCoupResultMap">
+
+    </select>
+
 
 </mapper>
