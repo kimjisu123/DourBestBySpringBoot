@@ -1,0 +1,332 @@
+.header-top{
+    display: flex;
+}
+
+.contactBtn{
+    text-align: center;
+    border-radius: 5px;
+    width: 85px;
+    height: 35px;
+    margin-left: 590px;
+    font-size: 15px;
+    line-height: 35px;
+    border: 1px solid #E54945;
+    font-weight: bold;
+    margin-top: 35px;
+    cursor: pointer;
+    color: #E54945;
+    background-color: white;
+}
+
+#mainGo{
+    width: 100px;
+    text-align: center;
+    border-radius: 5px;
+    height: 35px;
+    margin-left: 30px;
+    font-size: 15px;
+    line-height: 35px;
+    border: 1px solid #E54945;
+    font-weight: bold;
+    margin-top: 35px;
+    cursor: pointer;
+    color: #E54945;;
+
+}
+
+.CServicelogo{
+    margin-top: 15px;
+    width: 230px;
+    height: 100px;
+}
+
+#headerlogo{
+    margin-top: -15px;
+    margin-left: 420px;
+    font-size: 25px;
+    font-weight: bolder;
+    line-height: 3.5cm;
+}
+
+
+.helpmain{
+    position: relative;
+    display: inline-block;
+    background: linear-gradient(to right,  rgb(205, 217, 229) 60%, rgba(164, 185, 204, 0.9));
+    position: relative;
+}
+
+
+.helpImage{
+    width: auto;
+    margin: auto 700px;
+    margin-bottom: -4px;
+}
+
+.helpmaininfo{
+    position: absolute;
+    top: 21%;
+    left: 17.5%;
+    color: white;
+    font-weight: bold;
+    font-size: 40px;
+}
+.searchButtonService{
+    position: absolute;
+    top: 63%;
+    left:17.5%;
+    width:570px;
+    height: 45px;
+    background-color: rgb(205, 217, 229);
+    border-radius: 7px;
+    border: 1px solid white;
+}
+.InquiryContainer{
+    margin-top: 50px;
+}
+.Inquiry{
+    width: 300px;
+    height: 200px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 500;
+    /* border: 1px solid black; */
+}
+.firstLine{
+    display: flex;
+    margin-top: 70px;
+}
+.secondLine{
+    display: flex;
+    margin-top: px;
+
+}
+
+#Inquir1{
+    margin-left: 340px;
+    flex-direction:column;
+}
+#Inquir5{
+    margin-left: 340px;
+}
+
+.icon{
+    width: 60px;
+    height: 60px;
+    padding: 20px;
+    border: 1px solid black;
+    border-radius: 25px;
+    cursor: pointer;
+}
+
+.FrequentlyHelpContainor{
+    display: flex;
+    margin-top: 00px;
+}
+
+.FrequentlyHelp{
+    margin-left:420px;
+    margin-bottom : 20px;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.QuestionsListContainer{
+    margin-left:200px;
+}
+
+.QuestionsHead{
+    font-size: 25px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.QuestionsBody{
+    font-size: 15px;
+    margin-bottom: 30px;
+}
+.paymentBanner{
+    width: auto;
+    height: 100px;
+    background: linear-gradient(to right,  rgb(205, 217, 229) 60%, rgba(164, 185, 204, 0.9));
+}
+
+
+
+
+
+
+
+
+
+
+
+
+.menu-content {
+    display: none;
+}
+
+@media (max-width: 767px) {
+    .menu-title {
+        cursor: pointer;
+    }
+
+    .menu-content.active {
+        display: block;
+    }
+}
+#contact fieldset{
+    display: inline-block;
+    direction: rtl;
+    border:0;
+}
+#contact fieldset legend{
+    text-align: right;
+}
+#contact input[type=radio]{
+    display: none;
+}
+#contact fieldset label{
+    font-size: 3em;
+    color: transparent;
+    text-shadow: 0 0 0 #f0f0f0;
+}
+#contact fieldset label:hover{
+    text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
+}
+#contact fieldset label:hover ~ label{
+    text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
+}
+#contact fieldset input[type=radio]:checked ~ label{
+    text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
+}
+.contactContents {
+    width: 100%;
+    height: 150px;
+    padding: 10px;
+    box-sizing: border-box;
+    border: solid 1.5px #D3D3D3;
+    border-radius: 5px;
+    font-size: 16px;
+    resize: none;
+    margin-bottom: 5px;
+}
+.close {
+    color: #aaaaaa;
+    position: absolute;
+    font-size: 28px;
+    font-weight: bold;
+    top: 0px;
+    right: 10px;
+    transition: all .1s ease-in;
+}
+
+.close:hover,
+.close:focus {
+    color: #f35f4c;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.contactmodal-title{
+    font-weight: bold;
+    font-size: 28px;
+}
+.contactmodal-content {
+    position: relative;
+    background-color: #fefefe;
+    padding: 40px;
+    width: 500px;
+    border: 1px solid #888;
+    border-radius: 16px;
+}
+.contactmodal-container{
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    align-items: center;
+}
+
+.contactmodal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.contactmodal-title{
+    margin-top: 0px;
+}
+
+.previewDiv, .contact-imgdiv{
+    display: inline-flex;
+    position: relative;
+    height: 100%;
+    margin-bottom: 20px;
+}
+
+.file-container{
+    overflow-x: auto;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+.file-container input[type=file]{
+    display: none;
+}
+
+.file-container label{
+    font-size: 1.2em;
+    display: block;
+    cursor: pointer;
+    padding: 3px;
+}
+.file-container span{
+    position: relative;
+    top: 0px;
+    display: inline-block;
+    font-size: 12px;
+    border: 1px solid #f35f4c;
+    border-radius: 15px;
+    padding: 8px;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 1px 4px, rgba(0, 0, 0, 0.1) 0px 4px 5px;
+    transition: all .15s ease-in;
+}
+
+.file-container span:hover{
+    top:-2px;
+}
+
+.contact button[type=submit]{
+    position: relative;
+    top: 0;
+    display: block;
+    color: #fff;
+    width: 100%;
+    padding: 12px;
+    background-color: #f35f4c;
+    border: 0px;
+    border-radius: 15px;
+    letter-spacing: 0.08em;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 1px 4px, rgba(0, 0, 0, 0.1) 0px 4px 5px;
+    transition: all .15s ease-in;
+}
+
+.contact button[type=submit]:hover{
+    top: -2px;
+}
+.contact select{
+    border: solid 1.5px #b4b4b4;
+    border-radius: 5px;
+    padding: 5px 10px;
+    display: block;
+    width: 100%;
+    margin-bottom: 12px;
+}
