@@ -4,6 +4,36 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.won.dourbest.user.mypage.repository.MypageMapper">
 
+    <resultMap id="MemberResultMap" type="com.won.dourbest.user.dto.MemberDTO">
+        <id property="memberCode" column="MEMBER_CODE"/>
+        <result property="memberId" column="MEMBER_ID"/>
+<!--        <result property="memberPwd" column="MEMBER_PWD"/>-->
+<!--        <result property="memberName" column="MEMBER_NAME"/>-->
+<!--        <result property="memberPhone" column="MEMBER_PHONE"/>-->
+<!--        <result property="memberEmail" column="MEMBER_EMAIL"/>-->
+<!--        <result property="registDate" column="REGIST_DATE"/>-->
+<!--        <result property="adultStatus" column="ADULT_STATUS"/>-->
+
+        <association property="membership" resultMap="MemberShipResultMap"/>
+        <association property="address" resultMap="MemberShipResultMap"/>
+        <collection property="likeFundingList" resultMap="LikeFundingResultMap"/>
+        <collection property="purchasedFundingList" resultMap="PurchasedFundingResultMap"/>
+    </resultMap>
+    
+    <resultMap id="MemberShipResultMap" type="com.won.dourbest.common.dto.MemberShipDTO">
+        <id property="membershipCode" column="MEMBERSHIP_CODE"/>
+        <result property="membershipName" column="MEMBERSHIP_NAME"/>
+        <result property="accrualRate" column="ACCRUAL_RATE"/>
+        <result property="membershipContent" column="MEMBERSHIP_CONTENT"/>
+    </resultMap>
+
+    <resultMap id="AddressResultMap" type="com.won.dourbest.user.dto.AddressDTO">
+        <id property="addressCode" column="ADDRESS_CODE"/>
+        <result property="zipCode" column="ZIP_CODE"/>
+        <result property="baseAddress" column="BASE_ADDRESS"/>
+        <result property="detailAddress" column="DETAIL_ADDRESS"/>
+    </resultMap>
+
 
     <resultMap id="MypageMainMap" type="com.won.dourbest.user.dto.MypageMainDTO">
         <id property="memberId" column="MEMBER_ID"/>
@@ -19,13 +49,8 @@
         <result property="finishCount" column="FINISH_COUNT"/>
     </resultMap>
 
-    <resultMap id="MemberCoupResultMap" type="com.won.dourbest.user.dto.MemberCouponListDTO" extends="MypageResultMap">
-        <collection property="couponList" resultMap="CoupListResultMap"/>
-    </resultMap>
-
     <resultMap id="CoupListResultMap" type="com.won.dourbest.user.dto.CouponListDTO">
-        <id property="couponListCode" column="COUPONLIST_CODE"/>
-        <result property="serialNumber" column="SERIAL_NUMBER"/>
+        <result property="couponUseStatus" column="COUPON_USE_STATUS"/>
         <result property="validDate" column="VALID_DATE"/>
         <association property="coupon" resultMap="CouponMap"/>
     </resultMap>
@@ -37,6 +62,29 @@
         <result property="couponDiscount" column="COUPON_DISCOUNT"/>
     </resultMap>
 
+
+    <resultMap id="LikeFundingResultMap" type="com.won.dourbest.user.dto.LikeFundingDTO">
+        <id property="fundingCode" column="FUNDING_CODE"/>
+        <id property="memberCode" column="MEMBER_CODE"/>
+
+        <association property="funding" resultMap="FundingResultMap"/>
+    </resultMap>
+
+    <resultMap id="PurchasedFundingResultMap" type="com.won.dourbest.user.dto.PurchasedFundingListDTO">
+        <id property="fundingCode" column="FUNDING_CODE"/>
+        <id property="memberCode" column="MEMBER_CODE"/>
+
+        <association property="funding" resultMap="FundingResultMap"/>
+    </resultMap>
+
+    <resultMap id="FundingResultMap" type="com.won.dourbest.seller.dto.FundingDTO">
+        <id property="fundingCode" column="FUNDING_CODE"/>
+        <result property="fundingTitle" column="FUNDING_TITLE"/>
+        <result property="fundingSummary" column="FUNDING_SUMMARY"/>
+    </resultMap>
+    
+    
+    
     <select id="findById" resultMap="MypageResultMap">
         SELECT
             T1.MEMBER_ID,
@@ -64,15 +112,25 @@
                        JOIN TBL_DELIVERY TD ON (T.PAYMENT_CODE = TD.PAYMENT_CODE)
                        JOIN TBL_DELIVERYLIST D ON (TD.DELIVERY_CODE = D.DELIVERY_CODE)
                        LEFT JOIN TBL_POINTLIST PL ON (M.MEMBER_CODE = PL.MEMBER_CODE)
-              where M.MEMBER_ID = 'user01'
+              where M.MEMBER_ID = #{userId}
               group by M.MEMBER_ID, M.MEMBER_NAME, TM.MEMBERSHIP_NAME, PL.POINT_TOTAL_AMOUNT
               ORDER BY PL.POINT_TOTAL_AMOUNT DESC) T1
         WHERE ROWNUM = 1
     </select>
 
 
-    <select id="findByCoupon" resultMap="MemberCoupResultMap">
-
+    <select id="findByCoupon" resultMap="CoupListResultMap">
+        SELECT
+            TC.COUPON_CODE,
+            TC.COUPON_DISCOUNT,
+            TC.COUPON_NAME,
+            TC.COUPON_CONTENT,
+            TCL.COUPON_USE_STATUS,
+            TCL.VALID_DATE
+        FROM TBL_MEMBER M
+                 JOIN TBL_COUPONLIST TCL on M.MEMBER_CODE = TCL.MEMBER_CODE
+                 JOIN TBL_COUPON TC on TCL.COUPON_CODE = TC.COUPON_CODE
+        WHERE M.MEMBER_ID = #{user01}
     </select>
 
 

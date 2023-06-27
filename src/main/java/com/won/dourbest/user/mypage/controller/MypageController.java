@@ -1,6 +1,6 @@
 package com.won.dourbest.user.mypage.controller;
 
-import com.won.dourbest.user.dto.MemberCouponListDTO;
+import com.won.dourbest.user.dto.CouponListDTO;
 import com.won.dourbest.user.dto.MypageDTO;
 import com.won.dourbest.user.mypage.service.MypageService;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/mypage")
@@ -35,9 +37,9 @@ public class MypageController {
         /* 세션에서 멤버 가져와서 id 값을 이용하자 */
         String userId = "user01";
 
-        MemberCouponListDTO couponResult = mypageService.allCoupon(userId);
+        List<CouponListDTO> memberCoupons = mypageService.allCoupon(userId);
 
-
+        model.addAttribute("memberCoupons", memberCoupons);
 
         return "user/mypage/coupon";
     }

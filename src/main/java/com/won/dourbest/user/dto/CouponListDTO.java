@@ -12,15 +12,13 @@ import java.util.List;
 @ToString
 public class CouponListDTO {
 
-    private int couponListCode; // 쿠폰코드
+    private int couponListCode; //
     private int serialNumber; // 일련번호
     private Date regiDate; // 등록날짜
     private Date validDate; // 유효날짜
     private char couponRegiStatus; //등록 여부
     private char couponUseStatus; // 사용여부
-
     private CouponDTO coupon; // 쿠폰 코드(FK)
-    private int memberCode; // 회원 코드 (FK)
 
 
 }
