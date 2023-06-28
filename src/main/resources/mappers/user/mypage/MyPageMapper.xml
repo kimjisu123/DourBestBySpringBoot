@@ -225,5 +225,4 @@
         WHERE M.MEMBER_ID = #{userId}
     </select>
 
-
 </mapper>
