@@ -1,6 +1,7 @@
 package com.won.dourbest.user.dto;
 
 import com.won.dourbest.common.dto.MemberShipDTO;
+import com.won.dourbest.seller.dto.SellerDTO;
 import lombok.*;
 
 import java.util.Date;
@@ -13,7 +14,7 @@ import java.util.List;
 @ToString
 public class MemberDTO {
 
-    private int memberCode;  // 멤버코드
+    private Integer memberCode;  // 멤버코드
     private String memberId;  // 아이디
     private String memberPwd;  // 비번
     private String memberName; // 이름
@@ -31,7 +32,7 @@ public class MemberDTO {
     private MemberShipCreditDTO membershipCredit ;
 
     /* 쿠폰목록리스트 */
-    List<CouponListDTO> couponList;
+    private List<CouponListDTO> couponList;
 
     /* 권한리스트 */
     private List<MemberAuthListDTO> memberAuthList;
@@ -41,5 +42,7 @@ public class MemberDTO {
 
     /* 구매한 펀딩리스트 */
     private List<PurchasedFundingListDTO> purchasedFundingList;
+
+    private SellerDTO seller;
 
 }

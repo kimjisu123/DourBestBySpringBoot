@@ -16,9 +16,10 @@ public class SellerDTO {
     private String businessLicense;
     private int numberReported;
     private int totalRevenue;
+    private Integer memberCode;
     private String sellerSns;
     private String sellerUrl;
     private String sellerKakao;
-    private int memberCode;
     private List<FundingDTO> funding;
+    private String sellerApproval;
 }

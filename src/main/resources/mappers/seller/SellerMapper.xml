@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.won.dourbest.seller.dao.SellerMapper">
+
+
+<!--    <resultMap id="sellerResultMap" type="com.won.dourbest.seller.dto.SellerDTO">-->
+<!--        <result property="sellerCode" column="SELLER_CODE"/>-->
+<!--        <result property="accountNumber" column="ACCOUNT_NUMBER"/>-->
+<!--        <result property="businessLicense" column="BUSINESS_LICENSE"/>-->
+<!--        <result property="numberReported" column="NUMBER_REPORTED"/>-->
+<!--        <result property="totalRevenue" column="TOTAL_REVENUE"/>-->
+<!--        <result property="memberCode" column="MEMBER_CODE"/>-->
+<!--        <result property="sellerSns" column="SELLER_SNS"/>-->
+<!--        <result property="sellerUrl" column="SELLER_URL"/>-->
+<!--        <result property="sellerKakao" column="SELLER_KAKAO"/>-->
+<!--        <result property="sellerApproval" column="SELLER_APPROVAL"/>-->
+<!--    </resultMap>-->
+
+    <select id="selectMemberCode" parameterType="com.won.dourbest.user.dto.MemberDTO">
+        SELECT
+            MEMBER_CODE
+        FROM TBL_MEMBER
+        WHERE MEMBER_ID = #{ memberId }
+          AND  MEMBER_NAME = #{ memberName }
+          AND  MEMBER_PHONE = #{ memberPhone }
+          and  MEMBER_EMAIL = #{ memberEmail }
+    </select>
+
+
+    <insert id="insertSeller" parameterType="com.won.dourbest.seller.dto.SellerDTO">
+        INSERT
+        INTO TBL_SELLER
+        (
+         SELLER_CODE
+         , MEMBER_CODE
+         , BUSINESS_LICENSE
+         , NUMBER_REPORTED
+         , TOTAL_REVENUE
+         )
+        VALUES
+        (
+         SEQ_SELLER_CODE.NEXTVAL
+         , #{ memberCode }
+         ,#{ businessLicense }
+         ,0
+         ,0
+        )
+
+
+    </insert>
+
+
+
+<!--    (SELECT *-->
+<!--    FROM TBL_MEMBER-->
+<!--    WHERE MEMBER_NAME = #{ membername }-->
+<!--    AND MEMBER_ID = #{ memberId }-->
+<!--    AND MEMBER_PWD = #{ memberPwd }-->
+<!--    AND MEMBER_EMAIL = #{ memberEmail}-->
+<!--    )-->
+
+
+</mapper>
+
