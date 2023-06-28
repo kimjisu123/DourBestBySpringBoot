@@ -3,6 +3,7 @@ package com.won.dourbest.user.dto;
 import com.won.dourbest.seller.dto.FundingDTO;
 import lombok.*;
 
+import java.util.Date;
 import java.util.List;
 
 @NoArgsConstructor
@@ -13,7 +14,10 @@ import java.util.List;
 public class PurchasedFundingListDTO {
 
     private int fundingCode;
-    private int memberCode;
+    private String fundingTitle;
+    private String fundingSummary;
+    private Date endDate;
+    private Integer reviewCode;
+    private int orderCode;
 
-    private FundingDTO funding;
 }

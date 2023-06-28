@@ -1,8 +1,7 @@
 package com.won.dourbest.user.mypage.repository;
 
-import com.won.dourbest.user.dto.CouponListDTO;
+import com.won.dourbest.user.dto.*;
 
-import com.won.dourbest.user.dto.MypageDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -41,4 +40,46 @@ class MypageMapperTest {
         log.info("resul={}", result);
 
     }
+
+
+    @Test
+    void likefunding(){
+        String userId = "user01";
+        List<LikeFundingDTO> result = mypageMapper.findLikeFundingById(userId);
+
+        log.info("resul={}", result);
+    }
+
+    @Test
+    void findPurchasedFundingById(){
+        String userId = "user01";
+        List<PurchasedFundingListDTO> result = mypageMapper.findPurchasedFundingById(userId);
+        log.info("result={}", result);
+    }
+
+    @Test
+    void findInquireAllById(){
+        String userId = "user02";
+        List<MemberInquireListDTO> result = mypageMapper.findInquireAllById(userId);
+        log.info("result={}", result);
+    }
+
+    @Test
+    void findReportAllById(){
+        String userId = "user02";
+        List<MemberReportListDTO> result = mypageMapper.findReportAllById(userId);
+        log.info("result={}", result);
+    }
+
+    @Test
+    void findSellerInquireById(){
+        String userId = "user02";
+        List<MemberSellerInquireDTO> result = mypageMapper.findSellerInquireById(userId);
+        log.info("result={}", result);
+    }
+
+
+
+
+
 }

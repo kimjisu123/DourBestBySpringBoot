@@ -4,9 +4,9 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.won.dourbest.user.mypage.repository.MypageMapper">
 
-    <resultMap id="MemberResultMap" type="com.won.dourbest.user.dto.MemberDTO">
-        <id property="memberCode" column="MEMBER_CODE"/>
-        <result property="memberId" column="MEMBER_ID"/>
+<!--    <resultMap id="MemberResultMap" type="com.won.dourbest.user.dto.MemberDTO">-->
+<!--        <id property="memberCode" column="MEMBER_CODE"/>-->
+<!--        <result property="memberId" column="MEMBER_ID"/>-->
 <!--        <result property="memberPwd" column="MEMBER_PWD"/>-->
 <!--        <result property="memberName" column="MEMBER_NAME"/>-->
 <!--        <result property="memberPhone" column="MEMBER_PHONE"/>-->
@@ -14,28 +14,29 @@
 <!--        <result property="registDate" column="REGIST_DATE"/>-->
 <!--        <result property="adultStatus" column="ADULT_STATUS"/>-->
 
-        <association property="membership" resultMap="MemberShipResultMap"/>
-        <association property="address" resultMap="MemberShipResultMap"/>
-        <collection property="likeFundingList" resultMap="LikeFundingResultMap"/>
-        <collection property="purchasedFundingList" resultMap="PurchasedFundingResultMap"/>
-    </resultMap>
+<!--        <association property="membership" resultMap="MemberShipResultMap"/>-->
+<!--        <association property="address" resultMap="MemberShipResultMap"/>-->
+<!--        <collection property="likeFundingList" resultMap="LikeFundingResultMap"/>-->
+<!--        <collection property="purchasedFundingList" resultMap="PurchasedFundingResultMap"/>-->
+<!--    </resultMap>-->
+
+
     
-    <resultMap id="MemberShipResultMap" type="com.won.dourbest.common.dto.MemberShipDTO">
+    <resultMap id="MemberShipResultMap" type="MemberShipDTO">
         <id property="membershipCode" column="MEMBERSHIP_CODE"/>
         <result property="membershipName" column="MEMBERSHIP_NAME"/>
         <result property="accrualRate" column="ACCRUAL_RATE"/>
         <result property="membershipContent" column="MEMBERSHIP_CONTENT"/>
     </resultMap>
 
-    <resultMap id="AddressResultMap" type="com.won.dourbest.user.dto.AddressDTO">
+    <resultMap id="AddressResultMap" type="AddressDTO">
         <id property="addressCode" column="ADDRESS_CODE"/>
         <result property="zipCode" column="ZIP_CODE"/>
         <result property="baseAddress" column="BASE_ADDRESS"/>
         <result property="detailAddress" column="DETAIL_ADDRESS"/>
     </resultMap>
 
-
-    <resultMap id="MypageMainMap" type="com.won.dourbest.user.dto.MypageMainDTO">
+    <resultMap id="MypageMainMap" type="MypageMainDTO">
         <id property="memberId" column="MEMBER_ID"/>
         <result property="memberName" column="MEMBER_NAME"/>
         <result property="membershipName" column="MEMBERSHIP_NAME"/>
@@ -43,19 +44,19 @@
         <result property="couponCount" column="COUPON_COUNT"/>
     </resultMap>
 
-    <resultMap type="com.won.dourbest.user.dto.MypageDTO" id="MypageResultMap" extends="MypageMainMap">
+    <resultMap type="MypageDTO" id="MypageResultMap" extends="MypageMainMap">
         <result property="readyCount" column="READY_COUNT"/>
         <result property="ingCount" column="ING_COUNT"/>
         <result property="finishCount" column="FINISH_COUNT"/>
     </resultMap>
 
-    <resultMap id="CoupListResultMap" type="com.won.dourbest.user.dto.CouponListDTO">
+    <resultMap id="CoupListResultMap" type="CouponListDTO">
         <result property="couponUseStatus" column="COUPON_USE_STATUS"/>
         <result property="validDate" column="VALID_DATE"/>
         <association property="coupon" resultMap="CouponMap"/>
     </resultMap>
 
-    <resultMap id="CouponMap" type="com.won.dourbest.user.dto.CouponDTO">
+    <resultMap id="CouponMap" type="CouponDTO">
         <id property="couponCode" column="COUPON_CODE"/>
         <result property="couponName" column="COUPON_NAME"/>
         <result property="couponContent" column="COUPON_CONTENT"/>
@@ -63,28 +64,49 @@
     </resultMap>
 
 
-    <resultMap id="LikeFundingResultMap" type="com.won.dourbest.user.dto.LikeFundingDTO">
+    <resultMap id="LikeFundingResultMap" type="LikeFundingDTO">
         <id property="fundingCode" column="FUNDING_CODE"/>
         <id property="memberCode" column="MEMBER_CODE"/>
 
         <association property="funding" resultMap="FundingResultMap"/>
     </resultMap>
 
-    <resultMap id="PurchasedFundingResultMap" type="com.won.dourbest.user.dto.PurchasedFundingListDTO">
+    <resultMap id="PurchasedFundingResultMap" type="PurchasedFundingListDTO">
         <id property="fundingCode" column="FUNDING_CODE"/>
-        <id property="memberCode" column="MEMBER_CODE"/>
-
-        <association property="funding" resultMap="FundingResultMap"/>
+        <result property="fundingTitle" column="FUNDING_TITLE"/>
+        <result property="fundingSummary" column="FUNDING_SUMMARY"/>
+        <result property="endDate" column="END_DATE"/>
+        <result property="reviewCode" column="REVIEW_CODE"/>
+        <result property="orderCode" column="ORDER_CODE"/>
     </resultMap>
 
-    <resultMap id="FundingResultMap" type="com.won.dourbest.seller.dto.FundingDTO">
+    <resultMap id="FundingResultMap" type="FundingDTO">
         <id property="fundingCode" column="FUNDING_CODE"/>
         <result property="fundingTitle" column="FUNDING_TITLE"/>
         <result property="fundingSummary" column="FUNDING_SUMMARY"/>
     </resultMap>
+
+    <resultMap id="InquireResult" type="MemberInquireListDTO">
+        <id property="contactSubject" column="CONTACT_SUBJECT"/>
+        <result property="creationDate" column="DATE_CREATION_INQUIRY"/>
+        <result property="contactAnswer" column="WHETHER_ANSWER"/>
+        <result property="categoryName" column="CATEGORY_NAME"/>
+    </resultMap>
+
+    <resultMap id="ReportResult" type="MemberReportListDTO">
+        <id property="fundingTitle" column="FUNDING_TITLE"/>
+        <result property="reportDate" column="REPORT_DATE"/>
+        <result property="categoryName" column="CATEGORY_NAME"/>
+        <result property="answerStatus" column="ANSWERS_STATUS"/>
+    </resultMap>
     
-    
-    
+    <resultMap id="SellerInquireResult" type="MemberSellerInquireDTO">
+        <id property="sellerInqTitle" column="INQUIRY_TITLE"/>
+        <result property="sellerInqDate" column="INQUIRY_DATE"/>
+        <result property="sellerInqAnswerStatus" column="ANSWER_STATUS"/>
+        <result property="categoryName" column="CATEGORY_NAME"/>
+    </resultMap>
+
     <select id="findById" resultMap="MypageResultMap">
         SELECT
             T1.MEMBER_ID,
@@ -100,13 +122,15 @@
                   M.MEMBER_NAME,
                   TM.MEMBERSHIP_NAME,
                   PL.POINT_TOTAL_AMOUNT,
-                  COUNT(TC.COUPON_CODE) COUPON_COUNT,
+                  (SELECT COUNT(COUPON_CODE) FROM TBL_COUPONLIST WHERE MEMBER_CODE = (SELECT MEMBER_CODE
+                                                                                      FROM TBL_MEMBER
+                                                                                      WHERE MEMBER_ID = #{userId})
+                  ) COUPON_COUNT,
                   COUNT(DECODE(D.DELIVERY_STATUS, '배송준비중','1')) READY_COUNT,
                   COUNT(DECODE(D.DELIVERY_STATUS, '배송중','1')) ING_COUNT,
                   COUNT(DECODE(D.DELIVERY_STATUS, '배송완료','1')) FINISH_COUNT
               FROM TBL_MEMBER M
                        JOIN TBL_MEMBERSHIP TM ON (M.MEMBERSHIP_CODE = TM.MEMBERSHIP_CODE)
-                       LEFT JOIN TBL_COUPONLIST TC ON (TC.MEMBER_CODE = M.MEMBER_CODE)
                        LEFT JOIN TBL_ORDER O ON (M.MEMBER_CODE = O.MEMBER_CODE)
                        JOIN TBL_CREDIT T ON (O.ORDER_CODE = T.ORDER_CODE)
                        JOIN TBL_DELIVERY TD ON (T.PAYMENT_CODE = TD.PAYMENT_CODE)
@@ -115,7 +139,7 @@
               where M.MEMBER_ID = #{userId}
               group by M.MEMBER_ID, M.MEMBER_NAME, TM.MEMBERSHIP_NAME, PL.POINT_TOTAL_AMOUNT
               ORDER BY PL.POINT_TOTAL_AMOUNT DESC) T1
-        WHERE ROWNUM = 1
+        WHERE ROWNUM = 1;
     </select>
 
 
@@ -131,6 +155,74 @@
                  JOIN TBL_COUPONLIST TCL on M.MEMBER_CODE = TCL.MEMBER_CODE
                  JOIN TBL_COUPON TC on TCL.COUPON_CODE = TC.COUPON_CODE
         WHERE M.MEMBER_ID = #{user01}
+    </select>
+
+    <select id="findLikeFundingById" resultMap="LikeFundingResultMap">
+        SELECT
+            M.MEMBER_ID,
+            M.MEMBER_NAME,
+            F.FUNDING_CODE,
+            F.FUNDING_TITLE,
+            F.FUNDING_SUMMARY
+        FROM TBL_MEMBER M
+                 LEFT JOIN TBL_LIKE_FUNDING_LIST TLFL ON (M.MEMBER_CODE = TLFL.MEMBER_CODE)
+                 LEFT JOIN TBL_FUNDING F ON (TLFL.FUNDING_CODE = F.FUNDING_CODE)
+        WHERE M.MEMBER_ID = #{userId}
+    </select>
+
+    
+    <select id="findPurchasedFundingById" resultMap="PurchasedFundingResultMap">
+        SELECT DISTINCT
+            TF.FUNDING_TITLE,
+            TF.FUNDING_SUMMARY,
+            TF.END_DATE,
+            TR.REVIEW_CODE,
+            O.ORDER_CODE
+        FROM TBL_MEMBER M
+                 LEFT JOIN TBL_PURCHASED_FUNDING_LIST TPFL ON M.MEMBER_CODE = TPFL.MEMBER_CODE
+                 LEFT JOIN TBL_FUNDING TF on TPFL.FUNDING_CODE = TF.FUNDING_CODE
+                 LEFT JOIN TBL_ORDER O on M.MEMBER_CODE = O.MEMBER_CODE
+                 LEFT JOIN TBL_REVIEW TR on M.MEMBER_CODE = TR.MEMBER_CODE
+        WHERE M.MEMBER_ID = #{userId}
+    </select>
+
+    <select id="findInquireAllById" resultMap="InquireResult">
+        SELECT
+            TAI.CONTACT_SUBJECT,
+            TAI.DATE_CREATION_INQUIRY,
+            TAI.WHETHER_ANSWER,
+            TC.CATEGORY_NAME
+        FROM TBL_MEMBER M
+                 JOIN TBL_ADMIN_INQUIRIES TAI on M.MEMBER_CODE = TAI.MEMBER_CODE
+                 JOIN TBL_CATEGORY TC on TAI.CATEGORY_CODE = TC.CATEGORY_CODE
+        WHERE M.MEMBER_ID = #{ userId }
+    </select>
+
+
+    <select id="findReportAllById" resultMap="ReportResult">
+        SELECT
+            F.FUNDING_TITLE,
+            TFR.REPORT_DATE,
+            TC.CATEGORY_NAME,
+            TRR.ANSWERS_STATUS
+        FROM TBL_MEMBER M
+                 JOIN TBL_FUNDING_REPORT TFR on M.MEMBER_CODE = TFR.MEMBER_CODE
+                 LEFT JOIN TBL_REPORT_RESPONSE TRR ON TFR.REPORT_CODE = TRR.REPORT_CODE
+                 JOIN TBL_FUNDING F ON TFR.FUNDING_CODE = F.FUNDING_CODE
+                 JOIN TBL_CATEGORY TC on TFR.CATEGORY_CODE = TC.CATEGORY_CODE
+        WHERE M.MEMBER_ID = #{userId}
+    </select>
+
+    <select id="findSellerInquireById" resultMap="SellerInquireResult">
+        SELECT
+            TSI.INQUIRY_TITLE,
+            TSI.INQUIRY_DATE,
+            TSI.ANSWER_STATUS,
+            TC.CATEGORY_NAME
+        FROM TBL_MEMBER M
+                 JOIN TBL_SELLER_INQUIRY TSI on M.MEMBER_CODE = TSI.MEMBER_CODE
+                 JOIN TBL_CATEGORY TC on TSI.CATEGORY_CODE = TC.CATEGORY_CODE
+        WHERE M.MEMBER_ID = #{userId}
     </select>
 
 

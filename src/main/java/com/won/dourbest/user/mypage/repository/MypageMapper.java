@@ -1,7 +1,6 @@
 package com.won.dourbest.user.mypage.repository;
 
-import com.won.dourbest.user.dto.CouponListDTO;
-import com.won.dourbest.user.dto.MypageDTO;
+import com.won.dourbest.user.dto.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -12,5 +11,15 @@ public interface MypageMapper {
     MypageDTO findById(String userId);
 
     List<CouponListDTO> findByCoupon(String userId);
+
+    List<LikeFundingDTO> findLikeFundingById(String userId);
+
+    List<PurchasedFundingListDTO> findPurchasedFundingById(String userId);
+
+    List<MemberInquireListDTO> findInquireAllById(String userId);
+
+    List<MemberReportListDTO> findReportAllById(String userId);
+
+    List<MemberSellerInquireDTO> findSellerInquireById(String userId);
 
 }
