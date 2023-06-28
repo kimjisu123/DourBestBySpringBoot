@@ -15,6 +15,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
@@ -146,10 +148,32 @@ public class SubmitPageController {
             , @RequestParam String endDate, @RequestParam String fundSummary
             , @RequestParam String fundContent, @RequestParam(required = false) String videoUrl
             , @RequestParam(required = false)MultipartFile topImg, @RequestParam String originFileName
-            , @RequestParam String savedFileName, HttpServletRequest request) {
+            , @RequestParam String savedFileName, HttpServletRequest request) throws ParseException {
 
         System.out.println("originFileName = " + originFileName);
         System.out.println("savedFileName = " + savedFileName);
+
+        /* inputMoney는 int로 설정해서 , 뺴는 작업 */
+        int goalmoney = Integer.parseInt(inputMoney.replace(",", ""));
+
+        /* Sting으로 되어있는 startDate, endDate Date형식으로 바꾸기 */
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
+
+        Date startdate = dateFormat.parse(startDate);
+        Date enddate = dateFormat.parse(endDate);
+
+        System.out.println("startdate = " + startdate);
+        System.out.println("enddate = " + enddate);
+
+        /* 펀딩 객체에 값 담기 */
+        FundingDTO funding = new FundingDTO();
+        funding.setPlanCode(planCode);
+        funding.setFundingGoalMoney(goalmoney);
+        funding.setFundingTitle(fundTitle);
+        funding.setStartDate(startdate);
+        funding.setStartDate(enddate);
+        funding.setFundingSummary(fundSummary);
+        funding.setFundingContents(fundContent);
 
 
         return "seller/funding/submitoptions";
