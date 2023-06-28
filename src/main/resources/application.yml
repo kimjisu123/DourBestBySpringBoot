@@ -7,10 +7,17 @@ mybatis:
 #  type-aliases-package: com.ohgiraffers.thymeleafspringboot
   configuration:
     map-underscore-to-camel-case: true
+  type-aliases-package: com.won.dourbest.seller.dto, com.won.dourbest.user.dto, com.won.dourbest.admin.dto, com.won.dourbest.common.dto
 
 spring:
   datasource:
     driver-class-name: oracle.jdbc.OracleDriver
-    url: jdbc:oracle:thin:oracle.coffit.site:1521:XE
+    url: jdbc:oracle:thin:@oracle.coffit.site:1521:XE
     username: C##DOURBEST
     password: DOURBEST
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 10MB
+      location: C:\dev\fundingImg

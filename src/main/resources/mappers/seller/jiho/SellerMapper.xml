@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.won.dourbest.seller.dao.jiho.SellerMapper">
+
+    <resultMap id="planResultMap" type="PlanDTO">
+        <id property="planCode" column="PLAN_CODE"/>
+        <result property="planName" column="PLAN_NAME"/>
+        <result property="fee" column="FEE"/>
+        <result property="planContent" column="PLAN_CONTENT"/>
+        <result property="koPlanName" column="KO_PLAN_NAME"/>
+        <result property="topText" column="TOP_TEXT"/>
+    </resultMap>
+
+    <resultMap id="tagResultMap" type="TagDTO">
+        <id property="tagCode" column="TAG_CODE"/>
+        <result property="tagName" column="TAG_NAME"/>
+    </resultMap>
+
+    <select id="allPlan" resultMap="planResultMap">
+        SELECT
+               *
+          FROM TBL_PLAN
+    </select>
+
+    <select id="selectTag" resultType="_int">
+        SELECT
+               COUNT(*)
+          FROM TBL_TAG
+         WHERE TAG_NAME = #{ tag }
+    </select>
+
+    <insert id="insertTag" parameterType="TagDTO">
+        INSERT
+          INTO TBL_TAG
+        (
+          TAG_CODE
+        , TAG_NAME
+        )
+        VALUES
+        (
+          SEQ_TAG_CODE.NEXTVAL
+        , #{ tag }
+        )
+    </insert>
+
+
+</mapper>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html th:replace="~{/layouts/base :: layout(~{::main}, ~{::link}, ~{::script})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link rel="stylesheet" th:href="@{/css/seller/jiho/submitpage.css}">
+  <link rel="stylesheet" th:href="@{/css/seller/jiho/moreinfo.css}">
+  <link rel="stylesheet" th:href="@{/css/seller/jiho/sellerbutton.css}">
+  <script th:src="@{/js/seller/summernote/summernote-lite.js}"></script>
+  <script th:src="@{/js/seller/summernote/lang/summernote-ko-KR.js}"></script>
+  <script th:src="@{/js/seller/uploadImg1.js}"></script>
+  <link rel="stylesheet" th:href="@{/css/seller/jiho/summernote/summernote-lite.css}">
+</head>
+  <!-- 메인 -->
+  <main>
+    <section>
+      <div class="submitpage">
+        <div class="stepper">
+          <div class="step first active done">
+            <div class="circle circle1">
+              <span>1</span>
+            </div>
+            <div class="title">요금제</div>
+            <div class="left-bar"></div>
+            <div class="right-bar"></div>
+          </div>
+          <div class="step second active editing">
+            <div class="circle circle2">
+              <span>2</span>
+            </div>
+            <div class="title">목표금액</div>
+            <div class="left-bar"></div>
+            <div class="right-bar"></div>
+          </div>
+          <div class="step third active">
+            <div class="circle circle3">
+              <span>3</span>
+            </div>
+            <div class="title">펀딩정보</div>
+            <div class="left-bar"></div>
+            <div class="right-bar"></div>
+          </div>
+          <div class="step forth active">
+            <div class="circle circle4">
+              <span>4</span>
+            </div>
+            <div class="title">상세정보</div>
+            <div class="left-bar"></div>
+            <div class="right-bar"></div>
+          </div>
+          <div class="step fifth active">
+            <div class="circle circle5">
+              <span>5</span>
+            </div>
+            <div class="title">물품옵션</div>
+            <div class="left-bar"></div>
+            <div class="right-bar"></div>
+          </div>
+          <div class="step sixth active">
+            <div class="circle circle6">
+              <span>6</span>
+            </div>
+            <div class="title">판매자 정보</div>
+            <div class="left-bar"></div>
+            <div class="right-bar"></div>
+          </div>
+          <div class="step seventh active">
+            <div class="circle circle7">
+              <span>7</span>
+            </div>
+            <div class="title">환불규정</div>
+            <div class="left-bar"></div>
+            <div class="right-bar"></div>
+          </div>
+        </div>
+        <div class="headtext">
+          펀딩 상세 정보
+        </div>
+        <div class="subtext">
+          펀딩에 대한 구체적인 설명을 입력해주세요.
+        </div>
+        <form action="/submit/options" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="inputMoney" th:value="${ inputMoney }">
+          <input type="hidden" name="planCode" th:value="${ planCode }">
+          <input type="hidden" name="fundTitle" th:value="${ fundTitle }">
+          <input type="hidden" name="searchTag" th:value="${ searchTag }">
+          <input type="hidden" name="startDate" th:value="${ startDate }">
+          <input type="hidden" name="endDate" th:value="${ endDate }">
+          <input type="hidden" name="originFileName" th:value="${ originFileName }">
+          <input type="hidden" name="savedFileName" th:value="${ savedFileName }">
+          <div class="fundtitle">
+            펀딩 소개 영상 · 사진
+          </div>
+          <div class="remaintext1">
+            <small>펀딩페이지 상단에 올라올 사진이에요.</small>
+          </div>
+          <div class="radiobox">
+            <label>
+              <input type="radio" name="media" value="photo"/>
+              <span>사진</span>
+            </label>
+            <label>
+              <input type="radio" name="media" value="video"/>
+              <span>영상</span>
+            </label>
+          </div>
+          <div class="photo box">
+            <div class="imgedit1">
+              <input type="file" id="imageUpload1" accept=".png, .jpg, .jpeg, .gif" multiple>
+              <label for="imageUpload1"></label>
+            </div>
+            <div class="img-preview1">
+              <div id="imagePreview1" style="background-image: url(/images/seller/logo.jpeg);">
+              </div>
+            </div>
+          </div>
+          <div class="video box">
+            <div class="group">
+              <input type="text" class="videoURL">
+              <span class="highlight"></span>
+              <span class="bar"></span>
+              <label>동영상 URL을 입력해주세요.</label>
+            </div>
+          </div>
+          <div class="fundtitle">
+            펀딩 요약
+          </div>
+          <div class="remaintext1">
+            <small>상단의 영상 · 사진과 함께 배치될 설명이에요.</small>
+          </div>
+          <div class="fundsummary">
+            <textarea name="fundSummary" id="summary" cols="30" rows="10" placeholder="내용을 입력해주세요." onkeydown="javascript: if (event.keyCode==13) return false;" onKeyUp="javascript: limit(this, 100);"></textarea>
+          </div>
+          <span style="padding-left: 5px; margin-top: 2px; font-weight: 700;" id="memoLength">100</span> <!-- 자바 스크립트로 한글자 쓸 때마다 숫자 1 줄이기 -->
+          <small>/100</small>
+          <div class="fundtitle">
+            펀딩 본문
+          </div>
+          <div class="remaintext1">
+            <small>펀딩페이지 메인에 올라갈 본문이에요.</small>
+          </div>
+            <textarea name="fundContent" id="summernote"></textarea>
+          <div class="button7">
+            <button class="redbutton" id="button7" type="submit">
+              <span>
+                저장 및 다음단계
+              </span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+<script src=""></script>
+</html>

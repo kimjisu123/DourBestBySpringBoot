@@ -1,5 +1,6 @@
 package com.won.dourbest.admin.dto;
 
+import com.won.dourbest.common.dto.CategoryDTO;
 import lombok.*;
 
 import java.util.Date;
