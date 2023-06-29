@@ -7,6 +7,7 @@ import com.won.dourbest.user.dto.MypageDTO;
 import com.won.dourbest.user.mypage.repository.MypageMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class MypageServiceImple implements MypageService{
 
     @Override
     public List<MemberSellerInquireDTO> sellerInquire(SearchCriteria criteria, String userId) {
+
         return mypageMapper.findSellerInquireById(criteria, userId);
     }
 

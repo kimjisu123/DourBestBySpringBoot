@@ -2,6 +2,7 @@ package com.won.dourbest.common.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Getter
 @NoArgsConstructor
@@ -9,7 +10,8 @@ public class Pagination {
 
     private int startPage; //네비게이션에서의 시작번호
     private int endPage; //네비게이션에서의 끝나는 번호
-    private boolean prev, next; // 이전 다음링크 표시여부
+    private boolean prev;  // 이전 다음링크 표시여부
+    private boolean next;
     private int totalPage; // 전체 페이지의 개수
     private int totalCount; // 글의 전체 개수
     private Criteria criteria;
@@ -39,4 +41,16 @@ public class Pagination {
         this.next = this.endPage != totalPage;
     }
 
+    @Override
+    public String toString() {
+        return "Pagination{" +
+                "startPage=" + startPage +
+                ", endPage=" + endPage +
+                ", prev=" + prev +
+                ", next=" + next +
+                ", totalPage=" + totalPage +
+                ", totalCount=" + totalCount +
+
+                '}';
+    }
 }

@@ -51,24 +51,27 @@ public class MypageController {
     }
 
     @GetMapping("/seller-inquire")
-    public String selleIinquire(@ModelAttribute(value = " cri") SearchCriteria criteria, Model model){
+    public String selleIinquire(@ModelAttribute("cri") SearchCriteria criteria, Model model){
 
         //세션으로부터 받자
         String userId = "user01";
 
         Pagination pagination = new Pagination(criteria, mypageService.listTotalCount(criteria,userId));
 
-        model.addAttribute("pagination", pagination);
-
         log.info("criteria.getPage={}",criteria.getPage());
         log.info("criteria.getPageSize={}",criteria.getPageSize());
         log.info("criteria.getRowStart={}",criteria.getRowStart());
         log.info("pagination.getStartPage={}",pagination.getStartPage());
         log.info("pagination.getEndPage={}",pagination.getEndPage());
+        log.info("pagination.={}",pagination);
 
         List<MemberSellerInquireDTO> list = mypageService.sellerInquire(criteria, userId);
         log.info("list={}", list);
 
+        model.addAttribute("list", list);
+        model.addAttribute("pagination", pagination);
+//        model.addAttribute("url", criteria.makeQuery(pagination.getCriteria().getPage()));
+//        model.addAttribute("test",criteria);
         return "user/mypage/sellerInquire";
     }
 

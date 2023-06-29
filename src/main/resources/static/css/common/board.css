@@ -16,41 +16,54 @@
     border-bottom: 1px solid #000;
 }
 
-.board_list > div > div {
-    display: inline-block;
-    padding: 15px 0;
-    text-align: center;
-    font-size: 1.4rem;
-}
 
 .board_list > div.top > div {
     font-weight: 600;
+    font-size: 1.4rem ;
 }
 
 .board_list .num {
     width: 10%;
+    text-align: center;
+    font-size: 1.4rem ;
 }
 
 .board_list .title {
     width: 60%;
     text-align: left;
+    font-size: 1.4rem ;
 }
+
+.title> a{
+    font-size: 1.4rem ;
+}
+
 
 .board_list .top .title {
     text-align: center;
 }
 
-.board_list .writer {
-    width: 10%;
-}
-
 .board_list .date {
-    width: 10%;
+    width: 20%;
+    font-size: 1.4rem ;
+
 }
 
 .board_list .count {
     width: 10%;
+    font-size: 1rem ;
 }
+
+.board-content{
+    display: flex;
+    align-items: center;
+}
+
+.board-content > div{
+    text-align: center;
+    padding: 10px 0px;
+}
+
 
 .board_page {
     margin-top: 30px;

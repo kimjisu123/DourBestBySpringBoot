@@ -93,6 +93,8 @@ class MypageMapperTest {
 
         int i = mypageMapper.listCount(criteria, userId);
         log.info("i={}", i);
+//        String s = criteria.makeQuery(1);
+//        log.info("s={}",s);
 
     }
 
