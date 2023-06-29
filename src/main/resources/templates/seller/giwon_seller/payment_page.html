@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html th:replace="~{/layouts/base :: layout(~{::main}, ~{::link}, ~{::script})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link rel="stylesheet" th:href="@{/css/seller/giwon_seller/payment_page.css}">
+</head>
+  <main>
+
+    <section>
+
+      <div class="main-container0">
+        <div class="header-text">
+          <p class="main-text">주문 결제하기</p>
+        </div>
+        <div class="main-container5">
+          <div class="final-payment text1">최종 결제금액</div>
+          <ul>
+            <li class="text2 final-detaile">상품가격</li>
+            <li class="text2 final-detaile">쿠폰할인</li>
+            <li class="text2 final-detaile">포인트사용</li>
+            <li class="text2 final-detaile">배송비</li>
+          </ul>
+        </div>
+
+
+
+        <div class="main-container">
+          <div class="payment-text">
+            <div class="payment-tetails text1">주문 상품 정보 </div>
+            <div class="product-img"><img src="/images/seller/adminlogo.png" alt=""></div>
+          </div>
+          <div class="product-name text2"><p th:text="${product.getOptionName()}"></p></div>
+        </div>
+
+        <div class="main-container6">
+          <div class="payment-method text1">결제 방법</div>
+          <div class="checkbox-payment">
+            <input id="box1" type="checkbox" />
+            <label for="box1">신용카드</label>
+
+          </div>
+
+
+          </input>
+
+
+          </form>
+          <div class="card-choice1 form-select">
+            <select >
+              <option disabled="disabled" selected="select-box">카드를 선택해주세요</option>
+              <option>국민</option>
+              <option >비씨</option>
+              <option >신한</option>
+              <option >현대</option>
+              <option >삼성</option>
+              <option >롯데</option>
+              <option >외환</option>
+              <option >NH</option>
+              <option >하나</option>
+              <option >우리</option>
+              <option >광주</option>
+              <option >수협</option>
+              <option >씨티</option>
+              <option >전북</option>
+              <option >제주</option>
+              <option >카카오뱅크</option>
+              <option >케이뱅크</option>
+            </select>
+          </div>
+
+
+        </div>
+
+        <div class="main-container7">
+          <div class="consent"></div>
+          <input type="checkbox" class="consent" id="box3">
+          <label for="box3">전체 동의</label>
+          <input type="checkbox" class="consent" id="box4">
+          <label for="box4">구매조건 확인 및 결제진행에 동의</label>
+          <div class="button-panel">
+            <button class="button-payment">결제하기</button>
+          </div>
+        </div>
+
+
+        <div class="main-container2">
+          <div class="payment-tetails text1">주문자 정보</div>
+          <ul class="information text2">
+            <li><p th:text="${ member.getMemberName()}"></p></li>
+            <li><p th:text="${ member.getMemberPhone()}"></p></li>
+            <li><p th:text="${ member.getMemberEmail()}"></p></li>
+          </ul>
+        </div>
+
+        <div class="main-container3">
+          <div class="address text1">배송지 정보</div>
+          <div class="address-text text2"><p th:text="${ address.getBaseAddress() }"></p></div>
+          <div class="address-text text2"><p th:text="${ address.getDetailAddress()}"></p></div>
+          <div class="address text1">배송메모 <br>
+            <div class="message-select form-select">
+              <select name="" id="">
+                <option value="" disabled="disabled" selected="select-box">요청사항을 선택해주세요</option>
+                <option>배송 전에 미리 연락 바랍니다.</option>
+                <option>부재시 경비실에 맡겨 주세요.</option>
+                <option>부재시 전화 주시거나 문자 남겨 주세요.</option>
+                <option>문앞에 놔주세요.</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="main-container4">
+          <div class="coupon-point text1">쿠폰/포인트</div>
+          <div>
+            <div class="coupon-text text3">쿠폰</div>
+            <div class="coupon-application"><p id="totalCouponPrice"></p></div>
+            <div class="button-interval">
+              <div class="button-panel">
+                <button class="button">쿠폰 적용</button>
+              </div>
+              <div class="point text3">포인트</div>
+              <div class="button-panel">
+                <button class="button">전액사용</button>
+              </div>
+            </div>
+            <div class="hold-point text3">보유 포인트 :</div>
+            <div class="point-application" id="totalPointPrice">포인트 얼마인지 뜨는곳</div>
+            <div class="hold-point2">5,000 포인트 이상 보유 및 10,000원 이상 구매시 사용 가능</div>
+          </div>
+        </div>
+
+      </div>
+
+
+
+
+      <div class="contactmodal">
+        <div class="contactmodal-container">
+          <div class="contactmodal-content">
+            <span class="close">&times;</span>
+            <h2 class="contactmodal-title">쿠폰 사용</h2>
+            <form class="mb-3 contact" name="contact" id="contact" method="post">
+              <label for=""></label>
+              <th:block th:each="coupon, item : ${couponName}">
+              <input th:id="|@{box}${item.index + 5}|" type="checkbox">
+              <label th:for="|@{box}${item.index + 5}|"><p th:text="${ coupon.getCouponName()}"></p></label> <br>
+              </th:block>
+<!--              <input id="box6" type="checkbox">-->
+<!--              <label for="box6"><p th:text="${ couponName[1].getCouponName()}"></p></label> <br>-->
+<!--              <input id="box7" type="checkbox">-->
+<!--              <label for="box7"><p th:text="${ couponName[2]}"></p></label> <br>-->
+<!--              <input id="box8" type="checkbox">-->
+<!--              <label for="box8"><p th:text="${ couponName[3]}"></p></label>-->
+              <div class="file-container">
+
+                <input type="file" id="contact-imgInput" onchange="contactreadURL(this)">
+                <div class="contact-imgdiv"></div>
+              </div>
+              <button class="" type="submit" id="send">제출</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+<script>
+  $(".send").click(function (){
+    const totalCouponPrice = $(".totalCouponPrice").val();
+    $.ajax({
+      url: "/seller/payment",
+      type : "POST",
+      data : {totalCouponPrice : totalCouponPrice},
+      success : function(data) {
+
+      },
+      error : function (error) {
+        alert(error);
+      }
+    });
+  });
+
+</script>
+
+
+<script>
+  const contactmodal = document.querySelector(".contactmodal");
+  const btn = document.querySelector(".button");
+  const $span = document.querySelector(".close");
+
+
+  btn.addEventListener('click', openContactModal);
+  $span.addEventListener('click', closeContactModal);
+
+  function openContactModal() {
+    contactmodal.style.display = "block";
+    contactmodal.animate([{opacity: 0}, {opacity: 1}], {duration: 300, fill: "forwards"});
+  }
+
+  function closeContactModal() {
+    contactmodal.animate([{opacity: 1}, {opacity: 0}], {duration: 300, fill: "forwards"}).onfinish = function() {
+      contactmodal.style.display = "none";
+      const $img = document.querySelector(".contact-imgdiv");
+      if($img.hasChildNodes()){
+        $img.replaceChildren();
+      }
+    };
+  }
+</script>
+<script>
+  function contactreadURL(obj) {
+
+    let reader = new FileReader();
+    if(!obj.files.length) {
+      return;
+    }
+    reader.readAsDataURL(obj.files[0]);
+    reader.onload = function (e) {
+      let $div = $('<div>');
+      $($div).css('width','120px');
+      $($div).css('height','120px');
+      $($div).css('padding','10px 10px 0px 0px');
+
+      $('.contact-imgdiv').append($div);
+
+      let img = $('<img />');
+      $(img).attr('src', e.target.result);
+      $(img).css('width','100%');
+      $(img).css('height','100%');
+      $($div).append(img);
+    }
+  }
+</script>
+
+
+</html>

@@ -1,9 +1,12 @@
 package com.won.dourbest.seller.controller;
 
+import com.won.dourbest.seller.dto.FundingOptionDTO;
 import com.won.dourbest.seller.dto.SellerDTO;
+import com.won.dourbest.seller.service.SellerService;
 import com.won.dourbest.seller.service.SellerServiceImpl;
-import com.won.dourbest.user.dto.MemberDTO;
+import com.won.dourbest.user.dto.*;
 import org.apache.ibatis.annotations.Param;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -12,7 +15,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-
+import java.util.List;
+import java.util.logging.Logger;
 
 
 @Controller
@@ -68,4 +72,50 @@ public class SellerController {
 
         return "seller/giwon_seller/seller_success";
     }
+
+    // 상품명 조회
+    @GetMapping("/payment")
+    public String payment(Model model, HttpServletRequest request ) {
+
+        FundingOptionDTO product = service.selectProductName();
+
+
+        model.addAttribute("product", product);
+
+        // 주문자 정보 조회
+        MemberDTO member = service.selectMember();
+
+        model.addAttribute("member", member);
+
+        // 배송지 조회
+        AddressDTO address = service.selectAddress();
+
+        model.addAttribute("address", address);
+
+        // 회원이 가지고 있는 쿠폰 목록
+
+        List<CouponDTO> couponName = service.selectCouponList();
+
+        model.addAttribute("couponName" , couponName);
+
+        // 포인트 적용
+//        CouponDTO totalCouponPrice = service.selectTotalCouponDC();
+
+//        model.addAttribute("totalCouponPrice" , totalCouponPrice);
+
+        return "seller/giwon_seller/payment_page";
+    }
+
+    @PostMapping("/payment")
+    public String payment(@RequestParam String contact , Model model) {
+
+        System.out.println("contact : " + contact);
+        CouponDTO disCount = service.registCoupon(contact);
+
+        System.out.println("disCount : " + disCount);
+
+        return "seller/giwon_seller/payment_page";
+    }
+
+
 }

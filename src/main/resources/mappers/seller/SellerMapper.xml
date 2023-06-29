@@ -18,6 +18,46 @@
 <!--        <result property="sellerApproval" column="SELLER_APPROVAL"/>-->
 <!--    </resultMap>-->
 
+    <resultMap id="selectFundingOption" type="com.won.dourbest.seller.dto.FundingOptionDTO">
+        <result property="fundingOptionCode" column="FUNDING_OPTION_CODE"/>
+        <result property="optionName" column="OPTION_NAME"/>
+        <result property="optionContents" column="OPTION_CONTENTS"/>
+        <result property="optionPrice" column="OPTION_PRICE"/>
+        <result property="limitQuantity" column="LIMIT_QUANTITY"/>
+        <result property="fundingCode" column="FUNDING_CODE"/>
+    </resultMap>
+
+
+
+    <resultMap id="selectMemberResultMap" type="com.won.dourbest.user.dto.MemberDTO">
+        <result property="memberName" column="MEMBER_NAME"/>
+        <result property="memberPhone" column="MEMBER_PHONE"/>
+        <result property="memberEmail" column="MEMBER_EMAIL"/>
+    </resultMap>
+
+    <resultMap id="selectAddressResultMap" type="com.won.dourbest.user.dto.AddressDTO">
+        <result property="baseAddress" column="BASE_ADDRESS"/>
+        <result property="detailAddress" column="DETAIL_ADDRESS"/>
+    </resultMap>
+
+    <resultMap id="selectCouponListResultMap" type="com.won.dourbest.user.dto.UserCouponListDTO">
+        <result property="memberCode" column="MEMBER_CODE"/>
+        <result property="couponCode" column="COUPON_CODE"/>
+        <result property="couponName" column="COUPON_NAME"/>
+        <result property="couponListCode" column="COUPONLIST_CODE"/>
+
+
+    </resultMap>
+    <resultMap id="selectOrderResultMap" type="com.won.dourbest.user.dto.OrderDTO">
+        <result property="totalPrice" column="TOTAL_PRICE"/>
+        <result property="memberCode" column="MEMBER_CODE"/>
+    </resultMap>
+
+    <resultMap id="selectDIsCountResultMap" type="com.won.dourbest.user.dto.CouponDTO">
+        <result property="couponDiscount" column="COUPON_DISCOUNT"/>
+    </resultMap>
+
+
     <select id="selectMemberCode" parameterType="com.won.dourbest.user.dto.MemberDTO">
         SELECT
             MEMBER_CODE
@@ -50,6 +90,57 @@
 
 
     </insert>
+
+    <select id="selectProductName" resultMap="selectFundingOption">
+        SELECT
+            A.OPTION_NAME
+         FROM TBL_FUNDING_OPTIONS A
+        WHERE FUNDING_CODE = 3
+
+    </select>
+
+    <select id="selectMember" resultMap="selectMemberResultMap">
+
+        SELECT MEMBER_NAME,
+               MEMBER_PHONE,
+               MEMBER_EMAIL
+        FROM TBL_MEMBER
+        WHERE MEMBER_CODE = 5
+    </select>
+
+    <select id="selectAddress" resultMap="selectAddressResultMap">
+        SELECT
+            BASE_ADDRESS
+          , DETAIL_ADDRESS
+          FROM TBL_ADDRESS
+        WHERE MEMBER_CODE = 5
+    </select>
+
+    <select id="selectCouponList" resultMap="selectCouponListResultMap">
+        SELECT
+            COUPON_NAME
+          FROM TBL_COUPON
+           JOIN TBL_COUPONLIST TC on (TBL_COUPON.COUPON_CODE = TC.COUPON_CODE)
+           JOIN TBL_MEMBER TM on (TC.MEMBER_CODE = TM.MEMBER_CODE)
+        WHERE TC.MEMBER_CODE = 5
+    </select>
+
+    <select id="selectTotalPrice" resultMap="selectOrderResultMap">
+        SELECT
+            TOTAL_PRICE
+          FROM TBL_ORDER
+         WHERE MEMBER_CODE = 5
+    </select>
+
+
+
+    <select id="selectDIsCount" resultMap="selectDIsCountResultMap">
+        SELECT
+            COUPON_DISCOUNT
+         FROM TBL_COUPON
+         WHERE COUPON_DISCOUNT =  #{ coupon }
+    </select>
+
 
 
 
