@@ -8,9 +8,11 @@ mybatis:
   configuration:
     map-underscore-to-camel-case: true
 
+
+# 데이터 베이스 연결 (스프링 시큐리티에 연결 )
 spring:
   datasource:
     driver-class-name: oracle.jdbc.OracleDriver
-    url: jdbc:oracle:thin:oracle.coffit.site:1521:XE
+    url: jdbc:oracle:thin:@oracle.coffit.site:1521:XE
     username: C##DOURBEST
     password: DOURBEST

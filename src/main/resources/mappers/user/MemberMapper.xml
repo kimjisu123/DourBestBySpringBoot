@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.won.dourbest.user.dao.MemberMapper">
+
+            <insert id="registMember"  parameterType="map">
+            INSERT
+            INTO TBL_MEMBER
+                (
+              MEMBER_CODE
+            , MEMBER_ID
+            , MEMBER_PWD
+            , MEMBER_NAME
+            , MEMBER_PHONE
+            , MEMBER_EMAIL
+            , REGIST_DATE
+            , WITHDRAWAL_STATUS
+            , ADULT_STATUS
+            , MEMBERSHIP_CODE
+            )
+            VALUES
+                (
+                SEQ_MEMBER_CODE.NEXTVAL
+                , #{ member.memberId }
+                , #{ member.memberPwd }
+                , #{ member.memberName }
+                , #{ member.memberPhone }
+                , #{ member.memberEmail }
+                , SYSDATE
+                , DEFAULT
+                , DEFAULT
+                , DEFAULT
+            )
+            </insert>
+
+            <insert id="registAddress" parameterType="map">
+                INSERT /* com.won.dourbest.user.dao.MemberMapper#insertMember() */
+                INTO TBL_ADDRESS
+                    (
+                  ADDRESS_CODE
+                , ZIP_CODE
+                , BASE_ADDRESS
+                , DETAIL_ADDRESS
+                , MEMBER_CODE
+                    )
+                VALUES
+                    (
+                        SEQ_ADDRESS_CODE.NEXTVAL
+                        , #{ address.zipcode }
+                        , #{ address.baseAddress }
+                        , #{ address.detailAddress }
+                        , SEQ_MEMBER_CODE.CURRVAL
+                    )
+            </insert>
+
+        </mapper>
