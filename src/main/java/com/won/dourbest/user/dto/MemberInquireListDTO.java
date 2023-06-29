@@ -12,9 +12,11 @@ import java.sql.Date;
 @ToString
 public class MemberInquireListDTO {
 
+    private int rowNum;
+    private int inquiriesCode;
+
     private String contactSubject;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date creationDate;
 
     private String contactAnswer;

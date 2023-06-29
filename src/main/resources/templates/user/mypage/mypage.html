@@ -40,7 +40,7 @@
                     <h3>적립금</h3>
                     <p th:text="${mypageInfo.getPointTotalAmount()}">100</p>
                 </a>
-                <a href="" class="profile-detail">
+                <a th:href="|@{/mypage/coupon}|" class="profile-detail">
                     <h3>쿠폰</h3>
                     <p th:text="${mypageInfo.getCouponCount()}">1</p>
                 </a>
@@ -129,7 +129,7 @@
                     <h2>문의</h2>
                     <ul class="mypage-list flex-wrapper">
                         <li>
-                            <a href="./FAQ-list.html" class="flex-wrapper">
+                            <a th:href="@{mypage/inquire}" class="flex-wrapper">
                                         <span>
                                             <svg xmlns="http://www.w3.org/2000/svg" height="2em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg {
                                                 fill: #f35f4c
@@ -140,7 +140,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="./reportlist.html" class="flex-wrapper">
+                            <a th:href="@{/mypage/report}" class="flex-wrapper">
                                         <span>
                                             <svg xmlns="http://www.w3.org/2000/svg" height="2em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg {
                                                 fill: #f35f4c
@@ -151,7 +151,7 @@
                             </a>
                         </li>
                         <li>
-                            <a th:href="@{mypage/seller-inquire}" class="flex-wrapper">
+                            <a th:href="@{/mypage/seller-inquire}" class="flex-wrapper">
                                         <span>
                                             <svg xmlns="http://www.w3.org/2000/svg" height="2em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg {
                                                 fill: #f35f4c

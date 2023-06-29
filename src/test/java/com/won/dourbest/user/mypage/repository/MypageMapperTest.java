@@ -62,8 +62,10 @@ class MypageMapperTest {
     @Test
     void findInquireAllById(){
         String userId = "user02";
-        List<MemberInquireListDTO> result = mypageMapper.findInquireAllById(userId);
-        log.info("result={}", result);
+        SearchCriteria criteria = new SearchCriteria();
+
+//        List<MemberInquireListDTO> result = mypageMapper.findInquireAllById(userId);
+//        log.info("result={}", result);
     }
 
     @Test
@@ -87,12 +89,12 @@ class MypageMapperTest {
         System.out.println("criteria.getRowStart() = " + criteria.getRowStart());
         System.out.println("criteria.getRowEnd() = " + criteria.getRowEnd());
         System.out.println("criteria.gegetSearchTypetRowEnd() = " + criteria.getSearchType());
-        List<MemberSellerInquireDTO> result = mypageMapper.findSellerInquireById(criteria, userId);
-        log.info("result={}", result);
+//        List<MemberSellerInquireDTO> result = mypageMapper.findSellerInquireById(criteria, userId);
+//        log.info("result={}", result);
 
 
-        int i = mypageMapper.listCount(criteria, userId);
-        log.info("i={}", i);
+//        int i = mypageMapper.listCount(criteria, userId);
+//        log.info("i={}", i);
 //        String s = criteria.makeQuery(1);
 //        log.info("s={}",s);
 

@@ -14,6 +14,9 @@ import java.util.Date;
 @ToString
 public class MemberSellerInquireDTO {
 
+    private int rowNum;
+    private int sellerInqCode;
+
     private String sellerInqTitle;
 
 //    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
