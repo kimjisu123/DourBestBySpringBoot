@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.won.dourbest.admin.funding.dao.AdminFundingMapper">
+
+    <resultMap id="fundingResultMap" type="com.won.dourbest.admin.funding.dto.AdminFundingDTO">
+        <result property="memberId" column="MEMBER_ID"/>
+        <result property="memberEmail" column="MEMBER_EMAIL"/>
+        <result property="fundingTitle" column="FUNDING_TITLE"/>
+        <result property="startDate" column="START_DATE"/>
+        <result property="endDate" column="END_DATE"/>
+    </resultMap>
+
+<!-- 오픈 예정 펀딩 보류 -->
+    <select id="selectAllWillopen" resultMap="fundingResultMap">
+        SELECT
+            A.FUNDING_TITLE,
+            A.START_DATE,
+            A.END_DATE,
+            C.MEMBER_NAME,
+            C.MEMBER_ID
+        FROM TBL_FUNDING A
+                 JOIN TBL_SELLER B ON (A.SELLER_CODE = B.SELLER_CODE)
+                 JOIN TBL_MEMBER C ON (B.MEMBER_CODE = C.MEMBER_CODE)
+        WHERE A.START_DATE > SYSDATE
+    </select>
+
+
+    <select id="selectAllapproved" resultMap="fundingResultMap">
+        SELECT
+            A.FUNDING_TITLE,
+            A.START_DATE,
+            A.END_DATE,
+            C.MEMBER_NAME,
+            C.MEMBER_ID
+        FROM TBL_FUNDING A
+        JOIN TBL_SELLER B ON (A.SELLER_CODE = B.SELLER_CODE)
+        JOIN TBL_MEMBER C ON (B.MEMBER_CODE = C.MEMBER_CODE)
+        WHERE
+    </select>
+
+
+</mapper>

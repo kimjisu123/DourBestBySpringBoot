@@ -4,7 +4,7 @@
 <head>
     <link rel="stylesheet" th:href="@{/css/admin/admin.css}">
 </head>
-
+<main>
 <!-- 메뉴 -->
 <div class="menu">
 
@@ -37,22 +37,22 @@
         <div id="backgroundpage">
             <!-- 메인 메뉴 항목-->
             <div id="mainMenuContainer">
-                <div id="mainMenuButton1" class="mainMenuButton" >
+                <div th:onclick="|location.href='@{/admin}'|"  id="mainMenuButton1" class="mainMenuButton" >
                     회원 목록 조회
                 </div>
-                <div id="mainMenuButton2" class="mainMenuButton">
+                <div th:onclick="|location.href='@{/withdrawn}'|"  id="mainMenuButton2" class="mainMenuButton">
                     탈퇴 회원 목록 조회
                 </div>
-                <div id="mainMenuButton3" class="mainMenuButton">
+                <div th:onclick="|location.href='@{/funPayment}'|"  id="mainMenuButton3" class="mainMenuButton">
                     펀딩 결제 내역
                 </div>
-                <div id="mainMenuContainernotfirst" class="mainMenuButton">
+                <div th:onclick="|location.href='@{/memshipPayment}'|"  id="mainMenuContainernotfirst" class="mainMenuButton">
                     멤버십 결제 내역
                 </div>
-                <div id="mainMenuButton5" class="mainMenuButton">
+                <div th:onclick="|location.href='@{/blackList}'|"  id="mainMenuButton5" class="mainMenuButton">
                     블랙리스트
                 </div>
-                <div id="mainMenuButton6" class="mainMenuButton">
+                <div th:onclick="|location.href='@{/adminAccount}'|"  id="mainMenuButton6" class="mainMenuButton">
                     관리자 계정 관리
                 </div>
             </div>
@@ -119,11 +119,8 @@
 
                     </div>
                 </div>
-
-
             </div>
     </section>
-</div>
 <ul class="pagination">
     <li class="page-prev">
         <a class="prev" href="#"><svg t="1580195949197" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4493" width="20" height="20"><path d="M906.78272 588.78976c-0.02048 8.4992-6.88128 15.36-15.38048 15.37024l-443.6992-0.01024 75.70432 191.68256c2.51904 6.42048 0.48128 13.76256-5.03808 17.90976-5.51936 4.16768-13.13792 4.1472-18.61632-0.09216l-376.5248-289.47456c-3.77856-2.89792-6.00064-7.41376-6.00064-12.16512 0-4.78208 2.22208-9.27744 6.00064-12.1856l376.5248-289.47456c2.7648-2.11968 6.06208-3.19488 9.37984-3.19488 3.23584 0 6.5024 1.03424 9.23648 3.10272 5.51936 4.1472 7.5776 11.48928 5.03808 17.90976L447.68256 419.84l443.71968-0.01024c8.4992 0.01024 15.36 6.88128 15.36 15.36L906.78272 588.78976z" p-id="4494" fill="#777777"></path></svg></a>
@@ -173,24 +170,7 @@
         }
 
     });
-    $('.mainMenuButton').click(function() {
-        var buttonId = $(this).attr('id'); // 클릭한 버튼의 id를 가져옵니다.
 
-        $('.mainMenuButton').removeClass('active');
-        $(this).addClass('active');
-
-        if (buttonId === 'mainMenuButton1') {
-            window.location.href = '../account/account.html';
-        } else if (buttonId === 'mainMenuButton2') {
-            window.location.href = '../account/withdrawn member.html';
-        }  else if (buttonId === 'mainMenuButton3') {
-            window.location.href = '../account/fundingPayment.html';
-        }  else if (buttonId === 'mainMenuButton5') {
-            window.location.href = '../account/blacklist.html';
-        }  else if (buttonId === 'mainMenuButton6') {
-            window.location.href = '../account/admin account.html';
-        }
-    });
     $(".logo").click(function(){
         window.location.href = '../../index.html';
     })

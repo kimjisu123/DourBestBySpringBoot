@@ -1,5 +1,6 @@
 package com.won.dourbest.seller.dto;
 
+import com.won.dourbest.user.dto.MemberDTO;
 import lombok.*;
 
 import java.util.List;
@@ -21,4 +22,6 @@ public class SellerDTO {
     private String sellerKakao;
     private int memberCode;
     private List<FundingDTO> funding;
+
+    private MemberDTO memberDTO;
 }

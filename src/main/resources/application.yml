@@ -11,6 +11,6 @@ mybatis:
 spring:
   datasource:
     driver-class-name: oracle.jdbc.OracleDriver
-    url: jdbc:oracle:thin:oracle.coffit.site:1521:XE
+    url: jdbc:oracle:thin:@oracle.coffit.site:1521:XE
     username: C##DOURBEST
     password: DOURBEST

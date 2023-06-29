@@ -65,12 +65,7 @@
                     <div id="mainMenuButton6" class="FundingMenuButton">
                         판매자 등록 신청 목록
                     </div>
-                    <div id="mainMenuButton7" class="FundingMenuButton">
-                        반려된 펀딩 목록
-                    </div>
-                    <div id="mainMenuButton8" class="FundingMenuButton">
-                        중단된 펀딩 목록
-                    </div>
+
                 </div>
 
 
@@ -168,55 +163,6 @@
 
     <script>
 
-
-
-        $('.FundingMenuButton').click(function() {
-            $('.FundingMenuButton').removeClass('active');
-            $(this).addClass('active');
-        });
-
-        $('.sideMenuButton').click(function() {
-            var buttonId = $(this).attr('id'); // 클릭한 버튼의 id를 가져옵니다.
-
-            $('.sideMenuButton').removeClass('active');
-            $(this).addClass('active');
-
-            if (buttonId === 'sidebutton1') {
-                window.location.href = '../account/account.html'; // 계정 관리 페이지로 이동합니다.
-            } else if (buttonId === 'sidebutton2') {
-                window.location.href = '../funding/willopenfunding.html'; // 펀딩 목록 관리 페이지로 이동합니다.
-            } else if (buttonId === 'sidebutton3') {
-                window.location.href = '../statistics/AllPrice.html'; // 결제 통계 확인 페이지로 이동합니다.
-            } else if (buttonId === 'sidebutton4') {
-                window.location.href = '../notice/notice.html'; // 공지사항 페이지로 이동합니다.
-            } else if (buttonId === 'sidebutton5') {
-                window.location.href = '../report/Report Resolution.html'; // 신고 관리 페이지로 이동합니다.
-            } else if (buttonId === 'sidebutton6') {
-                window.location.href = '../coupon/coupon.html'; // 쿠폰 관리 페이지로 이동합니다.
-            }
-        });
-        $('.FundingMenuButton').click(function() {
-            var buttonId = $(this).attr('id'); // 클릭한 버튼의 id를 가져옵니다.
-            if (buttonId === 'mainMenuButton1') {
-                window.location.href = '../funding/willopenfunding.html'; // 오픈 예정 펀딩 목록
-            } else if (buttonId === 'mainMenuButton2') {
-                window.location.href = '../funding/ongoingfunding.html'; // 진행중인 펀딩 목록
-            } else if (buttonId === 'mainMenuButton3') {
-                window.location.href = '../funding/Finishedfunding.html'; // 완료된 펀딩 목록
-            } else if (buttonId === 'mainMenuButton4') {
-                window.location.href = '../funding/ApprovedFunding.html'; // 승인된 펀딩 목록
-            } else if (buttonId === 'mainMenuButton6') {
-                window.location.href = '../funding/SellerRegistration.html'; // 신청한 펀딩 목록
-            } else if (buttonId === 'mainMenuButton7') {
-                window.location.href = '../funding/rejectedfunding.html'; // 판매자 등록 목록
-            } else if (buttonId === 'mainMenuButton8') {
-                window.location.href = '../funding/Suspendedfunding.html'; // 반려된 펀딩 목록
-            }
-
-        });
-        $(".logo").click(function(){
-            window.location.href = '../../index.html';
-        })
     </script>
     </div>
 </main>

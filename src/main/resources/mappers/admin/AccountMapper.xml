@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.won.dourbest.admin.account.dao.AdminMapper">
+
+
+    <resultMap id="accountResultMap" type="com.won.dourbest.admin.account.dto.AccountDTO">
+        <result property="memberId" column="MEMBER_ID"/>
+        <result property="memberName" column="MEMBER_NAME"/>
+        <result property="memberPhone" column="MEMBER_PHONE"/>
+        <result property="memberEmail" column="MEMBER_EMAIL"/>
+        <result property="registDate" column="REGIST_DATE"/>
+        <result property="sellerCode" column="SELLER_CODE"/>
+    </resultMap>
+
+    <resultMap id="FundingPaymentResultMap" type="com.won.dourbest.admin.account.dto.FundingPaymentDTO">
+    <result property="memberId" column="MEMBER_ID"/>
+    <result property="memberEmail" column="MEMBER_EMAIL"/>
+    <result property="memberName" column="MEMBER_NAME"/>
+    <result property="memberPhone" column="MEMBER_PHONE"/>
+    <result property="creditStatus" column="CREDIT_STATUS"/>
+    <result property="cteditDate" column="CREDIT_DATE"/>
+    </resultMap>
+
+    <resultMap id="MembershipPaymentResultMap" type="com.won.dourbest.admin.account.dto.MembershipPaymentDTO">
+        <result property="memberId" column="MEMBER_ID"/>
+        <result property="memberEmail" column="MEMBER_EMAIL"/>
+        <result property="memberName" column="MEMBER_NAME"/>
+        <result property="memberPhone" column="MEMBER_PHONE"/>
+        <result property="membershipStatus" column="MEMBERSHIP_STATUS"/>
+        <result property="paymentDate" column="PAYMENT_DATE"/>
+    </resultMap>
+
+    <resultMap id="BlacklistResultMap" type="com.won.dourbest.admin.account.dto.BlcaklistDTO">
+        <result property="memberId" column="MEMBER_ID"/>
+        <result property="memberEmail" column="MEMBER_EMAIL"/>
+        <result property="memberName" column="MEMBER_NAME"/>
+        <result property="memberPhone" column="MEMBER_PHONE"/>
+        <result property="blacklistReason" column="BLACKLIST_REASON"/>
+        <result property="addtionalDate" column="ADDITIONAL_DATE"/>
+    </resultMap>
+
+    <resultMap id="AdminAccountResultMap" type="com.won.dourbest.admin.account.dto.AdminAccountDTO">
+        <result property="adminCode" column="ADMIN_CODE"/>
+        <result property="adminEmail" column="ADMIN_EMAIL"/>
+        <result property="adminId" column="ADMIN_ID"/>
+        <result property="adminPwd" column="ADMIN_PWD"/>
+        <result property="regiDate" column="REGI_DATE"/>
+    </resultMap>
+
+    <select id="selectAllaccountList" resultMap="accountResultMap">
+    SELECT
+            A.MEMBER_ID,
+            A.MEMBER_NAME,
+            A.MEMBER_EMAIL,
+            A.MEMBER_PHONE,
+            A.REGIST_DATE,
+            B.SELLER_CODE
+    FROM    TBL_MEMBER A
+    LEFT JOIN    TBL_SELLER B ON (A.MEMBER_CODE = B.MEMBER_CODE)
+    </select>
+
+
+    <select id="selectAllwithdrawnList" resultMap="accountResultMap">
+        SELECT
+            A.MEMBER_ID,
+            A.MEMBER_NAME,
+            A.MEMBER_EMAIL,
+            A.MEMBER_PHONE,
+            A.REGIST_DATE,
+            B.SELLER_CODE
+        FROM    TBL_MEMBER A
+        LEFT JOIN    TBL_SELLER B ON (A.MEMBER_CODE = B.MEMBER_CODE)
+        WHERE WITHDRAWAL_STATUS IN 'Y'
+    </select>
+
+    <select id="selectAllFunPaymentList" resultMap="FundingPaymentResultMap">
+        SELECT
+            A.MEMBER_ID,
+            A.MEMBER_NAME,
+            A.MEMBER_EMAIL,
+            A.MEMBER_PHONE,
+            D.CREDIT_STATUS,
+            D.CREDIT_DATE
+        FROM TBL_MEMBER A
+        JOIN TBL_ORDER B ON (A.MEMBER_CODE = B.MEMBER_CODE)
+        JOIN TBL_CREDIT C ON (B.ORDER_CODE = C.ORDER_CODE)
+        JOIN TBL_FUNDING_CREDITLIST D ON (C.PAYMENT_CODE = D.PAYMENT_CODE)
+    </select>
+
+    <select id="selectAllmemPaymentList" resultMap="MembershipPaymentResultMap">
+        SELECT
+            A.MEMBER_ID,
+            A.MEMBER_NAME,
+            A.MEMBER_EMAIL,
+            A.MEMBER_PHONE,
+            C.MEMBERSHIP_STATUS,
+            C.PAYMENT_DATE
+        FROM TBL_MEMBER A
+        JOIN TBL_MEMBERSHIP_CREDIT B ON (A.MEMBER_CODE = B.MEMBER_CODE)
+        JOIN TBL_MEMBERSHIP_CREDITLIST C ON (B.MEMBERSHIP_CREDIT_CODE = C.MEMBERSHIP_CREDIT_CODE)
+    </select>
+
+    <select id="selectallBlackList" resultMap="BlacklistResultMap">
+        SELECT
+            B.MEMBER_ID,
+            B.MEMBER_NAME,
+            B.MEMBER_EMAIL,
+            B.MEMBER_PHONE,
+            A.BLACKLIST_REASON,
+            A.ADDITIONAL_DATE
+        FROM TBL_BLACKLIST_LIST A
+        JOIN TBL_MEMBER B ON (B.MEMBER_CODE = A.MEMBER_CODE)
+    </select>
+
+
+    <select id="selectAllAdminAccount" resultMap="AdminAccountResultMap">
+        SELECT
+            A.ADMIN_CODE,
+            A.ADMIN_EMAIL,
+            A.ADMIN_ID,
+            A.ADMIN_PWD,
+            A.REGI_DATE
+        FROM TBL_ADMIN A
+    </select>
+
+
+
+
+
+</mapper>
