@@ -3,6 +3,9 @@ package com.won.dourbest.common.dto;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.util.Optional;
 
 @Getter
 @Setter
@@ -10,5 +13,15 @@ import lombok.ToString;
 public class SearchCriteria extends Criteria{
 
     private String searchType;
-    private String keyword;
+    private String status;
+
+    public String makeQuery(Integer page){
+        return UriComponentsBuilder.newInstance()
+                .queryParam("page", page)
+                .queryParamIfPresent("status", Optional.ofNullable(status))
+                .queryParamIfPresent("searchType", Optional.ofNullable(searchType))
+                .encode()
+                .build()
+                .toUriString();
+    }
 }

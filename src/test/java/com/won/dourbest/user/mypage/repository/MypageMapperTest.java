@@ -1,5 +1,7 @@
 package com.won.dourbest.user.mypage.repository;
 
+import com.won.dourbest.common.dto.Pagination;
+import com.won.dourbest.common.dto.SearchCriteria;
 import com.won.dourbest.user.dto.*;
 
 import lombok.extern.slf4j.Slf4j;
@@ -73,9 +75,25 @@ class MypageMapperTest {
 
     @Test
     void findSellerInquireById(){
-        String userId = "user02";
-        List<MemberSellerInquireDTO> result = mypageMapper.findSellerInquireById(userId);
+        String userId = "user01";
+        SearchCriteria criteria = new SearchCriteria();
+        System.out.println("criteria = " + criteria);
+//        criteria.setPage(3); //페이지 테스트
+        criteria.setStatus("Y"); // 조건테스트
+//        criteria.setSearchType("배송관련문의"); //조건테스트
+        System.out.println("criteria.getPage() = " + criteria.getPage());
+        System.out.println("criteria.getPageSize() = " + criteria.getPageSize());
+        Pagination pagination = new Pagination(criteria,100);
+        System.out.println("criteria.getRowStart() = " + criteria.getRowStart());
+        System.out.println("criteria.getRowEnd() = " + criteria.getRowEnd());
+        System.out.println("criteria.gegetSearchTypetRowEnd() = " + criteria.getSearchType());
+        List<MemberSellerInquireDTO> result = mypageMapper.findSellerInquireById(criteria, userId);
         log.info("result={}", result);
+
+
+        int i = mypageMapper.listCount(criteria, userId);
+        log.info("i={}", i);
+
     }
 
 

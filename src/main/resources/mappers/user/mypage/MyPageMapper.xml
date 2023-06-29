@@ -107,6 +107,15 @@
         <result property="categoryName" column="CATEGORY_NAME"/>
     </resultMap>
 
+    <sql id="search">
+        <if test="cri.searchType != null">
+            AND TC.CATEGORY_NAME = #{cri.searchType}
+        </if>
+        <if test="cri.status != null">
+            AND TSI.ANSWER_STATUS = #{cri.status}
+        </if>
+    </sql>
+
     <select id="findById" resultMap="MypageResultMap">
         SELECT
             T1.MEMBER_ID,
@@ -139,7 +148,7 @@
               where M.MEMBER_ID = #{userId}
               group by M.MEMBER_ID, M.MEMBER_NAME, TM.MEMBERSHIP_NAME, PL.POINT_TOTAL_AMOUNT
               ORDER BY PL.POINT_TOTAL_AMOUNT DESC) T1
-        WHERE ROWNUM = 1;
+        WHERE ROWNUM = 1
     </select>
 
 
@@ -214,15 +223,43 @@
     </select>
 
     <select id="findSellerInquireById" resultMap="SellerInquireResult">
+        SELECT B.RNUM,
+            B.INQUIRY_TITLE,
+            B.INQUIRY_DATE,
+            B.ANSWER_STATUS,
+            B.CATEGORY_NAME
+                FROM (select ROWNUM RNUM,
+                A.INQUIRY_TITLE,
+                A.INQUIRY_DATE,
+                A.ANSWER_STATUS,
+                A.CATEGORY_NAME
+                    from (SELECT TSI.INQUIRY_TITLE,
+                    TSI.INQUIRY_DATE,
+                    TSI.ANSWER_STATUS,
+                    TC.CATEGORY_NAME
+                        FROM TBL_MEMBER M
+                        JOIN TBL_SELLER_INQUIRY TSI on M.MEMBER_CODE = TSI.MEMBER_CODE
+                        JOIN TBL_CATEGORY TC on TSI.CATEGORY_CODE = TC.CATEGORY_CODE
+                        WHERE M.MEMBER_ID = #{ userId }
+                        <include refid="search"/>
+                    ) A
+                        <![CDATA[
+                      WHERE ROWNUM <= #{ cri.rowEnd }
+                  ]]>
+                        ) B
+            WHERE B.RNUM >= #{ cri.rowStart }
+        ORDER BY 1 ASC
+    </select>
+    
+    <select id="listCount">
         SELECT
-            TSI.INQUIRY_TITLE,
-            TSI.INQUIRY_DATE,
-            TSI.ANSWER_STATUS,
-            TC.CATEGORY_NAME
+            COUNT(*)
         FROM TBL_MEMBER M
                  JOIN TBL_SELLER_INQUIRY TSI on M.MEMBER_CODE = TSI.MEMBER_CODE
                  JOIN TBL_CATEGORY TC on TSI.CATEGORY_CODE = TC.CATEGORY_CODE
-        WHERE M.MEMBER_ID = #{userId}
+        WHERE M.MEMBER_ID = #{ userId }
+        <include refid="search"/>
     </select>
+
 
 </mapper>

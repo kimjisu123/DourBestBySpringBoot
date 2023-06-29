@@ -1,6 +1,8 @@
 package com.won.dourbest.user.mypage.service;
 
+import com.won.dourbest.common.dto.SearchCriteria;
 import com.won.dourbest.user.dto.CouponListDTO;
+import com.won.dourbest.user.dto.MemberSellerInquireDTO;
 import com.won.dourbest.user.dto.MypageDTO;
 import com.won.dourbest.user.mypage.repository.MypageMapper;
 import lombok.RequiredArgsConstructor;
@@ -24,5 +26,14 @@ public class MypageServiceImple implements MypageService{
         return mypageMapper.findByCoupon(userId);
     }
 
+    @Override
+    public List<MemberSellerInquireDTO> sellerInquire(SearchCriteria criteria, String userId) {
+        return mypageMapper.findSellerInquireById(criteria, userId);
+    }
+
+    @Override
+    public int listTotalCount(SearchCriteria searchCriteria, String userId) {
+        return mypageMapper.listCount(searchCriteria, userId);
+    }
 
 }

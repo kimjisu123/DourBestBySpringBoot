@@ -1,16 +1,22 @@
 package com.won.dourbest.user.mypage.controller;
 
+import com.won.dourbest.common.dto.Pagination;
+import com.won.dourbest.common.dto.SearchCriteria;
 import com.won.dourbest.user.dto.CouponListDTO;
+import com.won.dourbest.user.dto.MemberSellerInquireDTO;
 import com.won.dourbest.user.dto.MypageDTO;
 import com.won.dourbest.user.mypage.service.MypageService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
+@Slf4j
 @Controller
 @RequestMapping("/mypage")
 @RequiredArgsConstructor
@@ -42,6 +48,28 @@ public class MypageController {
         model.addAttribute("memberCoupons", memberCoupons);
 
         return "user/mypage/coupon";
+    }
+
+    @GetMapping("/seller-inquire")
+    public String selleIinquire(@ModelAttribute(value = " cri") SearchCriteria criteria, Model model){
+
+        //세션으로부터 받자
+        String userId = "user01";
+
+        Pagination pagination = new Pagination(criteria, mypageService.listTotalCount(criteria,userId));
+
+        model.addAttribute("pagination", pagination);
+
+        log.info("criteria.getPage={}",criteria.getPage());
+        log.info("criteria.getPageSize={}",criteria.getPageSize());
+        log.info("criteria.getRowStart={}",criteria.getRowStart());
+        log.info("pagination.getStartPage={}",pagination.getStartPage());
+        log.info("pagination.getEndPage={}",pagination.getEndPage());
+
+        List<MemberSellerInquireDTO> list = mypageService.sellerInquire(criteria, userId);
+        log.info("list={}", list);
+
+        return "user/mypage/sellerInquire";
     }
 
 

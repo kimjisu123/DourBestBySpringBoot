@@ -1,7 +1,10 @@
 package com.won.dourbest.user.mypage.repository;
 
+import com.won.dourbest.common.dto.Criteria;
+import com.won.dourbest.common.dto.SearchCriteria;
 import com.won.dourbest.user.dto.*;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -20,6 +23,7 @@ public interface MypageMapper {
 
     List<MemberReportListDTO> findReportAllById(String userId);
 
-    List<MemberSellerInquireDTO> findSellerInquireById(String userId);
+    List<MemberSellerInquireDTO> findSellerInquireById(@Param("cri") SearchCriteria searchCriteria, @Param("userId") String userId);
 
+    int listCount(@Param("cri") SearchCriteria searchCriteria, @Param("userId") String userId);
 }

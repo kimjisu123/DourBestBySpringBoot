@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html th:replace="~{/layouts/base :: layout(~{::main}, ~{::link}, ~{::script})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" th:href="@{/css/common/page.css}">
+    <link rel="stylesheet" th:href="@{/css/common/item-card.css}">
+    <link rel="stylesheet" th:href="@{/css/common/board.css}">
+
+</head>
+    <main>
+        <div class="page-wrapper">
+            <section>
+                <div class="page-title">
+                    <h1>판매자 문의내역</h1>
+                </div>
+                <div class="filter-wrapper">
+                    <ul>
+                        <li>
+                            <a href="">
+                                전체
+                            </a>
+                        </li>
+                        <li>
+                            <a href="">
+                                답변완료
+                            </a>
+                        </li>
+                        <li>
+                            <a href="">
+                                답변 대기중
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="page-container">
+                    <div class="page-content">
+                        <h2 class="sr-only">판매자 문의내역</h2>
+                        <div class="board_wrap">
+                            <div class="board_list_wrap">
+                                <div class="board_list">
+                                    <div class="top">
+                                        <div class="num">번호</div>
+                                        <div class="title">제목</div>
+                                        <div class="writer">상태</div>
+                                        <div class="date">날짜</div>
+                                        <div class="count"></div>
+                                    </div>
+                                    <div>
+                                        <div class="num">1</div>
+                                        <div class="title"><a href="">펀딩제목 사진넣을가...?</a></div>
+                                        <div class="writer">배송중</div>
+                                        <div class="date">2021.1.15</div>
+                                        <div class="count">상세조회?</div>
+                                    </div>
+                                </div>
+                                <div class="board_page">
+                                    <a href="#" class="bt first"><<</a>
+                                    <a href="#" class="bt prev"><</a>
+                                    <a href="#" class="num on">1</a>
+                                    <a href="#" class="num">2</a>
+                                    <a href="#" class="num">3</a>
+                                    <a href="#" class="num">4</a>
+                                    <a href="#" class="num">5</a>
+                                    <a href="#" class="bt next">></a>
+                                    <a href="#" class="bt last">>></a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+<script src=""></script>
+
+
+</html>
