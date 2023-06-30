@@ -14,7 +14,8 @@ public interface MypageMapper {
 
     MypageDTO findById(String userId);
 
-    List<CouponListDTO> findByCoupon(String userId);
+
+    List<MemberCouponList> findByCoupon(@Param("cri") SearchCriteria searchCriteria, @Param("userId") String userId);
 
     List<LikeFundingDTO> findLikeFundingById(String userId);
 
@@ -27,4 +28,6 @@ public interface MypageMapper {
     List<MemberSellerInquireDTO> findSellerInquireById(@Param("cri") SearchCriteria searchCriteria, @Param("userId") String userId);
 
     int listCount(@Param("cri") SearchCriteria searchCriteria, @Param("userId") String userId, @Param("name") String name);
+
+    int updateCouponStatus (int code);
 }

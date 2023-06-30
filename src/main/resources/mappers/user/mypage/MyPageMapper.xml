@@ -20,8 +20,6 @@
 <!--        <collection property="purchasedFundingList" resultMap="PurchasedFundingResultMap"/>-->
 <!--    </resultMap>-->
 
-
-
     <resultMap id="MemberShipResultMap" type="MemberShipDTO">
         <id property="membershipCode" column="MEMBERSHIP_CODE"/>
         <result property="membershipName" column="MEMBERSHIP_NAME"/>
@@ -30,7 +28,7 @@
     </resultMap>
 
     <resultMap id="AddressResultMap" type="AddressDTO">
-        <id property="addressCode" column="ADDRESS_CODE"/>
+        <id property="addressCode" column="couponListCode"/>
         <result property="zipCode" column="ZIP_CODE"/>
         <result property="baseAddress" column="BASE_ADDRESS"/>
         <result property="detailAddress" column="DETAIL_ADDRESS"/>
@@ -50,8 +48,11 @@
         <result property="finishCount" column="FINISH_COUNT"/>
     </resultMap>
 
-    <resultMap id="CoupListResultMap" type="CouponListDTO">
-        <result property="couponUseStatus" column="COUPON_USE_STATUS"/>
+    <resultMap id="CoupListResultMap" type="MemberCouponList">
+        <id property="couponListCode" column="COUPONLIST_CODE"/>
+        <result property="rowNum" column="RNUM"/>
+        <result property="useStatus" column="COUPON_USE_STATUS"/>
+        <result property="regiStatus" column="COUPON_REGI_STATUS"/>
         <result property="validDate" column="VALID_DATE"/>
         <association property="coupon" resultMap="CouponMap"/>
     </resultMap>
@@ -137,9 +138,10 @@
                   M.MEMBER_NAME,
                   TM.MEMBERSHIP_NAME,
                   PL.POINT_TOTAL_AMOUNT,
-                  (SELECT COUNT(COUPON_CODE) FROM TBL_COUPONLIST WHERE MEMBER_CODE = (SELECT MEMBER_CODE
+                  (SELECT COUNT(COUPON_CODE) FROM TBL_COUPONLIST TCL WHERE MEMBER_CODE = (SELECT MEMBER_CODE
                                                                                       FROM TBL_MEMBER
                                                                                       WHERE MEMBER_ID = #{userId})
+                                                                   AND TCL.COUPON_REGI_STATUS = 'Y'
                   ) COUPON_COUNT,
                   COUNT(DECODE(D.DELIVERY_STATUS, '배송준비중','1')) READY_COUNT,
                   COUNT(DECODE(D.DELIVERY_STATUS, '배송중','1')) ING_COUNT,
@@ -159,16 +161,61 @@
 
     <select id="findByCoupon" resultMap="CoupListResultMap">
         SELECT
-            TC.COUPON_CODE,
-            TC.COUPON_DISCOUNT,
-            TC.COUPON_NAME,
-            TC.COUPON_CONTENT,
-            TCL.COUPON_USE_STATUS,
-            TCL.VALID_DATE
-        FROM TBL_MEMBER M
-                 JOIN TBL_COUPONLIST TCL on M.MEMBER_CODE = TCL.MEMBER_CODE
-                 JOIN TBL_COUPON TC on TCL.COUPON_CODE = TC.COUPON_CODE
-        WHERE M.MEMBER_ID = #{user01}
+            B.RNUM,
+            B.COUPON_CODE,
+            B.COUPON_NAME,
+            B.COUPON_CONTENT,
+            B.COUPON_DISCOUNT,
+            B.COUPONLIST_CODE,
+            B.COUPON_USE_STATUS,
+            B.COUPON_REGI_STATUS,
+            B.VALID_DATE
+        FROM(
+            SELECT
+                ROWNUM RNUM,
+                A.COUPON_CODE,
+                A.COUPON_NAME,
+                A.COUPON_DISCOUNT,
+                A.COUPON_CONTENT,
+                A.COUPONLIST_CODE,
+                A.COUPON_USE_STATUS,
+                A.COUPON_REGI_STATUS,
+                A.VALID_DATE
+            FROM(
+                SELECT
+                    TC.COUPON_CODE,
+                    TC.COUPON_NAME,
+                    TC.COUPON_CONTENT,
+                    TC.COUPON_DISCOUNT,
+                    TCL.COUPONLIST_CODE,
+                    TCL.COUPON_USE_STATUS,
+                    TCL.COUPON_REGI_STATUS,
+                    TCL.VALID_DATE
+                FROM TBL_COUPONLIST TCL
+                        JOIN TBL_MEMBER TM on TCL.MEMBER_CODE = TM.MEMBER_CODE
+                        JOIN TBL_COUPON TC on TCL.COUPON_CODE = TC.COUPON_CODE
+                    WHERE TM.MEMBER_ID = #{ userId }
+<!--                <if test="cri.status != Y">-->
+<!--                    AND TCL.COUPON_REGI_STATUS = #{ cri.status }-->
+<!--                </if>-->
+                <choose>
+                    <when test="cri.order != null ">
+                        AND TCL.COUPON_USE_STATUS = #{ cri.order }
+                    </when>
+                    <when test="cri.status != null">
+                        AND TCL.COUPON_REGI_STATUS = #{ cri.status }
+                    </when>
+                    <otherwise>
+                        AND TCL.COUPON_REGI_STATUS = 'Y'
+                    </otherwise>
+                </choose>
+                ORDER BY TCL.VALID_DATE DESC
+                ) A
+        <![CDATA[
+                WHERE ROWNUM <= #{ cri.rowEnd }
+        ]]>
+            )B
+        WHERE B.RNUM >= #{ cri.rowStart }
     </select>
 
     <select id="findLikeFundingById" resultMap="LikeFundingResultMap">
@@ -352,7 +399,25 @@
                 AND TFR.REPORT_RESP_STATUS = #{ cri.status }
             </if>
         </if>
+        <if test="name == 'coupon'">
+            SELECT
+            COUNT(*)
+            FROM TBL_COUPONLIST TCL
+                JOIN TBL_MEMBER TM on TCL.MEMBER_CODE = TM.MEMBER_CODE
+                JOIN TBL_COUPON TC on TCL.COUPON_CODE = TC.COUPON_CODE
+            <if test="cri.status != null">
+                AND TCL.COUPON_REGI_STATUS = #{ cri.status }
+            </if>
+            <if test="cri.order != null">
+                AND TCL.COUPON_USE_STATUS = #{ cri.order }
+            </if>
+        </if>
     </select>
 
+    <update id="updateCouponStatus" parameterType="_int">
+        UPDATE TBL_COUPONLIST TCL
+        SET TCL.COUPON_REGI_STATUS = 'N'
+        WHERE TCL.COUPONLIST_CODE = #{ code }
+    </update>
 
 </mapper>

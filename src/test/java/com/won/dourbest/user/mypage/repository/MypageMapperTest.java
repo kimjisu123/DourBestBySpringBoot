@@ -35,12 +35,17 @@ class MypageMapperTest {
     @Test
     void findByCoupon() {
 
-        String userId = "user02";
-
-        List<CouponListDTO> result = mypageMapper.findByCoupon(userId);
-        assertThat(result).isEmpty();
-        log.info("resul={}", result);
-
+        String userId = "user01";
+        SearchCriteria criteria = new SearchCriteria();
+        System.out.println("criteria = " + criteria);
+        System.out.println("criteria.getPage() = " + criteria.getPage());
+        System.out.println("criteria.getPageSize() = " + criteria.getPageSize());
+        Pagination pagination = new Pagination(criteria,100);
+        System.out.println("criteria.getRowStart() = " + criteria.getRowStart());
+        System.out.println("criteria.getRowEnd() = " + criteria.getRowEnd());
+        System.out.println("criteria.gegetSearchTypetRowEnd() = " + criteria.getSearchType());
+        List<MemberCouponList> result = mypageMapper.findByCoupon(criteria, userId);
+        log.info("result={}", result);
     }
 
 

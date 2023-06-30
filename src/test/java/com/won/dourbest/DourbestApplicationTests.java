@@ -8,6 +8,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Optional;
+import java.util.UUID;
+
+import static java.lang.Long.toUnsignedString;
 
 @Slf4j
 @SpringBootTest
@@ -31,5 +34,17 @@ class DourbestApplicationTests {
                                                     //{@searchCriteria.makeQuery(page,cri.getStatus(),cri.getSearchType())}|"-->
 
     }
+
+    @Test
+    void uuidtest(){
+
+        UUID uuid = UUID.randomUUID();
+        System.out.println("uuid = " + uuid);
+        String substring = uuid.toString().substring(1,18);
+        System.out.println("substring = " + substring);
+
+
+    }
+
 
 }
