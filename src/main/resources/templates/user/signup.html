@@ -26,7 +26,7 @@
                         </div>
                         <div class="new2 id-input">
                             <input type="text" name="memberId" id="memberId" size="30" placeholder="아이디를 입력해주세요" required minlength="6"><br>
-                            <span id="password-error" class="error-message"></span><br><br>
+                            <br><br><p id="id-error"></p><br><br>
                         </div>
                         <div>
                             <button type="button" onclick="return idCheck()" >중복확인</button>
@@ -63,6 +63,7 @@
                         </div>
                         <div class="new2 email-input">
                             <input type="email" name="memberEmail" id="memberEmail" placeholder="예 : Dourbest@naver.com" required><br>
+                            <br><br><p id="email-error"></p><br><br>
                         </div>
                         <div>
                             <button class="new emailcf" type="button" onclick="return emailCheck()">중복확인</button>

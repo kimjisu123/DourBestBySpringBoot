@@ -401,10 +401,25 @@ h1{
     height: 20px;
 }
 
-.error-message {
+
+.new2 {
+
+    flex-direction: column;
+}
+
+#id-error {
 
     color: red;
-    display: none;
-    margin-top: 5px;
+    margin-top: -43px;
+    margin-bottom: -42px;
+
+}
+
+
+#email-error {
+
+    color: red;
+    margin-top: -43px;
+    margin-bottom: -42px;
 
 }

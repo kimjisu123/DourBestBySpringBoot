@@ -32,9 +32,11 @@ function sample6_execDaumPostcode() {
          function idCheck(){
 
             var memberId = $("#memberId").val(); // 변수 넣기
+            var idRegExp = /^[a-zA-z0-9]{4,12}$/;   // 영어 대소문자 및 숫자 4~12자리를 입력한 아이디만 가능
+            const output = document.querySelector('#id-error');
             console.log(memberId);
 
-            if(memberEmail.length > 0) {
+            if(memberId.length > 0 && idRegExp.test(memberId) == true) {
 
                  $.ajax({
                      url: "/user/checkId",
@@ -45,11 +47,11 @@ function sample6_execDaumPostcode() {
                          console.log(data);
                          if (data == "success") {
 
-                             displayErrorMessage("memberId", "사용 가능한 아이디 입니다.")
+                             output.textContent = '사용 가능한 아이디 입니다.'
 
                          } else {
 
-                             displayErrorMessage("memberId", "사용 중인 아이디 입니다.")
+                             output.textContent = '사용 중인 아이디 입니다.'
                          }
                      }, error: function () {
                          console.log(data)
@@ -59,7 +61,7 @@ function sample6_execDaumPostcode() {
                  });
              } else {
 
-                alert('아이디를 입력해주세요.');
+                output.textContent ='아이디를 입력하지 않았거나 입력형식이 잘못되었습니다.대소문자와숫자 4~12자리입력'
                 document.getElementById("memberId").focus();
 
                 return false;
@@ -71,10 +73,11 @@ function sample6_execDaumPostcode() {
 
             var memberEmail = $("#memberEmail").val(); // 변수 넣기
             var exptext =/^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;  // 이메일의 형식을 처리하는 기능
+            const output = document.querySelector('#email-error');
 
             console.log(memberEmail);
 
-            if(memberEmail.length > 0 && exptext.test(memberEmail) == true) {
+            if(memberEmail.length > 0 && exptext.test(memberEmail) == true) { // .test 문자열이 일치하는지 확인함.
 
                 console.log(memberEmail);
 
@@ -87,11 +90,11 @@ function sample6_execDaumPostcode() {
                         console.log(data);
                         if (data == "success") {
 
-                            alert('사용 가능한 이메일 입니다.')
+                            output.textContent ='사용 가능한 이메일 입니다.'
 
                         } else {
 
-                            alert('이미 사용중인 이메일 입니다.')
+                            output.textContent ='이미 사용중인 이메일 입니다.'
                         }
                     }, error: function () {
                         console.log(data)
@@ -100,7 +103,7 @@ function sample6_execDaumPostcode() {
 
                     });
             } else{
-                alert('이메일을 입력하지 않았거나 잘못된 형식으로 입력하셨습니다.');
+                output.textContent ='이메일을 입력하지 않았거나 잘못된 형식으로 입력하셨습니다.'
                 document.getElementById("memberEmail").focus();
 
                 return false;
@@ -109,12 +112,7 @@ function sample6_execDaumPostcode() {
         }
 
 
-             // 에러 메세지
-             function displayErrorMessage(elementId, message) {
-                 var errorElement = document.getElementById(elementId);
-                 errorElement.textContent = message;
-                 errorElement.style.display = "block";
-             }
+
 
 
 
