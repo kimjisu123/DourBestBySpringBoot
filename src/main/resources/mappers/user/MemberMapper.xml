@@ -53,5 +53,24 @@
                         , SEQ_MEMBER_CODE.CURRVAL
                     )
             </insert>
+            <!--     멤버 정보확인       -->
+            <select id="idCheck" resultType="_int">
+                SELECT
+                      COUNT(*) <!-- 수를 체크해줌-->
+                FROM TBL_MEMBER
+                  WHERE MEMBER_ID = #{ memeber.memberId }
+            </select>
+
+            <!--     멤버 정보확인       -->
+            <select id="emailCheck" resultType="_int">
+                SELECT
+                COUNT(*) <!-- 수를 체크해줌-->
+                FROM TBL_MEMBER
+                WHERE MEMBER_EMAIL = #{ memeber.memberEmail }
+            </select>
+
+
+
+
 
         </mapper>

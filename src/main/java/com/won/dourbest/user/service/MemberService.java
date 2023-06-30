@@ -13,9 +13,15 @@ import java.util.Map;
 public interface MemberService {
 
     // 회원 조회용 메소드
-
+//    public void findMember(MemberDTO member);
     /*회원 가입용 메소드*/
     int registMember(Map<String, Object> map);
+
+    // 회원 아이디 중복 체크하기
+    boolean idCheck(String memberId);
+
+    // 이메일 체크하기
+    boolean emailCheck(String memberEmail);
 
     //맵 객체를 만들어서 넘겨준다.
 

@@ -16,8 +16,9 @@ public interface MemberMapper {
         int registMember(Map<String, Object> map);
         int registAddress(Map<String, Object> map);
 //
-////     비밀번호 암호화
-//    String selectEncryptedPwd(MemberDTO member);
+      int idCheck(String memberId);
+
+      int emailCheck(String memberEmail);   // 중복이 없으면 0 있으면 1 반환
 //
 //    MemberDTO selectMember(MemberDTO member);
 //

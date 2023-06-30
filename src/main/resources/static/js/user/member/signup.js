@@ -25,87 +25,96 @@ function sample6_execDaumPostcode() {
     }).open();
 }
 
-// 모달
-const contactmodal = document.querySelector(".contactmodal");
-const btn = document.querySelector(".contactBtn");
-const $span = document.querySelector(".close");
 
 
-btn.addEventListener('click', openContactModal);
-$span.addEventListener('click', closeContactModal);
+// 아이디 중복 체크
 
-function openContactModal() {
-    contactmodal.style.display = "block";
-    contactmodal.animate([{opacity: 0}, {opacity: 1}], {duration: 300, fill: "forwards"});
-}
+         function idCheck(){
 
-function closeContactModal() {
-    contactmodal.animate([{opacity: 1}, {opacity: 0}], {duration: 300, fill: "forwards"}).onfinish = function() {
-        contactmodal.style.display = "none";
-        const $img = document.querySelector(".contact-imgdiv");
-        if($img.hasChildNodes()){
-            $img.replaceChildren();
-        }
-    };
-}
+            var memberId = $("#memberId").val(); // 변수 넣기
+            console.log(memberId);
 
-function ReviewreadURL(obj) {
+            if(memberEmail.length > 0) {
 
-    let reader = new FileReader();
-    if(!obj.files.length) {
-        return;
-    }
-    reader.readAsDataURL(obj.files[0]);
-    reader.onload = function (e) {
-        let $div = $('<div>');
-        $($div).css('width','120px');
-        $($div).css('height','120px');
-        $($div).css('padding','10px 10px 0px 0px');
+                 $.ajax({
+                     url: "/user/checkId",
+                     type: "post",
+                     data: {memberId: memberId},
+                     success: function (data) {
 
-        $('.reviewDiv').append($div);
+                         console.log(data);
+                         if (data == "success") {
 
-        let img = $('<img />');
-        $(img).attr('src', e.target.result);
-        $(img).css('width','100%');
-        $(img).css('height','100%');
-        $($div).append(img);
-    }
-}
+                             displayErrorMessage("memberId", "사용 가능한 아이디 입니다.")
 
+                         } else {
 
+                             displayErrorMessage("memberId", "사용 중인 아이디 입니다.")
+                         }
+                     }, error: function () {
+                         console.log(data)
 
-// <![CDATA[  <-- For SVG support
-if ('WebSocket' in window) {
-    (function () {
-        function refreshCSS() {
-            var sheets = [].slice.call(document.getElementsByTagName("link"));
-            var head = document.getElementsByTagName("head")[0];
-            for (var i = 0; i < sheets.length; ++i) {
-                var elem = sheets[i];
-                var parent = elem.parentElement || head;
-                parent.removeChild(elem);
-                var rel = elem.rel;
-                if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
-                    var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
-                    elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
-                }
-                parent.appendChild(elem);
+                     }
+
+                 });
+             } else {
+
+                alert('아이디를 입력해주세요.');
+                document.getElementById("memberId").focus();
+
+                return false;
             }
         }
-        var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
-        var address = protocol + window.location.host + window.location.pathname + '/ws';
-        var socket = new WebSocket(address);
-        socket.onmessage = function (msg) {
-            if (msg.data == 'reload') window.location.reload();
-            else if (msg.data == 'refreshcss') refreshCSS();
-        };
-        if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
-            console.log('Live reload enabled.');
-            sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+
+        // email 중복체크
+        function emailCheck(){
+
+            var memberEmail = $("#memberEmail").val(); // 변수 넣기
+            var exptext =/^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;  // 이메일의 형식을 처리하는 기능
+
+            console.log(memberEmail);
+
+            if(memberEmail.length > 0 && exptext.test(memberEmail) == true) {
+
+                console.log(memberEmail);
+
+                $.ajax({
+                    url: "/user/checkEmail",
+                    type: "post",
+                    data: {memberEmail: memberEmail},
+                    success: function (data) {
+
+                        console.log(data);
+                        if (data == "success") {
+
+                            alert('사용 가능한 이메일 입니다.')
+
+                        } else {
+
+                            alert('이미 사용중인 이메일 입니다.')
+                        }
+                    }, error: function () {
+                        console.log(data)
+
+                    }
+
+                    });
+            } else{
+                alert('이메일을 입력하지 않았거나 잘못된 형식으로 입력하셨습니다.');
+                document.getElementById("memberEmail").focus();
+
+                return false;
+            }
+
         }
-    })();
-}
-else {
-    console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
-}
-// ]]>
+
+
+             // 에러 메세지
+             function displayErrorMessage(elementId, message) {
+                 var errorElement = document.getElementById(elementId);
+                 errorElement.textContent = message;
+                 errorElement.style.display = "block";
+             }
+
+
+
