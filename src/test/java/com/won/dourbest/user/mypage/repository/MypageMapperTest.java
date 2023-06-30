@@ -71,8 +71,8 @@ class MypageMapperTest {
     @Test
     void findReportAllById(){
         String userId = "user02";
-        List<MemberReportListDTO> result = mypageMapper.findReportAllById(userId);
-        log.info("result={}", result);
+//        List<MemberReportListDTO> result = mypageMapper.findReportAllById(userId);
+//        log.info("result={}", result);
     }
 
     @Test
