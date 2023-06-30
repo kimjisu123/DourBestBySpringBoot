@@ -1,16 +1,17 @@
 package com.won.dourbest.user.mypage.controller;
 
+import com.won.dourbest.common.dto.CommonResponse;
 import com.won.dourbest.common.dto.Pagination;
 import com.won.dourbest.common.dto.SearchCriteria;
 import com.won.dourbest.user.dto.*;
 import com.won.dourbest.user.mypage.service.MypageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -36,14 +37,19 @@ public class MypageController {
     }
 
     @GetMapping("/coupon")
-    public String couponPage(Model model){
+    public String couponPage(@ModelAttribute("cri") SearchCriteria criteria, Model model){
 
         /* 세션에서 멤버 가져와서 id 값을 이용하자 */
         String userId = "user01";
 
-        List<CouponListDTO> memberCoupons = mypageService.allCoupon(userId);
+        Pagination pagination = new Pagination(criteria, mypageService.listTotalCount(criteria, userId, "sellerInquire"));
 
-        model.addAttribute("memberCoupons", memberCoupons);
+        List<MemberCouponList> list = mypageService.allCoupon(criteria, userId);
+
+        log.info("list={}", list);
+
+        model.addAttribute("list", list);
+        model.addAttribute("pagination", pagination);
 
         return "user/mypage/coupon";
     }
@@ -97,6 +103,18 @@ public class MypageController {
         model.addAttribute("pagination", pagination);
 
         return "user/mypage/report";
+    }
+
+    @PostMapping(value = "/coupon/regist")
+    @ResponseBody
+    public ResponseEntity<CommonResponse> couponRegist(@ModelAttribute MemberCouponList code){
+
+        CommonResponse response = new CommonResponse(true,"쿠폰등록성공");
+        int i = mypageService.couponRegister(code.getCouponListCode());
+        log.info("i={}", i);
+        log.info("code={}", code);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 

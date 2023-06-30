@@ -9,7 +9,7 @@ public interface MypageService {
 
     public MypageDTO myPageinfo(String userId);
 
-    public List<CouponListDTO> allCoupon(String userId);
+    public List<MemberCouponList> allCoupon(SearchCriteria searchCriteria, String userId);
 
     public List<MemberInquireListDTO> adminInquire(SearchCriteria searchCriteria, String userId);
 
@@ -18,4 +18,6 @@ public interface MypageService {
     public List<MemberReportListDTO> reportList(SearchCriteria searchCriteria, String userId);
 
     public int listTotalCount(SearchCriteria searchCriteria, String userId, String name);
+
+    public int couponRegister(int code);
 }

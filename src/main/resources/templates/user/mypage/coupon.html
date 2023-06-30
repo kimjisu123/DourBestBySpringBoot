@@ -10,89 +10,67 @@
                 <div class="page-title">
                     <h1>쿠폰목록</h1>
                 </div>
-                <div class="coupon-count">
-                    <strong>
-                        현재 사용가능한 쿠폰
-                        <span>1개</span>
-                    </strong>
+                <div class="filter-wrapper">
+                    <ul>
+                        <li>
+                            <a th:href="|@{/mypage/coupon}|">
+                                보유 쿠폰
+                            </a>
+                        </li>
+                        <li>
+                            <a th:href="|@{/mypage/coupon(status='N')}|">
+                                쿠폰 등록
+                            </a>
+                        </li>
+                        <li>
+                            <a th:href="|@{/mypage/coupon(order='Y')}|">
+                                사용한 쿠폰
+                            </a>
+                        </li>
+                    </ul>
                 </div>
                 <div class="page-container">
                     <div class="page-content">
                         <h2 class="sr-only">쿠폰목록</h2>
                         <div class="coupon-container">
-                            <div class="coupon-regi flex-wrapper">
-                                <button>쿠폰 등록</button>
-                                <input type="text" placeholder="쿠폰번호 입력" maxlength="12">
+                            <div class="coupon-count" th:if="${cri.status == null and cri.order == null}">
+                            <strong>
+                                현재 사용가능한 쿠폰
+                                <span th:text="|${list.size()}개|">1개</span>
+                            </strong>
                             </div>
-
+                            <div class="coupon-count" th:if="${cri.status == 'N'}">
+                                <strong>
+                                    등록 가능한 쿠폰
+                                    <span th:text="|${list.size()}개|">1개</span>
+                                </strong>
+                            </div>
                             <div class="coupon-list-container">
-                                <div class="coupon-list grid-wrapper">
-                                    <div class="coupon-item-wrapper">
-                                        <div class="coupon-item">
-                                            <dl>
-                                                <dt class="sr-only">할인 쿠폰</dt>
-                                                <dd class="discount">3,000원</dd>
-                                                <dd class="discount-text">첫 가입 축하 쿠폰</dd>
-                                            </dl>
-                                            <div class="coupon-desc">
-                                                <span>유효기간</span>
-                                                <span>2023.08.30 12시</span>
+                                <th:block th:if="${!list.isEmpty()} or ${list.size()} > 0 ">
+                                    <div class="coupon-list grid-wrapper" >
+                                        <div class="coupon-item-wrapper" th:each="coupon : ${list}">
+                                            <div class="coupon-item">
+                                                <dl>
+                                                    <dt class="sr-only">할인 쿠폰</dt>
+                                                    <dd class="discount" th:if="${coupon.coupon.couponDiscount == 9999}">무료배송</dd>
+                                                    <dd class="discount" th:if="${coupon.coupon.couponDiscount != 9999}" th:text="|${coupon.coupon.couponDiscount}%|">무료배송</dd>
+                                                    <dd class="discount-text" th:text="${coupon.coupon.couponContent}">첫 가입 축하 쿠폰</dd>
+                                                </dl>
+                                                <div class="coupon-desc">
+                                                    <span>유효기간</span>
+                                                    <span th:text="${#dates.format(coupon.validDate, 'yyyy/MM/dd HH:mm')}">2023.08.30 12시</span>
+                                                </div>
+                                            </div>
+                                            <div class="coupon-regi" th:if="${cri.order == null and cri.status != null}">
+                                                <button th:onclick="|doAction(${coupon.couponListCode})|" th:value="${coupon.couponListCode}"> 등록하기 </button>
+
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="coupon-item-wrapper">
-                                        <div class="coupon-item">
-                                            <dl>
-                                                <dt class="sr-only">할인 쿠폰</dt>
-                                                <dd class="discount">3,000원</dd>
-                                                <dd class="discount-text">첫 가입 축하 쿠폰</dd>
-                                            </dl>
-                                            <div class="coupon-desc">
-                                                <span>유효기간</span>
-                                                <span>2023.08.30 12시</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="coupon-item-wrapper">
-                                        <div class="coupon-item">
-                                            <dl>
-                                                <dt class="sr-only">할인 쿠폰</dt>
-                                                <dd class="discount">3,000원</dd>
-                                                <dd class="discount-text">첫 가입 축하 쿠폰</dd>
-                                            </dl>
-                                            <div class="coupon-desc">
-                                                <span>유효기간</span>
-                                                <span>2023.08.30 12시</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="coupon-item-wrapper">
-                                        <div class="coupon-item">
-                                            <dl>
-                                                <dt class="sr-only">할인 쿠폰</dt>
-                                                <dd class="discount">3,000원</dd>
-                                                <dd class="discount-text">첫 가입 축하 쿠폰</dd>
-                                            </dl>
-                                            <div class="coupon-desc">
-                                                <span>유효기간</span>
-                                                <span>2023.08.30 12시</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="coupon-item-wrapper">
-                                        <div class="coupon-item">
-                                            <dl>
-                                                <dt class="sr-only">할인 쿠폰</dt>
-                                                <dd class="discount">3,000원</dd>
-                                                <dd class="discount-text">첫 가입 축하 쿠폰</dd>
-                                            </dl>
-                                            <div class="coupon-desc">
-                                                <span>유효기간</span>
-                                                <span>2023.08.30 12시</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                </th:block>
+                                <th:block th:unless="${!list.isEmpty()} or ${list.size()} > 0 ">
+                                    <p class="no-list"> 쿠폰이 없습니다. </p>
+                                </th:block>
                             </div>
                         </div>
                     </div>
@@ -100,6 +78,20 @@
             </section>
         </div>
     </main>
-<script src=""></script>
+<script>
+    function doAction(code) {
+        $.ajax({
+            method : 'post', // 타입 (get, post, put 등등)
+            url : '/mypage/coupon/regist',
+            data: {"couponListCode": code},
+            success : function(data){
+                alert(data.message);
+            },
+            error : function(data){
+                alert(data.message);
+            }
+        });
+    }
+</script>
 
 </html>

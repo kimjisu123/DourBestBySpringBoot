@@ -1,6 +1,7 @@
 package com.won.dourbest.user.mypage.service;
 
 import com.won.dourbest.common.dto.SearchCriteria;
+import com.won.dourbest.common.exception.user.CouponNotFoundException;
 import com.won.dourbest.user.dto.*;
 import com.won.dourbest.user.mypage.repository.MypageMapper;
 import lombok.RequiredArgsConstructor;
@@ -21,8 +22,8 @@ public class MypageServiceImple implements MypageService{
     }
 
     @Override
-    public List<CouponListDTO> allCoupon(String userId) {
-        return mypageMapper.findByCoupon(userId);
+    public List<MemberCouponList> allCoupon(SearchCriteria searchCriteria, String userId) {
+        return mypageMapper.findByCoupon(searchCriteria, userId);
     }
 
     @Override
@@ -46,5 +47,15 @@ public class MypageServiceImple implements MypageService{
     public int listTotalCount(SearchCriteria searchCriteria, String userId, String name) {
         return mypageMapper.listCount(searchCriteria, userId, name);
     }
+
+    @Override
+    public int couponRegister(int code) {
+        int result = mypageMapper.updateCouponStatus(code);
+
+        if(result > 0) throw new CouponNotFoundException("해당하는 쿠폰코드가 없어요!") ;
+
+        return result;
+    }
+
 
 }
