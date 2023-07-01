@@ -32,7 +32,7 @@ function sample6_execDaumPostcode() {
          function idCheck(){
 
             var memberId = $("#memberId").val(); // 변수 넣기
-            var idRegExp = /^[a-zA-z0-9]{4,12}$/;   // 영어 대소문자 및 숫자 4~12자리를 입력한 아이디만 가능
+            var idRegExp = /^[a-zA-Z0-9_-]{5,20}$/;   // 영어 대소문자 및 숫자 4~12자리를 입력한 아이디만 가능
             const output = document.querySelector('#id-error');
             console.log(memberId);
 
@@ -47,11 +47,13 @@ function sample6_execDaumPostcode() {
                          console.log(data);
                          if (data == "success") {
 
+
                              output.textContent = '사용 가능한 아이디 입니다.'
+                             output.style.color = 'green'
 
                          } else {
-
                              output.textContent = '사용 중인 아이디 입니다.'
+                             output.style.color = 'red'
                          }
                      }, error: function () {
                          console.log(data)
@@ -60,8 +62,8 @@ function sample6_execDaumPostcode() {
 
                  });
              } else {
-
                 output.textContent ='아이디를 입력하지 않았거나 입력형식이 잘못되었습니다.대소문자와숫자 4~12자리입력'
+                output.style.color = 'red'
                 document.getElementById("memberId").focus();
 
                 return false;
@@ -90,11 +92,15 @@ function sample6_execDaumPostcode() {
                         console.log(data);
                         if (data == "success") {
 
+
                             output.textContent ='사용 가능한 이메일 입니다.'
+                            output.style.color = 'green'
+                            
 
                         } else {
 
                             output.textContent ='이미 사용중인 이메일 입니다.'
+                            output.style.color = 'red'
                         }
                     }, error: function () {
                         console.log(data)
@@ -103,13 +109,82 @@ function sample6_execDaumPostcode() {
 
                     });
             } else{
+
                 output.textContent ='이메일을 입력하지 않았거나 잘못된 형식으로 입력하셨습니다.'
+                output.style.color = 'red'
                 document.getElementById("memberEmail").focus();
 
                 return false;
             }
 
         }
+
+        // 비밀번호 확인
+        $('#password, #passwordCheck').on('keyup', function () {
+            const pwd = $('#password').val();
+            const pwdcheck = $('#passwordCheck').val();
+            const output = document.querySelector('#pwd-error');
+            const output2 = document.querySelector('#pwdCheck-error');
+            const exptext =   /^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$/;
+             
+            if(exptext.test(pwd)) {
+
+                     console.log(pwd);
+                     $('#pwd-error').html('Matching').css('color', 'green');
+                     output.textContent = '비밀번호 형식이 맞습니다.'
+
+                    if (pwd == pwdcheck) {
+
+                        $('#pwdCheck-error').html('Matching').css('color', 'green');
+                        output2.textContent = '비밀번호가 일치합니다.'
+
+                    } else {
+
+                        $('#pwdCheck-error').html('Not Matching').css('color', 'red');
+                        output2.textContent = '비밀번호가 일치하지않습니다.'
+
+                    }
+
+                } else {
+
+                $('#pwd-error').html('Not Matching').css('color', 'red');
+                output.textContent ='최소 8자 이상 영문,숫자 특수문자 포함'
+                console.log(pwd);
+            }
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

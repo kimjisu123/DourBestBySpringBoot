@@ -18,7 +18,7 @@
                     <span>필수입력사항</span>
                 </div>
             </div>
-            <form id="signupForm" th:action="@{/user/signup}" method="post">
+            <form id="signupForm" th:action="@{/user/signup}" method="post" onsubmit="">
                 <div class="new memberInfo">
                     <div class="new id-info">
                         <div class="new1 id-label">
@@ -38,15 +38,16 @@
                         </div>
                         <div class="new2 password-input">
                             <input type="password" name="memberPwd" id="password" placeholder="비밀번호를 입력해주세요" required minlength="10"><br>
+                            <br><br><p id="pwd-error"></p><br><br>
                         </div>
                     </div>
                     <div class="new password-cf">
                         <div class="new1 password-cf-label">
-                            <label for="passwordConfirm">비밀번호 확인</label>
+                            <label for="passwordCheck">비밀번호 확인</label>
                         </div>
                         <div class="new2 password-cf-input">
-                            <input type="password" id="passwordConfirm" placeholder="비밀번호를 한번 더 입력해주세요" required minlength="10"><br>
-
+                            <input type="password" id="passwordCheck" placeholder="비밀번호를 한번 더 입력해주세요" required minlength="10"><br>
+                            <br><br><p id="pwdCheck-error"></p><br><br>
                         </div>
                     </div>
                     <div class="new name-info">
@@ -178,7 +179,7 @@
                                                                 이용자에 한해 추가 개인정보 수집이 발생할 수 있습니다. 추가로 개인정보를 수집할
                                                                 경우에는 해당 개인정보 수집 시점에서 이용자에게 ‘수집하는 개인정보 항목, 개인정보의
                                                                 수집 및 이용목적, 개인정보의 보관기간’에 대해 안내 드리고 동의를 받습니다.</p>
-                                                            Map<String, Object> map              </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>

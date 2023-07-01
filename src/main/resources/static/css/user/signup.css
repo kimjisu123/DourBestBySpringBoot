@@ -416,7 +416,7 @@ h1{
 }
 
 
-#email-error {
+#email-error, #pwdCheck-error, #pwd-error{
 
     color: red;
     margin-top: -43px;
