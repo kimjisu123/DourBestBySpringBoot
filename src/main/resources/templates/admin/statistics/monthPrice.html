@@ -13,22 +13,22 @@
         <div id="sideMenuBar">
             <!-- 사이드 메뉴 항목 -->
             <div id="sideMenuContainer">
-                <div id="sidebutton1" class="sideMenuButton">
+                <div th:onclick="|location.href='@{/admin}'|" id="sidebutton1" class="sideMenuButton">
                     계정 관리
                 </div>
-                <div id="sidebutton2" class="sideMenuButton">
+                <div th:onclick="|location.href='@{/willopen}'|" id="sidebutton2" class="sideMenuButton">
                     펀딩 목록 관리
                 </div>
-                <div id="sidebuttonMain" class="sideMenuButton">
+                <div th:onclick="|location.href='@{/allPrice}'|" id="sidebuttonMain" class="sideMenuButton">
                     결제 통계 확인
                 </div>
-                <div id="sidebutton4" class="sideMenuButton">
+                <div th:onclick="|location.href='@{/notice}'|" id="sidebutton4" class="sideMenuButton">
                     공지사항
                 </div>
-                <div id="sidebutton5" class="sideMenuButton">
+                <div th:onclick="|location.href='@{/reportDetails}'|" id="sidebutton5" class="sideMenuButton">
                     신고 관리
                 </div>
-                <div id="sidebutton6" class="sideMenuButton">
+                <div th:onclick="|location.href='@{/Issuance}'|" id="sidebutton6" class="sideMenuButton">
                     쿠폰 관리
                 </div>
             </div>
@@ -38,22 +38,22 @@
             <div id="backgroundpage">
                 <!-- 메인 메뉴 항목-->
                 <div id="mainMenuContainer">
-                    <div id="mainMenuButton1" class="mainMenuButton" >
+                    <div th:onclick="|location.href='@{/allPrice}'|" id="mainMenuButton1" class="mainMenuButton" >
                         총 통계 금액 순 목록
                     </div>
-                    <div id="mainMenuButton2" class="mainMenuButton">
+                    <div th:onclick="|location.href='@{/allViews}'|" id="mainMenuButton2" class="mainMenuButton">
                         총 통계 조회수 순 목록
                     </div>
-                    <div id="mainMenuButton3" class="mainMenuButton">
+                    <div th:onclick="|location.href='@{/allLikes}'|" id="mainMenuButton3" class="mainMenuButton">
                         총 통계 좋아요 순 목록
                     </div>
-                    <div id="mainMenuContainernotfirst" class="mainMenuButton">
+                    <div th:onclick="|location.href='@{/monthPrice}'|" id="mainMenuContainernotfirst" class="mainMenuButton">
                         월 통계 금액 순 목록
                     </div>
-                    <div id="mainMenuButton5" class="mainMenuButton">
+                    <div th:onclick="|location.href='@{/monthViews}'|" id="mainMenuButton5" class="mainMenuButton">
                         월 통계 조회수 순 목록
                     </div>
-                    <div id="mainMenuButton6" class="mainMenuButton">
+                    <div th:onclick="|location.href='@{/monthLikes}'|" id="mainMenuButton6" class="mainMenuButton">
                         월 통계 좋아요 순 목록
                     </div>
                 </div>
@@ -95,33 +95,14 @@
                         </div>
                     </div>
 
+                    <div th:each="statiMonthPrice : ${statiMonthPriceList}" class="table">
+                        <div th:text="${statiMonthPrice.getMemberId()}" id="accountId"></div>
+                        <div th:text="${statiMonthPrice.getMemberEmail()}" id="accountName"></div>
+                        <div th:text="${statiMonthPrice.getFundingTitle()}" id="accountEmail"></div>
+                        <div th:text="${statiMonthPrice.getTotalPrice()}" id="accountPhone"></div>
+                        <div th:text="${statiMonthPrice.getViews()}" id="accountDate"></div>
+                        <div th:text="${statiMonthPrice.getLikes()}"  id="accountSeller"></div>
 
-                    <div class="listPageLine">
-                        <div id="listPageLine1" class="listPageLine">
-
-                        </div>
-                        <div id="listPageLine2" class="listPageLine">
-
-                        </div>
-                        <div id="listPageLine3" class="listPageLine">
-
-                        </div>
-                        <div id="listPageLine4" class="listPageLine">
-
-                        </div>
-                        <div id="listPageLine5" class="listPageLine">
-
-                        </div>
-                        <div id="listPageLine6" class="listPageLine">
-
-                        </div>
-                        <div id="listPageLine7" class="listPageLine">
-
-                        </div>
-                        <div id="listPageLine8" class="listPageLine">
-
-                        </div>
-                    </div>
                 </div>
         </section>
     </div>
@@ -143,47 +124,6 @@
     </ul>
     </section>
     <script>
-        $('.sideMenuButton').click(function() {
-            var buttonId = $(this).attr('id'); // 클릭한 버튼의 id를 가져옵니다.
-
-            $('.sideMenuButton').removeClass('active');
-            $(this).addClass('active');
-
-            if (buttonId === 'sidebutton1') {
-                window.location.href = '../account/account.html'; // 계정 관리 페이지로 이동합니다.
-            } else if (buttonId === 'sidebutton2') {
-                window.location.href = '../funding/willopenfunding.html'; // 펀딩 목록 관리 페이지로 이동합니다.
-            } else if (buttonId === 'sidebutton3') {
-                window.location.href = '../statistics/AllPrice.html'; // 결제 통계 확인 페이지로 이동합니다.
-            } else if (buttonId === 'sidebutton4') {
-                window.location.href = '../notice/notice.html'; // 공지사항 페이지로 이동합니다.
-            } else if (buttonId === 'sidebutton5') {
-                window.location.href = '../report/Report Resolution.html'; // 신고 관리 페이지로 이동합니다.
-            } else if (buttonId === 'sidebutton6') {
-                window.location.href = '../coupon/IssuanceCoupons.html'; // 쿠폰 관리 페이지로 이동합니다.
-            }
-
-        });
-
-        $('.mainMenuButton').click(function() {
-            var buttonId = $(this).attr('id'); // 클릭한 버튼의 id를 가져옵니다.
-
-            if (buttonId === 'mainMenuButton1') {
-                window.location.href = '../statistics/AllPrice.html'; // 오픈 예정 펀딩 목록
-            } else if (buttonId === 'mainMenuButton2') {
-                window.location.href = '../statistics/AllInquiry.html'; // 진행중인 펀딩 목록
-            } else if (buttonId === 'mainMenuButton3') {
-                window.location.href = '../statistics/AllGood.html'; // 완료된 펀딩 목록
-            } else if (buttonId === 'mainMenuButton5') {
-                window.location.href = '../statistics/Monthinquiry.html'; // 승인된 펀딩 목록
-            } else if (buttonId === 'mainMenuButton6') {
-                window.location.href = '../statistics/MonthGood.html'; // 신청한 펀딩 목록
-            }
-
-        });
-        $(".logo").click(function(){
-            window.location.href = '../../index.html';
-        })
     </script>
     </div>
 </main>
@@ -193,6 +133,7 @@
     <section></section>
 </footer>
 </div>
-<script src="./index.js"></script>
+<script>
+</script>
 </body>
 </html>

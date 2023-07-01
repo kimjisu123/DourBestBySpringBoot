@@ -8,6 +8,7 @@ import java.util.List;
 
 @Service
 public class FundingListServiceImpl implements FundingListService {
+    // 매퍼 생성자
     private final AdminFundingMapper mapper;
     public FundingListServiceImpl(AdminFundingMapper mapper) {
         this.mapper = mapper;
@@ -44,6 +45,23 @@ public class FundingListServiceImpl implements FundingListService {
         List<AdminFundingDTO> approvedFundingList = mapper.selectAllapproved();
 
         return approvedFundingList;
+    }
+    // 신청한 펀딩 목록
+    @Override
+    public List<AdminFundingDTO> selectAllApplied() {
+        List<AdminFundingDTO> fundingAppliedList = mapper.selectAllApplied();
+
+        return fundingAppliedList;
+    }
+
+    // 판매자 등록 신청 목록
+    @Override
+    public List<AdminFundingDTO> selectAllSellerRegiList() {
+
+        List<AdminFundingDTO> sellerRegiList = mapper.selectAllSellerRegiList();
+
+        return sellerRegiList;
+
     }
 
 }

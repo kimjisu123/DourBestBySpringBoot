@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.won.dourbest.admin.notice.dao.NoticeMapper">
+
+    <resultMap id="selectNoticeResultMap" type="com.won.dourbest.admin.notice.dto.AdminNoticeDTO">
+        <result property="noticeCode" column="NOTICE_CODE"/>
+        <result property="noticeTitle" column="NOTICE_TITLE"/>
+        <result property="regiDate" column="REGI_DATE"/>
+        <result property="adminCode" column="ADMIN_CODE"/>
+    </resultMap>
+    
+    <resultMap id="selectEventListResultMap" type="com.won.dourbest.admin.notice.dto.AdminEventDTO">
+        <result property="eventTitle" column="EVENT_TITLE"/>
+        <result property="startDate" column="START_DATE"/>
+        <result property="endDate" column="END_DATE"/>
+        <result property="adminCode" column="ADMIN_CODE"/>
+    </resultMap>
+
+
+    <select id="selectNoticeList" resultMap="selectNoticeResultMap">
+        SELECT
+            A.NOTICE_CODE,
+            A.NOTICE_TITLE,
+            A.REGI_DATE,
+            A.ADMIN_CODE
+        FROM TBL_NOTICE A
+    </select>
+
+    <select id="selectOngoingEventList" resultMap="selectEventListResultMap">
+        SELECT
+            EVENT_TITLE,
+            START_DATE,
+            END_DATE,
+            ADMIN_CODE
+        FROM    TBL_EVENT
+        WHERE START_DATE &lt; SYSDATE
+        AND   END_DATE &gt; SYSDATE
+    </select>
+
+    <select id="selectFinshedEventList" resultMap="selectEventListResultMap">
+        SELECT
+            EVENT_TITLE,
+            START_DATE,
+            END_DATE,
+            ADMIN_CODE
+        FROM    TBL_EVENT
+        WHERE END_DATE &lt; SYSDATE
+    </select>
+
+
+
+</mapper>

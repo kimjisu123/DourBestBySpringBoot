@@ -1,6 +1,7 @@
 package com.won.dourbest.seller.dto;
 
 import com.won.dourbest.common.dto.CategoryDTO;
+import com.won.dourbest.user.dto.OrderDTO;
 import lombok.*;
 
 import java.util.Date;
@@ -44,4 +45,6 @@ public class FundingDTO {
     private List<SellerInquiryDTO> sellerInquiry;
     // 펀딩 상태 이력
     private List<FundingStatusListDTO> fundingStatusList;
+    // 주문 리스트
+    private List<OrderDTO> orderList;
 }

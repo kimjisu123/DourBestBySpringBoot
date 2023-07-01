@@ -4,6 +4,7 @@ package com.won.dourbest.admin.account.service;
 
 import com.won.dourbest.admin.account.dao.AdminMapper;
 import com.won.dourbest.admin.account.dto.*;
+import com.won.dourbest.admin.common.SelectCriteria;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,18 +21,11 @@ public class AdminServiceImpl implements AdminService {
     }
 
 
-    @Override
-    public int selectTotalCount(Map<String, String> searchMap) {
-        int result = mapper.selectTotalCount(searchMap);
-
-        return result;
-    }
-
     // 모든 회원 목록 조회
     @Override
-    public List<AccountDTO> selectAllaccountList() {
+    public List<AccountDTO> selectAllaccountList(SelectCriteria selectCriteria) {
 
-        List<AccountDTO> accountList = mapper.selectAllaccountList();
+        List<AccountDTO> accountList = mapper.selectAllaccountList(selectCriteria);
 
         for(int i =0; i <accountList.size(); i++){
             if(accountList.get(i).getSellerCode()!= null) {
@@ -85,6 +79,15 @@ public class AdminServiceImpl implements AdminService {
         List<AdminAccountDTO> adminAccountList = mapper.selectAllAdminAccount();
 
         return adminAccountList;
+    }
+
+    // 조건이 있을시 페이지의 갯수
+    @Override
+    public int selectTotalPage(Map<String, String> searchMap) {
+
+        int totalPage = mapper.selectTotalPage(searchMap);
+
+        return totalPage;
     }
 
 

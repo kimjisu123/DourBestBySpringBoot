@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.won.dourbest.admin.report.dao.ReportMapper">
+    
+    <resultMap id="selectReportDetailsResultMap" type="com.won.dourbest.admin.report.dto.ReportDetailsDTO">
+        <id property="memberId" column="MEMBER_ID"/>
+        <result property="memberEmail" column="MEMBER_EMAIL"/>
+        <result property="fundingTitle" column="FUNDING_TITLE"/>
+        <result property="reportContent" column="REPORT_CONTENT"/>
+        <result property="report_date" column="REPORT_DATE"/>
+        <result property="numberReported" column="NUMBER_REPORTED"/>
+        <result property="answersStatus" column="ANSWERS_STATUS"/>
+
+    </resultMap>
+
+
+    <resultMap id="selectAnswerReportResultMap" type="com.won.dourbest.admin.report.dto.AnswerReportDTO">
+        <id property="memberId" column="MEMBER_ID"/>
+        <result property="memberEmail" column="MEMBER_EMAIL"/>
+        <result property="fundingTitle" column="FUNDING_TITLE"/>
+        <result property="answerContent" column="ANSWERS_CONTENT"/>
+        <result property="answerDate" column="ANSWER_DATE"/>
+        <result property="numberReported" column="NUMBER_REPORTED"/>
+        <result property="answersStatus" column="ANSWERS_STATUS"/>
+
+    </resultMap>
+
+    <select id="selectReportDetails" resultMap="selectReportDetailsResultMap">
+        SELECT
+            D.MEMBER_ID,
+            D.MEMBER_EMAIL,
+            B.FUNDING_TITLE,
+            A.REPORT_CONTENT,
+            A.REPORT_DATE,
+            C.NUMBER_REPORTED,
+            F.ANSWERS_STATUS
+        FROM    TBL_FUNDING_REPORT A
+        JOIN    TBL_FUNDING B ON (A.FUNDING_CODE = B.FUNDING_CODE)
+        JOIN    TBL_SELLER  C ON (B.SELLER_CODE = C.SELLER_CODE)
+        JOIN    TBL_MEMBER D ON (C.MEMBER_CODE = D.MEMBER_CODE)
+        JOIN    TBL_FUNDING_REPORT E ON (E.REPORT_CODE = A.REPORT_CODE)
+        JOIN    TBL_REPORT_RESPONSE F ON (E.REPORT_CODE = F.REPORT_CODE)
+        WHERE   ANSWERS_STATUS = 'N'
+    </select>
+
+    <select id="selectAnswerReport" resultMap="selectAnswerReportResultMap">
+        SELECT
+            D.MEMBER_ID,
+            D.MEMBER_EMAIL,
+            B.FUNDING_TITLE,
+            F.ANSWERS_CONTENT,
+            F.ANSWER_DATE,
+            C.NUMBER_REPORTED,
+            F.ANSWERS_STATUS
+        FROM    TBL_FUNDING_REPORT A
+                    JOIN    TBL_FUNDING B ON (A.FUNDING_CODE = B.FUNDING_CODE)
+                    JOIN    TBL_SELLER  C ON (B.SELLER_CODE = C.SELLER_CODE)
+                    JOIN    TBL_MEMBER D ON (C.MEMBER_CODE = D.MEMBER_CODE)
+                    JOIN    TBL_FUNDING_REPORT E ON (E.REPORT_CODE = A.REPORT_CODE)
+                    JOIN    TBL_REPORT_RESPONSE F ON (E.REPORT_CODE = F.REPORT_CODE)
+        WHERE   ANSWERS_STATUS = 'Y'
+    </select>
+    
+</mapper>

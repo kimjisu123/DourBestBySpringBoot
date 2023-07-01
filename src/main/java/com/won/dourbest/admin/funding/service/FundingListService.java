@@ -6,11 +6,21 @@ import java.util.List;
 
 public interface FundingListService {
 
+    // 오픈 예정 펀딩 목록
+    List<AdminFundingDTO> selectAllWillopen();
+    // 진행중인 펀딩 목록
+    List<AdminFundingDTO> selectAllOngoing();
+    // 완료된 펀딩 목록
+    List<AdminFundingDTO> selectAllFinished();
+
+    // 승인된 펀딩 목록
     List<AdminFundingDTO> selectAllapproved();
 
-    List<AdminFundingDTO> selectAllWillopen();
+    List<AdminFundingDTO> selectAllApplied();
 
-    List<AdminFundingDTO> selectAllOngoing();
+    List<AdminFundingDTO> selectAllSellerRegiList();
 
-    List<AdminFundingDTO> selectAllFinished();
+//    // 신청한 펀딩 목록
+//
+//    // 판매자 신청 목록
 }

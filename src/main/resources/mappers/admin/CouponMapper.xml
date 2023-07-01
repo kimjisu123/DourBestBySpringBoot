@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.won.dourbest.admin.coupon.dao.CouponMapper">
+
+    <resultMap id="selectIssuanceResultMap" type="com.won.dourbest.admin.coupon.dto.CouponIssuance">
+        <id property="memberId" column="MEMBER_ID"/>
+        <result property="memberName" column="MEMBER_NAME"/>
+        <result property="memberEmail" column="MEMBER_EMAIL"/>
+        <result property="couponName" column="COUPON_NAME"/>
+        <result property="couponDiscount" column="COUPON_DISCOUNT"/>
+        <result property="couponValidDate" column="COUPON_VALID_DATE"/>
+    </resultMap>
+
+    <resultMap id="selectUseCouponResultMap" type="com.won.dourbest.admin.coupon.dto.UseCoupon">
+        <id property="memberId" column="MEMBER_ID"/>
+        <result property="memberName" column="MEMBER_NAME"/>
+        <result property="memberEmail" column="MEMBER_EMAIL"/>
+        <result property="couponName" column="COUPON_NAME"/>
+        <result property="couponDiscount" column="COUPON_DISCOUNT"/>
+        <result property="regiDate" column="REGI_DATE"/>
+    </resultMap>
+
+    <select id="selectIssuanceList" resultMap="selectIssuanceResultMap">
+        SELECT
+            C.MEMBER_ID,
+            C.MEMBER_NAME,
+            C.MEMBER_EMAIL,
+            B.COUPON_NAME,
+            B.COUPON_DISCOUNT,
+            B.COUPON_VALID_DATE
+        FROM    TBL_COUPONLIST A
+        JOIN    TBL_COUPON B ON (A.COUPON_CODE = B.COUPON_CODE)
+        JOIN    TBL_MEMBER C ON (A.MEMBER_CODE = C.MEMBER_CODE)
+    </select>
+
+
+    <select id="selectUseCoupon" resultMap="selectUseCouponResultMap">
+        SELECT
+            C.MEMBER_ID,
+            C.MEMBER_NAME,
+            C.MEMBER_EMAIL,
+            B.COUPON_NAME,
+            B.COUPON_DISCOUNT,
+            A.REGI_DATE
+        FROM    TBL_COUPONLIST A
+                    JOIN    TBL_COUPON B ON (A.COUPON_CODE = B.COUPON_CODE)
+                    JOIN    TBL_MEMBER C ON (A.MEMBER_CODE = C.MEMBER_CODE)
+    </select>
+
+</mapper>

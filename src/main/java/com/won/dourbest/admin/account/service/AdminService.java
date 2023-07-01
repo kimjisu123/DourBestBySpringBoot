@@ -1,6 +1,7 @@
 package com.won.dourbest.admin.account.service;
 
 import com.won.dourbest.admin.account.dto.*;
+import com.won.dourbest.admin.common.SelectCriteria;
 
 import java.util.List;
 import java.util.Map;
@@ -9,11 +10,9 @@ import java.util.Map;
 public interface AdminService {
 
 
-    /* 해당 게시글 전체 갯수 조회용 메소드 */
-    public int selectTotalCount(Map<String, String> searchMap);
 
     // 모든 회원 목록 조회
-    public List<AccountDTO> selectAllaccountList();
+    List<AccountDTO> selectAllaccountList(SelectCriteria selectCriteria);
     // 탈퇴한 회원 조회
     List<withdrawnMemberDTO> selectAllwithdrawnList();
 
@@ -29,4 +28,6 @@ public interface AdminService {
 
     // 관리자 계정 조회
     List<AdminAccountDTO> selectAllAdminAccount();
+
+    int selectTotalPage(Map<String, String> searchMap);
 }
