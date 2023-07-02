@@ -21,6 +21,20 @@ public class CouponServiceImpl implements CouponService{
 
         List<CouponIssuance> couponIssuanceList = mapper.selectIssuanceList();
 
+        // 문자열을 정수로 변환을 하지만 변환을 하지 못했을시의 예외 처리를 해준다.
+//        for(int i=0; i<couponIssuanceList.size(); i++){
+//            if(couponIssuanceList.get(i) != null) {
+//                try {
+//                    if (Integer.valueOf(couponIssuanceList.get(i).getCouponDiscount()) > 101) {
+//                        couponIssuanceList.get(i).setCouponDiscount("무료배송");
+//                    }
+//                } catch (NullPointerException e) {
+//
+//                }
+//            }
+//
+//        }
+
         return couponIssuanceList;
     }
 
@@ -29,6 +43,20 @@ public class CouponServiceImpl implements CouponService{
     public List<UseCoupon> selectUseCoupon() {
 
         List<UseCoupon> useCoupon = mapper.selectUseCoupon();
+
+        // 문자열을 정수로 변환을 하지만 변환을 하지 못했을시의 예외 처리를 해준다.
+//        for(int i=0; i<useCoupon.size(); i++){
+//            if(useCoupon.get(i) != null) {
+//                try {
+//                    if (Integer.valueOf(useCoupon.get(i).getCouponDiscount()) > 101) {
+//                        useCoupon.get(i).setCouponDiscount("무료배송");
+//                    }
+//                } catch (NullPointerException e) {
+//
+//                }
+//            }
+//
+//        }
 
         return useCoupon;
     }

@@ -14,7 +14,7 @@ public class UseCoupon {
     private String memberId;
     private String memberName;
     private String memberEmail;
-    private String couponName;
+    private String couponContent;
     private String couponDiscount;
     private Date regiDate;
 }

@@ -13,22 +13,22 @@
         <div id="sideMenuBar">
             <!-- 사이드 메뉴 항목 -->
             <div id="sideMenuContainer">
-                <div th:onclick="|location.href='@{/admin}'|" id="sidebutton1" class="sideMenuButton">
+                <div th:onclick="|location.href='@{/admin/admin}'|" id="sidebutton1" class="sideMenuButton">
                     계정 관리
                 </div>
-                <div th:onclick="|location.href='@{/willopen}'|" id="sidebutton2" class="sideMenuButton">
+                <div th:onclick="|location.href='@{/admin/willopen}'|" id="sidebutton2" class="sideMenuButton">
                     펀딩 목록 관리
                 </div>
-                <div th:onclick="|location.href='@{/allPrice}'|" id="sidebutton3" class="sideMenuButton">
+                <div th:onclick="|location.href='@{/admin/allPrice}'|" id="sidebutton3" class="sideMenuButton">
                     결제 통계 확인
                 </div>
-                <div th:onclick="|location.href='@{/notice}'|" id="sidebutton4" class="sideMenuButton">
+                <div th:onclick="|location.href='@{/admin/notice}'|" id="sidebutton4" class="sideMenuButton">
                     공지사항
                 </div>
-                <div th:onclick="|location.href='@{/reportDetails}'|" id="sidebutton5" class="sideMenuButton">
+                <div th:onclick="|location.href='@{/admin/reportDetails}'|" id="sidebutton5" class="sideMenuButton">
                     신고 관리
                 </div>
-                <div th:onclick="|location.href='@{/Issuance}'|" id="sidebuttonMain" class="sideMenuButton">
+                <div th:onclick="|location.href='@{/admin/Issuance}'|" id="sidebuttonMain" class="sideMenuButton">
                     쿠폰 관리
                 </div>
             </div>
@@ -38,10 +38,10 @@
             <div id="backgroundpage">
                 <!-- 메인 메뉴 항목-->
                 <div id="mainMenuContainer">
-                    <div id="mainMenuButton1" class="mainMenuButton" >
+                    <div th:onclick="|location.href='@{/admin/Issuance}'|" id="mainMenuButton1" class="mainMenuButton" >
                         쿠폰 발급 내역 조회
                     </div>
-                    <div id="mainMenuContainernotfirst" class="mainMenuButton">
+                    <div th:onclick="|location.href='@{/admin/UseCoupon}'|" id="mainMenuContainernotfirst" class="mainMenuButton">
                         쿠폰 사용 내역 조회
                     </div>
                 </div>
@@ -71,22 +71,22 @@
                             이메일
                         </div>
                         <div id="Sortation4" class="SortationList">
-                            등급
+                            쿠폰 내용
                         </div>
                         <div id="Sortation5" class="SortationList">
-                            가입일자
+                            할인율(%)
                         </div>
                         <div id="Sortation6" class="SortationList">
-                            판매자 등록 여부
+                            쿠폰 등록 날짜
                         </div>
                     </div>
                     <div th:each="useCoupon : ${useCouponList}" class="table">
-                        <div th:text="${useCoupon.getMemberId()}" id="accountId"></div>
-                        <div th:text="${useCoupon.getMemberName()}" id="accountName"></div>
-                        <div th:text="${useCoupon.getMemberEmail()}" id="accountEmail"></div>
-                        <div th:text="${useCoupon.getCouponName()}" id="accountPhone"></div>
-                        <div th:text="${useCoupon.getCouponDiscount()}" id="accountDate"></div>
-                        <div th:text="${#dates.format(useCoupon.getRegiDate(), 'yyyy/MM/dd')}"  id="accountSeller"></div>
+                        <div th:text="${useCoupon.getMemberId()}" id="adminAccount1"></div>
+                        <div th:text="${useCoupon.getMemberName()}" id="adminAccount2"></div>
+                        <div th:text="${useCoupon.getMemberEmail()}" id="adminAccount3"></div>
+                        <div th:text="${useCoupon.getCouponContent()}" id="adminAccount4"></div>
+                        <div th:text="${useCoupon.getCouponDiscount()}" id="adminAccount5"></div>
+                        <div th:text="${#dates.format(useCoupon.getRegiDate(), 'yyyy/MM/dd')}"  id="adminAccount6"></div>
                     </div>
                 </div>
             </div>

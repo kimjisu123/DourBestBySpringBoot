@@ -5,11 +5,13 @@ import com.won.dourbest.admin.coupon.dto.UseCoupon;
 import com.won.dourbest.admin.coupon.service.CouponServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
 @Controller
+@RequestMapping("/admin")
 public class CouponController {
 
     private final CouponServiceImpl couponServiceImpl;
@@ -26,6 +28,8 @@ public class CouponController {
         mv.addObject("couponIssuanceList", couponIssuanceList);
         mv.setViewName("admin/coupon/IssuanceCoupons");
 
+        System.out.println("couponIssuanceList = " + couponIssuanceList);
+        
         return mv;
     }
 
@@ -38,6 +42,8 @@ public class CouponController {
         mv.addObject("useCouponList", useCouponList);
         mv.setViewName("admin/coupon/useCoupon");
 
+        System.out.println("useCouponList = " + useCouponList);
+        
         return mv;
     }
 }

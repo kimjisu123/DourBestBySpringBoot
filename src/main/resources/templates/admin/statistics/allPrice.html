@@ -13,22 +13,22 @@
         <div id="sideMenuBar">
             <!-- 사이드 메뉴 항목 -->
             <div id="sideMenuContainer">
-                <div th:onclick="|location.href='@{/admin}'|" id="sidebutton1" class="sideMenuButton">
+                <div th:onclick="|location.href='@{/admin/admin}'|" id="sidebutton1" class="sideMenuButton">
                     계정 관리
                 </div>
-                <div th:onclick="|location.href='@{/willopen}'|" id="sidebutton2" class="sideMenuButton">
+                <div th:onclick="|location.href='@{/admin/willopen}'|" id="sidebutton2" class="sideMenuButton">
                     펀딩 목록 관리
                 </div>
-                <div th:onclick="|location.href='@{/allPrice}'|" id="sidebuttonMain" class="sideMenuButton">
+                <div th:onclick="|location.href='@{/admin/allPrice}'|" id="sidebuttonMain" class="sideMenuButton">
                     결제 통계 확인
                 </div>
-                <div th:onclick="|location.href='@{/notice}'|" id="sidebutton4" class="sideMenuButton">
+                <div th:onclick="|location.href='@{/admin/notice}'|" id="sidebutton4" class="sideMenuButton">
                     공지사항
                 </div>
-                <div th:onclick="|location.href='@{/reportDetails}'|" id="sidebutton5" class="sideMenuButton">
+                <div th:onclick="|location.href='@{/admin/reportDetails}'|" id="sidebutton5" class="sideMenuButton">
                     신고 관리
                 </div>
-                <div th:onclick="|location.href='@{/Issuance}'|" id="sidebutton6" class="sideMenuButton">
+                <div th:onclick="|location.href='@{/admin/Issuance}'|" id="sidebutton6" class="sideMenuButton">
                     쿠폰 관리
                 </div>
             </div>
@@ -38,22 +38,22 @@
             <div id="backgroundpage">
                 <!-- 메인 메뉴 항목-->
                 <div id="mainMenuContainer">
-                    <div th:onclick="|location.href='@{/allPrice}'|" id="mainMenuButtonMainfirst" class="mainMenuButton" >
+                    <div th:onclick="|location.href='@{/admin/allPrice}'|" id="mainMenuButtonMainfirst" class="mainMenuButton" >
                         총 통계 금액 순 목록
                     </div>
-                    <div th:onclick="|location.href='@{/allViews}'|" id="mainMenuButton2" class="mainMenuButton">
+                    <div th:onclick="|location.href='@{/admin/allViews}'|" id="mainMenuButton2" class="mainMenuButton">
                         총 통계 조회수 순 목록
                     </div>
-                    <div th:onclick="|location.href='@{/allLikes}'|" id="mainMenuButton3" class="mainMenuButton">
+                    <div th:onclick="|location.href='@{/admin/allLikes}'|" id="mainMenuButton3" class="mainMenuButton">
                         총 통계 좋아요 순 목록
                     </div>
-                    <div th:onclick="|location.href='@{/monthPrice}'|" id="mainMenuButton4" class="mainMenuButton">
+                    <div th:onclick="|location.href='@{/admin/monthPrice}'|" id="mainMenuButton4" class="mainMenuButton">
                         월 통계 금액 순 목록
                     </div>
-                    <div th:onclick="|location.href='@{/monthViews}'|" id="mainMenuButton5" class="mainMenuButton">
+                    <div th:onclick="|location.href='@{/admin/monthViews}'|" id="mainMenuButton5" class="mainMenuButton">
                         월 통계 조회수 순 목록
                     </div>
-                    <div th:onclick="|location.href='@{/monthLikes}'|" id="mainMenuButton6" class="mainMenuButton">
+                    <div th:onclick="|location.href='@{/admin/monthLikes}'|" id="mainMenuButton6" class="mainMenuButton">
                         월 통계 좋아요 순 목록
                     </div>
                 </div>
@@ -97,12 +97,12 @@
 
 
                     <div th:each="statiAllPrice : ${statiAllPriceList}" class="table">
-                        <div th:text="${statiAllPrice.getMemberId()}" id="accountId"></div>
-                        <div th:text="${statiAllPrice.getMemberEmail()}" id="accountName"></div>
-                        <div th:text="${statiAllPrice.getFundingTitle()}" id="accountEmail"></div>
-                        <div th:text="${statiAllPrice.getTotalPrice()}" id="accountPhone"></div>
-                        <div th:text="${statiAllPrice.getViews()}" id="accountDate"></div>
-                        <div th:text="${statiAllPrice.getLikes()}"  id="accountSeller"></div>
+                        <div th:text="${statiAllPrice.getMemberId()}" id="adminAccount1"></div>
+                        <div th:text="${statiAllPrice.getMemberEmail()}" id="adminAccount2"></div>
+                        <div th:text="${statiAllPrice.getFundingTitle()}" id="adminAccount3"></div>
+                        <div th:text="${statiAllPrice.getTotalPrice()}" id="adminAccount4"></div>
+                        <div th:text="${statiAllPrice.getViews()}" id="adminAccount5"></div>
+                        <div th:text="${statiAllPrice.getLikes()}"  id="adminAccount6"></div>
 
                     </div>
                 </div>

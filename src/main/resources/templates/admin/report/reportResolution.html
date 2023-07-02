@@ -13,22 +13,22 @@
         <div id="sideMenuBar">
             <!-- 사이드 메뉴 항목 -->
             <div id="sideMenuContainer">
-                <div th:onclick="|location.href='@{/admin}'|" id="sidebutton1" class="sideMenuButton">
+                <div th:onclick="|location.href='@{/admin/admin}'|" id="sidebutton1" class="sideMenuButton">
                     계정 관리
                 </div>
-                <div th:onclick="|location.href='@{/willopen}'|" id="sidebutton2" class="sideMenuButton">
+                <div th:onclick="|location.href='@{/admin/willopen}'|" id="sidebutton2" class="sideMenuButton">
                     펀딩 목록 관리
                 </div>
-                <div th:onclick="|location.href='@{/allPrice}'|" id="sidebutton3" class="sideMenuButton">
+                <div th:onclick="|location.href='@{/admin/allPrice}'|" id="sidebutton3" class="sideMenuButton">
                     결제 통계 확인
                 </div>
-                <div th:onclick="|location.href='@{/notice}'|" id="sidebutton4" class="sideMenuButton">
+                <div th:onclick="|location.href='@{/admin/notice}'|" id="sidebutton4" class="sideMenuButton">
                     공지사항
                 </div>
-                <div th:onclick="|location.href='@{/reportDetails}'|" id="sidebuttonMain" class="sideMenuButton">
+                <div th:onclick="|location.href='@{/admin/reportDetails}'|" id="sidebuttonMain" class="sideMenuButton">
                     신고 관리
                 </div>
-                <div th:onclick="|location.href='@{/Issuance}'|" id="sidebutton6" class="sideMenuButton">
+                <div th:onclick="|location.href='@{/admin/Issuance}'|" id="sidebutton6" class="sideMenuButton">
                     쿠폰 관리
                 </div>
             </div>
@@ -77,12 +77,12 @@
 
 
                     <div th:each="reportDetails : ${reportDetailsList}" class="table">
-                        <div th:text="${reportDetails.getMemberId()}" id="accountId"></div>
-                        <div th:text="${reportDetails.getMemberEmail()}" id="accountName"></div>
-                        <div th:text="${reportDetails.getFundingTitle()}" id="accountEmail"></div>
-                        <div th:text="${reportDetails.getReportContent()}" id="accountPhone"></div>
-                        <div th:text="${#dates.format(reportDetails.getReport_date(), 'yyyy/MM/dd')}" id="accountDate"></div>
-                        <div th:text="${reportDetails.getNumberReported()}"  id="accountSeller"></div>
+                        <div th:text="${reportDetails.getMemberId()}" id="adminAccount1"></div>
+                        <div th:text="${reportDetails.getMemberEmail()}" id="adminAccount2"></div>
+                        <div th:text="${reportDetails.getFundingTitle()}" id="adminAccount3"></div>
+                        <div th:text="${reportDetails.getReportContent()}" id="adminAccount4"></div>
+                        <div th:text="${#dates.format(reportDetails.getReport_date(), 'yyyy/MM/dd')}" id="adminAccount5"></div>
+                        <div th:text="${reportDetails.getNumberReported()}"  id="adminAccount6"></div>
                         <div th:text="${reportDetails.getAnswersStatus()}"></div>
                     </div>
 

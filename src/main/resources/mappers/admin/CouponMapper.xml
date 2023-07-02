@@ -8,7 +8,7 @@
         <id property="memberId" column="MEMBER_ID"/>
         <result property="memberName" column="MEMBER_NAME"/>
         <result property="memberEmail" column="MEMBER_EMAIL"/>
-        <result property="couponName" column="COUPON_NAME"/>
+        <result property="couponContent" column="COUPON_CONTENT"/>
         <result property="couponDiscount" column="COUPON_DISCOUNT"/>
         <result property="couponValidDate" column="COUPON_VALID_DATE"/>
     </resultMap>
@@ -17,7 +17,7 @@
         <id property="memberId" column="MEMBER_ID"/>
         <result property="memberName" column="MEMBER_NAME"/>
         <result property="memberEmail" column="MEMBER_EMAIL"/>
-        <result property="couponName" column="COUPON_NAME"/>
+        <result property="couponContent" column="COUPON_CONTENT"/>
         <result property="couponDiscount" column="COUPON_DISCOUNT"/>
         <result property="regiDate" column="REGI_DATE"/>
     </resultMap>
@@ -28,7 +28,7 @@
             C.MEMBER_NAME,
             C.MEMBER_EMAIL,
             B.COUPON_NAME,
-            B.COUPON_DISCOUNT,
+            B.COUPON_CONTENT,
             B.COUPON_VALID_DATE
         FROM    TBL_COUPONLIST A
         JOIN    TBL_COUPON B ON (A.COUPON_CODE = B.COUPON_CODE)
@@ -36,12 +36,12 @@
     </select>
 
 
-    <select id="selectUseCoupon" resultMap="selectUseCouponResultMap">
+    <select id="selectUseCouponResultMap" resultMap="selectUseCouponResultMap">
         SELECT
             C.MEMBER_ID,
             C.MEMBER_NAME,
             C.MEMBER_EMAIL,
-            B.COUPON_NAME,
+            B.COUPON_CONTENT,
             B.COUPON_DISCOUNT,
             A.REGI_DATE
         FROM    TBL_COUPONLIST A

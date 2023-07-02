@@ -11,22 +11,22 @@
     <div id="sideMenuBar">
         <!-- 사이드 메뉴 항목 -->
         <div id="sideMenuContainer">
-            <div th:onclick="|location.href='@{/admin}'|" id="sidebutton1" class="sideMenuButton">
+            <div th:onclick="|location.href='@{/admin/admin/admin}'|" id="sidebutton1" class="sideMenuButton">
                 계정 관리
             </div>
-            <div th:onclick="|location.href='@{/willopen}'|" id="sidebuttonMain" class="sideMenuButton">
+            <div th:onclick="|location.href='@{/admin/willopen}'|" id="sidebuttonMain" class="sideMenuButton">
                 펀딩 목록 관리
             </div>
-            <div th:onclick="|location.href='@{/allPrice}'|" id="sidebutton3" class="sideMenuButton">
+            <div th:onclick="|location.href='@{/admin/allPrice}'|" id="sidebutton3" class="sideMenuButton">
                 결제 통계 확인
             </div>
-            <div th:onclick="|location.href='@{/notice}'|" id="sidebutton4" class="sideMenuButton">
+            <div th:onclick="|location.href='@{/admin/notice}'|" id="sidebutton4" class="sideMenuButton">
                 공지사항
             </div>
-            <div th:onclick="|location.href='@{/reportDetails}'|" id="sidebutton5" class="sideMenuButton">
+            <div th:onclick="|location.href='@{/admin/reportDetails}'|" id="sidebutton5" class="sideMenuButton">
                 신고 관리
             </div>
-            <div th:onclick="|location.href='@{/Issuance}'|" id="sidebutton6" class="sideMenuButton">
+            <div th:onclick="|location.href='@{/admin/Issuance}'|" id="sidebutton6" class="sideMenuButton">
                 쿠폰 관리
             </div>
         </div>
@@ -42,22 +42,22 @@
 
             <!-- 메인 메뉴 항목-->
             <div id="mainMenuContainer">
-                <div th:onclick="|location.href='@{/willopen}'|" id="mainMenuButton1" class="FundingMenuButton" >
+                <div th:onclick="|location.href='@{/admin/willopen}'|" id="mainMenuButton1" class="FundingMenuButton" >
                     오픈 예정 펀딩 목록
                 </div>
-                <div th:onclick="|location.href='@{/ongoing}'|" id="mainMenuButton2" class="FundingMenuButton">
+                <div th:onclick="|location.href='@{/admin/ongoing}'|" id="mainMenuButton2" class="FundingMenuButton">
                     진행중인 펀딩 목록
                 </div>
-                <div th:onclick="|location.href='@{/finished}'|" id="mainMenuButton3" class="FundingMenuButton">
+                <div th:onclick="|location.href='@{/admin/finished}'|" id="mainMenuButton3" class="FundingMenuButton">
                     완료된 펀딩 목록
                 </div>
-                <div th:onclick="|location.href='@{/approved}'|" id="mainMenuContainernotfirst" class="FundingMenuButton">
+                <div th:onclick="|location.href='@{/admin/approved}'|" id="mainMenuContainernotfirst" class="FundingMenuButton">
                     승인된 펀딩 목록
                 </div>
-                <div th:onclick="|location.href='@{/applied}'|" id="mainMenuButton5" class="FundingMenuButton">
+                <div th:onclick="|location.href='@{/admin/applied}'|" id="mainMenuButton5" class="FundingMenuButton">
                     신청한 펀딩 목록
                 </div>
-                <div th:onclick="|location.href='@{/sellerRegi}'|" id="mainMenuButton6" class="FundingMenuButton">
+                <div th:onclick="|location.href='@{/admin/sellerRegi}'|" id="mainMenuButton6" class="FundingMenuButton">
                     판매자 등록 신청 목록
                 </div>
 
@@ -82,22 +82,22 @@
             <!-- 조회 결과 페이지 -->
             <div class="listPage">
                 <div class="SortationContainer">
-                    <div id="fundSortation1" class="SortationList">
+                    <div id="SortationFund1" class="SortationList">
                         아이디
                     </div>
-                    <div id="fundSortation2" class="SortationList">
+                    <div id="SortationFund2" class="SortationList">
                         이메일
                     </div>
-                    <div id="fundSortation3" class="SortationList">
+                    <div id="SortationFund3" class="SortationList">
                         펀딩 제목
                     </div>
-                    <div id="fundSortation4" class="SortationList">
+                    <div id="SortationFund4" class="SortationList">
                         오픈 예정일
                     </div>
-                    <div id="fundSortation5" class="SortationList">
+                    <div id="SortationFund5" class="SortationList">
                         종료 날짜
                     </div>
-                    <div id="fundSortation6" class="SortationList">
+                    <div id="SortationFund6" class="SortationList">
                         상태 값
                     </div>
                 </div>
@@ -106,11 +106,12 @@
 
                 <div th:each="approvedFunding : ${approvedFundingList}" class="table">
                     <input type="checkbox" class="fundcheckbox" name="my_checkbox" value="1">
-                    <div th:text="${approvedFunding.getMemberId()}" id="accountId"></div>
-                    <div th:text="${approvedFunding.getMemberEmail()}" id="accountName"></div>
-                    <div th:text="${approvedFunding.getFundingTitle()}" id="accountEmail"></div>
-                    <div th:text="${#dates.format(approvedFunding.getStartDate(), 'yyyy/MM/dd')}" id="accountPhone"></div>
-                    <div th:text="${#dates.format(approvedFunding.getEndDate(), 'yyyy/MM/dd')}" id="accountDate"></div>
+                    <div th:text="${approvedFunding.getMemberId()}" id="adminAccountFund1"></div>
+                    <div th:text="${approvedFunding.getMemberEmail()}" id="adminAccountFund2"></div>
+                    <div th:text="${approvedFunding.getFundingTitle()}" id="adminAccountFund3"></div>
+                    <div th:text="${#dates.format(approvedFunding.getStartDate(), 'yyyy/MM/dd')}" id="adminAccountFund4"></div>
+                    <div th:text="${#dates.format(approvedFunding.getEndDate(), 'yyyy/MM/dd')}" id="adminAccountFund5"></div>
+                    <div id="adminAccountFund6"> 상태값 </div>
                 </div>
                 </div>
             </div>

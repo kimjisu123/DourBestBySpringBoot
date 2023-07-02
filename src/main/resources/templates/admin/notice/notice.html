@@ -13,22 +13,22 @@
         <div id="sideMenuBar">
             <!-- 사이드 메뉴 항목 -->
             <div id="sideMenuContainer">
-                <div th:onclick="|location.href='@{/admin}'|" id="sidebutton1" class="sideMenuButton">
+                <div th:onclick="|location.href='@{/admin/admin}'|" id="sidebutton1" class="sideMenuButton">
                     계정 관리
                 </div>
-                <div th:onclick="|location.href='@{/willopen}'|" id="sidebutton2" class="sideMenuButton">
+                <div th:onclick="|location.href='@{/admin/willopen}'|" id="sidebutton2" class="sideMenuButton">
                     펀딩 목록 관리
                 </div>
-                <div th:onclick="|location.href='@{/allPrice}'|" id="sidebutton3" class="sideMenuButton">
+                <div th:onclick="|location.href='@{/admin/allPrice}'|" id="sidebutton3" class="sideMenuButton">
                     결제 통계 확인
                 </div>
-                <div th:onclick="|location.href='@{/notice}'|" id="sidebuttonMain" class="sideMenuButton">
+                <div th:onclick="|location.href='@{/admin/notice}'|" id="sidebuttonMain" class="sideMenuButton">
                     공지사항
                 </div>
-                <div th:onclick="|location.href='@{/reportDetails}'|" id="sidebutton5" class="sideMenuButton">
+                <div th:onclick="|location.href='@{/admin/reportDetails}'|" id="sidebutton5" class="sideMenuButton">
                     신고 관리
                 </div>
-                <div th:onclick="|location.href='@{/Issuance}'|" id="sidebutton6" class="sideMenuButton">
+                <div th:onclick="|location.href='@{/admin/Issuance}'|" id="sidebutton6" class="sideMenuButton">
                     쿠폰 관리
                 </div>
             </div>
@@ -80,10 +80,10 @@
 
 
                     <div th:each="adminNotice : ${adminNoticeList}" class="table">
-                        <div th:text="${adminNotice.getNoticeCode()}" id="accountId"></div>
-                        <div th:text="${adminNotice.getNoticeTitle()}" id="accountName"></div>
-                        <div th:text="${adminNotice.getAdminCode()}" id="accountEmail"></div>
-                        <div th:text="${#dates.format(adminNotice.getRegiDate(), 'yyyy/MMz/dd')}" id="accountPhone"></div>
+                        <div th:text="${adminNotice.getNoticeCode()}" id="adminAccount1"></div>
+                        <div th:text="${adminNotice.getNoticeTitle()}" id="adminAccount2"></div>
+                        <div th:text="${adminNotice.getAdminCode()}" id="adminAccount3"></div>
+                        <div th:text="${#dates.format(adminNotice.getRegiDate(), 'yyyy/MMz/dd')}" id="adminAccount4"></div>
 
                     </div>
 

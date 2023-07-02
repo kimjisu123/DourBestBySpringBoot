@@ -51,7 +51,7 @@
 
     <!--  회원 목록 조회  -->
     <select id="selectAllaccountList" resultMap="accountResultMap">
-    SELECT
+        SELECT
             A.MEMBER_CODE,
             A.MEMBER_ID,
             A.MEMBER_NAME,
@@ -59,8 +59,11 @@
             A.MEMBER_PHONE,
             A.REGIST_DATE,
             B.SELLER_CODE
-    FROM    TBL_MEMBER A
-    LEFT JOIN    TBL_SELLER B ON (A.MEMBER_CODE = B.MEMBER_CODE)
+        FROM TBL_MEMBER A
+                 LEFT JOIN TBL_SELLER B ON A.MEMBER_CODE = B.MEMBER_CODE
+        ORDER BY A.MEMBER_CODE ASC
+        OFFSET #{startRow} ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
+
     </select>
 
     <!--  탈퇴 회원 목록 조회  -->

@@ -51,9 +51,9 @@ public class AccountController {
         SelectCriteria selectCriteria = null;
 
         if(searchId != "" && searchId != null){
-            selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button,searchId);
+            selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button,searchId);  // 조건이 있을 경우
         } else {
-            selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button);
+            selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button);           // 조건이 없을 경우
         }
 
         log.info("selectCriteria : " + selectCriteria);
