@@ -14,4 +14,5 @@ public class AdminNoticeDTO {
     private String noticeTitle;
     private Date regiDate;
     private int adminCode;
+    private int rowNum;
 }

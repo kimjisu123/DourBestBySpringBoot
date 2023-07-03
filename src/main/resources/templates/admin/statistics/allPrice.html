@@ -78,23 +78,22 @@
                         <div id="Sortation1" class="SortationList">
                             아이디
                         </div>
-                        <div id="statSortation2" class="SortationList">
+                        <div id="Sortation2" class="SortationList">
                             이메일
                         </div>
-                        <div id="statSortation3" class="SortationList">
+                        <div id="Sortation3" class="SortationList">
                             펀딩 제목
                         </div>
                         <div id="Sortation4" class="SortationList">
-                            금액
+                            조회수
                         </div>
                         <div id="Sortation5" class="SortationList">
-                            조회수
+                            금액
                         </div>
                         <div id="Sortation6" class="SortationList">
                             좋아요
                         </div>
                     </div>
-
 
                     <div th:each="statiAllPrice : ${statiAllPriceList}" class="table">
                         <div th:text="${statiAllPrice.getMemberId()}" id="adminAccount1"></div>

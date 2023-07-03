@@ -38,10 +38,10 @@
         <div id="backgroundpage">
             <!-- 메인 메뉴 항목-->
             <div id="mainMenuContainer">
-                <div id="mainMenuButton1" class="mainMenuButton" >
+                <div th:onclick="|location.href='@{/admin/reportDetails}'|" id="mainMenuButton1" class="mainMenuButton" >
                     신고 내역
                 </div>
-                <div id="mainMenuContainernotfirst" class="mainMenuButton">
+                <div th:onclick="|location.href='@{/admin/answerReport}'|" id="mainMenuContainernotfirst" class="mainMenuButton">
                     신고 처리 내역
                 </div>
             </div>
@@ -61,34 +61,39 @@
             <!-- 조회 결과 페이지 -->
             <div class="listPage">
                 <div class="SortationContainer">
-                    <div id="Sortation1" class="SortationList">
+                    <div id="reportSort1" class="SortationList">
                         아이디
                     </div>
-                    <div id="Sortation2" class="SortationList">
-                        이름
-                    </div>
-                    <div id="Sortation3" class="SortationList">
+                    <div id="reportSort2" class="SortationList">
                         이메일
                     </div>
-                    <div id="Sortation4" class="SortationList">
-                        등급
+                    <div id="reportSort3" class="SortationList">
+                        펀딩 제목
                     </div>
-                    <div id="Sortation5" class="SortationList">
-                        가입일자
+                    <div id="reportSort4" class="SortationList">
+                        답변 제목
                     </div>
-                    <div id="Sortation6" class="SortationList">
-                        판매자 등록 여부
+                    <div id="reportSort5" class="SortationList">
+                        답변 날짜
+                    </div>
+                    <div id="reportSort6" class="SortationList">
+                        신고 제재 횟수
+                    </div>
+                    <div id="reportSort7" class="SortationList">
+                        답변 여부
                     </div>
                 </div>
 
+
+
                 <div th:each="response : ${responseList}" class="table">
-                    <div th:text="${response.getMemberId()}" id="adminAccount1"></div>
-                    <div th:text="${response.getMemberEmail()}" id="adminAccount2"></div>
-                    <div th:text="${response.getFundingTitle()}" id="adminAccount3"></div>
-                    <div th:text="${response.getAnswerContent()}" id="adminAccount4"></div>
-                    <div th:text="${#dates.format(response.getAnswerDate(), 'yyyy/MM/dd')}" id="adminAccount5"></div>
-                    <div th:text="${response.getNumberReported()}"  id="adminAccount6"></div>
-                    <div th:text="${response.getAnswersStatus()}"></div>
+                    <div th:text="${response.getMemberId()}" id="reportLine1"></div>
+                    <div th:text="${response.getMemberEmail()}" id="reportLine2"></div>
+                    <div th:text="${response.getFundingTitle()}" id="reportLine3"></div>
+                    <div th:text="${response.getAnswerContent()}" id="reportLine4"></div>
+                    <div th:text="${#dates.format(response.getAnswerDate(), 'yyyy/MM/dd')}" id="reportLine5"></div>
+                    <div th:text="${response.getNumberReported()}"  id="reportLine6"></div>
+                    <div th:text="${response.getAnswersStatus()}" id="reportLine7" ></div>
                 </div>
 
             </div>

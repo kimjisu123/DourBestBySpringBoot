@@ -32,7 +32,7 @@ public class AdminServiceImpl implements AdminService {
                 accountList.get(i).setSellerCode("Y");
             }
         }
-
+        System.out.println("accountList.size() = " + accountList.size());
         return accountList;
     }
 

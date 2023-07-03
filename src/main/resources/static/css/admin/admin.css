@@ -771,14 +771,26 @@ a {
 }
 
 #noticeSortation1{
-    margin: auto 80px;
+    width:195px;
+    height: 20px;
+    text-align: center;
 }
 #noticeSortation2{
-    margin : auto 400px;
+    width:650px;
+    height: 20px;
+    text-align: center;
 }
 #noticeSortation3{
-    margin-left: 20px;
+    width:200px;
+    height: 20px;
+    text-align: center;
 }
+#noticeSortation4{
+    width:200px;
+    height: 20px;
+    text-align: center;
+}
+
 
 #reportSortation3{
     margin: auto 255px;
@@ -1236,3 +1248,333 @@ a {
     text-align : center;
 }
 
+
+
+.board_list_wrap{
+    margin-bottom: 30px;
+}
+
+.board_list {
+    width: 100%;
+    border-top: 2px solid #000;
+}
+
+.board_list > div {
+    border-bottom: 1px solid #ddd;
+    font-size: 0;
+}
+
+.board_list > div.top {
+    border-bottom: 1px solid #999;
+}
+
+.board_list > div:last-child {
+    border-bottom: 1px solid #000;
+}
+
+
+.board_list > div.top > div {
+    font-weight: 600;
+    font-size: 1.4rem ;
+}
+
+.board_list .num {
+    width: 5%;
+    text-align: center;
+    font-size: 1.4rem ;
+}
+
+.board_list .title {
+    width: 50%;
+    text-align: left;
+    font-size: 1.4rem ;
+}
+
+.title> a{
+    font-size: 1.4rem ;
+}
+
+
+.board_list .top .title {
+    text-align: center;
+}
+
+.board_list .date {
+    width: 30%;
+    font-size: 1.4rem ;
+
+}
+
+.board_list .count {
+    width: 15%;
+    font-size: 1rem ;
+}
+
+.board-content{
+    display: flex;
+    align-items: center;
+}
+
+.board-content > div{
+    text-align: center;
+    padding: 10px 0px;
+}
+
+
+
+
+.board_page {
+    margin-top: 30px;
+    text-align: center;
+    font-size: 0;
+}
+
+.board_page a {
+    display: inline-block;
+    padding: 10px;
+    box-sizing: border-box;
+    vertical-align: middle;
+    border: 1px solid #ddd;
+    border-left: 0;
+    line-height: 100%;
+}
+
+.board_page a.bt {
+    padding-top: 10px;
+    font-size: 1.2rem;
+    letter-spacing: -1px;
+}
+
+.board_page a.num {
+    padding-top: 9px;
+    font-size: 1.4rem;
+}
+
+.board_page a.num.on {
+    border-color: #000;
+    background: #000;
+    color: #fff;
+}
+
+.board_page a:first-child {
+    border-left: 1px solid #ddd;
+}
+
+
+@media (max-width: 880px) {
+
+    .board_list .num{
+        width: 10%;
+    }
+    .board_list .title{
+        width: 45%;
+    }
+}
+
+#noticeLine1{
+    width:150px;
+    height: 20px;
+    text-align: center;
+    line-height: 50px;
+}
+#noticeLine2{
+    width:650px;
+    height: 20px;
+    text-align: center;
+    line-height: 50px;
+}
+#noticeLine3{
+    width:200px;
+    height: 20px;
+    text-align: center;
+    line-height: 50px;
+}
+#noticeLine4{
+    width:200px;
+    height: 20px;
+    text-align: center;
+    line-height: 50px;
+}
+
+
+#eventLine1{
+    width:150px;
+    height: 20px;
+    text-align: center;
+    line-height: 50px;
+}
+#eventLine2{
+    width:540px;
+    height: 20px;
+    text-align: center;
+    line-height: 50px;
+}
+#eventLine3{
+    width:150px;
+    height: 20px;
+    text-align: center;
+    line-height: 50px;
+}
+
+#eventLine4{
+    width:150px;
+    height: 20px;
+    text-align: center;
+    line-height: 50px;
+}
+
+#eventLine5{
+    width:150px;
+    height: 20px;
+    text-align: center;
+    line-height: 50px;
+}
+
+
+
+
+#eventSortation1{
+    width:190px;
+    height: 20px;
+    text-align: center;
+    line-height: 50px;
+}
+#eventSortation2{
+    width:520px;
+    height: 20px;
+    text-align: center;
+    line-height: 50px;
+}
+#eventSortation3{
+    width:150px;
+    height: 20px;
+    text-align: center;
+    line-height: 50px;
+}
+#eventSortation4{
+    width:150px;
+    height: 20px;
+    text-align: center;
+    line-height: 50px;
+}
+#eventSortation5{
+    width:150px;
+    height: 20px;
+    text-align: center;
+    line-height: 50px;
+}
+
+
+
+#reportLine1{
+    width:150px;
+    height: 20px;
+    text-align: center;
+    line-height: 50px;
+}
+#reportLine2{
+    width:200px;
+    height: 20px;
+    text-align: center;
+    line-height: 50px;
+}
+#reportLine3{
+    width:270px;
+    height: 20px;
+    text-align: center;
+    line-height: 50px;
+}
+#reportLine4{
+    width:270px;
+    height: 20px;
+    text-align: center;
+    line-height: 50px;
+}
+#reportLine5{
+    width:130px;
+    height: 20px;
+    text-align: center;
+    line-height: 50px;
+}
+#reportLine6{
+    width:130px;
+    height: 20px;
+    text-align: center;
+    line-height: 50px;
+}
+#reportLine7{
+    width:100px;
+    height: 20px;
+    text-align: center;
+    line-height: 50px;
+}
+
+
+#reportSort1{
+    width:150px;
+    height: 20px;
+    text-align: center;
+}
+#reportSort2{
+    width:200px;
+    height: 20px;
+    text-align: center;
+}
+#reportSort3{
+    width:270px;
+    height: 20px;
+    text-align: center;
+}
+#reportSort4{
+    width:270px;
+    height: 20px;
+    text-align: center;
+}
+#reportSort5{
+    width:130px;
+    height: 20px;
+    text-align: center;
+
+}
+#reportSort6{
+    width:130px;
+    height: 20px;
+    text-align: center;
+}
+#reportSort7{
+    width:100px;
+    height: 20px;
+    text-align: center;
+}
+
+
+.couponName{
+    width: 490px;
+    height: 24px;
+    margin: 5px 0px 15px 0px;
+}
+.couponContent{
+    width: 490px;
+    height: 90px;
+    margin: 5px 0px 20px 0px;
+}
+.discount{
+    width: 58px;
+    height: 24px;
+    line-height: 26px;
+}
+.couponDiscount{
+    width: 60px;
+    height: 24px;
+    margin: 0px 5px 15px 0px;
+}
+.vaildDate{
+    width: 82px;
+    height: 24px;
+    margin: 0px -5px 0px 100px;
+    line-height: 26px;
+}
+.couponVaildDAte{
+    width: 125px;
+    height: 24px;
+}

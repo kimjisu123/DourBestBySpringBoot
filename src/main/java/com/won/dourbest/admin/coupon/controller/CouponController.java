@@ -28,8 +28,7 @@ public class CouponController {
         mv.addObject("couponIssuanceList", couponIssuanceList);
         mv.setViewName("admin/coupon/IssuanceCoupons");
 
-        System.out.println("couponIssuanceList = " + couponIssuanceList);
-        
+
         return mv;
     }
 
@@ -42,7 +41,7 @@ public class CouponController {
         mv.addObject("useCouponList", useCouponList);
         mv.setViewName("admin/coupon/useCoupon");
 
-        System.out.println("useCouponList = " + useCouponList);
+
         
         return mv;
     }

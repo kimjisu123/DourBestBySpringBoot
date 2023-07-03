@@ -107,9 +107,80 @@
             <a class="next" href="#"><svg t="1580195920917" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4995" width="20" height="20"><path d="M906.77248 512c0 4.77184-2.21184 9.2672-5.9904 12.17536l-376.5248 289.4848c-2.7648 2.11968-6.06208 3.18464-9.3696 3.18464-3.25632 0-6.5024-1.03424-9.24672-3.09248-5.50912-4.15744-7.5776-11.48928-5.03808-17.90976l75.71456-191.67232L132.58752 604.17024c-8.48896 0-15.36-6.88128-15.36-15.36l0-153.6c0-8.48896 6.87104-15.36 15.36-15.36l443.72992 0-75.71456-191.68256c-2.53952-6.42048-0.47104-13.75232 5.04832-17.90976 5.50912-4.15744 13.12768-4.13696 18.60608 0.09216l376.5248 289.4848C904.56064 502.7328 906.77248 507.22816 906.77248 512z" p-id="4996" fill="#777777"></path></svg></a>
         </li>
 
+        <button class="contactBtn">발급</button>
+        <div class="contactmodal">
+            <div class="contactmodal-container">
+                <div class="contactmodal-content">
+                    <span class="close">&times;</span>
+                    <h2 class="contactmodal-title">쿠폰 발급</h2>
+                    <form class="mb-3 contact" name="contact" id="contact" method="post">
+                        <div>쿠폰명</div>
+                        <input class="couponName" type="text" name="couponName">
+                        <div>쿠폰 내용</div>
+                        <input class="couponContent" type="text" name="couponContent">
+                        <div style="display: flex">
+                            <div class="discount">할인율</div>
+                            <input class="couponDiscount" type="number" name="couponDiscount">
+                            <div style="line-height: 26px">%</div>
+                            <div class="vaildDate">유효 기간</div>
+                            <input class="couponVaildDAte" type="date" name="couponVaildDate">
+                        </div>
+                        <button class="" type="submit">제출</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
     </ul>
     </section>
+
     <script>
+        const contactmodal = document.querySelector(".contactmodal");
+        const btn = document.querySelector(".contactBtn");
+        const $span = document.querySelector(".close");
+
+
+        btn.addEventListener('click', openContactModal);
+        $span.addEventListener('click', closeContactModal);
+
+        function openContactModal() {
+            contactmodal.style.display = "block";
+            contactmodal.animate([{opacity: 0}, {opacity: 1}], {duration: 300, fill: "forwards"});
+        }
+
+        function closeContactModal() {
+            contactmodal.animate([{opacity: 1}, {opacity: 0}], {duration: 300, fill: "forwards"}).onfinish = function() {
+                contactmodal.style.display = "none";
+                const $img = document.querySelector(".contact-imgdiv");
+                if($img.hasChildNodes()){
+                    $img.replaceChildren();
+                }
+            };
+        }
+    </script>
+    <script>
+        function contactreadURL(obj) {
+
+            let reader = new FileReader();
+            if(!obj.files.length) {
+                return;
+            }
+            reader.readAsDataURL(obj.files[0]);
+            reader.onload = function (e) {
+                let $div = $('<div>');
+                $($div).css('width','120px');
+                $($div).css('height','120px');
+                $($div).css('padding','10px 10px 0px 0px');
+
+                $('.contact-imgdiv').append($div);
+
+                let img = $('<img />');
+                $(img).attr('src', e.target.result);
+                $(img).css('width','100%');
+                $(img).css('height','100%');
+                $($div).append(img);
+            }
+        }
     </script>
     </div>
 </main>

@@ -60,9 +60,9 @@
             A.REGIST_DATE,
             B.SELLER_CODE
         FROM TBL_MEMBER A
-                 LEFT JOIN TBL_SELLER B ON A.MEMBER_CODE = B.MEMBER_CODE
+        LEFT JOIN TBL_SELLER B ON A.MEMBER_CODE = B.MEMBER_CODE
         ORDER BY A.MEMBER_CODE ASC
-        OFFSET #{startRow} ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
+        OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
 
     </select>
 
@@ -136,12 +136,14 @@
     <!--  총 페이지 갯수  -->
     <select id="selectTotalPage">
         SELECT
-            COUNT(*)
+            count(*)
         FROM    TBL_MEMBER A
         <if test="searchId != null and searchId != ''">
         WHERE   MEMBER_ID = #{ searchId }
         </if>
     </select>
+
+
     <!--  값이 들어올 경우 where절이 실행이 되어 조건(id)에 맞는 페이지의 갯수를 가져오고  -->
     <!--  값이 들어오지 않을경우 where절이 실행이 되지 않아 총 페이지(all) 갯수를 가져온다.  -->
 </mapper>

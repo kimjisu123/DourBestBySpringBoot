@@ -29,6 +29,7 @@
             C.MEMBER_EMAIL,
             B.COUPON_NAME,
             B.COUPON_CONTENT,
+            B.COUPON_DISCOUNT,
             B.COUPON_VALID_DATE
         FROM    TBL_COUPONLIST A
         JOIN    TBL_COUPON B ON (A.COUPON_CODE = B.COUPON_CODE)
@@ -36,7 +37,7 @@
     </select>
 
 
-    <select id="selectUseCouponResultMap" resultMap="selectUseCouponResultMap">
+    <select id="selectUseCoupon" resultMap="selectUseCouponResultMap">
         SELECT
             C.MEMBER_ID,
             C.MEMBER_NAME,

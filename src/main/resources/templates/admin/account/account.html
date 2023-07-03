@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html th:replace="~{/layouts/adminbase :: layout(~{::main}, ~{::link}, ~{::script})}"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <link rel="stylesheet" th:href="@{/css/admin/admin.css}">
 </head>
@@ -74,6 +73,7 @@
                         <input type="search" placeholder="검색하실 회원의 아이디를 입력해주세요" id="inputID" class="memberIDButton" name="searchId">
                         <input type="submit"  id="searchButton" class="memberIDButton" value="검색"/>
                     </form>
+                    </form>
 
 
                 </div>
@@ -113,19 +113,19 @@
                     <!-- 페이지 처리 -->
                     <div class="board_page" align="center">
                         <!-- 맨 앞으로 이동 버튼 th:disabled로 인해 현재 페이지가 1페이지인 경우 비활성화 한다.-->
-                        <button class="bt first"
+                        <a class="bt first"
                                 th:onclick="'location.href=\'/admin/admin?currentPage='+ @{${selectCriteria.startPage}} + '\''"
                                 th:disabled="${selectCriteria.pageNo == 1}"
                         >
                             <<
-                        </button>
+                        </a>
                         <!-- 이전 페이지 버튼 th:disabled로 인해 현재 페이지가 1페이지인 경우 비활성화 한다.-->
-                        <button  class="bt prev"
+                        <a  class="bt prev"
                                 th:onclick="'location.href=\'/admin/admin?currentPage='+ @{${selectCriteria.pageNo - 1}} + '\''"
                                 th:disabled="${selectCriteria.pageNo == 1}"
                         >
                             <
-                        </button>
+                        </a>
                         <!-- 숫자 버튼 th:disabled로 인해 현재페이지랑 같은 숫자의 버튼을 비활성화 한다. -->
                         <th:block th:each="page : ${#numbers.sequence(selectCriteria.startPage, selectCriteria.endPage)}">
                             <button class="num"
@@ -136,41 +136,32 @@
                         </th:block>
 
                         <!-- 다음 페이지 버튼 th:disabled로 인해 현재 페이지가 마지막 페이지인 경우 비활성화 한다-->
-                        <button class="bt next"
+                        <a class="bt next"
                                 th:onclick="'location.href=\'/admin/admin?currentPage='+ @{${selectCriteria.pageNo + 1}} + '\''"
                                 th:disabled="${selectCriteria.pageNo == selectCriteria.maxPage}"
                         >
                             >
-                        </button>
+                        </a>
                         <!-- 마지막 페이지로 이동 버튼 th:disabled로 인해 현재  페이지가 마지막 페이지인 경우 비활성화 한다. -->
-                        <button class="bt last"
+                        <a class="bt last"
                                 th:onclick="'location.href=\'/board/list?currentPage='+ @{${selectCriteria.maxPage}} + '\''"
                                 th:disabled="${selectCriteria.pageNo == selectCriteria.maxPage}"
                         >
                             >>
-                        </button>
+                        </a>
                     </div>
 
-                </div>
+                    <button type="button" id="accountWithdrawal">계정 탈퇴</button>
 
+                </div>
             </div>
         </section>
     </div>
-
-
-
-
-
-
-    <ul class="pagination">
-        <li class="page-prev">
-        <button type="button" id="accountWithdrawal">계정 탈퇴</button>
-    </ul>
-
-
     </section>
+    </div>
+
     <script>
 
     </script>
-    </div>
 </main>
+

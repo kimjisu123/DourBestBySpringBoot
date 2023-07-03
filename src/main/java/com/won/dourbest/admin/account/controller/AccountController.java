@@ -41,9 +41,9 @@ public class AccountController {
 
         // 조건이 있을시에 보여지는 페이지의 갯수
         int totalPage = adminService.selectTotalPage(searchMap);
-
+        System.out.println("totalPage = " + totalPage);
         // 한 페이지에 보여줄 게시물 수
-        int limit = 10;
+        int limit = 8;
 
         // 한번에 보여줄 페이징 버튼 수
         int button = 5;
@@ -72,6 +72,8 @@ public class AccountController {
     // 탈퇴한 회원 조회
     @GetMapping("/withdrawn")
     public ModelAndView withdrawnMember (ModelAndView mv){
+
+
 
         List<withdrawnMemberDTO> withdrawnList = adminService.selectAllwithdrawnList();
         mv.addObject("withdrawnList" , withdrawnList);

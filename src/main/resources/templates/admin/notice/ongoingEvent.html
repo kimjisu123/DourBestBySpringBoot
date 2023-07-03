@@ -37,13 +37,13 @@
             <div id="backgroundpage">
                 <!-- 메인 메뉴 항목-->
                 <div id="mainMenuContainer">
-                    <div id="mainMenuButton1" class="mainMenuButton" >
+                    <div th:onclick="|location.href='@{/admin/notice}'|" id="mainMenuButton1" class="mainMenuButton" >
                         공지사항
                     </div>
-                    <div id="mainMenuContainernotfirst" class="mainMenuButton">
+                    <div th:onclick="|location.href='@{/admin/ongoingEvent}'|" id="mainMenuContainernotfirst" class="mainMenuButton">
                         진행중인 이벤트
                     </div>
-                    <div id="mainMenuButton3" class="mainMenuButton">
+                    <div th:onclick="|location.href='@{/admin/finshedEvent}'|" id="mainMenuButton3" class="mainMenuButton">
                         종료된 이벤트
                     </div>
                 </div>
@@ -65,23 +65,31 @@
 
 
                     <div class="SortationContainer">
-                        <div id="noticeSortation1" class="SortationList">
+                        <div id="eventSortation1" class="SortationList">
                             구분
                         </div>
-                        <div id="noticeSortation2" class="SortationList">
+                        <div id="eventSortation2" class="SortationList">
                             제목
                         </div>
-                        <div id="noticeSortation3" class="SortationList">
-                            등록일자
+                        <div id="eventSortation3" class="SortationList">
+                            시작 일자
+                        </div>
+                        <div id="eventSortation4" class="SortationList">
+                            종료 일자
+                        </div>
+                        <div id="eventSortation5" class="SortationList">
+                            작성한 관리자 코드
                         </div>
                     </div>
 
 
                     <div th:each="ongoingEvent : ${ongoingEventList}" class="table">
-                        <div th:text="${ongoingEvent.getEventTitle()}" id="adminAccount1"></div>
-                        <div th:text="${#dates.format(ongoingEvent.getStartDate(), 'yyyy/MM/dd')}" id="adminAccount2"></div>
-                        <div th:text="${#dates.format(ongoingEvent.getEndDate(), 'yyyy/MM/dd')}" id="adminAccount3"></div>
-                        <div th:text="${ongoingEvent.getAdminCode()}" id="adminAccount4"></div>
+                        <input type="checkbox" class="fundcheckbox" name="my_checkbox" value="1">
+                        <div th:text="${ongoingEvent.getRowNum()}" id="eventLine1"></div>
+                        <div th:text="${ongoingEvent.getEventTitle()}" id="eventLine2"></div>
+                        <div th:text="${#dates.format(ongoingEvent.getStartDate(), 'yyyy/MM/dd')}" id="eventLine3"></div>
+                        <div th:text="${#dates.format(ongoingEvent.getEndDate(), 'yyyy/MM/dd')}" id="eventLine4"></div>
+                        <div th:text="${ongoingEvent.getAdminCode()}" id="eventLine5"></div>
 
                     </div>
 

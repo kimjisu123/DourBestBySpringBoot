@@ -10,9 +10,10 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AdminEventDTO {
-
+    private int eventCode;
     private String eventTitle;
     private Date startDate;
     private Date endDate;
     private int adminCode;
+    private int rowNum;
 }

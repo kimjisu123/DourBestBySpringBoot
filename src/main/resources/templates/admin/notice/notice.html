@@ -38,13 +38,13 @@
             <div id="backgroundpage">
                 <!-- 메인 메뉴 항목-->
                 <div id="mainMenuContainer">
-                    <div id="mainMenuContainerfirst" class="mainMenuButton" >
+                    <div th:onclick="|location.href='@{/admin/notice}'|" id="mainMenuContainerfirst" class="mainMenuButton" >
                         공지사항
                     </div>
-                    <div id="mainMenuButton2" class="mainMenuButton">
+                    <div th:onclick="|location.href='@{/admin/ongoingEvent}'|" id="mainMenuButton2" class="mainMenuButton">
                         진행중인 이벤트
                     </div>
-                    <div id="mainMenuButton3" class="mainMenuButton">
+                    <div th:onclick="|location.href='@{/admin/finshedEvent}'|" id="mainMenuButton3" class="mainMenuButton">
                         종료된 이벤트
                     </div>
                 </div>
@@ -76,17 +76,18 @@
                         <div id="noticeSortation3" class="SortationList">
                             등록일자
                         </div>
+                        <div id="noticeSortation4" class="SortationList">
+                            작성한 관리자 코드
+                        </div>
                     </div>
 
 
                     <div th:each="adminNotice : ${adminNoticeList}" class="table">
-                        <div th:text="${adminNotice.getNoticeCode()}" id="adminAccount1"></div>
-                        <div th:text="${adminNotice.getNoticeTitle()}" id="adminAccount2"></div>
-                        <div th:text="${adminNotice.getAdminCode()}" id="adminAccount3"></div>
-                        <div th:text="${#dates.format(adminNotice.getRegiDate(), 'yyyy/MMz/dd')}" id="adminAccount4"></div>
-
-                    </div>
-
+                        <input type="checkbox" class="fundcheckbox" name="my_checkbox" value="1">
+                        <div th:text="${adminNotice.getRowNum()}" id="noticeLine1"></div>
+                        <div th:text="${adminNotice.getNoticeTitle()}" id="noticeLine2"></div>
+                        <div th:text="${#dates.format(adminNotice.getRegiDate(), 'yyyy/MM/dd')}" id="noticeLine3"></div>
+                        <div th:text="${adminNotice.getAdminCode()}" id="noticeLine4"></div>
                     </div>
                 </div>
             </div>

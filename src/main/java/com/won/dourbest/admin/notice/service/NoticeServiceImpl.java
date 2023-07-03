@@ -26,6 +26,11 @@ public class NoticeServiceImpl implements NoticeService{
 
         List<AdminNoticeDTO> adminNoticeList = mapper.selectNoticeList();
 
+        for (int i = 0; i < adminNoticeList.size(); i++){
+
+            adminNoticeList.get(i).setNoticeTitle(adminNoticeList.get(i).getNoticeTitle().substring(0, 30));
+        }
+
         System.out.println("adminNoticeList = " + adminNoticeList);
 
         return adminNoticeList;
@@ -37,6 +42,11 @@ public class NoticeServiceImpl implements NoticeService{
 
         List<AdminEventDTO> adminNoticeList = mapper.selectOngoingEventList();
 
+        for (int i = 0; i < adminNoticeList.size(); i++){
+
+            adminNoticeList.get(i).setEventTitle(adminNoticeList.get(i).getEventTitle().substring(0, 35));
+        }
+
         return adminNoticeList;
     }
 
@@ -46,6 +56,10 @@ public class NoticeServiceImpl implements NoticeService{
 
         List<AdminEventDTO> finshedEventList = mapper.selectFinshedEventList();
 
+        for (int i = 0; i < finshedEventList.size(); i++){
+
+            finshedEventList.get(i).setEventTitle(finshedEventList.get(i).getEventTitle().substring(0, 35));
+        }
         return finshedEventList;
     }
 }

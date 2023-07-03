@@ -20,7 +20,7 @@
             C.FUNDING_TITLE,
             C.VIEWS,
             C.LIKES,
-            SUM(D.TOTAL_PRICE) AS TOTAL_PRICE
+            SUM(D.ORDER_PRICE) AS TOTAL_PRICE
         FROM TBL_MEMBER A
                 JOIN TBL_SELLER B ON A.MEMBER_CODE = B.MEMBER_CODE
                 JOIN TBL_FUNDING C ON B.SELLER_CODE = C.SELLER_CODE
@@ -43,7 +43,7 @@
             C.FUNDING_TITLE,
             C.VIEWS,
             C.LIKES,
-            SUM(D.TOTAL_PRICE) AS TOTAL_PRICE
+            SUM(D.ORDER_PRICE) AS TOTAL_PRICE
         FROM TBL_MEMBER A
                  JOIN TBL_SELLER B ON A.MEMBER_CODE = B.MEMBER_CODE
                  JOIN TBL_FUNDING C ON B.SELLER_CODE = C.SELLER_CODE
@@ -64,7 +64,7 @@
             C.FUNDING_TITLE,
             C.VIEWS,
             C.LIKES,
-            SUM(D.TOTAL_PRICE) AS TOTAL_PRICE
+            SUM(D.ORDER_PRICE) AS TOTAL_PRICE
         FROM TBL_MEMBER A
                  JOIN TBL_SELLER B ON A.MEMBER_CODE = B.MEMBER_CODE
                  JOIN TBL_FUNDING C ON B.SELLER_CODE = C.SELLER_CODE
@@ -85,7 +85,7 @@
             C.FUNDING_TITLE,
             C.VIEWS,
             C.LIKES,
-            SUM(D.TOTAL_PRICE) AS TOTAL_PRICE
+            SUM(D.ORDER_PRICE) AS TOTAL_PRICE
         FROM TBL_MEMBER A
                  JOIN TBL_SELLER B ON A.MEMBER_CODE = B.MEMBER_CODE
                  JOIN TBL_FUNDING C ON B.SELLER_CODE = C.SELLER_CODE
@@ -108,7 +108,7 @@
             C.FUNDING_TITLE,
             C.VIEWS,
             C.LIKES,
-            SUM(D.TOTAL_PRICE) AS TOTAL_PRICE
+            SUM(D.ORDER_PRICE) AS TOTAL_PRICE
         FROM TBL_MEMBER A
                  JOIN TBL_SELLER B ON A.MEMBER_CODE = B.MEMBER_CODE
                  JOIN TBL_FUNDING C ON B.SELLER_CODE = C.SELLER_CODE
@@ -130,7 +130,7 @@
             C.FUNDING_TITLE,
             C.VIEWS,
             C.LIKES,
-            SUM(D.TOTAL_PRICE) AS TOTAL_PRICE
+            SUM(D.ORDER_PRICE) AS TOTAL_PRICE
         FROM TBL_MEMBER A
                  JOIN TBL_SELLER B ON A.MEMBER_CODE = B.MEMBER_CODE
                  JOIN TBL_FUNDING C ON B.SELLER_CODE = C.SELLER_CODE
