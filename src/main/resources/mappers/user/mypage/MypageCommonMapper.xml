@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.won.dourbest.user.mypage.repository.MypageCommonMapper">
+
+    <resultMap id="CategoryResultMap" type="CategoryDTO">
+        <id property="categoryCode" column="CATEGORY_CODE"/>
+        <result property="categoryName" column="CATEGORY_NAME"/>
+        <result property="categoryKind" column="CATEGORY_KIND"/>
+    </resultMap>
+
+    <select id="fundingCategory" resultMap="CategoryResultMap">
+        SELECT
+            TC.CATEGORY_CODE,
+            TC.CATEGORY_NAME,
+            TC.CATEGORY_KIND
+            FROM TBL_CATEGORY TC
+        WHERE TC.CATEGORY_KIND = '펀딩'
+    </select>
+
+</mapper>

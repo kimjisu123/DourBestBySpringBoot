@@ -83,12 +83,15 @@
         $.ajax({
             method : 'post', // 타입 (get, post, put 등등)
             url : '/mypage/coupon/regist',
-            data: {"couponListCode": code},
+            contentType: "application/json",
+            data: JSON.stringify({"couponListCode": code}),
             success : function(data){
                 alert(data.message);
+                $('.coupon-container').load(location.href + " .coupon-container");
             },
             error : function(data){
-                alert(data.message);
+                const result = data.responseJSON;
+                alert(result.message);
             }
         });
     }

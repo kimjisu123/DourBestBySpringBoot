@@ -3,12 +3,14 @@ package com.won.dourbest.user.mypage.service;
 import com.won.dourbest.common.dto.SearchCriteria;
 import com.won.dourbest.common.exception.user.CouponNotFoundException;
 import com.won.dourbest.user.dto.*;
+import com.won.dourbest.user.mypage.repository.MypageCommonMapper;
 import com.won.dourbest.user.mypage.repository.MypageMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -20,6 +22,9 @@ public class MypageServiceImple implements MypageService{
     public MypageDTO myPageinfo(String userId) {
         return mypageMapper.findById(userId);
     }
+
+
+
 
     @Override
     public List<MemberCouponList> allCoupon(SearchCriteria searchCriteria, String userId) {
@@ -42,6 +47,10 @@ public class MypageServiceImple implements MypageService{
         return mypageMapper.findReportAllById(searchCriteria, userId);
     }
 
+    @Override
+    public List<LikeFundingDTO> likeFundingList(SearchCriteria searchCriteria, String userId) {
+        return mypageMapper.findLikeFundingById(searchCriteria,userId);
+    }
 
     @Override
     public int listTotalCount(SearchCriteria searchCriteria, String userId, String name) {
@@ -50,12 +59,15 @@ public class MypageServiceImple implements MypageService{
 
     @Override
     public int couponRegister(int code) {
-        int result = mypageMapper.updateCouponStatus(code);
 
-        if(result > 0) throw new CouponNotFoundException("해당하는 쿠폰코드가 없어요!") ;
+        int result = mypageMapper.updateCouponStatus(code);
+        System.out.println(",apper:"+result);
+        if(result == 0) throw new CouponNotFoundException("해당하는 쿠폰코드가 없어요!") ;
 
         return result;
     }
+
+
 
 
 }

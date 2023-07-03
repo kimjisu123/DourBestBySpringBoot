@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -52,9 +53,9 @@ class MypageMapperTest {
     @Test
     void likefunding(){
         String userId = "user01";
-        List<LikeFundingDTO> result = mypageMapper.findLikeFundingById(userId);
+//        List<LikeFundingDTO> result = mypageMapper.findLikeFundingById(userId);
 
-        log.info("resul={}", result);
+//        log.info("resul={}", result);
     }
 
     @Test
@@ -104,7 +105,12 @@ class MypageMapperTest {
 //        log.info("s={}",s);
 
     }
+    @Test
+    void valid(){
+        int code = 26;
 
+
+    }
 
 
 

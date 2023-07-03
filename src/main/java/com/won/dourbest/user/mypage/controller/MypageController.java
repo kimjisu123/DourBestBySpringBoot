@@ -1,9 +1,11 @@
 package com.won.dourbest.user.mypage.controller;
 
+import com.won.dourbest.common.dto.CategoryDTO;
 import com.won.dourbest.common.dto.CommonResponse;
 import com.won.dourbest.common.dto.Pagination;
 import com.won.dourbest.common.dto.SearchCriteria;
 import com.won.dourbest.user.dto.*;
+import com.won.dourbest.user.mypage.service.MypageCommonService;
 import com.won.dourbest.user.mypage.service.MypageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +24,8 @@ import java.util.List;
 public class MypageController {
 
     private final MypageService mypageService;
+
+    private final MypageCommonService commonService;
 
     @GetMapping
     public String mypage(Model model){
@@ -105,17 +109,39 @@ public class MypageController {
         return "user/mypage/report";
     }
 
-    @PostMapping(value = "/coupon/regist")
+
+    @GetMapping("/like-funding")
+    public String likeFundingList(@ModelAttribute("cri") SearchCriteria criteria, Model model){
+
+        //세션으로부터 받자
+        String userId = "user01";
+
+        Pagination pagination = new Pagination(criteria, mypageService.listTotalCount(criteria, userId, "like"));
+
+        List<LikeFundingDTO> list = mypageService.likeFundingList(criteria, userId);
+        log.info("list={}", list);
+        List<CategoryDTO> category = commonService.fundingCategory();
+
+        model.addAttribute("category", category);
+        model.addAttribute("list", list);
+        model.addAttribute("pagination", pagination);
+
+        return "user/mypage/like";
+    }
+
+    @PostMapping(value = "/coupon/regist", produces = "application/json")
     @ResponseBody
-    public ResponseEntity<CommonResponse> couponRegist(@ModelAttribute MemberCouponList code){
+    public ResponseEntity<CommonResponse> couponRegist(@RequestBody MemberCouponList code){
+        log.info("code={}", code);
+
+        mypageService.couponRegister(code.getCouponListCode());
 
         CommonResponse response = new CommonResponse(true,"쿠폰등록성공");
-        int i = mypageService.couponRegister(code.getCouponListCode());
-        log.info("i={}", i);
-        log.info("code={}", code);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+
 
 
 }

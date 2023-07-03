@@ -2,6 +2,7 @@ package com.won.dourbest.common.global;
 
 import com.won.dourbest.common.dto.CommonResponse;
 import com.won.dourbest.common.exception.user.CouponNotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -12,11 +13,15 @@ public class GlobalControllerAdvice {
 
     @ResponseBody
     @ExceptionHandler(CouponNotFoundException.class)
-    public String CouponNotFound(CouponNotFoundException e){
+    public ResponseEntity<CommonResponse> CouponNotFound(CouponNotFoundException e){
 
+        CommonResponse commonResponse = new CommonResponse()
+                                            .builder()
+                                            .message(e.getMessage())
+                                            .isSuccess(false).build();
 
-    return "";
-//        return new ResponseEntity<CommonResponse>("우아아앋아");
+    return new ResponseEntity<>(commonResponse, HttpStatus.BAD_REQUEST);
+
     }
 
 

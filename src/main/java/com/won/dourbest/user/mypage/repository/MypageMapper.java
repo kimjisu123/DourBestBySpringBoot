@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.security.core.parameters.P;
 
 import java.util.List;
+import java.util.Optional;
 
 @Mapper
 public interface MypageMapper {
@@ -17,7 +18,7 @@ public interface MypageMapper {
 
     List<MemberCouponList> findByCoupon(@Param("cri") SearchCriteria searchCriteria, @Param("userId") String userId);
 
-    List<LikeFundingDTO> findLikeFundingById(String userId);
+    List<LikeFundingDTO> findLikeFundingById(@Param("cri") SearchCriteria searchCriteria, @Param("userId") String userId);
 
     List<PurchasedFundingListDTO> findPurchasedFundingById(String userId);
 
