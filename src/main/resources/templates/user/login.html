@@ -1,112 +1,55 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html th:replace="~{/layouts/base :: layout(~{::main}, ~{::link}, ~{::script})}" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>home</title>
-    <!-- 폰트어썸 링크 -->
-    <script src="https://kit.fontawesome.com/5db9941ba1.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" th:href="@{css/header.css}">
-    <link rel="stylesheet" th:href="@{css/default.css}">
-    <link rel="stylesheet" th:href="@{/css/user/login.css}">
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <link rel="stylesheet" th:href="@{/css/user/signup.css}" />
 </head>
 <body>
-<div class="wrapper">
-    <!-- 헤더 -->
-    <header>
-        <div class="header-container flex-wrapper">
-            <!-- 헤더 상단 메뉴 -->
-            <div class="header-top flex-wrapper">
-                <h1>
-                    <a href="javascript:void(0);">
-                        <img class="logo" src="/resources/img/logo.jpeg" alt="DourBest로고">
-                    </a>
-                </h1>
-                <div class="header-menu">
-                    <ul class="flex-wrapper">
-                        <li><a href="/">펀딩오픈</a></li>
-                        <li><a href="/">로그인</a></li>
-                        <li><a href="/">회원가입</a></li>
-                    </ul>
-                </div>
+<main>
+    <section>
+        <div class="login">
+            <div class="pagetitle">
+                <h1>로그인</h1>
             </div>
-            <!-- 헤더 하단 메뉴 -->
-            <nav>
-                <div class="menu-container flex-wrapper">
-                    <div class="header-bottom">
-                        <ul class="flex-wrapper">
-                            <li><a href="#">오픈펀딩</a></li>
-                            <li><a href="#">오픈예정펀딩</a></li>
-                            <li><a href="#">공지사항</a></li>
-                            <li><a href="#">고객센터</a></li>
-                            <div class="indicator"></div>
-                        </ul>
-                    </div>
-                    <div class="search-form">
-                        <form action="" class="flex-wrapper">
-                            <input type="search" placeholder="Search">
-                            <button type="submit"><i class="fa-solid fa-magnifying-glass" style="color: #e54944;"></i></button>
-                        </form>
-                    </div>
-                </div>
-            </nav>
-        </div>
-    </header>
-    <!-- 메인 -->
-    <main>
-        <section>
-            <div class="login">
-                <div class="pagetitle">
-                    <h1>로그인</h1>
-                </div>
-                <form id="loginForm" th:action="@{/user/login}" method="post" onsubmit="">
-                    <input type="hidden" value="사이트를 통한 로그인">
-                    <div class="inputboxs">
-                        <div class="inputMargin">
-                            <div>
-                                <input type="text" class="userId" name="username" placeholder="아이디를 입력해주세요." autofocus value>
-                            </div>
-                            <div class="boxMargin2">
-                                <input type="password" class="password" name="password" placeholder="비밀번호를 입력해주세요" autocomplete="off" value>
-                            </div>
-                            <p th:if="${loginErrorMsg}" class="error" th:text="${loginErrorMsg}"></p>
-                        </div>
-                            <input type="checkbox" id="remainId">
-                            <span>아이디 저장하기</span><br>
-                            <input type="checkbox" id="changeAdmin">
-                            <span style="color: gray;">관리자모드</span><br>
-                        <div class="finding">
-                            <a  type="button" th:onclick="|location.href='@{/user/findId/}'|">아이디찾기</a>
-                                <span class="line">│</span>
-                            <a type="button" th:onclick="|location.href='@{/user/signup/}'|">비밀번호찾기</a>
-                        </div>
-                    </div>
-                    <div class="buttons">
+            <form id="loginForm" th:action="@{/user/login}" method="post">
+                <input type="hidden" value="사이트를 통한 로그인">
+                <div class="inputboxs">
+
+                    <div class="inputMargin">
                         <div>
-                            <button class="loginButton" type="submit">
-                                <span class="longinName">로그인</span>
+                            <input data-testid="input-box" type="text" name="memberId" class="userId"
+                                   placeholder="아이디를 입력해주세요." autofocus value>
+                        </div>
+                        <div class="boxMargin2">
+                            <input type="password" name="memberPwd" class="password" placeholder="비밀번호를 입력해주세요"
+                                   autocomplete="off" value>
+                        </div>
+                    </div>
+                    <input type="checkbox" id="remainedId">
+                    <span>아이디 저장하기</span><br>
+                    <input type="checkbox" id="changeAdmin">
+                    <span style="color: gray;">관리자모드</span><br>
+                    <div class="finding">
+                        <a href="/user/html/findId.html">아이디찾기</a>
+                        <span class="line">│</span>
+                        <a href="/user/html/findpw.html">비밀번호찾기</a>
+                    </div>
+                </div>
+                <div class="buttons">
+                    <div>
+                        <button class="loginButton" type="submit">
+                            <span class="longinName">로그인</span>
+                        </button>
+                    </div>
+                    <div>
+                        <a href="../html/signUp.html">
+                            <button class="signupButton" type="button">회원가입
                             </button>
-                        </div>
-                        <div>
-<!--                            <a th:href="@{../html/signup.html}">-->
-                                <button class="signupButton" type="button" th:onclick="|location.href='@{/user/signup/}'|">회원가입
-                                </button>
-                            </a>
-                        </div>
+                        </a>
                     </div>
-<!--                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">-->
-                </form>
-            </div>
-        </section>
-    </main>
-    <!-- 푸터 -->
-    <footer>
-        <section></section>
-        <section></section>
-    </footer>
-</div>
-<script src="./index.js"></script>
+                </div>
+            </form>
+        </div>
+    </section>
+</main>
 </body>
 </html>

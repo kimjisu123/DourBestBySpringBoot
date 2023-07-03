@@ -24,9 +24,9 @@
                     </button>
                 </div>
                 <div class="profile-info">
-                            <span>
-                                <strong>아이디 </strong>
-                                님
+                            <span >
+                                <strong> 아이디 </strong>
+                                <p th:text="${mypageInfo.getMemberId()}"></p>
                             </span>
                     <p>환영합니다.</p>
                 </div>
@@ -34,15 +34,15 @@
             <div class="profile-desc flex-wrapper">
                 <a href="" class="profile-detail">
                     <h3>등급</h3>
-                    <p>VIP</p>
+                    <p th:text="${mypageInfo.getMembershipName()}">VIP</p>
                 </a>
                 <a href="" class="profile-detail">
                     <h3>적립금</h3>
-                    <p>100</p>
+                    <p th:text="${mypageInfo.getPointTotalAmount()}">100</p>
                 </a>
-                <a href="" class="profile-detail">
+                <a th:href="|@{/mypage/coupon}|" class="profile-detail">
                     <h3>쿠폰</h3>
-                    <p>1</p>
+                    <p th:text="${mypageInfo.getCouponCount()}">1</p>
                 </a>
             </div>
         </div>
@@ -102,7 +102,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="/main-page/like-funding.html" class="flex-wrapper">
+                            <a th:href="|@{mypage/like-funding}|" class="flex-wrapper">
                   <span>
                       <svg xmlns="http://www.w3.org/2000/svg" height="2em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg {
                           fill: #f35f4c
@@ -129,7 +129,7 @@
                     <h2>문의</h2>
                     <ul class="mypage-list flex-wrapper">
                         <li>
-                            <a href="./FAQ-list.html" class="flex-wrapper">
+                            <a th:href="@{mypage/inquire}" class="flex-wrapper">
                                         <span>
                                             <svg xmlns="http://www.w3.org/2000/svg" height="2em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg {
                                                 fill: #f35f4c
@@ -140,7 +140,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="./reportlist.html" class="flex-wrapper">
+                            <a th:href="@{/mypage/report}" class="flex-wrapper">
                                         <span>
                                             <svg xmlns="http://www.w3.org/2000/svg" height="2em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg {
                                                 fill: #f35f4c
@@ -151,7 +151,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="./sellerquestion-list.html" class="flex-wrapper">
+                            <a th:href="@{/mypage/seller-inquire}" class="flex-wrapper">
                                         <span>
                                             <svg xmlns="http://www.w3.org/2000/svg" height="2em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg {
                                                 fill: #f35f4c
@@ -168,15 +168,7 @@
                     <ul class="mypage-list flex-wrapper">
                         <li>
                             <a href="" class="flex-wrapper">
-                                        <span>
-                                            0
-                                        </span>
-                                <p>상품 준비중</p>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="" class="flex-wrapper">
-                                        <span>
+                                        <span th:text="${mypageInfo.getReadyCount()}">
                                             0
                                         </span>
                                 <p>배송 준비중</p>
@@ -184,7 +176,7 @@
                         </li>
                         <li>
                             <a href="" class="flex-wrapper">
-                                        <span>
+                                        <span th:text="${mypageInfo.getIngCount()}">
                                             0
                                         </span>
                                 <p>배송 중</p>
@@ -192,7 +184,7 @@
                         </li>
                         <li>
                             <a href="" class="flex-wrapper">
-                                        <span>
+                                        <span th:text="${mypageInfo.getFinishCount()}">
                                             0
                                         </span>
                                 <p>배송 완료</p>

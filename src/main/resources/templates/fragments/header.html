@@ -7,15 +7,23 @@
     <!-- 헤더 상단 메뉴 -->
     <div class="header-top flex-wrapper">
       <h1>
-        <a href="javascript:void(0);">
+        <a th:href="@{/}">
           <img class="logo" th:src="@{/images/common/logo.jpeg}" src="./resources/img/logo.jpeg" alt="DourBest로고">
         </a>
       </h1>
       <div class="header-menu">
         <ul class="flex-wrapper">
-          <li><a href="/">펀딩오픈</a></li>
-          <li><a href="/">로그인</a></li>
-          <li><a href="/">회원가입</a></li>
+          <th:block sec:authorize="isAnonymous()">
+            <li><a href="/">펀딩오픈</a></li>
+            <li><a th:href="@{/user/login}">로그인</a></li>
+            <li><a th:href="@{/user/signup}">회원가입</a></li>
+          </th:block>
+          <th:block sec:authorize="isAuthenticated()">
+            <li><span class="auth" sec:authentication="principal.username"></span></li>
+            <li><a th:href="@{/mypage}"><svg xmlns="http://www.w3.org/2000/svg" height="2em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#f35f4c}</style><path d="M304 128a80 80 0 1 0 -160 0 80 80 0 1 0 160 0zM96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM49.3 464H398.7c-8.9-63.3-63.3-112-129-112H178.3c-65.7 0-120.1 48.7-129 112zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3z"/></svg></a></li>
+            <li><a th:href="@{/user/logout}">로그아웃</a></li>
+          </th:block>
+
         </ul>
       </div>
     </div>
