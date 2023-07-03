@@ -8,6 +8,8 @@ mybatis:
   configuration:
     map-underscore-to-camel-case: true
 
+
+# 데이터 베이스 연결 (스프링 시큐리티에 연결 )
 spring:
   datasource:
     driver-class-name: oracle.jdbc.OracleDriver

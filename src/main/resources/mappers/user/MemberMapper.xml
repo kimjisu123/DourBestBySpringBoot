@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.won.dourbest.user.dao.MemberMapper">
+
+            <insert id="registMember"  parameterType="map">
+            INSERT
+            INTO TBL_MEMBER
+                (
+              MEMBER_CODE
+            , MEMBER_ID
+            , MEMBER_PWD
+            , MEMBER_NAME
+            , MEMBER_PHONE
+            , MEMBER_EMAIL
+            , REGIST_DATE
+            , WITHDRAWAL_STATUS
+            , ADULT_STATUS
+            , MEMBERSHIP_CODE
+            )
+            VALUES
+                (
+                SEQ_MEMBER_CODE.NEXTVAL
+                , #{ member.memberId }
+                , #{ member.memberPwd }
+                , #{ member.memberName }
+                , #{ member.memberPhone }
+                , #{ member.memberEmail }
+                , SYSDATE
+                , DEFAULT
+                , DEFAULT
+                , DEFAULT
+            )
+            </insert>
+
+            <insert id="registAddress" parameterType="map">
+                INSERT /* com.won.dourbest.user.dao.MemberMapper#insertMember() */
+                INTO TBL_ADDRESS
+                    (
+                  ADDRESS_CODE
+                , ZIP_CODE
+                , BASE_ADDRESS
+                , DETAIL_ADDRESS
+                , MEMBER_CODE
+                    )
+                VALUES
+                    (
+                        SEQ_ADDRESS_CODE.NEXTVAL
+                        , #{ address.zipcode }
+                        , #{ address.baseAddress }
+                        , #{ address.detailAddress }
+                        , SEQ_MEMBER_CODE.CURRVAL
+                    )
+            </insert>
+
+<!--    /* 회원가입 성공시 주어지는 쿠폰 쿼리문*/-->
+<!--    <insert id="welcomeCoupon" parameterType="map">-->
+<!--        INSERT /* com.won.dourbest.user.dao.MemberMapper#insertMember() */-->
+<!--        INTO TBL_ADDRESS-->
+<!--        (-->
+<!--            , COUPONLIST_CODE-->
+<!--            , SERIAL_NUMBER-->
+<!--            , REGI_DATE-->
+<!--            , VALID_DATE-->
+<!--            , COUPON_REGI_STATUS-->
+<!--            , COUPON_USE_STATUS-->
+<!--            , COUPON_CODE-->
+<!--            , MEMBER_CODE-->
+<!--        )-->
+<!--        VALUES-->
+<!--            (-->
+<!--              SEQ_COUPONLIST_CODE.NEXTVAL-->
+<!--            , substr(sys_guid(),1,15)-->
+<!--            , SYSDATE-->
+<!--            , TO_DATE(TO_CHAR(ADD_MONTHS(SYSDATE, 6), 'YYYYMMDD HH24:MI'),'YYYYMMDD HH24:MI')-->
+<!--            , 'N'-->
+<!--            , 'N'-->
+<!--            , SEQ_MEMBER_CODE.CURRVAL-->
+<!--            )-->
+<!--    </insert>-->
+
+
+            <!--     아이디 중복 확인       -->
+            <select id="idCheck" resultType="_int">
+                SELECT
+                      COUNT(*) <!-- 수를 체크해줌-->
+                FROM TBL_MEMBER
+                  WHERE MEMBER_ID = #{ memeber.memberId }
+            </select>
+
+            <!--     이메일 중복 확인       -->
+            <select id="emailCheck" resultType="_int">
+                SELECT
+                COUNT(*) <!-- 수를 체크해줌-->
+                FROM TBL_MEMBER
+                WHERE MEMBER_EMAIL = #{ memeber.memberEmail }
+            </select>
+
+     </mapper>
