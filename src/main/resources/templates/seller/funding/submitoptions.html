@@ -6,6 +6,7 @@
   <link rel="stylesheet" th:href="@{/css/seller/jiho/submitproduct.css}">
   <script th:src="@{/js/seller/jquery-ui-1.13.2.custom/jquery-ui.min.js}"></script>
   <script th:src="@{/js/seller/jquery-ui-1.13.2.custom/jquery-ui.min.css}"></script>
+  <script th:src="@{/js/seller/option.js}"></script>
 </head>
   <!-- 메인 -->
   <main>
@@ -84,7 +85,7 @@
               예시) 초경량 땀 흡수복
             </div>
             <div class="group">
-              <input type="text" id="optionName" placeholder="옵션명을 입력해주세요." onKeyUp="javascript: limit(this, 50);">
+              <input type="text" name="optionName" id="optionName" placeholder="옵션명을 입력해주세요.">
               <span class="highlight"></span>
               <span class="bar"></span>
             </div>
@@ -94,7 +95,7 @@
               옵션 설명
             </div>
             <div class="fundsummary">
-              <textarea name="option-Info" id="option-Info" cols="30" rows="10" placeholder="내용을 입력해주세요." onKeyPress="javascript: if (event.keyCode==13) return false;" onKeyUp="javascript: limit(this, 300);"></textarea>
+              <textarea name="optionInfo" id="optionInfo" cols="30" rows="10" placeholder="내용을 입력해주세요." onKeyPress="javascript: if (event.keyCode==13) return false;"></textarea>
             </div>
             <span style="padding-left: 5px; margin-top: 2px; font-weight: 700;" id="count1">300</span> <!-- 자바 스크립트로 한글자 쓸 때마다 숫자 1 줄이기 -->
             <small>/300</small>
@@ -102,7 +103,7 @@
               금액
             </div>
             <div class="group">
-              <input type="text" id="optionMoney" placeholder="금액을 입력해주세요.">
+              <input type="text" name="optionMoney" id="optionMoney" placeholder="금액을 입력해주세요.">
               <span class="highlight"></span>
               <span class="bar"></span>
             </div>
@@ -113,7 +114,7 @@
               사이즈와 색상을 입력해주세요.
             </div>
             <div class="group">
-              <input type="text" id="optionSize" placeholder="사이즈를 입력해주세요.">
+              <input type="text" name="optionSize" id="optionSize" placeholder="사이즈를 입력해주세요.">
               <span class="highlight"></span>
               <span class="bar"></span>
             </div>
@@ -121,7 +122,7 @@
               예시) S, M, L
             </div>
             <div class="group">
-              <input type="text" id="optionColor" placeholder="색상을 입력해주세요.">
+              <input type="text" name="optionColor" id="optionColor" placeholder="색상을 입력해주세요.">
               <span class="highlight"></span>
               <span class="bar"></span>
             </div>
@@ -132,7 +133,7 @@
               제한 수량
             </div>
             <div class="group">
-              <input type="text" id="optionSize" placeholder="상품별 제한수량을 입력해주세요.">
+              <input type="text" name="optionAmount" id="optionAmount" placeholder="상품별 제한수량을 입력해주세요.">
               <span class="highlight"></span>
               <span class="bar"></span>
             </div>
@@ -143,7 +144,8 @@
               배송이 없는 경우는 0으로 적어주세요.
             </div>
             <div class="group">
-              <input type="text" id="optionSize" placeholder="배송비를 입력해주세요.">
+              <input type="text" name="deliverPrice" id="deliverPrice" placeholder="배송비를 입력해주세요.">
+              <input type="hidden" name="currentKey" id="currentKey" th:value="${ currentKey }">
               <span class="highlight"></span>
               <span class="bar"></span>
             </div>
@@ -151,17 +153,15 @@
               배송 시작 일자
             </div>
             <div class="datepick group">
-              <input type="text" class="datepicker" placeholder="배송 시작 일자를 입력해주세요.">
+              <input type="text" id="deliverDate" name="deliverDate" class="datepicker" placeholder="배송 시작 일자를 입력해주세요.">
               <span class="highlight"></span>
               <span class="bar"></span>
             </div>
             <div class="buttons">
               <div class="button8">
-                <button class="redbutton" id="button8">
-                                        <span>
-                                            추가하기
-                                        </span>
-                </button>
+                  <span class="redbutton" id="button8">
+                      추가하기
+                  </span>
               </div>
               <div class="button9">
                 <button class="redbutton1" id="button9">
@@ -219,4 +219,97 @@
       </div>
     </section>
   </main>
+  <script src=""></script>
+<script>
+  $('#button8').click(function() {
+    if(check()) {
+
+      let optionName = $('#optionName').val();
+      let optionInfo = $('#optionInfo').val();
+      let optionMoney = $('#optionMoney').val();
+      let optionSize = $('#optionSize').val();
+      let optionColor = $('#optionColor').val();
+      let optionAmount = $('#optionAmount').val();
+      let deliverPrice = $('#deliverPrice').val();
+      let str = $('#deliverDate').val();
+      const date = new Date(str);
+      let deliverDate = date;
+      let currKey = $('#currentKey').val();
+      let options = {
+        optionName : optionName,
+        optionContents : optionInfo,
+        optionPrice : optionMoney,
+        optionSize : optionSize,
+        optionColor : optionColor,
+        limitQuantity : optionAmount,
+        deliverPrice : deliverPrice,
+        deliverDate : deliverDate,
+        currKey : currKey
+      }
+      $.ajax({
+        contentType: "application/json",
+        data : JSON.stringify(options),
+        type : "POST",
+        url : "/submit/option",
+        success : function(data) {
+          alert("1"+data); // success , fail
+
+
+          console.log('성공');
+        },
+        error : function(error,xhr,m) {
+          alert("2"+error);
+          console.log(xhr);
+          console.log(m);
+        }
+      });
+    }
+  });
+
+
+
+
+  function check() {
+    if($('#optionName').val() !== '') {
+      if($('#optionInfo').val() !== '') {
+        if($('#optionMoney').val() !== '') {
+          if($('#optionSize').val() !== '') {
+            if($('#optionColor').val() !== '') {
+              if($('#optionAmount').val() !== '') {
+                if($('#deliverPrice').val() !== '') {
+                  if($('#deliverDate').val() !== '') {
+                      return true;
+                    }
+                  alert('배송 날짜를 입력해주세요!');
+                  $('#deliverDate').focus();
+                  return;
+                  }
+                alert('배송비를 입력해주세요!');
+                $('#deliverPrice').focus();
+                return;
+                }
+              alert('제한 수량을 입력해주세요!');
+              $('#optionAmount').focus();
+              return;
+              }
+            alert('옵션 색상을 입력해주세요!');
+            $('#optionColor').focus();
+            return;
+            }
+          alert('옵션 사이즈를 입력해주세요!');
+          $('#optionSize').focus();
+          return;
+          }
+        alert('옵션 가격을 입력해주세요!');
+        $('#optionMoney').focus();
+        return;
+        }
+      alert('옵션 설명을 입력해주세요!');
+      $('#optionInfo').focus();
+      return;
+      }
+    alert('옵션명을 입력해주세요!');
+    $('#optionName').focus();
+    }
+</script>
 </html>

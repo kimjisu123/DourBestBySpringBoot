@@ -32,17 +32,6 @@ function limit(obj,cnt) {
     document.getElementById('memoLength').innerHTML = cnt-obj.value.length;
 };
 
-// $(document).ready(function() {
-//     $('#summernote').summernote({
-//         height: 300,
-//         minHeight: null,
-//         maxHeight: null,
-//         focus: false,
-//         lang: "ko-KR",
-//         placeholder: '내용을 입력해주세요.',
-//         width : 800
-//     })
-// })
 
 $('#summernote').summernote({
     toolbar: [
@@ -60,5 +49,79 @@ $('#summernote').summernote({
     fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72'],
     height: 300,
     width: 800,
-    placeholder: '내용을 입력해주세요'
+    placeholder: '내용을 입력해주세요',
+    callbacks: {	//여기 부분이 이미지를 첨부하는 부분
+        onImageUpload : function(files) {
+            uploadSummernoteImageFile(files[0],this);
+        },
+        onPaste: function (e) {
+            var clipboardData = e.originalEvent.clipboardData;
+            if (clipboardData && clipboardData.items && clipboardData.items.length) {
+                var item = clipboardData.items[0];
+                if (item.kind === 'file' && item.type.indexOf('image/') !== -1) {
+                    e.preventDefault();
+                }
+            }
+        }
+    }
 });
+
+/* 이미지 파일 업로드 */
+function uploadSummernoteImageFile(file, editor) {
+    data = new FormData();
+    data.append("file", file);
+    $.ajax({
+        data : data,
+        type : "POST",
+        url : "/submit/summernoteImg",
+        contentType : false,
+        processData : false,
+        success : function(data) {
+            //항상 업로드된 파일의 url이 있어야 한다.
+            let originName = data.originName;
+            let savedName = data.savedName;
+            let oriName = document.getElementById('oriName').value;
+            let saveName = document.getElementById('saveName').value;
+
+            document.getElementById('oriName').value = oriName + originName + '&';
+            document.getElementById('saveName').value = saveName + savedName + '&';
+            $(editor).summernote('insertImage', data.url);
+        }
+    });
+}
+
+
+
+// $('.inputimg').on('change', function() {
+//     $input = this;
+//     if($input.files.length > 0) {
+//         fileReader = new FileReader();
+//         fileReader.onload = function (data) {
+//             $input.parentNode.querySelector('.image-preview').setAttribute('src', data.target.result);
+//             // $('.image-preview').attr('src', data.target.result);
+//         }
+//         fileReader.readAsDataURL($input.files[0]);
+//         $input.parentNode.querySelector('.image-button').style.display = 'none';
+//         $input.parentNode.querySelector('.image-preview').style.display = 'block';
+//         $input.parentNode.querySelector('.change-image').style.display = 'block';
+//     }
+// });
+//
+// $('.change-image').on('click', function() {
+//     $control = this;
+//     $('#imageInput').val('');
+//     // $preview = $('.image-preview');
+//     $control.parentNode.querySelector('.image-preview').setAttribute('src', '');
+//     // $preview.attr('src', '');
+//     $control.parentNode.querySelector('.image-preview').style.display = 'none';
+//     $control.parentNode.querySelector('.change-image').style.display = 'none';
+// /*    $preview.css('display', 'none');
+//     $control.css('display', 'none');*/
+//     $control.parentNode.querySelector('.image-button').style.display = 'block';
+//     // $('.image-button').css('display', 'block');
+// });
+
+// $("#file").on('change',function(){
+//     var fileName = $("#file").val();
+//     $(".upload-name").val(fileName);
+// });

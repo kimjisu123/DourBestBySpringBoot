@@ -25,4 +25,9 @@ class SellerMapperTest {
     @Test
     void insertTag() {
     }
+
+    @Test
+    void insertOption() {
+
+    }
 }

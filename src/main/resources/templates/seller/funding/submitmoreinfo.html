@@ -78,10 +78,11 @@
         <div class="subtext">
           펀딩에 대한 구체적인 설명을 입력해주세요.
         </div>
-        <form action="/submit/options" method="post" enctype="multipart/form-data">
+        <form action="/submit/options" method="post" enctype="multipart/form-data" onsubmit="return check()">
           <input type="hidden" name="inputMoney" th:value="${ inputMoney }">
           <input type="hidden" name="planCode" th:value="${ planCode }">
           <input type="hidden" name="fundTitle" th:value="${ fundTitle }">
+          <input type="hidden" name="categoryCode" th:value="${categoryCode}">
           <input type="hidden" name="searchTag" th:value="${ searchTag }">
           <input type="hidden" name="startDate" th:value="${ startDate }">
           <input type="hidden" name="endDate" th:value="${ endDate }">
@@ -105,7 +106,7 @@
           </div>
           <div class="photo box">
             <div class="imgedit1">
-              <input type="file" id="imageUpload1" accept=".png, .jpg, .jpeg, .gif" multiple>
+              <input type="file" id="imageUpload1" accept=".png, .jpg, .jpeg, .gif" name="topImg">
               <label for="imageUpload1"></label>
             </div>
             <div class="img-preview1">
@@ -115,7 +116,7 @@
           </div>
           <div class="video box">
             <div class="group">
-              <input type="text" class="videoURL">
+              <input type="text" class="videoURL" name="videoUrl">
               <span class="highlight"></span>
               <span class="bar"></span>
               <label>동영상 URL을 입력해주세요.</label>
@@ -138,9 +139,35 @@
           <div class="remaintext1">
             <small>펀딩페이지 메인에 올라갈 본문이에요.</small>
           </div>
-            <textarea name="fundContent" id="summernote"></textarea>
+<!--          <div class="bigbox" name="bigBox">-->
+<!--            <div class="smallbox" id="origin">-->
+<!--              <div class="image-input">-->
+<!--                <input type="file" accept="image/*" id="imageInput" class="inputimg">-->
+<!--                <label for="imageInput" class="image-button"><i class="far fa-image"></i> Choose image</label>-->
+<!--                <img src="" class="image-preview">-->
+<!--                <span class="change-image">다른 사진 선택하기</span>-->
+<!--                <br><br>-->
+<!--                <div class="filebox">-->
+<!--                  <input class="upload-name" value="첨부파일" placeholder="첨부파일">-->
+<!--                  <label for="file">파일찾기</label>-->
+<!--                  <input type="file" id="file">-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              <br><br><br>-->
+<!--              <textarea name="fundContent" id="summernote"></textarea>-->
+<!--            </div>-->
+<!--            <div class="here"></div>-->
+<!--          </div>-->
+<!--          <div class="clonebtn">-->
+<!--            <div class="minus">-</div>-->
+<!--            <div class="clone">+</div>-->
+<!--          </div>-->
+          <br><br>
+          <input type="hidden" id="oriName" name="oriName">
+          <input type="hidden" id="saveName" name="saveName">
+          <textarea name="fundContent" id="summernote"></textarea>
           <div class="button7">
-            <button class="redbutton" id="button7" type="submit">
+            <button class="redbutton" id="button7" type="submit" onclick="gowrite(this.form)" >
               <span>
                 저장 및 다음단계
               </span>
@@ -151,4 +178,48 @@
     </section>
   </main>
 <script src=""></script>
+<script>
+
+  var index = 0;
+  $(function() {
+    $('.clone').on('click', function() {
+      const clone = $('#origin').clone(true);
+      clone.find('.inputimg').attr('id', 'imageInput' + index);
+      clone.find('.image-button').attr('for', 'imageInput' + index);
+      index ++;
+      clone.appendTo($('.here'));
+    })
+
+    $('.minus').on('click', function() {
+      $('.here').children()[$('.here').children().length - 1].remove();
+      // console.log($('.here').children()[$('.here').children().length - 1]);
+    })
+  });
+  function gowrite(frm) {
+    var summary = frm.fundSummary.value;
+    var content = frm.fundContent.value;
+
+    if(summary.trim() == '') {
+      alert('펀딩 요약을 입력해주세요.');
+      return false;
+    }
+    if(content.trim() == '') {
+      alert('펀딩 내용을 입력해주세요.')
+      return false;
+    }
+  }
+
+  function check() {
+    if($('#summary').val().trim() == '') {
+      $('#summary').focus();
+      return false;
+    }
+
+    if($('#summernote').val().trim() == '') {
+      $('#summernote').focus();
+      return false;
+    }
+  }
+
+</script>
 </html>

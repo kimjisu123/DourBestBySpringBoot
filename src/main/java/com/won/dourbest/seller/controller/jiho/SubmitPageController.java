@@ -1,11 +1,17 @@
 package com.won.dourbest.seller.controller.jiho;
 
+import com.fasterxml.jackson.databind.util.JSONWrappedObject;
+import com.won.dourbest.common.dto.CategoryDTO;
 import com.won.dourbest.seller.dto.FundingDTO;
+import com.won.dourbest.seller.dto.FundingOptionDTO;
 import com.won.dourbest.seller.dto.PlanDTO;
 import com.won.dourbest.seller.service.jiho.SubmitService;
 import com.won.dourbest.seller.service.jiho.SubmitServiceImpl;
 import groovy.util.logging.Slf4j;
+import jdk.jfr.ContentType;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jackson.JsonObjectDeserializer;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -36,9 +43,22 @@ public class SubmitPageController {
         return "seller/funding/submitpage";
     }
 
+    @GetMapping("/category")
+    public String submitCategoty(Model model) {
+
+        List<CategoryDTO> categoryList = submitService.getFundCategory();
+        System.out.println("categoryList = " + categoryList);
+
+        model.addAttribute("categoryList", categoryList);
+
+        return "seller/funding/submitcategory";
+    }
+
     /* 요금제 옵션 값 불러오기 */
     @GetMapping("/plan")
-    public String submitPlan(Model model) {
+    public String submitPlan(Model model, @RequestParam int categoryCode) {
+
+        System.out.println("categoryCode = " + categoryCode);
 
         List<PlanDTO> planList = submitService.allPlan();
         Map<Integer, List<String>> map = new HashMap<>();
@@ -55,6 +75,7 @@ public class SubmitPageController {
             map.put(i, list);
         }
         System.out.println(map.get(1).get(0));
+        model.addAttribute("categoryCode", categoryCode);
         model.addAttribute("planList", planList);
         model.addAttribute("pmap", map);
 
@@ -64,25 +85,29 @@ public class SubmitPageController {
 
     /* 목표 금액 입력 화면 */
     @GetMapping("/money")
-    public String submitMoney(Model model, @RequestParam int code) {
+    public String submitMoney(Model model, @RequestParam int categoryCode, @RequestParam int code) {
+        System.out.println("categoryCode = " + categoryCode);
+
         model.addAttribute("planCode", code);
+        model.addAttribute("categoryCode", categoryCode);
         return "/seller/funding/submitmoney";
     }
 
     /* 펀딩 기본정보 입력 화면 */
     @PostMapping("/fundinfo")
-    public String fundInfo(Model model, @RequestParam String inputMoney, @RequestParam int planCode) {
+    public String fundInfo(Model model, @RequestParam int categoryCode, @RequestParam String inputMoney, @RequestParam int planCode) {
 
         System.out.println("inputmoney = " + inputMoney);
         System.out.println("hdplanCode = " + planCode);
         model.addAttribute("inputMoney", inputMoney);
         model.addAttribute("planCode", planCode);
+        model.addAttribute("categoryCode", categoryCode);
 
         return "/seller/funding/submitfundinfo";
     }
 
     @PostMapping("/moreinfo")
-    public String moreInfo(Model model, @RequestParam int planCode, @RequestParam String inputMoney
+    public String moreInfo(Model model, @RequestParam int categoryCode, @RequestParam int planCode, @RequestParam String inputMoney
             , @RequestParam String fundTitle, @RequestParam("mainImg") MultipartFile mainImg
             , @RequestParam String searchTag, @RequestParam String startDate
             , @RequestParam String endDate, HttpServletRequest request) {
@@ -96,10 +121,10 @@ public class SubmitPageController {
 //        System.out.println("endDate = " + endDate);
 
         /* 파일 저장 경로 생성 */
-        String root = "C:\\dev\\fundingImg";
+        String root = "C:\\dev\\fundingImg\\";
         System.out.println("root = " + root);
 
-        String mainFilePath = root + "\\mainImg";
+        String mainFilePath = root + "mainImg";
 
         File mkdir = new File(mainFilePath);
         if(!mkdir.exists()) {
@@ -138,20 +163,44 @@ public class SubmitPageController {
         model.addAttribute("endDate", endDate);
         model.addAttribute("originFileName", originFileName);
         model.addAttribute("savedFileName", savedName);
+        model.addAttribute("categoryCode", categoryCode);
 
         return "/seller/funding/submitmoreinfo";
     }
 
     @PostMapping("/options")
-    public String options(Model model, @RequestParam int planCode, @RequestParam String inputMoney
+    public String options(Model model, @RequestParam int categoryCode, @RequestParam int planCode, @RequestParam String inputMoney
             , @RequestParam String fundTitle, @RequestParam String startDate
             , @RequestParam String endDate, @RequestParam String fundSummary
             , @RequestParam String fundContent, @RequestParam(required = false) String videoUrl
             , @RequestParam(required = false)MultipartFile topImg, @RequestParam String originFileName
-            , @RequestParam String savedFileName, HttpServletRequest request) throws ParseException {
+            , @RequestParam String savedFileName, @RequestParam String oriName
+            , @RequestParam String saveName, HttpServletRequest request) throws ParseException {
 
         System.out.println("originFileName = " + originFileName);
         System.out.println("savedFileName = " + savedFileName);
+        System.out.println("fundContent = " + fundContent);
+
+        /* 펀딩 상단 사진 저장 */
+        String root = "C:\\dev\\fundingImg\\";
+        String topPath = root + "topImg";
+
+        File mkdir = new File(topPath);
+        if(!mkdir.exists()) {
+            mkdir.mkdirs();
+        }
+
+        /* 랜덤 파일명 생성 */
+        String originName = topImg.getOriginalFilename();
+        String ext = originName.substring(originName.lastIndexOf("."));
+        String savedName = UUID.randomUUID().toString().replace("-","") + ext;
+
+        try {
+            topImg.transferTo(new File(topPath + "\\" + savedName));
+        } catch (IOException e) {
+            new File(topPath + "\\" + savedName).delete();
+            throw new RuntimeException(e);
+        }
 
         /* inputMoney는 int로 설정해서 , 뺴는 작업 */
         int goalmoney = Integer.parseInt(inputMoney.replace(",", ""));
@@ -165,18 +214,94 @@ public class SubmitPageController {
         System.out.println("startdate = " + startdate);
         System.out.println("enddate = " + enddate);
 
-        /* 펀딩 객체에 값 담기 */
-        FundingDTO funding = new FundingDTO();
-        funding.setPlanCode(planCode);
-        funding.setFundingGoalMoney(goalmoney);
-        funding.setFundingTitle(fundTitle);
-        funding.setStartDate(startdate);
-        funding.setStartDate(enddate);
-        funding.setFundingSummary(fundSummary);
-        funding.setFundingContents(fundContent);
+        /* 맵 객체의 값 담기 */
+        Map<String, Object> tossMap = new HashMap<>();
+        tossMap.put("fundTitle", fundTitle);
+        tossMap.put("fundSummary", fundSummary);
+        tossMap.put("fundContent", fundContent);
+        tossMap.put("startDate", startdate);
+        tossMap.put("endDate", enddate);
+        tossMap.put("planCode", planCode);
+        tossMap.put("goalMoney", goalmoney);
+        tossMap.put("categoryCode", categoryCode);
+        tossMap.put("planCode", planCode);
+        tossMap.put("topVideoUrl", videoUrl);
+        tossMap.put("topPhotoOrigin", originName); // 펀딩 화면 상단 사진
+        tossMap.put("topPhotoSaved", savedName);
+        tossMap.put("mainPhotoOrigin", originFileName); // 펀딩 메인 사진
+        tossMap.put("mainPhotoSaved", savedFileName);
+        tossMap.put("fundContentPhotoOrigin", oriName); // 펀딩 본문사진
+        tossMap.put("fundContentPhotoSaved", saveName);
 
-
+        Map<String, Integer> result = submitService.insertAboutFunding(tossMap);
+        if((Integer) result.get("result") == 1) {
+            System.out.println("펀딩 Insert 성공");
+        } else {
+            System.out.println("펀딩 Insert 실패");
+        }
+        model.addAttribute("currentKey", result.get("currentKey"));
         return "seller/funding/submitoptions";
     }
 
+    @PostMapping(value="/summernoteImg", produces = "application/json")
+    @ResponseBody
+    public Map<String, String> previewImg(@RequestParam("file")MultipartFile file) {
+
+        Map<String, String> returnMap = new HashMap<>();
+
+        String root = "c:\\dev\\fundingImg\\";
+        String contentImgPath = root + "fundContentImg";
+
+        File mkdir = new File(contentImgPath);
+        if(!mkdir.exists()) {
+            mkdir.mkdirs();
+        }
+
+        String originName = file.getOriginalFilename();
+        String ext = originName.substring(originName.lastIndexOf("."));
+
+        String savedName = UUID.randomUUID().toString().replace("-", "") + ext;
+        System.out.println("savedName = " + savedName);
+        File targetFile = new File(contentImgPath + "\\" + savedName);
+
+        returnMap.put("originName", originName);
+        returnMap.put("savedName", savedName);
+
+        System.out.println("targetFile = " + targetFile);
+        try {
+            InputStream fileStream = file.getInputStream();
+            FileUtils.copyInputStreamToFile(fileStream, targetFile);  // 파일 저장
+            returnMap.put("url", "/fundingImg/" + savedName);
+            returnMap.put("responseCode", "success");
+        } catch (IOException e) {
+            FileUtils.deleteQuietly(targetFile);      // 저장된 파일 삭제
+            e.printStackTrace();
+        }
+
+        System.out.println("returnMap = " + returnMap);
+        return returnMap;
+    }
+
+    @GetMapping("/options")
+    public String option() {
+        return "seller/funding/submitoptions";
+    }
+
+    @PostMapping(value = "/option")
+    @ResponseBody
+    public String submitoption(@RequestBody FundingOptionDTO option) {
+        System.out.println(option);
+
+        String resultMessage = "";
+        int result = submitService.insertOption(option);
+        if(result == 1) {
+            resultMessage = "success";
+            System.out.println("성공");
+        } else {
+            System.out.println("실패");
+            resultMessage = "fail";
+        }
+
+        return resultMessage;
+    }
 }

@@ -73,6 +73,7 @@
         <div class="subtext">
           원하시는 요금제를 선택해주세요.
         </div>
+        <input type="hidden" name="categoryCode" th:value="${categoryCode}">
         <div class="bodywrap">
           <div th:each="plan, stat: ${ planList }">
             <div th:class="|basicfare${stat.index}|">
@@ -94,7 +95,7 @@
 <!--                  <div class="more">더 알아보기 ></div>-->
                 </div>
                 <div class="selectbtn" style="display: flex;">
-                  <button th:onclick="|location.href='@{money(code=${plan.planCode})}'|">선택하기</button>
+                  <button th:onclick="|location.href='@{money(code=${plan.planCode}, categoryCode=${categoryCode})}'|">선택하기</button>
                 </div>
               </div>
             </div>

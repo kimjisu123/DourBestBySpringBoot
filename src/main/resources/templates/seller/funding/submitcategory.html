@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html th:replace="~{/layouts/base :: layout(~{::main}, ~{::link}, ~{::script})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" th:href="@{/css/seller/jiho/beforefunding.css}">
+    <link rel="stylesheet" th:href="@{/css/seller/jiho/selectBox.css}">
+    <link rel="stylesheet" th:href="@{/css/seller/jiho/sellerbutton.css}">
+</head>
+<!-- 메인 -->
+<main>
+    <section>
+        <div class="mainbody">
+            <div class="catenick">
+                <div class="nickname">닉네임 님 반갑습니다.</div>
+                <div>성공적인 펀딩을 기원합니다.</div>
+            </div>
+<!--                <div class="selectbox">-->
+<!--                    <select>-->
+<!--                        <div th:each="category : ${ categoryList }">-->
+<!--                            <option value="basic" selected disabled hidden>카테고리를 선택해주세요</option>-->
+<!--                            <option th:selected="${ category.getCategoryCode() }" th:value="${ category.getCategoryCode()}" th:text="${ category.getCategoryName() }"></option>-->
+<!--                        </div>-->
+<!--                        &lt;!&ndash;                    <option value="food">식품</option>&ndash;&gt;-->
+<!--                        &lt;!&ndash;                    <option value="product">가전/기구</option>&ndash;&gt;-->
+<!--                        &lt;!&ndash;                    <option value="book">도서</option>&ndash;&gt;-->
+<!--                        &lt;!&ndash;                    <option value="fashion">패션</option>&ndash;&gt;-->
+<!--                        &lt;!&ndash;                    <option value="onlineclass">온라인클래스</option>&ndash;&gt;-->
+<!--                    </select>-->
+<!--                </div>-->
+            <div class="categoryList">
+                <div  th:each="category : ${ categoryList }">
+                    <div class="cbox" th:text="${ category.categoryName }" th:onclick="|location.href='@{plan(categoryCode=${category.categoryCode})}'|"></div>
+                </div>
+            </div>
+            <pre class="underselect">펀딩에 잘 맞는 카테고리를 선택해주세요.
+펀딩 신청 과정동안 편하게 바꾸실 수 있어요.</pre>
+<!--            <div class="button2">-->
+<!--                <button class="redbutton" id="button2">-->
+<!--                    <span>-->
+<!--                        시작하기-->
+<!--                    </span>-->
+<!--                </button>-->
+<!--            </div>-->
+        </div>
+    </section>
+</main>
+<script src=""></script>
+</html>

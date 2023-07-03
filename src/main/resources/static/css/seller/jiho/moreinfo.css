@@ -264,3 +264,99 @@ textarea:focus {
 .stepper .step:hover .circle4 {
     background-color: #ffeeeb;
 }
+
+/*.image-input {*/
+/*    text-align: center;*/
+/*    width: 200px;*/
+/*    margin-top: 50px;*/
+/*}*/
+
+/*.image-input input {*/
+/*    display: none;*/
+/*}*/
+
+/*.image-input label {*/
+/*    display: block;*/
+/*    color : snow;*/
+/*    background : #f35f4c;*/
+/*    padding: .3rem .6rem;*/
+/*    font-size: 115%;*/
+/*    cursor: pointer;*/
+/*    border-radius: 10px;*/
+/*}*/
+
+/*.image-input i {*/
+/*    font-size: 125%;*/
+/*    margin-right: .3rem;*/
+/*}*/
+
+/*.image-input i:hover {*/
+/*    animation: alternate .35s;*/
+/*}*/
+
+/*.image-input img {*/
+/*    max-width: 400px;*/
+/*    display: none*/
+/*}*/
+
+/*.image-input span {*/
+/*    display: none;*/
+/*    text-align: center;*/
+/*    cursor: pointer;*/
+/*    border-radius: 10px;*/
+/*    color: snow;*/
+/*    background: #f35f4c;*/
+/*    padding: 5px;*/
+/*    margin-top: 5px;*/
+/*}*/
+
+/*.clonebtn {*/
+/*    display: flex;*/
+/*    width: 800px;*/
+/*    justify-content: space-between;*/
+/*}*/
+
+/*.clone, .minus{*/
+/*    width: 80px;*/
+/*    height: 80px;*/
+/*    background: #f35f4c;*/
+/*    border-radius: 50%;*/
+/*    color: snow;*/
+/*    font-size: 7em;*/
+/*    font-weight: 800;*/
+/*    text-align: center;*/
+/*    line-height: 56px;*/
+/*    !*margin-left: 720px;*!*/
+/*    margin-top: 30px;*/
+/*    cursor: pointer;*/
+/*}*/
+
+/*.filebox .upload-name {*/
+/*    display: inline-block;*/
+/*    height: 40px;*/
+/*    padding: 0 10px;*/
+/*    vertical-align: middle;*/
+/*    border: 1px solid #dddddd;*/
+/*    width: 78%;*/
+/*    color: #999999;*/
+/*}*/
+
+/*.filebox label {*/
+/*    display: inline-block;*/
+/*    padding: 10px 20px;*/
+/*    color: #fff;*/
+/*    vertical-align: middle;*/
+/*    background-color: #999999;*/
+/*    cursor: pointer;*/
+/*    height: 40px;*/
+/*    margin-left: 10px;*/
+/*}*/
+
+/*.filebox input[type="file"] {*/
+/*    position: absolute;*/
+/*    width: 0;*/
+/*    height: 0;*/
+/*    padding: 0;*/
+/*    overflow: hidden;*/
+/*    border: 0;*/
+/*}*/

@@ -1,11 +1,15 @@
 package com.won.dourbest.seller.service.jiho;
 
+import com.won.dourbest.common.dto.CategoryDTO;
 import com.won.dourbest.seller.dao.jiho.SellerMapper;
+import com.won.dourbest.seller.dto.FundingOptionDTO;
 import com.won.dourbest.seller.dto.PlanDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class SubmitServiceImpl implements SubmitService{
@@ -45,4 +49,52 @@ public class SubmitServiceImpl implements SubmitService{
         }
         return count;
     }
+
+    @Override
+    public List<CategoryDTO> getFundCategory() {
+
+        return sellerMapper.getFundCategory();
+    }
+
+    @Override
+    public Map<String, Integer> insertAboutFunding(Map<String, Object> tossMap) {
+
+        int result = sellerMapper.insertFunding(tossMap);
+        System.out.println("tossMap = " + tossMap);
+        int result1 = sellerMapper.insertMainFile(tossMap);
+
+        int result2 = sellerMapper.insertTopFile(tossMap);
+
+        int result3 = sellerMapper.insertContentFile(tossMap);
+
+        int num = 0;
+
+        if(result > 0 && result1 > 0 && result2 > 0 && result3 > 0) {
+            num = 1;
+        } else {
+            num = 0;
+        }
+        Map<String, Integer> map = new HashMap<>();
+        map.put("result", num);
+        map.put("currentKey", (Integer) tossMap.get("currkey"));
+
+        return map;
+    }
+
+    @Override
+    public int insertOption(FundingOptionDTO option) {
+
+        int result = sellerMapper.insertOption(option);
+
+        int num = 0;
+
+        if(result > 0) {
+            num = 1;
+        } else {
+            num = 0;
+        }
+
+        return num;
+    }
 }
+

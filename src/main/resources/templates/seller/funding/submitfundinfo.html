@@ -80,6 +80,7 @@
         <form action="/submit/moreinfo" method="post" onsubmit="return check()" enctype="multipart/form-data">
           <input type="hidden" name="planCode" th:value="${planCode}">
           <input type="hidden" name="inputMoney" th:value="${inputMoney}">
+          <input type="hidden" name="categoryCode" th:value="${categoryCode}">
           <div class="fundtitle">
             펀딩 제목
           </div>
@@ -163,9 +164,19 @@
 <script th:src="@{/js/seller/uploadimg.js}"></script>
 <script>
   $('#button6').click(function check() {
-    if($('.startdate').val() > $('.enddate').val()) {
+    if($('.startdate').val() > $('.endDate').val()) {
       alert('종료일이 시작일보다 빠를 수 없습니다.');
-      $('.enddate').focus();
+      $('.endDate').focus();
+      return false;
+    }
+
+    if($('.startdate').val().trim() == '') {
+      $('.startdate').focus();
+      return false;
+    }
+
+    if($('.endDate').val().trim() == '') {
+      $('.endDate').focus();
       return false;
     }
     return true;

@@ -78,6 +78,7 @@
           <div class="group">
             <input type="text" id="inputmoney" name="inputMoney" required onkeyup="this.value=this.value.replace(/[^-0-9]/g,'')">
             <input type="hidden" name="planCode" th:value="${planCode}">
+            <input type="hidden" name="categoryCode" th:value="${categoryCode}">
             <span class="highlight"></span>
             <span class="bar"></span>
             <label>목표 금액을 입력해주세요.</label>
