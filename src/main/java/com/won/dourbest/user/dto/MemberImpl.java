@@ -1,6 +1,7 @@
 package com.won.dourbest.user.dto;
 
 import com.won.dourbest.common.dto.MemberShipDTO;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
@@ -8,11 +9,12 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+@Getter
 public class MemberImpl extends User {
 
     private int memberCode;  // 멤버코드
     private String memberId;  // 아이디
-    private String memberPwd;  // 비번
+    private String password;  // 비번
     private String memberName; // 이름
     private String memberPhone; // 전화번호
     private String memberEmail; // 이메일
@@ -29,7 +31,7 @@ public class MemberImpl extends User {
     public void setDetail(MemberDTO member){
         this.memberCode = member.getMemberCode();
         this.memberId = member.getMemberId();
-        this.memberPwd = member.getMemberPwd();
+        this.password = member.getMemberPwd();
         this.memberName = member.getMemberName();
         this.memberPhone = member.getMemberPhone();
         this.memberEmail = member.getMemberEmail();
@@ -40,5 +42,6 @@ public class MemberImpl extends User {
         this.memberRoleList = member.getMemberAuthList();
 
     }
+
 
 }

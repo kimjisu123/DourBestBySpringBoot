@@ -17,7 +17,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.context.WebApplicationContext;
 
 import java.util.*;
 
@@ -64,16 +63,13 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-
         //예외 추가해주기
         MemberDTO member = mapper.findByMember(username).orElseThrow();
-        log.info("========sdfbaskdfhjalskdjhfalkdsjhf===========");
         //권한리스트
         List<MemberAuthListDTO> memberAuthList = member.getMemberAuthList();
         List<GrantedAuthority> authorities = new ArrayList<>();
 
         memberAuthList.forEach(list -> authorities.add(new SimpleGrantedAuthority(list.getMemberAuth().getMemberAuthName())));
-        log.info("auth={}",authorities.get(0));
         MemberImpl user = new MemberImpl(member.getMemberId(),member.getMemberPwd(),authorities);
 
         user.setDetail(member);
