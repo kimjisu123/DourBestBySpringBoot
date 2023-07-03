@@ -1,17 +1,21 @@
 package com.won.dourbest.user.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.won.dourbest.user.dto.AddressDTO;
 import com.won.dourbest.user.dto.MemberDTO;
 //import com.won.dourbest.user.service.MemberServiceImpl;
 
+import com.won.dourbest.user.dto.MemberImpl;
+import com.won.dourbest.user.service.MemberService;
 import com.won.dourbest.user.service.MemberServiceImpl;
-//import com.won.dourbest.user.service.UserDetailServiceImpl;
-import com.won.dourbest.user.service.UserDetailServiceImpl;
+import org.apache.ibatis.annotations.Mapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,22 +29,16 @@ import java.util.Map;
 public class MemberController {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
-    private final MemberServiceImpl service;
+    private final MemberService service;
     private final PasswordEncoder passwordEncoder;
-
-    private final UserDetailServiceImpl userDetail;
-
-
 
 
     // 의존성주입
-    public MemberController(MemberServiceImpl service, PasswordEncoder passwordEncoder, UserDetailServiceImpl userDetail) {
+    public MemberController(MemberService service, PasswordEncoder passwordEncoder) {
 
         this.service = service;
         this.passwordEncoder = passwordEncoder;
-        this.userDetail = userDetail;
     }
-
 
 
     // 회원가입페이지 이동 메소드
@@ -50,24 +48,15 @@ public class MemberController {
         return "user/signup";
     }
 
+    @PostMapping("/")
+    public String defaultLocation(){
+        return "redirect:/";
+    }
+
     @GetMapping("/login")    //이동할 페이지
     public String login(){
 
         return "user/login";
-    }
-
-    @GetMapping("/login/error")    //이동할 페이지
-    public String loginError(Model model){
-        model.addAttribute("loginErrorMsg", "아이디 또는 비밀번호를 확인해주세요");
-        return "user/login";
-    }
-
-
-
-    @GetMapping("/findId")    //이동할 페이지
-    public String findIdPage(){
-
-        return "user/findId";
     }
 
     // 중복아이디 체크
@@ -104,25 +93,38 @@ public class MemberController {
 
         // 회원가입이 성공하면 -> 회원에게 쿠폰을 insert 로 담아줘야한다.
 
-        return "redirect:/category";  // 새롭게 주소를 요청한다 forward방식은  값을 계속 가지고 가기때문에
+        return "redirect:/category";
     }
 
-    @PostMapping("/login")
-    public String login(@RequestParam String username, @RequestParam String password,HttpServletRequest request) {
+    @GetMapping("/modi")
+    public String infoModifytest(@AuthenticationPrincipal MemberImpl user){
+        log.info("member={}",user);
+        log.info("memberid-{}", user.getMemberId());
+        log.info("userpwd={}", user.getPassword());
 
-        System.out.println("memberId = " + username);
-        System.out.println("memberPwd = " + password);
-        log.info( "memberId" +username);
-//        String result =  username;
-//        userDetail.loadUserByUsername(result);
-//
-//        MemberDTO member = new MemberDTO();
-//        member.setMemberId(username);
-//        userDetail.loadUserByUsername(member.getMemberId());
+        String pwd = "asdfasdf!!";
 
-        return "";
+        //확인완료
+        boolean result = passwordEncoder.matches(pwd, user.getPassword());
 
+        log.info("result={}",result);
+
+        return "redirect:/"; //수정하는페이지로이동
     }
+
+    // 1. 그 페이지에서 정보수정 update-> 로그인 정상적으로 되는지 테스트
+
+
+    // 2. 비밀번호 변경 -> update 되었는지 확인 -> 변경된 비밀번호로 로그인 test
+    //update
+
+
+    // 3. 탈퇴 -> id,pass -> 맞으면 -> findByMember-> 탈퇴여부 update
+
+
+
+
+
 
 
 }
