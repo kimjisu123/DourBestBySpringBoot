@@ -61,6 +61,13 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public Optional<MemberDTO> findUser(String userId) {
+
+        return mapper.findByMember(userId);
+
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         //예외 추가해주기

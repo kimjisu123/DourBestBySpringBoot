@@ -18,7 +18,7 @@ class MemberMapperTest {
     @Test
     void findByMember() {
 
-        String userId = "jjstest";
+        String userId = "testuser";
 
         Optional<MemberDTO> byMember = mapper.findByMember(userId);
         System.out.println("byMember = " + byMember);

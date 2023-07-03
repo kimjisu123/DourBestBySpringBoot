@@ -14,8 +14,9 @@ public class MemberShipCreditDTO {
 
     private int membershipCreditCode; // 멤버십결제
     private int memberCode; //회원코드
-    private String cardCompany; // 카드사
-    private String cardNumber; // 카드번호
+    private String cardCompany; // 결제사
+    private String paymentNumber; // 결제번호
+    private String paymentDate; //결제날짜
+    private String memberStatus; //결제상태
 
-    private List<MemberShipCreditListDTO> shipCreditList;
 }

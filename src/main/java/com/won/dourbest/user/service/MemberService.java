@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import java.lang.reflect.Member;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public interface MemberService extends UserDetailsService {
 
@@ -23,6 +24,9 @@ public interface MemberService extends UserDetailsService {
 
     // 이메일 체크하기
     boolean emailCheck(String memberEmail);
+
+    public Optional<MemberDTO> findUser(String userId);
+
 
     //맵 객체를 만들어서 넘겨준다.
 

@@ -25,7 +25,7 @@ class MypageMapperTest {
     @Test
     void findById() {
 
-        String userId = "user01";
+        String userId = "testuser";
 
         MypageDTO result = mypageMapper.findById(userId);
 

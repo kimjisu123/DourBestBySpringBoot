@@ -96,6 +96,13 @@ public class MemberController {
         return "redirect:/category";
     }
 
+    @GetMapping("/current")
+    public MemberDTO currentMember(@AuthenticationPrincipal MemberImpl member){
+        MemberDTO findMember = service.findUser(member.getMemberId()).orElseThrow();
+        log.info("member={}",findMember);
+        return findMember;
+    }
+
     @GetMapping("/modi")
     public String infoModifytest(@AuthenticationPrincipal MemberImpl user){
         log.info("member={}",user);
@@ -111,6 +118,7 @@ public class MemberController {
 
         return "redirect:/"; //수정하는페이지로이동
     }
+
 
     // 1. 그 페이지에서 정보수정 update-> 로그인 정상적으로 되는지 테스트
 
