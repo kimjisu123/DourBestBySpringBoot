@@ -1,26 +1,24 @@
 <!DOCTYPE html>
 <html th:replace="~{/layouts/base :: layout(~{::main}, ~{::link}, ~{::script})}" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link rel="stylesheet" th:href="@{/css/user/signup.css}" />
+    <link rel="stylesheet" th:href="@{/css/user/login.css}" />
 </head>
-<body>
 <main>
     <section>
         <div class="login">
             <div class="pagetitle">
                 <h1>로그인</h1>
             </div>
-            <form id="loginForm" th:action="@{/user/login}" method="post">
-                <input type="hidden" value="사이트를 통한 로그인">
+            <form id="loginForm" action="/user/loginPoc" method="post">
+<!--                <input type="hidden" value="사이트를 통한 로그인">-->
                 <div class="inputboxs">
-
                     <div class="inputMargin">
                         <div>
-                            <input data-testid="input-box" type="text" name="memberId" class="userId"
+                            <input data-testid="input-box" type="text" name="username" class="userId"
                                    placeholder="아이디를 입력해주세요." autofocus value>
                         </div>
                         <div class="boxMargin2">
-                            <input type="password" name="memberPwd" class="password" placeholder="비밀번호를 입력해주세요"
+                            <input type="password" name="password" class="password" placeholder="비밀번호를 입력해주세요"
                                    autocomplete="off" value>
                         </div>
                     </div>
@@ -37,11 +35,11 @@
                 <div class="buttons">
                     <div>
                         <button class="loginButton" type="submit">
-                            <span class="longinName">로그인</span>
+                           로그인
                         </button>
                     </div>
                     <div>
-                        <a href="../html/signUp.html">
+                        <a th:href="@{/user/signup}">
                             <button class="signupButton" type="button">회원가입
                             </button>
                         </a>
@@ -50,6 +48,7 @@
             </form>
         </div>
     </section>
+
 </main>
-</body>
+<script src=""></script>
 </html>

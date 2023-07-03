@@ -471,4 +471,6 @@
         AND TCL.COUPON_REGI_STATUS ='N'
     </update>
 
+
+
 </mapper>

@@ -5,6 +5,7 @@ import com.won.dourbest.user.dto.AddressDTO;
 import com.won.dourbest.user.dto.MemberDTO;
 //import com.won.dourbest.user.service.MemberServiceImpl;
 
+import com.won.dourbest.user.service.MemberService;
 import com.won.dourbest.user.service.MemberServiceImpl;
 import org.apache.ibatis.annotations.Mapper;
 import org.slf4j.Logger;
@@ -25,17 +26,16 @@ import java.util.Map;
 public class MemberController {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
-    private final MemberServiceImpl service;
+    private final MemberService service;
     private final PasswordEncoder passwordEncoder;
 
 
     // 의존성주입
-    public MemberController(MemberServiceImpl service, PasswordEncoder passwordEncoder) {
+    public MemberController(MemberService service, PasswordEncoder passwordEncoder) {
 
         this.service = service;
         this.passwordEncoder = passwordEncoder;
     }
-
 
 
     // 회원가입페이지 이동 메소드
@@ -43,6 +43,11 @@ public class MemberController {
     public String signup(){
 
         return "user/signup";
+    }
+
+    @PostMapping("/")
+    public String defaultLocation(){
+        return "redirect:/";
     }
 
     @GetMapping("/login")    //이동할 페이지
@@ -87,6 +92,7 @@ public class MemberController {
 
         return "redirect:/category";
     }
+
 
 
 

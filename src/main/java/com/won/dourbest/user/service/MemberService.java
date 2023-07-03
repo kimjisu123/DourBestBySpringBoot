@@ -5,12 +5,13 @@ import com.won.dourbest.common.exception.member.MemberRegistException;
 import com.won.dourbest.common.exception.member.MemberRemoveException;
 import com.won.dourbest.user.dto.AddressDTO;
 import com.won.dourbest.user.dto.MemberDTO;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.lang.reflect.Member;
 import java.util.List;
 import java.util.Map;
 
-public interface MemberService {
+public interface MemberService extends UserDetailsService {
 
     // 회원 조회용 메소드
 //    public void findMember(MemberDTO member);
