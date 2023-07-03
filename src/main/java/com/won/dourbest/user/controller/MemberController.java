@@ -1,17 +1,17 @@
 package com.won.dourbest.user.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.won.dourbest.user.dto.AddressDTO;
 import com.won.dourbest.user.dto.MemberDTO;
 //import com.won.dourbest.user.service.MemberServiceImpl;
 
 import com.won.dourbest.user.service.MemberServiceImpl;
-import org.apache.ibatis.annotations.Mapper;
+//import com.won.dourbest.user.service.UserDetailServiceImpl;
+import com.won.dourbest.user.service.UserDetailServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,12 +28,17 @@ public class MemberController {
     private final MemberServiceImpl service;
     private final PasswordEncoder passwordEncoder;
 
+    private final UserDetailServiceImpl userDetail;
+
+
+
 
     // 의존성주입
-    public MemberController(MemberServiceImpl service, PasswordEncoder passwordEncoder) {
+    public MemberController(MemberServiceImpl service, PasswordEncoder passwordEncoder, UserDetailServiceImpl userDetail) {
 
         this.service = service;
         this.passwordEncoder = passwordEncoder;
+        this.userDetail = userDetail;
     }
 
 
@@ -49,6 +54,20 @@ public class MemberController {
     public String login(){
 
         return "user/login";
+    }
+
+    @GetMapping("/login/error")    //이동할 페이지
+    public String loginError(Model model){
+        model.addAttribute("loginErrorMsg", "아이디 또는 비밀번호를 확인해주세요");
+        return "user/login";
+    }
+
+
+
+    @GetMapping("/findId")    //이동할 페이지
+    public String findIdPage(){
+
+        return "user/findId";
     }
 
     // 중복아이디 체크
@@ -85,10 +104,25 @@ public class MemberController {
 
         // 회원가입이 성공하면 -> 회원에게 쿠폰을 insert 로 담아줘야한다.
 
-        return "redirect:/category";
+        return "redirect:/category";  // 새롭게 주소를 요청한다 forward방식은  값을 계속 가지고 가기때문에
     }
 
+    @PostMapping("/login")
+    public String login(@RequestParam String username, @RequestParam String password,HttpServletRequest request) {
 
+        System.out.println("memberId = " + username);
+        System.out.println("memberPwd = " + password);
+        log.info( "memberId" +username);
+//        String result =  username;
+//        userDetail.loadUserByUsername(result);
+//
+//        MemberDTO member = new MemberDTO();
+//        member.setMemberId(username);
+//        userDetail.loadUserByUsername(member.getMemberId());
+
+        return "";
+
+    }
 
 
 }

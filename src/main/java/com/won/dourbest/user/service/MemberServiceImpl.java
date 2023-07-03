@@ -21,11 +21,8 @@ import java.util.Objects;
 @Service
 public class MemberServiceImpl implements MemberService {
 
-
-
     private final Logger log = LoggerFactory.getLogger(this.getClass());
     private final MemberMapper mapper;
-
     private final PasswordEncoder passwordEncoder;
 
     // 의존성 주입
@@ -61,7 +58,6 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public boolean emailCheck(String memberEmail) {
-
 
         return mapper.emailCheck(memberEmail) > 0? true : false; // 중복값이 있으면 1로 true를 리턴 없으면 0으로 false를 반환
     }

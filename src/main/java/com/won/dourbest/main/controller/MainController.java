@@ -13,4 +13,5 @@ public class MainController {
     public String categoryList(){
         return "/main/category-page";
     }
+
 }

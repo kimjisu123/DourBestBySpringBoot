@@ -29,7 +29,7 @@
                 , #{ member.memberEmail }
                 , SYSDATE
                 , DEFAULT
-                , DEFAULT
+                , 'Y'
                 , DEFAULT
             )
             </insert>
@@ -53,6 +53,8 @@
                         , SEQ_MEMBER_CODE.CURRVAL
                     )
             </insert>
+
+
 
 <!--    /* 회원가입 성공시 주어지는 쿠폰 쿼리문*/-->
 <!--    <insert id="welcomeCoupon" parameterType="map">-->
@@ -96,5 +98,25 @@
                 FROM TBL_MEMBER
                 WHERE MEMBER_EMAIL = #{ memeber.memberEmail }
             </select>
+
+
+<!--    // 로그인 정보 쿼리문-->
+
+    <select id="findByMemberId" resultType="MemberDetail">
+        SELECT
+               M.MEMBER_CODE
+             , M.MEMBER_ID
+             , M.MEMBER_PWD
+             , M.MEMBER_NAME
+             , M.MEMBER_PHONE
+             , M.MEMBER_EMAIL
+             , M.REGIST_DATE
+             , M.WITHDRAWAL_STATUS
+             , M.ADULT_STATUS
+             , M.MEMBERSHIP_CODE
+             FROM TBL_MEMBER M
+            WHERE M.WITHDRAWAL_STATUS ='N'
+              AND M.MEMBER_ID = #{ username }
+    </select>
 
      </mapper>

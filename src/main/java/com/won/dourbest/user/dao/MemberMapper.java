@@ -2,7 +2,9 @@ package com.won.dourbest.user.dao;
 
 import com.won.dourbest.user.dto.AddressDTO;
 import com.won.dourbest.user.dto.MemberDTO;
+import com.won.dourbest.user.dto.MemberDetail;
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Map;
 
@@ -16,13 +18,13 @@ public interface MemberMapper {
         int registMember(Map<String, Object> map);
         int registAddress(Map<String, Object> map);
 //
-      int idCheck(String memberId);
+        int idCheck(String memberId);  // 아이디 찾기
 
-      int emailCheck(String memberEmail);   // 중복이 없으면 0 있으면 1 반환
+        int emailCheck(String memberEmail);   // 중복이 없으면 0 있으면 1 반환
 //
 //    MemberDTO selectMember(MemberDTO member);
 //
-//    MemberDTO findByMemberId(String memberId);
+        MemberDetail findByMemberId(String username);      //로그인
 //
 //    int updateMember(MemberDTO member);
 //
