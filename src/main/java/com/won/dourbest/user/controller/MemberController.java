@@ -121,7 +121,7 @@ public class MemberController {
 
     // 3. 탈퇴 -> id,pass -> 맞으면 -> findByMember-> 탈퇴여부 update
 
-    //
+
 
 
 
