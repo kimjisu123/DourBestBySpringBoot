@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Map;
+import java.util.Optional;
 
 @Mapper
 public interface MemberMapper {
@@ -24,7 +25,9 @@ public interface MemberMapper {
 //
 //    MemberDTO selectMember(MemberDTO member);
 //
-        MemberDetail findByMemberId(String username);      //로그인
+    int insertMemberAuth();
+
+    Optional<MemberDTO> findByMember(String userId);    //로그인
 //
 //    int updateMember(MemberDTO member);
 //
