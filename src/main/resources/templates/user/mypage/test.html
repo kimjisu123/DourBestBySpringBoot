@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html th:replace="~{/layouts/base :: layout(~{::main}, ~{::link}, ~{::script})}"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <link rel="stylesheet" th:href="@{/css/common/page.css}">
+</head>
+<main>
+    <div class="page-wrapper">
+        <section>
+            <div class="page-title">
+                <h1>아이디∙비밀번호 찾기</h1>
+            </div>
+            <div class="page-content">
+                <div class="">
+                    <label for="memail" id="idTxt">아이디를 입력해주세요</label>
+                    <input type="text" class="" name="memail" id="memberId">
+                </div>
+                <div class="">
+                    <label for="memail" id="mailTxt">이메일을 입력해주세요</label>
+                    <input type="text" class="" name="memail" id="memail">
+                </div>
+                <button class="" type="button" id="checkEmail">인증번호</button>
+                <a href=""></a>
+            </div>
+        </section>
+    </div>
+</main>
+<script th:inline="javascript">
+    $('#checkEmail').click(
+        function (){
+            const checkEmail = $('#memail').val();
+            const checkId = $('#memberId').val();
+            if(checkEmail == null || checkEmail === ''|| checkId == null || checkId === ''){
+                alert("아이디 또는 이메일을 입력해주세요");
+                return;
+            }
+
+            $.ajax({
+                method: 'post',
+                url: '/mail/check',
+                data: { email: checkEmail, memberId: checkId },
+                success : function(data){
+                    alert(data + "님 해당 이메일로 비밀번호가 재발급되었습니다 \n 확인부탁드립니다.")
+                    console.log("data : "+ data);
+                }
+            });
+        }
+    );
+
+
+
+
+
+
+</script>
+
+</html>

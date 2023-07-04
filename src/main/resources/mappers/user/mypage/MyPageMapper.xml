@@ -139,23 +139,23 @@
                   M.MEMBER_ID,
                   M.MEMBER_NAME,
                   TM.MEMBERSHIP_NAME,
-                  PL.POINT_TOTAL_AMOUNT,
+                  NVL(PL.POINT_TOTAL_AMOUNT,0) POINT_TOTAL_AMOUNT,
                   (SELECT COUNT(COUPON_CODE) FROM TBL_COUPONLIST TCL WHERE MEMBER_CODE = (SELECT MEMBER_CODE
-                                                                                      FROM TBL_MEMBER
-                                                                                      WHERE MEMBER_ID = #{userId})
-                                                                   AND TCL.COUPON_REGI_STATUS = 'Y'
+                                                                                          FROM TBL_MEMBER
+                                                                                          WHERE MEMBER_ID = #{ userId })
+                                                                       AND TCL.COUPON_REGI_STATUS = 'Y'
                   ) COUPON_COUNT,
                   COUNT(DECODE(D.DELIVERY_STATUS, '배송준비중','1')) READY_COUNT,
                   COUNT(DECODE(D.DELIVERY_STATUS, '배송중','1')) ING_COUNT,
                   COUNT(DECODE(D.DELIVERY_STATUS, '배송완료','1')) FINISH_COUNT
               FROM TBL_MEMBER M
-                       JOIN TBL_MEMBERSHIP TM ON (M.MEMBERSHIP_CODE = TM.MEMBERSHIP_CODE)
+                       LEFT JOIN TBL_MEMBERSHIP TM ON (M.MEMBERSHIP_CODE = TM.MEMBERSHIP_CODE)
                        LEFT JOIN TBL_ORDER O ON (M.MEMBER_CODE = O.MEMBER_CODE)
-                       JOIN TBL_CREDIT T ON (O.ORDER_CODE = T.ORDER_CODE)
-                       JOIN TBL_DELIVERY TD ON (T.PAYMENT_CODE = TD.PAYMENT_CODE)
-                       JOIN TBL_DELIVERYLIST D ON (TD.DELIVERY_CODE = D.DELIVERY_CODE)
+                       LEFT JOIN TBL_CREDIT T ON (O.ORDER_CODE = T.ORDER_CODE)
+                       left JOIN TBL_DELIVERY TD ON (T.PAYMENT_CODE = TD.PAYMENT_CODE)
+                       left JOIN TBL_DELIVERYLIST D ON (TD.DELIVERY_CODE = D.DELIVERY_CODE)
                        LEFT JOIN TBL_POINTLIST PL ON (M.MEMBER_CODE = PL.MEMBER_CODE)
-              where M.MEMBER_ID = #{userId}
+              where M.MEMBER_ID = #{ userId }
               group by M.MEMBER_ID, M.MEMBER_NAME, TM.MEMBERSHIP_NAME, PL.POINT_TOTAL_AMOUNT
               ORDER BY PL.POINT_TOTAL_AMOUNT DESC) T1
         WHERE ROWNUM = 1

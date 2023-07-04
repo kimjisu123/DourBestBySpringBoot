@@ -1,6 +1,7 @@
 package com.won.dourbest.user.dao;
 
 import com.won.dourbest.user.dto.AddressDTO;
+import com.won.dourbest.user.dto.CheckMemberDTO;
 import com.won.dourbest.user.dto.MemberDTO;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -26,6 +27,9 @@ public interface MemberMapper {
     int insertMemberAuth();
 
     Optional<MemberDTO> findByMember(String userId);
+
+    int updatePwd(CheckMemberDTO member);
+
 
 
 //    MemberDTO selectMember(MemberDTO member);

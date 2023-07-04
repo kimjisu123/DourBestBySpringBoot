@@ -1,6 +1,7 @@
 package com.won.dourbest.user.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.won.dourbest.common.exception.user.CouponNotFoundException;
 import com.won.dourbest.user.dto.AddressDTO;
 import com.won.dourbest.user.dto.MemberDTO;
 //import com.won.dourbest.user.service.MemberServiceImpl;
@@ -16,6 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -96,27 +98,27 @@ public class MemberController {
         return "redirect:/category";
     }
 
-    @GetMapping("/current")
-    public MemberDTO currentMember(@AuthenticationPrincipal MemberImpl member){
+    @GetMapping("/modify")
+    public String modifyMemvberInfo(@AuthenticationPrincipal MemberImpl member, Model model){
         MemberDTO findMember = service.findUser(member.getMemberId()).orElseThrow();
+        boolean result = passwordEncoder.matches("iYk6786w", member.getPassword());
+
         log.info("member={}",findMember);
-        return findMember;
+        System.out.println("result = " + result);
+
+        model.addAttribute("member", findMember);
+
+
+        return "redirect:/";
     }
 
-    @GetMapping("/modi")
-    public String infoModifytest(@AuthenticationPrincipal MemberImpl user){
+    @PostMapping("/modi")
+    public String infoModifytest(@AuthenticationPrincipal MemberImpl user, @RequestParam String userId, @RequestParam String pwd){
         log.info("member={}",user);
         log.info("memberid-{}", user.getMemberId());
         log.info("userpwd={}", user.getPassword());
 
-        String pwd = "asdfasdf!!";
-
-        //확인완료
-        boolean result = passwordEncoder.matches(pwd, user.getPassword());
-
-        log.info("result={}",result);
-
-        return "redirect:/"; //수정하는페이지로이동
+        return "redirect:/수정하는페이지"; //수정하는페이지로이동
     }
 
 
