@@ -37,6 +37,5 @@ public interface MemberService extends UserDetailsService {
 //   //회원 탈퇴용 메소드
 //   public void removeMember(MemberDTO member) ;
 
-    public Optional<MemberDTO> findUser(String userId);
 
 }

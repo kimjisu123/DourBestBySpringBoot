@@ -1,6 +1,7 @@
 package com.won.dourbest.user.dao;
 
 import com.won.dourbest.user.dto.AddressDTO;
+import com.won.dourbest.user.dto.CheckMemberDTO;
 import com.won.dourbest.user.dto.MemberDTO;
 import org.apache.ibatis.annotations.Mapper;
 

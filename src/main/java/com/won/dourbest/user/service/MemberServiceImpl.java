@@ -103,13 +103,5 @@ public class MemberServiceImpl implements MemberService {
         return user;
     }
 
-    // 회원 정보 조회
 
-
-    @Override
-    public Optional<MemberDTO> findUser(String userId) {
-
-        return mapper.findByMember(userId);
-
-    }
-    }
+}

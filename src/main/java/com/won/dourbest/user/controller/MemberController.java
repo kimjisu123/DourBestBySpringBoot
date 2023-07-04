@@ -8,6 +8,7 @@ import com.won.dourbest.user.dto.MemberDTO;
 import com.won.dourbest.user.dto.MemberImpl;
 import com.won.dourbest.user.service.MemberService;
 import com.won.dourbest.user.service.MemberServiceImpl;
+import lombok.Getter;
 import org.apache.ibatis.annotations.Mapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -126,16 +127,28 @@ public class MemberController {
         return "redirect:/"; //수정하는페이지로이동
     }
 
-    // 1. 그 페이지에서 정보수정 update-> 로그인 정상적으로 되는지 테스트
+    @GetMapping("/checkMember")
+    public String checkMemberForm(@AuthenticationPrincipal MemberImpl user) {
 
+        log.info("member={}",user);
+        log.info("memberid-{}", user.getMemberId());
+        log.info("userpwd={}", user.getPassword());
 
-    // 2. 비밀번호 변경 -> update 되었는지 확인 -> 변경된 비밀번호로 로그인 test
-    //update
+        return "user/checkMember";
 
+    }
 
-    // 3. 탈퇴 -> id,pass -> 맞으면 -> findByMember-> 탈퇴여부 update
+    @PostMapping("/checkMember")
+    public String checkMember(@AuthenticationPrincipal MemberImpl user, @RequestParam String pwd){
 
+        log.info("user = " +  user);
+        log.info("pwd = " +  pwd);
 
+        boolean result = passwordEncoder.matches( pwd , user.getPassword());  // false면 중복값이 없으므로 success
+
+        return "redirect:/";
+
+    }
 
 
 
