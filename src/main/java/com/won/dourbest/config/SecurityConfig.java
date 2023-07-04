@@ -22,14 +22,14 @@ public class SecurityConfig {
     private final MemberService memberService;
 
     @Bean
-    public BCryptPasswordEncoder passwordEncoder(){
+    public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
 
     @Bean
-    public WebSecurityCustomizer configure(){
-        return web -> web.ignoring().antMatchers("/static/**","/css/**", "/js/**", "/lib/**","/images/**","/templates/**");
+    public WebSecurityCustomizer configure() {
+        return web -> web.ignoring().antMatchers("/static/**", "/css/**", "/js/**", "/lib/**", "/images/**", "/templates/**");
     }
 
     @Bean
@@ -46,7 +46,7 @@ public class SecurityConfig {
                 //  .defaultSuccessUrl("/")
                 .successForwardUrl("/")
                 //  .failureForwardUrl("/")
-        .and()
+                .and()
                 .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
                 .deleteCookies("JSESSIONID")  // 쿠키 제거
@@ -63,7 +63,6 @@ public class SecurityConfig {
                 .passwordEncoder(passwordEncoder())
                 .and().build();
     }
-
 
 
 }

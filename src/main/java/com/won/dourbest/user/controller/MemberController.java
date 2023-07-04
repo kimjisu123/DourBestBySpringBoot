@@ -1,7 +1,6 @@
 package com.won.dourbest.user.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.won.dourbest.common.exception.user.CouponNotFoundException;
 import com.won.dourbest.user.dto.AddressDTO;
 import com.won.dourbest.user.dto.MemberDTO;
 //import com.won.dourbest.user.service.MemberServiceImpl;
@@ -118,9 +117,14 @@ public class MemberController {
         log.info("memberid-{}", user.getMemberId());
         log.info("userpwd={}", user.getPassword());
 
-        return "redirect:/수정하는페이지"; //수정하는페이지로이동
-    }
 
+        //확인완료
+        boolean result = passwordEncoder.matches(pwd, user.getPassword());
+
+        log.info("result={}",result);
+
+        return "redirect:/"; //수정하는페이지로이동
+    }
 
     // 1. 그 페이지에서 정보수정 update-> 로그인 정상적으로 되는지 테스트
 

@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.lang.reflect.Member;
 import java.util.*;
 
 @Service
@@ -30,9 +31,9 @@ public class MemberServiceImpl implements MemberService {
     public int registMember(Map<String, Object> map) {
 //
         // 메퍼에서 데이터 베이스에 접속하여 로직 실행에 필요한 쿼리를 호출함.
-            System.out.println("map ====== " + map);
-            int result = mapper.registMember(map);
-            int result2 = mapper.registAddress(map);
+        System.out.println("map ====== " + map);
+        int result = mapper.registMember(map);
+        int result2 = mapper.registAddress(map);
 
         // 권한 부여
         int auth = mapper.insertMemberAuth();
@@ -55,6 +56,22 @@ public class MemberServiceImpl implements MemberService {
 
 
         return mapper.emailCheck(memberEmail) > 0? true : false; // 중복값이 있으면 1로 true를 리턴 없으면 0으로 false를 반환
+    }
+
+    //회원 정보 수정
+    @Override
+    public int modifiyMember(Map<String, Object> map) {
+
+        System.out.println("map = " + map);
+        int result = mapper.registMember(map);
+        int result2 = mapper.registAddress(map);
+
+        if (result > 0 && result2 > 0) {
+            return 1;
+        } else {
+            throw new IllegalStateException();
+        }
+
     }
 
     @Override
@@ -85,4 +102,14 @@ public class MemberServiceImpl implements MemberService {
         log.info("member={}", user.getPassword());
         return user;
     }
-}
+
+    // 회원 정보 조회
+
+
+    @Override
+    public Optional<MemberDTO> findUser(String userId) {
+
+        return mapper.findByMember(userId);
+
+    }
+    }

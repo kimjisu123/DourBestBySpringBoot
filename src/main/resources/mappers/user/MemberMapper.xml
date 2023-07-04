@@ -14,7 +14,6 @@
         <result property="registDate" column="REGIST_DATE"/>
         <result property="withdrawalStatus" column="WITHDRAWAL_STATUS"/>
         <result property="adultStatus" column="ADULT_STATUS"/>
-        <association property="address" resultMap="AddressResultMap"/>
         <association property="membership" resultMap="MemberShipResultMap"/>
         <collection property="memberAuthList" resultMap="MemberAuthList"/>
     </resultMap>
@@ -39,13 +38,6 @@
         <result property="memberAuthDesc" column="MEMBER_AUTH_DESC"/>
     </resultMap>
 
-    <resultMap id="AddressResultMap" type="AddressDTO">
-        <id property="addressCode" column="ADDRESS_CODE"/>
-        <result property="zipcode" column="ZIP_CODE"/>
-        <result property="baseAddress" column="BASE_ADDRESS"/>
-        <result property="detailAddress" column="DETAIL_ADDRESS"/>
-
-    </resultMap>
 
     <insert id="registMember"  parameterType="map">
             INSERT
@@ -120,6 +112,7 @@
         VALUES(1, SEQ_MEMBER_CODE.CURRVAL)
     </insert>
 
+
     <select id="findByMember" resultMap="MemberResultMap">
         select
             M.MEMBER_CODE,
@@ -148,7 +141,6 @@
                  LEFT JOIN TBL_MEMBER_AUTHLIST TMA ON M.MEMBER_CODE = TMA.MEMBER_CODE
                  LEFT JOIN TBL_MEMBERAUTH TM on TMA.MEMBER_AUTH_CODE = TM.MEMBER_AUTH_CODE
                  LEFT JOIN TBL_MEMBERSHIP T on M.MEMBERSHIP_CODE = T.MEMBERSHIP_CODE
-                 LEFT JOIN TBL_ADDRESS TA on M.MEMBER_CODE = TA.MEMBER_CODE
         WHERE  M.MEMBER_ID = #{ userId }
     </select>
 

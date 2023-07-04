@@ -15,8 +15,7 @@ import java.util.Optional;
 
 public interface MemberService extends UserDetailsService {
 
-    // 회원 조회용 메소드
-//    public void findMember(MemberDTO member);
+
     /*회원 가입용 메소드*/
     int registMember(Map<String, Object> map);
 
@@ -33,9 +32,11 @@ public interface MemberService extends UserDetailsService {
     //맵 객체를 만들어서 넘겨준다.
 
 //    // 회원 정보 수정용 메소드
-//    public void modifiyMember(MemberDTO member);
+    int modifiyMember(Map<String, Object> map);
 //
 //   //회원 탈퇴용 메소드
 //   public void removeMember(MemberDTO member) ;
+
+    public Optional<MemberDTO> findUser(String userId);
 
 }

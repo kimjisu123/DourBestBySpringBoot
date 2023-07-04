@@ -154,6 +154,55 @@ function sample6_execDaumPostcode() {
         });
 
 
+   //
+
+function emailCheck(){
+
+    var memberEmail = $("#memberEmail").val(); // 변수 넣기
+    var exptext =/^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;  // 이메일의 형식을 처리하는 기능
+    const output = document.querySelector('#email-error');
+
+    console.log(memberEmail);
+
+    if(memberEmail.length > 0 && exptext.test(memberEmail) == true) { // .test 문자열이 일치하는지 확인함.
+
+        console.log(memberEmail);
+
+        $.ajax({
+            url: "/user/checkEmail",
+            type: "post",
+            data: {memberEmail: memberEmail},
+            success: function (data) {
+
+                console.log(data);
+                if (data == "success") {
+
+
+                    output.textContent ='사용 가능한 이메일 입니다.'
+                    output.style.color = 'green'
+
+
+                } else {
+
+                    output.textContent ='이미 사용중인 이메일 입니다.'
+                    output.style.color = 'red'
+                }
+            }, error: function () {
+                console.log(data)
+
+            }
+
+        });
+    } else{
+
+        output.textContent ='이메일을 입력하지 않았거나 잘못된 형식으로 입력하셨습니다.'
+        output.style.color = 'red'
+        document.getElementById("memberEmail").focus();
+
+        return false;
+    }
+
+}
 
 
 
