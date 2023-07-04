@@ -214,7 +214,7 @@ public class MypageController {
 
         if(result) {
 
-            return "redirect:user/mypage/changeInfo;
+            return "";
 
         } else {
 
@@ -222,7 +222,7 @@ public class MypageController {
         }
 
         // 맞으면 true
-    }
+    }\
 
 
 
