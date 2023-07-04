@@ -61,6 +61,18 @@ public class MemberController {
         return "user/login";
     }
 
+    // 회원탈퇴 메소드
+    @GetMapping("/quitMember")    //이동할 페이지
+    public String quitMember(@AuthenticationPrincipal MemberImpl member, Model model){
+
+        MemberDTO mypageInfo = service.findUser(member.getMemberId()).orElseThrow();
+
+        model.addAttribute("mypageInfo", mypageInfo);  //멤버 배송지 모두 담겨있음.
+        model.addAttribute("member", member);
+
+        return "user/mypage/quitMember";
+    }
+
     // 중복아이디 체크
     @PostMapping("checkId")
     @ResponseBody  //
@@ -118,7 +130,6 @@ public class MemberController {
         log.info("memberid-{}", user.getMemberId());
         log.info("userpwd={}", user.getPassword());
 
-
         //확인완료
         boolean result = passwordEncoder.matches(pwd, user.getPassword());
 
@@ -127,26 +138,18 @@ public class MemberController {
         return "redirect:/"; //수정하는페이지로이동
     }
 
-    @GetMapping("/checkMember")
-    public String checkMemberForm(@AuthenticationPrincipal MemberImpl user) {
-
-        log.info("member={}",user);
-        log.info("memberid-{}", user.getMemberId());
-        log.info("userpwd={}", user.getPassword());
-
-        return "user/checkMember";
-
-    }
 
     @PostMapping("/checkMember")
     public String checkMember(@AuthenticationPrincipal MemberImpl user, @RequestParam String pwd){
-
-        log.info("user = " +  user);
-        log.info("pwd = " +  pwd);
-
-        boolean result = passwordEncoder.matches( pwd , user.getPassword());  // false면 중복값이 없으므로 success
-
-        return "redirect:/";
+//        log.info("user = " +  user);
+//        log.info("pwd = " +  pwd);
+        boolean result = passwordEncoder.matches( pwd , user.getPassword());
+//        log.info("result = " + result);
+            if(result) {
+                return "redirect:/mypage/changeInfo";
+            } else {
+                throw new IllegalStateException("redirect:/");
+            }
 
     }
 

@@ -10,6 +10,7 @@ import com.won.dourbest.user.mypage.service.MypageService;
 import com.won.dourbest.user.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.Banner;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -175,10 +176,7 @@ public class MypageController {
     @GetMapping("checkMember")
     public String checkmember(@AuthenticationPrincipal MemberImpl user, Model model) {
 
-//        log.info("member={}",user);
-//        log.info("memberid-{}", user.getMemberId());
-//        log.info("userpwd={}", user.getPassword());
-          model.addAttribute( "user", user );
+        model.addAttribute( "user", user );
 
 
         return "/user/mypage/checkMember";
@@ -186,71 +184,37 @@ public class MypageController {
     }
 
 
-    // 회원정보 수정 전 로그인 체크
-//    @PostMapping("checkMember")
-//    @ResponseBody
-//    public String infoModifytest(@AuthenticationPrincipal MemberImpl user, @RequestParam String pwd){
-//
-//        log.info("member={}",user);
-//        log.info("memberid-{}", user.getMemberId());
-//        log.info("userpwd={}", user.getPassword());
-//        System.out.println("pwd = " + pwd);
-//        log.info("pwd={}", pwd);
-//        //확인완료
-//        boolean result = passwordEncoder.matches(pwd , user.getPassword());
-//        log.info("result={}",result);
-//        memberService.findUser(user.getMemberId());
-//
-//            return  "redirect:user/mypage/changeInfo";
-//
-//
-//
-//        }
-
-    @PostMapping("checkMember")
-    public String checkMember(@AuthenticationPrincipal MemberImpl user, @RequestParam String pwd){
-
-        log.info("user = " +  user);
-
-        log.info("pwd = " +  pwd);
-
-        boolean result = passwordEncoder.matches( pwd , user.getPassword());  // false면 중복값이 없으므로 success
-
-
-//        if(result) {
-//
-            return "";
-//
-//        }
-
-        // 맞으면 true
-    }
-
-
-
-
-
-
     @GetMapping("changeInfo")
-    public String changeInfo(){
+    public String changeInfo(@AuthenticationPrincipal MemberImpl member, Model model){
+
+        MemberDTO mypageInfo = memberService.findUser(member.getMemberId()).orElseThrow();
+
+        model.addAttribute("mypageInfo", mypageInfo);  //멤버 배송지 모두 담겨있음.
+        model.addAttribute("member", member);
 
         return "user/mypage/changeInfo";
 
     }
-//   회원정보 수정
+    //   회원정보 수정
     @PostMapping ("changeInfo")
-    public String changeInfo (@ModelAttribute MemberDTO member, @ModelAttribute AddressDTO address, Model model){
+    public String changeInfo (@AuthenticationPrincipal MemberImpl user,@ModelAttribute MemberDTO member, @ModelAttribute AddressDTO address){
 
+        log.info("MemberDTO : ",member.toString());
+        log.info("AddressDTO : ",address.toString());
         Map<String, Object> map = new HashMap<>();
-        member.setMemberPhone(member.getMemberPhone().replace("-", "").replace("+82","0"));  // +82 -> 0변경 하이픈제외
-        map.put("member", member);
-        map.put("address", address);
-        memberService.modifiyMember(map);
+        map.put("member" ,member);
+        map.put("address",address);
+
+        memberService.updateMember(map);
 
 
-        return "redirect:user/mypage/changeInfo";
+        return "redirect:/category";
 
     }
+
+
+
+
 
 
 

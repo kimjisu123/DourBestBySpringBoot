@@ -152,10 +152,26 @@
         WHERE  M.MEMBER_ID = #{ userId }
     </select>
 
-    <update id="updatePwd" parameterType="CheckMemberDTO">
+    <update id="updatePwd" parameterType="map">
         UPDATE TBL_MEMBER M
         SET M.MEMBER_PWD = #{ memberPwd }
         WHERE M.MEMBER_ID = #{ memberId }
+    </update>
+
+    <update id="updateMember" parameterType="map">
+        UPDATE TBL_MEMBER M
+        SET M.MEMBER_PHONE = #{ memberPhone }
+            M.MEMBER_EMAIL = #{ memberEmail }
+        WHERE M.MEMBER_ID = #{ memberId }
+    </update>
+
+    <update id="updateAddress" parameterType="CheckMemberDTO">
+        UPDATE TBL_ADDRESS A
+        SET A.ZIP_CODEN = #{ memberPhone }
+            A.BASE_ADDRESS  = #{ memberPhone }
+            A.DETAIL_ADDRESS = #{ memberPhone }
+        WHERE A.MEMBER_ID = (SELECT M.MEMBER_ID FROM TBL_MEMBER M
+                              WHERE M.MEMBER_ID = #{ memberId } )
     </update>
 
 

@@ -30,6 +30,10 @@ public interface MemberMapper {
 
     int updatePwd(CheckMemberDTO member);
 
+    int updateMember(Map<String, Object> map);
+
+    int updateAddress(Map<String, Object> map);
+
 
 
 //    MemberDTO selectMember(MemberDTO member);

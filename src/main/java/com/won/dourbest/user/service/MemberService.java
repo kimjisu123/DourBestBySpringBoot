@@ -32,7 +32,7 @@ public interface MemberService extends UserDetailsService {
     //맵 객체를 만들어서 넘겨준다.
 
 //    // 회원 정보 수정용 메소드
-    int modifiyMember(Map<String, Object> map);
+    int updateMember(Map<String, Object> map);
 //
 //   //회원 탈퇴용 메소드
 //   public void removeMember(MemberDTO member) ;
