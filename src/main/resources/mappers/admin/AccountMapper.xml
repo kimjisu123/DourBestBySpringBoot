@@ -43,9 +43,9 @@
 
     <resultMap id="AdminAccountResultMap" type="com.won.dourbest.admin.account.dto.AdminAccountDTO">
         <result property="adminCode" column="ADMIN_CODE"/>
+        <result property="adminName" column="ADMIN_NAME"/>
+        <result property="adminPhone" column="ADMIN_PHONE"/>
         <result property="adminEmail" column="ADMIN_EMAIL"/>
-        <result property="adminId" column="ADMIN_ID"/>
-        <result property="adminPwd" column="ADMIN_PWD"/>
         <result property="regiDate" column="REGI_DATE"/>
     </resultMap>
 
@@ -126,11 +126,12 @@
     <select id="selectAllAdminAccount" resultMap="AdminAccountResultMap">
         SELECT
             ADMIN_CODE,
+            ADMIN_NAME,
             ADMIN_EMAIL,
-            ADMIN_ID,
-            ADMIN_PWD,
+            ADMIN_PHONE,
             REGI_DATE
         FROM TBL_ADMIN
+        ORDER BY ADMIN_CODE
     </select>
 
     <!--  총 페이지 갯수  -->
@@ -143,7 +144,36 @@
         </if>
     </select>
 
-
     <!--  값이 들어올 경우 where절이 실행이 되어 조건(id)에 맞는 페이지의 갯수를 가져오고  -->
     <!--  값이 들어오지 않을경우 where절이 실행이 되지 않아 총 페이지(all) 갯수를 가져온다.  -->
+
+    <!--  관리자 계정 생성  -->
+    <insert id="registAdmin">
+        INSERT INTO TBL_ADMIN
+        VALUES
+        (
+            SEQ_ADMIN_CODE.nextval,
+            #{ adminEmail },
+            DEFAULT,
+            #{ adminPhone },
+            #{ adminPassword },
+            #{ adminName }
+        )
+    </insert>
+
+    <!--  이메일 중복 체크  -->
+    <select id="emailRedundancy" resultMap="AdminAccountResultMap">
+        SELECT
+            ADMIN_EMAIL
+        FROM    TBL_ADMIN
+        WHERE   ADMIN_EMAIL = #{adminEmail}
+    </select>
+
+    <!--  전화번호 중복 체크  -->
+    <select id="phoneRedundancy" resultMap="AdminAccountResultMap">
+        SELECT
+            ADMIN_PHONE
+        FROM    TBL_ADMIN
+        WHERE   ADMIN_PHONE = #{adminPhone}
+    </select>
 </mapper>

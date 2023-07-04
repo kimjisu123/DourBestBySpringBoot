@@ -29,4 +29,14 @@ public interface AdminMapper {
 
 
     int selectTotalPage(Map<String, String> searchMap);
+
+    // 관리자 회원가입
+    int registAdmin(AdminRegistDTO adminRegist);
+
+    // 아이디 중복체크
+    String emailRedundancy(AdminRegistDTO adminRegist);
+
+
+    // 전화번호 중복체크
+    String phoneRedundancy(AdminRegistDTO adminRegist);
 }

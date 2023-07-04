@@ -77,13 +77,13 @@
                                     구분
                                 </div>
                                 <div id="adminLine2" class="SortationList">
-                                    아이디
+                                    관리자 이름
                                 </div>
                                 <div id="adminLine3" class="SortationList">
-                                    비밀번호
+                                    이메일
                                 </div>
                                 <div id="adminLine4" class="SortationList">
-                                    이메일
+                                    전화번호
                                 </div>
                                 <div id="adminLine5" class="SortationList">
                                     등록 날짜
@@ -91,9 +91,9 @@
                             </div>
                             <div th:each="adminAccount : ${adminAccountList}" class="table">
                                 <div th:text="${adminAccount.getAdminCode()}" id="adminAccountMana1"></div>
-                                <div th:text="${adminAccount.getAdminId()}" id="adminAccountMana2"></div>
-                                <div th:text="${adminAccount.getAdminPwd()}" id="adminAccountMana3"></div>
-                                <div th:text="${adminAccount.getAdminEmail()}" id="adminAccountMana4"></div>
+                                <div th:text="${adminAccount.getAdminName()}" id="adminAccountMana2"></div>
+                                <div th:text="${adminAccount.getAdminEmail()}" id="adminAccountMana3"></div>
+                                <div th:text="${adminAccount.getAdminPhone()}" id="adminAccountMana4"></div>
                                 <div th:text="${#dates.format(adminAccount.getRegiDate(), 'yyyy/MM/dd')}" id="adminAccountMana5"></div>
                             </div>
                         </div>
@@ -104,42 +104,127 @@
 
                 <!-- 슬라이드바 -->
 
-
-                <button type="button" id="createadminAccount">관리자 계정 생성</button>
-                <button type="button" id="Withdrawal">계정 탈퇴</button>
-            </ul>
-        </section>    <button class="contactBtn">모달 테스트</button>
-    <div class="contactmodal">
-        <div class="contactmodal-container">
-            <div class="contactmodal-content">
-                <span class="close">&times;</span>
-                <h2 class="contactmodal-title">1:1 문의</h2>
-                <form class="mb-3 contact" name="contact" id="contact" method="post">
-                    <label for=""></label>
-                    <select name="contactCode" id="contactCode">
-                        <option value="">회원 정보 문의</option>
-                        <option value="">결제 문의</option>
-                        <option value="">쿠폰/포인트 문의</option>
-                        <option value="">상품/배송 문의</option>
-                        <option value="">멤버십 문의</option>
-                        <option value="">교환·AS 문의</option>
-                        <option value="">취소·환불·반품 문의</option>
-                        <option value="">서비스 이용 문의</option>
-                    </select>
-                    <textarea class="col-auto form-control contactContents" type="text" id="" placeholder="최소10이상 작성해주세요!!" maxlength="3000"></textarea>
-                    <div class="file-container">
-                        <label for="contact-imgInput">
-                            <span><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#f35f4c}</style><path d="M149.1 64.8L138.7 96H64C28.7 96 0 124.7 0 160V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V160c0-35.3-28.7-64-64-64H373.3L362.9 64.8C356.4 45.2 338.1 32 317.4 32H194.6c-20.7 0-39 13.2-45.5 32.8zM256 192a96 96 0 1 1 0 192 96 96 0 1 1 0-192z"/></svg>문의 이미지</span>
-                        </label>
-                        <input type="file" id="contact-imgInput" onchange="contactreadURL(this)">
-                        <div class="contact-imgdiv"></div>
+                <button id="createadminAccount" class="contactBtn">관리자 계정 생성 모달 테스트</button>
+                <div class="contactmodal">
+                    <div class="contactmodal-container">
+                        <div class="contactmodal-content">
+                            <span class="close">&times;</span>
+                            <h2 class="contactmodal-title">관리자 계정 생성</h2>
+                                <div>
+                                    <div class="name">
+                                        이름
+                                    </div>
+                                    <div class="adminRegi">
+                                        <input name="adminName" class="inputName" type="text" placeholder="이름">
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="phone">
+                                        전화번호
+                                    </div>
+                                    <div class="adminRegi">
+                                        <input name="adminPhone" class="inputPhone" type="text" placeholder="전화번호">
+                                    </div>
+                                    <div class="Redundancy">
+                                        중복되는 전화번호가 있습니다.
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="email">
+                                        이메일
+                                    </div>
+                                    <div class="adminRegi">
+                                        <input name="adminEmail" class="inputEmail" type="text" placeholder="이메일">
+                                    </div>
+                                    <div class="Redundancy">
+                                        중복 되는 이메일이 있습니다.
+                                    </div>
+                                </div>
+                                <div >
+                                    <div class="password">
+                                        비밀번호
+                                    </div>
+                                    <div class="adminRegi">
+                                        <input name="adminPassword" class="inputPassword" type="password" placeholder="비밀번호">
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="checkpass">
+                                        비밀번호 확인
+                                    </div>
+                                    <div class="adminRegi">
+                                        <input name="adminCheckpass" class="inputCheckpass" type="password" placeholder="비밀번호 확인">
+                                    </div>
+                                </div>
+                                <button class="submit" type="button" id="btnCreate">계정 만들기</button>
+                        </div>
                     </div>
-                    <button class="" type="submit">제출</button>
-                </form>
-            </div>
-        </div>
-    </div>
+                </div>
+                <button id="Withdrawal">계정 탈퇴</button>
+            </ul>
+        </section>
     <script>
+        $('#btnCreate').click(function(){
+            let adminName = $('.inputName').val();
+            let adminPhone = $('.inputPhone').val();
+            let adminEmail = $('.inputEmail').val();
+            let adminPassword = $('.inputPassword').val();
+
+            let admin = {
+                adminName:adminName,
+                adminPhone:adminPhone,
+                adminEmail:adminEmail,
+                adminPassword:adminPassword
+            }
+
+           $.ajax({
+                contentType : "application/json",
+                data : JSON.stringify(admin),
+                type : "POST",
+                url : "/admin/adminAccount",
+                success : function (data) {
+                    console.log(data);
+                    alert(data);
+                    $('.contactmodal').css('display', 'none')
+                    window.location.reload()
+                },
+                error : function (error) {
+                    alert(error);
+                }
+            })
+        });
+
+        $('.Redundancy').keyup(function(){
+
+            let adminPhone = $('.inputPhone').val();
+            let adminEmail = $('.inputEmail').val();
+
+            let adminRedundancy = {
+                adminPhone,
+                adminEmail
+            }
+
+            $.ajax({
+                contentType: "application/json",
+                dataType :"POST",
+                url:"/admin/adminAccount",
+                data : adminRedundancy,
+                success(data){
+                    console.log(data)
+                    if(data === "중복되는 전화번호가 있습니다."){
+                        $('#RedundancyPhone').css('display', 'block')
+                    } else if(data === "중복되는 이메일이 있습니다."){
+                        $('#RedundancyEmail').css('display', 'block')
+                    }
+                },
+                error(error){
+                    console.log(error)
+                }
+            })
+
+
+        })
+
         const contactmodal = document.querySelector(".contactmodal");
         const btn = document.querySelector(".contactBtn");
         const $span = document.querySelector(".close");
@@ -162,6 +247,8 @@
                 }
             };
         }
+
+
     </script>
     <script>
         function contactreadURL(obj) {
@@ -187,7 +274,6 @@
             }
         }
     </script>
-
 
     </div>
 </main>

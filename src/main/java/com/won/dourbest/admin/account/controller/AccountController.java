@@ -1,18 +1,20 @@
 package com.won.dourbest.admin.account.controller;
 
+import com.sun.source.tree.MemberSelectTree;
 import com.won.dourbest.admin.account.dto.*;
 import com.won.dourbest.admin.account.service.AdminServiceImpl;
 import com.won.dourbest.admin.common.Pagenation;
 import com.won.dourbest.admin.common.SelectCriteria;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,10 +26,13 @@ public class AccountController {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
     private final AdminServiceImpl adminService;
 
+    private final PasswordEncoder passwordEncoder;
+
     // 생성자 의존 주입
-    public AccountController(AdminServiceImpl adminService) {
+    public AccountController(AdminServiceImpl adminService, PasswordEncoder passwordEncoder) {
 
         this.adminService = adminService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     // 모든 회원 목록 조회
@@ -139,6 +144,21 @@ public class AccountController {
 
         return mv;
     }
+
+    // 관리자 회원 가입
+    @PostMapping("/adminAccount")
+    @ResponseBody
+    public String adminRegist(@RequestBody @Valid AdminRegistDTO adminRegist){
+
+        adminRegist.setAdminPhone(adminRegist.getAdminPhone().replace("-", ""));
+        adminRegist.setAdminPassword(passwordEncoder.encode(adminRegist.getAdminPassword()));
+
+        String message = adminService.registAdmin(adminRegist);
+
+        return message;
+    }
+
+
 
 
 }

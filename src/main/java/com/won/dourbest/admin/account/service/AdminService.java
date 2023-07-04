@@ -30,4 +30,7 @@ public interface AdminService {
     List<AdminAccountDTO> selectAllAdminAccount();
 
     int selectTotalPage(Map<String, String> searchMap);
+
+    // 관리자 계정 생성
+    String registAdmin(AdminRegistDTO adminRegist);
 }

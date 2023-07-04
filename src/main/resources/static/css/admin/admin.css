@@ -1578,3 +1578,65 @@ a {
     width: 125px;
     height: 24px;
 }
+
+
+.name{
+    width: 35px;
+    height: 20px;
+    margin: 0px 0px 0px 45px;
+}
+.phone{
+    width: 65px;
+    height: 20px;
+    margin: 0px 0px 0px 45px;
+}
+.email{
+    width: 50px;
+    height: 20px;
+    margin: 0px 0px 0px 45px;
+}
+.password{
+    width: 65px;
+    height: 20px;
+    margin: 0px 0px 0px 45px;
+}
+.checkpass{
+    width: 105px;
+    height: 20px;
+    margin: 0px 0px 0px 45px;
+}
+
+.inputName{
+    width: 400px;
+    height: 30px;
+    margin: 0px 0px 10px 0px;
+}
+.inputPhone{
+    width: 400px;
+    height: 30px;
+    margin: 0px 0px 10px 0px;
+}
+.inputEmail{
+    width: 400px;
+    height: 30px;
+    margin: 0px 0px 10px 0px;
+}
+.inputPassword{
+    width: 400px;
+    height: 30px;
+    margin: 0px 0px 10px 0px;
+}
+.inputCheckpass{
+    width: 400px;
+    height: 30px;
+    margin: 0px auto 20px auto;
+}
+.adminRegi{
+    display: flex;
+    justify-content: center;
+}
+.Redundancy{
+    display: none;
+    color: red;
+}
+

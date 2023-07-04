@@ -12,8 +12,9 @@ import java.util.Date;
 public class AdminAccountDTO {
 
     private int adminCode;
+    private String adminName;
+    private String adminPhone;
     private String adminEmail;
-    private String adminId;
     private String adminPwd;
     private Date regiDate;
 }
