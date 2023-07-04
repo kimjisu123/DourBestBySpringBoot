@@ -212,17 +212,14 @@ public class MypageController {
         boolean result = passwordEncoder.matches( pwd , user.getPassword());  // false면 중복값이 없으므로 success
 
 
-        if(result) {
-
+//        if(result) {
+//
             return "";
-
-        } else {
-
-
-        }
+//
+//        }
 
         // 맞으면 true
-    }\
+    }
 
 
 
