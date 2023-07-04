@@ -3,7 +3,6 @@ package com.won.dourbest.seller.service.jiho;
 import com.won.dourbest.common.dto.CategoryDTO;
 import com.won.dourbest.seller.dto.FundingOptionDTO;
 import com.won.dourbest.seller.dto.PlanDTO;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
@@ -24,4 +23,13 @@ public interface SubmitService {
 
     // 옵션 Insert
     int insertOption(FundingOptionDTO option);
+
+    // 옵션 delete
+    int deleteOption(Map<String, String> map);
+
+    // 판매자 업데이트
+    int updateSeller(Map<String, Object> map);
+
+    // 펀딩 업데이트
+    int updateFunding(Map<String, Object> map);
 }

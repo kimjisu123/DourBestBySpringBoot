@@ -96,5 +96,29 @@ public class SubmitServiceImpl implements SubmitService{
 
         return num;
     }
+
+    @Override
+    public int deleteOption(Map<String, String> map) {
+
+        int result = sellerMapper.deleteOption(map);
+
+        return result > 0? 1 : 0;
+    }
+
+    @Override
+    public int updateSeller(Map<String, Object> map) {
+
+        int result = sellerMapper.updateSeller(map);
+
+        return result > 0? 1 : 0;
+    }
+
+    @Override
+    public int updateFunding(Map<String, Object> map) {
+
+        int result = sellerMapper.updateFunding(map);
+
+        return result > 0? 1 : 0;
+    }
 }
 

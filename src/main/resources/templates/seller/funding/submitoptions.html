@@ -137,18 +137,7 @@
               <span class="highlight"></span>
               <span class="bar"></span>
             </div>
-            <div class="option-title">
-              배송비
-            </div>
-            <div class="option-sub">
-              배송이 없는 경우는 0으로 적어주세요.
-            </div>
-            <div class="group">
-              <input type="text" name="deliverPrice" id="deliverPrice" placeholder="배송비를 입력해주세요.">
               <input type="hidden" name="currentKey" id="currentKey" th:value="${ currentKey }">
-              <span class="highlight"></span>
-              <span class="bar"></span>
-            </div>
             <div class="option-title">
               배송 시작 일자
             </div>
@@ -164,7 +153,7 @@
                   </span>
               </div>
               <div class="button9">
-                <button class="redbutton1" id="button9">
+                <button class="redbutton1" id="button9" th:onclick="|location.href='@{seller(fundingCode=${ currentKey })}'|">
                                         <span>
                                             저장 및 다음단계
                                         </span>
@@ -173,47 +162,52 @@
             </div>
           </div>
           <div class="options">
-            <div class="option">
-              <div class="opt-top">
-                <div class="opt-title">
-                  20,000원
-                </div>
-                <div class="opt-amount">
-                  제한 수량 200개
-                </div>
-              </div>
-              <div class="line"></div>
-              <div class="opt-mid">
-                <div class="opt-name">
-                  옵션명
-                </div>
-                <div class="opt-info">
-                  옵션에 대한 설명입니다.
-                  줄 바꿔서 쓰는 것도 가능하게 만들고
-                  알아서 내려가게 만들거에요. 아주 좋지요.
-                  내가 여기서 더 쓰면 길이는 더 길어지지요.
-                </div>
-                <div class="opt-bot1">
-                  <div class="del-price">
-                    배송비
-                  </div>
-                  <div class="del-price1">
-                    2500원
-                  </div>
-                </div>
-                <div class="opt-bot2">
-                  <div class="del-date">
-                    배송 시작일
-                  </div>
-                  <div class="del-date1">
-                    yyyy년 MM월 dd일
-                  </div>
-                </div>
-              </div>
-              <div class="opt-bottom">
-                <button>삭제하기</button>
-              </div>
-            </div>
+            <div id="inputOption"></div>
+<!--             <div class="option">-->
+<!--              <div class="opt-top">-->
+<!--                <div class="opt-title">-->
+<!--                  20,000원-->
+<!--                </div>-->
+<!--                <div class="opt-amount">-->
+<!--                  제한 수량 200개-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              <div class="line"></div>-->
+<!--              <div class="opt-mid">-->
+<!--                <div class="opt-name">-->
+<!--                  옵션명-->
+<!--                </div>-->
+<!--                <div class="opt-info">-->
+<!--                  옵션에 대한 설명입니다.-->
+<!--                  줄 바꿔서 쓰는 것도 가능하게 만들고-->
+<!--                  알아서 내려가게 만들거에요. 아주 좋지요.-->
+<!--                  내가 여기서 더 쓰면 길이는 더 길어지지요.-->
+<!--                </div>-->
+<!--                <div class="opt-opt">-->
+<!--                  <div class="size"></div>-->
+<!--                  <div class="color"></div>-->
+<!--                </div>-->
+<!--                <div class="opt-bot1">-->
+<!--                  <div class="del-price">-->
+<!--                    배송비-->
+<!--                  </div>-->
+<!--                  <div class="del-price1">-->
+<!--                    2500원-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--                <div class="opt-bot2">-->
+<!--                  <div class="del-date">-->
+<!--                    배송 시작일-->
+<!--                  </div>-->
+<!--                  <div class="del-date1">-->
+<!--                    yyyy년 MM월 dd일-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              <div class="opt-bottom">-->
+<!--                <button>삭제하기</button>-->
+<!--              </div>-->
+<!--            </div>-->
           </div>
         </div>
       </div>
@@ -221,7 +215,7 @@
   </main>
   <script src=""></script>
 <script>
-  $('#button8').click(function() {
+  $('.button8').click(function() {
     if(check()) {
 
       let optionName = $('#optionName').val();
@@ -230,7 +224,6 @@
       let optionSize = $('#optionSize').val();
       let optionColor = $('#optionColor').val();
       let optionAmount = $('#optionAmount').val();
-      let deliverPrice = $('#deliverPrice').val();
       let str = $('#deliverDate').val();
       const date = new Date(str);
       let deliverDate = date;
@@ -242,7 +235,6 @@
         optionSize : optionSize,
         optionColor : optionColor,
         limitQuantity : optionAmount,
-        deliverPrice : deliverPrice,
         deliverDate : deliverDate,
         currKey : currKey
       }
@@ -253,7 +245,60 @@
         url : "/submit/option",
         success : function(data) {
           alert("1"+data); // success , fail
+          let code = '';
+          let num = 1;
+          code += '<div class="option">\n' +
+                  '              <div class="opt-top">\n' +
+                  '                <div class="opt-title">\n' +
+                                      $('#optionMoney').val() + '원\n' +
+                  '                </div>\n' +
+                  '                <div class="opt-amount">\n' +
+                  '                  제한 수량' + $('#optionAmount').val() + '개\n' +
+                  '                </div>\n' +
+                  '              </div>\n' +
+                  '              <div class="line"></div>\n' +
+                  '              <div class="opt-mid">\n' +
+                  '                <div class="opt-name">\n' +
+                                      $('#optionName').val() + '\n' +
+                  '                </div>\n' +
+                  '                <div class="opt-info">\n' +
+                                      $('#optionInfo').val() + '\n' +
+                  '                </div>\n' +
+                  '                <div class="opt-opt">\n' +
+                          '<div class="size">' + $('#optionSize').val() + '</div> \n' +
+                          '<div class="color">' + $('#optionColor').val() + '</div> \n' +
+                          '</div>' +
 
+                  '                <div class="opt-bot2">\n' +
+                  '                  <div class="del-date">\n' +
+                  '                    배송 시작일\n' +
+                  '                  </div>\n' +
+                  '                  <div class="del-date1">\n' +
+                                        $('#deliverDate').val() + '\n' +
+                  '                  </div>\n' +
+                  '                </div>\n' +
+                  '              </div>\n' +
+                  '              <div class="opt-bottom">\n' +
+                  ' <input type="hidden" value="' + $('#optionName').val() + '" >' +
+                  ' <input type="hidden" value="' + $('#optionInfo').val() + '" >' +
+                  ' <input type="hidden" value="' + $('#optionSize').val() + '" >' +
+                  ' <input type="hidden" value="' + $('#optionColor').val() +'" >' +
+                  '                <button class="delete" onclick="del(this)">삭제하기</button>\n' +
+                  '              </div>\n' +
+                  '            </div>' +
+                  '     <br>';
+
+          var option = document.getElementById('inputOption');
+          option.innerHTML += code;
+
+          $('#optionName').val('');
+          $('#optionInfo').val('');
+          $('#optionMoney').val('');
+          $('#optionSize').val('');
+          $('#optionColor').val('');
+          $('#optionAmount').val('');
+          $('#deliverDate').val('');
+          $('#optionName').focus();
 
           console.log('성공');
         },
@@ -266,8 +311,33 @@
     }
   });
 
+  function del(opt) {
+    let optionName = $(opt).siblings()[0].value;
+    let optionInfo = $(opt).siblings()[1].value;
+    let optionSize = $(opt).siblings()[2].value;
+    let optionColor = $(opt).siblings()[3].value;
+    let option = {
+      optionName : optionName,
+      optionInfo : optionInfo,
+      optionSize : optionSize,
+      optionColor : optionColor
+    }
 
+    $.ajax({
+      contentType : "application/json",
+      data : JSON.stringify(option),
+      type : "POST",
+      url : "/submit/delete",
+      success : function(data) {
+        alert(1 + data);
+      },
+      error : function(error) {
+        alert(2 + error);
+      }
+    });
 
+    opt.parentElement.parentElement.remove();
+  }
 
   function check() {
     if($('#optionName').val() !== '') {
@@ -276,17 +346,12 @@
           if($('#optionSize').val() !== '') {
             if($('#optionColor').val() !== '') {
               if($('#optionAmount').val() !== '') {
-                if($('#deliverPrice').val() !== '') {
                   if($('#deliverDate').val() !== '') {
                       return true;
                     }
                   alert('배송 날짜를 입력해주세요!');
                   $('#deliverDate').focus();
                   return;
-                  }
-                alert('배송비를 입력해주세요!');
-                $('#deliverPrice').focus();
-                return;
                 }
               alert('제한 수량을 입력해주세요!');
               $('#optionAmount').focus();

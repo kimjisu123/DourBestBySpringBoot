@@ -36,4 +36,13 @@ public interface SellerMapper {
 
     // 옵션 insert
     int insertOption(FundingOptionDTO option);
+
+    // 옵션 삭제
+    int deleteOption(Map<String, String> map);
+
+    // 판매자 업데이트
+    int updateSeller(Map<String, Object> map);
+
+    // 펀딩 업데이트
+    int updateFunding(Map<String, Object> map);
 }

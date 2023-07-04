@@ -304,4 +304,63 @@ public class SubmitPageController {
 
         return resultMessage;
     }
+
+    @PostMapping("/delete")
+    @ResponseBody
+    public String deleteOption(@RequestBody Map<String, String> map) {
+
+        System.out.println("map = " + map);
+
+        String message = "";
+        int result = submitService.deleteOption(map);
+        if(result == 1) {
+            message = "성공";
+        } else {
+            message = "실패";
+        }
+
+        return message;
+    }
+
+    @GetMapping("/seller")
+    public String sellerInfo(Model model, @RequestParam String fundingCode) {
+
+        model.addAttribute("fundingCode", fundingCode);
+
+        return "seller/funding/submitsellerinfo";
+    }
+
+    @PostMapping("/refund")
+    public String refundRule(Model model, @RequestParam String bankName, @RequestParam String accountNum
+                            , @RequestParam(required = false) String kakaoUrl
+                            , @RequestParam(required = false) String homepageUrl
+                            , @RequestParam(required = false) String snsUrl, @RequestParam String fundingCode) {
+
+        System.out.println("bankName = " + bankName);
+        Map<String, Object> map = new HashMap<>();
+        map.put("accountNum", accountNum);
+        map.put("bankName", bankName);
+        map.put("kakaoUrl", kakaoUrl);
+        map.put("homepageUrl", homepageUrl);
+        map.put("snsUrl", snsUrl);
+
+        int result = submitService.updateSeller(map);
+
+        model.addAttribute("fundingCode", Integer.valueOf(fundingCode));
+
+
+        return "seller/funding/submitrefund";
+    }
+
+    @PostMapping("/success")
+    public String success(@RequestParam int fundingCode, @RequestParam String refundRule) {
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("fundingCode", fundingCode);
+        map.put("refundRule", refundRule);
+
+        int result = submitService.updateFunding(map);
+
+        return result > 0? "성공" : "실패";
+    }
 }

@@ -207,7 +207,7 @@ html .ui-button.ui-state-disabled:active { border: 0px solid #c5c5c5; background
     margin-top: 100px;
 }
 
-.redbutton {
+.button8 {
     width: 200px;
     height: 80px;
     border-radius: 5px;
@@ -225,21 +225,22 @@ html .ui-button.ui-state-disabled:active { border: 0px solid #c5c5c5; background
     border: none;
     background: #8f8f8f;
     background: linear-gradient(0deg, rgba(255, 210, 196, 1) 0%, rgba(255, 210, 196, 2) 100%);
+    text-align: center;
 }
 
-.redbutton:hover {
+.button8:hover {
     color: #f35f4c;
     background: transparent;
     box-shadow:none;
 }
 
-.redbutton span {
+.button8 span {
     font-size: 1.3em;
     font-weight: 500;
 }
 
-.redbutton:before,
-.redbutton:after{
+.button8:before,
+.button8:after{
     content:'';
     position:absolute;
     top:0;
@@ -254,14 +255,14 @@ html .ui-button.ui-state-disabled:active { border: 0px solid #c5c5c5; background
     transition:400ms ease all;
 }
 
-.redbutton:after{
+.button8:after{
     right:inherit;
     top:inherit;
     left:0;
     bottom:0;
 }
-.redbutton:hover:before,
-.redbutton:hover:after{
+.button8:hover:before,
+.button8:hover:after{
     width:100%;
     transition:800ms ease all;
 }
@@ -398,7 +399,7 @@ html .ui-button.ui-state-disabled:active { border: 0px solid #c5c5c5; background
 .opt-bot1 {
     display: flex;
     justify-content: space-between;
-    margin-top: 40px;
+    margin-top: 10px;
 }
 
 .del-price1, .del-date1 {
@@ -412,7 +413,7 @@ html .ui-button.ui-state-disabled:active { border: 0px solid #c5c5c5; background
 }
 
 .opt-bottom {
-    margin-top: 30px;
+    margin-top: 10px;
     text-align: right;
 }
 
@@ -423,5 +424,11 @@ html .ui-button.ui-state-disabled:active { border: 0px solid #c5c5c5; background
     background-color: #ffd2c4;
     border: 1px solid #ebc1b4;
     color: #f35f4c;
+}
+
+.opt-opt {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
 }
 

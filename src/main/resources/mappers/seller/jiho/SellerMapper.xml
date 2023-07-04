@@ -181,7 +181,6 @@
         , LIMIT_QUANTITY
         , OPTION_COLOR
         , OPTION_SIZE
-        , DELIVER_PRICE
         , DELIVER_DATE
         , FUNDING_CODE
         )
@@ -194,10 +193,34 @@
         , #{ limitQuantity }
         , #{ optionColor }
         , #{ optionSize }
-        , #{ deliverPrice }
         , #{ deliverDate }
         , #{ currKey }
         )
     </insert>
+
+    <delete id="deleteOption" parameterType="HashMap">
+        DELETE
+          FROM TBL_FUNDING_OPTIONS
+         WHERE OPTION_NAME = #{ optionName }
+           AND OPTION_CONTENTS = #{ optionInfo }
+           AND OPTION_SIZE = #{ optionSize }
+           AND OPTION_COLOR = #{ optionColor }
+    </delete>
+
+    <update id="updateSeller" parameterType="HashMap">
+        UPDATE TBL_SELLER
+           SET ACCOUNT_NUMBER = #{ accountNum },
+               BANK_NAME = #{ bankName },
+               SELLER_KAKAO = #{ kakaoUrl },
+               SELLER_SNS = #{ snsUrl },
+               SELLER_URL = #{ homepageUrl }
+         WHERE SELLER_CODE = 1
+    </update>
+
+    <update id="updateFunding" parameterType="HashMap">
+        UPDATE TBL_FUNDING
+           SET RETURN_ROLE = #{ refundRule }
+         WHERE FUNDING_CODE = #{ fundingCode }
+    </update>
 
 </mapper>
