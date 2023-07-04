@@ -10,7 +10,7 @@ public interface MemberShipService {
 
     Optional<MemberShipCreditDTO> findByCredit(int memberCode);
 
-    Optional<MemberShipCreditDTO> memberShipChange(MemberShipCreditDTO credit, int memberCode);
+    Optional<MemberShipCreditDTO> memberShipChange(MemberShipCreditDTO credit);
 
 
 

@@ -30,16 +30,12 @@ public class MemberShipServiceImpl implements MemberShipService{
 
     @Override
     @Transactional
-    public Optional<MemberShipCreditDTO> memberShipChange(MemberShipCreditDTO credit, int memberCode) {
+    public Optional<MemberShipCreditDTO> memberShipChange(MemberShipCreditDTO credit) {
 
-
-
-        memberShipMapper.memberShipUpdate(memberCode);
+        memberShipMapper.memberShipUpdate(credit.getMemberCode());
         memberShipMapper.insertCredit(credit);
 
         return Optional.ofNullable(credit);
-
-
 
     }
 }

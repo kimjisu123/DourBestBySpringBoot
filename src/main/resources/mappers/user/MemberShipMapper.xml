@@ -52,7 +52,7 @@
     <update id="memberShipUpdate">
         UPDATE TBL_MEMBER M
         SET M.MEMBERSHIP_CODE = 2
-        WHERE M.MEMBER_CODE = #{memberCode};
+        WHERE M.MEMBER_CODE = #{memberCode}
     </update>
 
     <select id="findByCredit" resultMap="MemberShipCredit">
@@ -70,12 +70,12 @@
         INSERT INTO TBL_MEMBERSHIP_CREDIT
         VALUES(
             SEQ_MEMERSHIP_CREDIT_CODE.nextval,
-            #{ memberCode },
-            #{ cardCompany },
-            #{ paymentNumber },
-            #{ paymentDate },
-            #{ memberStatus }
-            );
+            #{memberCode},
+            #{cardCompany},
+            #{paymentNumber},
+            #{paymentDate},
+            #{memberStatus}
+            )
     </insert>
 
 

@@ -42,6 +42,15 @@
                             if(4400 == data.response.amount){
                                 alert("결제 및 결제검증완료");
 
+                                let result = JSON.stringify({
+                                    memberCode: [[${member.memberCode}]],
+                                    cardCompany : data.response.pgProvider,
+                                    paymentNumber : data.response.merchantUid,
+                                    paymentDate : data.response.paidAt,
+                                    memberStatus: data.response.status
+                                });
+
+
                                 let msg;
                                 if (rsp.success) {
                                     msg = '결제가 완료되었습니다.';
@@ -49,7 +58,8 @@
                                     $.ajax({
                                         method: 'post',
                                         url: "/membership/rank",
-                                        data: [[${member.memberCode}]],
+                                        data: result,
+                                        contentType: "application/json",
                                         success: function (data) {
                                             console.log(data);
                                         },
@@ -65,7 +75,7 @@
                                 }
 
                             } else {
-                                alert("결제 실패");
+                                alert("결제금액이 다릅니다.");
                             }
                         });
 

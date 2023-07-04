@@ -4,18 +4,25 @@ import com.siot.IamportRestClient.IamportClient;
 import com.siot.IamportRestClient.exception.IamportResponseException;
 import com.siot.IamportRestClient.response.IamportResponse;
 import com.siot.IamportRestClient.response.Payment;
+import com.won.dourbest.common.dto.CommonResponse;
+import com.won.dourbest.common.exception.user.CreditException;
 import com.won.dourbest.user.dto.MemberDTO;
 import com.won.dourbest.user.dto.MemberImpl;
+import com.won.dourbest.user.dto.MemberShipCreditDTO;
 import com.won.dourbest.user.service.MemberService;
 import com.won.dourbest.user.service.MemberShipService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import retrofit2.HttpException;
 
 import java.io.IOException;
+import java.util.Optional;
 
 @Slf4j
 @Controller
@@ -59,13 +66,17 @@ public class MemberShipController {
     }
 
 
-    @PostMapping("/rank")
-    public String memberShipUpdate(@RequestParam String memberCode){
-        log.info("memberId={}",memberCode);
+    @PostMapping(value = "/rank", produces = "application/json")
+    @ResponseBody
+    public ResponseEntity<CommonResponse> memberShipUpdate(@RequestBody MemberShipCreditDTO memberShipCredit){
 
+        log.info("memberShipCredit={}", memberShipCredit);
+        Optional<MemberShipCreditDTO> result = memberShipService.memberShipChange(memberShipCredit);
 
+        if(result.isEmpty()) throw new CreditException("결제정보 저장오류");
 
-        return "";
+        CommonResponse resp = new CommonResponse(true,"결제정보가 정상 저장되었습니다.");
+        return new ResponseEntity<>(resp, HttpStatus.OK);
     }
 
 }
