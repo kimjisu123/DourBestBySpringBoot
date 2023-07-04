@@ -16,6 +16,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -96,23 +97,18 @@ public class MemberController {
         return "redirect:/category";
     }
 
-    @GetMapping("/modi")
-    public String infoModifytest(@AuthenticationPrincipal MemberImpl user){
-        log.info("member={}",user);
-        log.info("memberid-{}", user.getMemberId());
-        log.info("userpwd={}", user.getPassword());
 
-        String pwd = "asdfasdf!!";
+    // 회원 정보 표시
 
-        //확인완료
-        boolean result = passwordEncoder.matches(pwd, user.getPassword());
 
-        log.info("result={}",result);
 
-        return "redirect:/"; //수정하는페이지로이동
-    }
+
+
+
+
 
     // 1. 그 페이지에서 정보수정 update-> 로그인 정상적으로 되는지 테스트
+
 
 
     // 2. 비밀번호 변경 -> update 되었는지 확인 -> 변경된 비밀번호로 로그인 test

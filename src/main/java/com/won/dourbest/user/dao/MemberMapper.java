@@ -22,14 +22,17 @@ public interface MemberMapper {
         int idCheck(String memberId);  // 아이디 찾기
 
         int emailCheck(String memberEmail);   // 중복이 없으면 0 있으면 1 반환
-//
-//    MemberDTO selectMember(MemberDTO member);
+
+//멤버 정보 가지고 오기
+    MemberDTO selectMember(String memberId);
 //
     int insertMemberAuth();
 
     Optional<MemberDTO> findByMember(String userId);    //로그인
 //
-//    int updateMember(MemberDTO member);
+    int updateMember(Map<String, Object> map);
+
+    int updateAddress(Map<String, Object> map);
 //
 //    int deleteMember(MemberDTO member);
 

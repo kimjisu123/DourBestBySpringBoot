@@ -94,7 +94,7 @@
                         , #{ address.zipcode }
                         , #{ address.baseAddress }
                         , #{ address.detailAddress }
-                        , SEQ_MEMBER_CODE.CURRVAL
+                            , SEQ_MEMBER_CODE.CURRVAL
                     )
             </insert>
 
@@ -178,5 +178,33 @@
                  LEFT JOIN TBL_ADDRESS TA on M.MEMBER_CODE = TA.MEMBER_CODE
         WHERE  M.MEMBER_ID = #{ userId }
     </select>
+
+    <!--  회원정보 수정 -->
+
+
+    <update id="updateMember" parameterType="_int">
+        UPDATE TBL_MEMBER
+        SET
+            MEMBER_NAME = #{ member.memberName  }
+          , MEMBER_PHONE = #{ member.memberPhone }
+          , MEMBER_EMAIL = #{ member.memberEmail }
+        WHERE M.MEMBER_ID = #{ member.memberId }
+    </update>
+
+    <update id="updateAddress" parameterType="_int">
+        UPDATE TBL_ADDRESS
+        SET
+            ZIP_CODE = #{ address.zipcode }
+          , BASE_ADDRESS = #{ address.baseAddress }
+          , DETAIL_ADDRESS = #{ address.detailAddress }
+        WHERE (SELECT
+                          A.MEMBER_CODE
+                     FROM TBL_ADDRESS A
+                LEFT JOIN TBL_MEMBER M
+                       ON M.MEMBER_CODE = A.MEMBER_CODE
+                    WHERE M.MEMBER_ID = #{ userId})
+    </update>
+
+
 
      </mapper>

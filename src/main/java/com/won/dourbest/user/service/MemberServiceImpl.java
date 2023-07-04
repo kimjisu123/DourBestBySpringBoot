@@ -18,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.lang.reflect.Member;
 import java.util.*;
 
 @Service
@@ -60,6 +61,22 @@ public class MemberServiceImpl implements MemberService {
         return mapper.emailCheck(memberEmail) > 0? true : false; // 중복값이 있으면 1로 true를 리턴 없으면 0으로 false를 반환
     }
 
+    //회원 정보 수정
+    @Override
+    public int modifiyMember(Map<String, Object> map) {
+
+        System.out.println("map = " + map);
+        int result = mapper.registMember(map);
+        int result2 = mapper.registAddress(map);
+
+        if (result > 0 && result2 > 0) {
+            return 1;
+        } else {
+            throw new IllegalStateException();
+        }
+
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
@@ -76,4 +93,14 @@ public class MemberServiceImpl implements MemberService {
         log.info("member={}", user.getPassword());
         return user;
     }
-}
+
+    // 회원 정보 조회
+
+
+    @Override
+    public Optional<MemberDTO> findUser(String userId) {
+
+        return mapper.findByMember(userId);
+
+    }
+    }
