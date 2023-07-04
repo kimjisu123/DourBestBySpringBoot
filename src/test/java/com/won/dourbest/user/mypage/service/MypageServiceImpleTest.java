@@ -1,5 +1,6 @@
 package com.won.dourbest.user.mypage.service;
 
+import com.won.dourbest.user.dto.MypageDTO;
 import com.won.dourbest.user.mypage.repository.MypageMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +11,13 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class MypageServiceImpleTest {
 
-    @Autowired private MypageMapper mypageMapper;
+    @Autowired MypageService mypageService;
 
     @Test
     void myPageinfo() {
+
+        MypageDTO mypageDTO = mypageService.myPageinfo("testuser");
+        System.out.println("mypageDTO = " + mypageDTO);
     }
 
     @Test
@@ -39,8 +43,7 @@ class MypageServiceImpleTest {
     @Test
     void couponRegister() {
 
-        int i = mypageMapper.updateCouponStatus(44);
-        System.out.println("i = " + i);
+
 
 
     }

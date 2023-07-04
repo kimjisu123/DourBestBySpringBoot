@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html th:replace="~{/layouts/base :: layout(~{::main}, ~{::link}, ~{::script})}"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <link rel="stylesheet" th:href="@{/css/common/page.css}">
+    <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+</head>
+<main>
+
+    <button th:onclick="requestPay()">결제</button>
+
+
+</main>
+<script th:inline="javascript">
+    function requestPay() {
+        IMP.init('imp84214446');
+        $.ajax({
+            method: 'post',
+            url: "/membership/credit",
+            data: {memberCode: [[${member.memberCode}]]},
+            success: function (data) {
+                IMP.request_pay({
+                        pg: "kakaopay",
+                        pay_method: "card",
+                        merchant_uid: 'merchant_' + new Date().getTime(), //주문번호
+                        name: '프리미엄멤버십 정기결제', //상품명
+                        amount: 4400,
+                        customer_uid: [[${member.memberId}]] + new Date().getTime(),
+                        buyer_email: [[${member.memberEmail}]],
+                        buyer_name: [[${member.memberId}]],
+                        buyer_tel: [[${member.memberPhone}]],
+                        buyer_addr: [[${member.address.baseAddress}]],
+                        buyer_postcode: [[${member.address.zipcode}]]
+                    },
+                    function (rsp) {
+                        $.ajax({
+                            type : "POST",
+                            url : "/membership/verifyIamport/" + rsp.imp_uid
+                        }).done(function(data) {
+
+                            if(4400 == data.response.amount){
+                                alert("결제 및 결제검증완료");
+
+                                let result = JSON.stringify({
+                                    memberCode: [[${member.memberCode}]],
+                                    cardCompany : data.response.pgProvider,
+                                    paymentNumber : data.response.merchantUid,
+                                    paymentDate : data.response.paidAt,
+                                    memberStatus: data.response.status
+                                });
+
+                                let msg;
+                                if (rsp.success) {
+                                    msg = '결제가 완료되었습니다.';
+                                    alert(msg);
+                                    $.ajax({
+                                        method: 'post',
+                                        url: "/membership/rank",
+                                        data: result,
+                                        contentType: "application/json",
+                                        success: function (data) {
+                                            console.log(data);
+                                        },
+                                        error: function (data) {
+                                            console.log(data);
+                                        }
+                                    });
+                                    // location.href = "/mypage"
+                                } else {
+                                    msg = '결제에 실패하였습니다.';
+                                    msg += '에러내용 : ' + rsp.error_msg;
+                                    alert(msg);
+                                }
+
+                            } else {
+                                alert("결제금액이 다릅니다.");
+                            }
+                        });
+                    }
+                );
+            },
+            error: function (data) {
+                alert(data.responseJSON.message)
+                console.log(data);
+            }
+        });
+
+    }
+</script>
+
+</html>

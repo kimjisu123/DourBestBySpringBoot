@@ -47,8 +47,7 @@
     </resultMap>
 
 
-
-            <insert id="registMember"  parameterType="map">
+    <insert id="registMember"  parameterType="map">
             INSERT
             INTO TBL_MEMBER
                 (
@@ -73,79 +72,53 @@
                 , #{ member.memberEmail }
                 , SYSDATE
                 , DEFAULT
-                , 'Y'
+                , DEFAULT
                 , DEFAULT
             )
             </insert>
 
-            <insert id="registAddress" parameterType="map">
-                INSERT /* com.won.dourbest.user.dao.MemberMapper#insertMember() */
-                INTO TBL_ADDRESS
-                    (
-                  ADDRESS_CODE
-                , ZIP_CODE
-                , BASE_ADDRESS
-                , DETAIL_ADDRESS
-                , MEMBER_CODE
-                    )
-                VALUES
-                    (
-                        SEQ_ADDRESS_CODE.NEXTVAL
-                        , #{ address.zipcode }
-                        , #{ address.baseAddress }
-                        , #{ address.detailAddress }
-                            , SEQ_MEMBER_CODE.CURRVAL
-                    )
-            </insert>
+    <insert id="registAddress" parameterType="map">
+        INSERT /* com.won.dourbest.user.dao.MemberMapper#insertMember() */
+        INTO TBL_ADDRESS
+            (
+          ADDRESS_CODE
+        , ZIP_CODE
+        , BASE_ADDRESS
+        , DETAIL_ADDRESS
+        , MEMBER_CODE
+            )
+        VALUES
+            (
+                SEQ_ADDRESS_CODE.NEXTVAL
+                , #{ address.zipcode }
+                , #{ address.baseAddress }
+                , #{ address.detailAddress }
+                , SEQ_MEMBER_CODE.CURRVAL
+            )
+</insert>
 
-
-
-
-
-
-            <!--     아이디 중복 확인       -->
-            <select id="idCheck" resultType="_int">
-                SELECT
-                      COUNT(*) <!-- 수를 체크해줌-->
-                FROM TBL_MEMBER
-                  WHERE MEMBER_ID = #{ memeber.memberId }
-            </select>
-
-            <!--     이메일 중복 확인       -->
-            <select id="emailCheck" resultType="_int">
-                SELECT
-                COUNT(*) <!-- 수를 체크해줌-->
-                FROM TBL_MEMBER
-                WHERE MEMBER_EMAIL = #{ memeber.memberEmail }
-            </select>
-
-
-<!--    // 로그인 정보 쿼리문-->
-
-    <select id="findByMemberId" resultType="MemberDetail">
+    <!--     아이디 중복 확인       -->
+    <select id="idCheck" resultType="_int">
         SELECT
-               M.MEMBER_CODE
-             , M.MEMBER_ID
-             , M.MEMBER_PWD
-             , M.MEMBER_NAME
-             , M.MEMBER_PHONE
-             , M.MEMBER_EMAIL
-             , M.REGIST_DATE
-             , M.WITHDRAWAL_STATUS
-             , M.ADULT_STATUS
-             , M.MEMBERSHIP_CODE
-             FROM TBL_MEMBER M
-            WHERE M.WITHDRAWAL_STATUS ='N'
-              AND M.MEMBER_ID = #{ username }
+              COUNT(*) <!-- 수를 체크해줌-->
+        FROM TBL_MEMBER
+          WHERE MEMBER_ID = #{ memeber.memberId }
+    </select>
+
+    <!--     이메일 중복 확인       -->
+    <select id="emailCheck" resultType="_int">
+        SELECT
+        COUNT(*) <!-- 수를 체크해줌-->
+        FROM TBL_MEMBER
+        WHERE MEMBER_EMAIL = #{ memeber.memberEmail }
     </select>
 
     <insert id="insertMemberAuth">
         INSERT INTO TBL_MEMBER_AUTHLIST(
-            MEMBER_AUTH_CODE,
-            MEMBER_CODE)
+                  MEMBER_AUTH_CODE,
+                  MEMBER_CODE)
         VALUES(1, SEQ_MEMBER_CODE.CURRVAL)
     </insert>
-
 
     <select id="findByMember" resultMap="MemberResultMap">
         select
@@ -179,32 +152,12 @@
         WHERE  M.MEMBER_ID = #{ userId }
     </select>
 
-    <!--  회원정보 수정 -->
-
-
-    <update id="updateMember" parameterType="_int">
-        UPDATE TBL_MEMBER
-        SET
-            MEMBER_NAME = #{ member.memberName  }
-          , MEMBER_PHONE = #{ member.memberPhone }
-          , MEMBER_EMAIL = #{ member.memberEmail }
-        WHERE M.MEMBER_ID = #{ member.memberId }
-    </update>
-
-    <update id="updateAddress" parameterType="_int">
-        UPDATE TBL_ADDRESS
-        SET
-            ZIP_CODE = #{ address.zipcode }
-          , BASE_ADDRESS = #{ address.baseAddress }
-          , DETAIL_ADDRESS = #{ address.detailAddress }
-        WHERE (SELECT
-                          A.MEMBER_CODE
-                     FROM TBL_ADDRESS A
-                LEFT JOIN TBL_MEMBER M
-                       ON M.MEMBER_CODE = A.MEMBER_CODE
-                    WHERE M.MEMBER_ID = #{ userId})
+    <update id="updatePwd" parameterType="CheckMemberDTO">
+        UPDATE TBL_MEMBER M
+        SET M.MEMBER_PWD = #{ memberPwd }
+        WHERE M.MEMBER_ID = #{ memberId }
     </update>
 
 
 
-     </mapper>
+</mapper>

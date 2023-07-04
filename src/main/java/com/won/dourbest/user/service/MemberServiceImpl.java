@@ -1,10 +1,7 @@
 package com.won.dourbest.user.service;
 
 import com.won.dourbest.user.dao.MemberMapper;
-import com.won.dourbest.user.dto.AddressDTO;
-import com.won.dourbest.user.dto.MemberAuthListDTO;
-import com.won.dourbest.user.dto.MemberDTO;
-import com.won.dourbest.user.dto.MemberImpl;
+import com.won.dourbest.user.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.validator.internal.constraintvalidators.bv.time.futureorpresent.FutureOrPresentValidatorForLocalDateTime;
 import org.slf4j.Logger;
@@ -78,6 +75,18 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public Optional<MemberDTO> findUser(String userId) {
+
+        return mapper.findByMember(userId);
+
+    }
+
+    @Override
+    public int modifyMemberPwd(CheckMemberDTO member) {
+        return mapper.updatePwd(member);
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         //예외 추가해주기
@@ -94,13 +103,5 @@ public class MemberServiceImpl implements MemberService {
         return user;
     }
 
-    // 회원 정보 조회
 
-
-    @Override
-    public Optional<MemberDTO> findUser(String userId) {
-
-        return mapper.findByMember(userId);
-
-    }
-    }
+}

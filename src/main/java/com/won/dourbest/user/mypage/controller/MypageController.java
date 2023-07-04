@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
@@ -42,23 +43,27 @@ public class MypageController {
     private final PasswordEncoder passwordEncoder;
 
     @GetMapping
-    public String mypage(Model model){
+    public String mypage(Model model, @AuthenticationPrincipal MemberImpl member){
 
+        log.info("member={}", member);
         /* 세션에서 멤버 가져와서 id 값을 이용하자 */
-        String userId = "user01";
+        String userId = member.getUsername();
+        log.info("userId={}",userId);
 
         MypageDTO mypageInfo = mypageService.myPageinfo(userId);
 
         model.addAttribute("mypageInfo", mypageInfo);
+        log.info("mypageInfo={}", mypageInfo);
+
 
         return "user/mypage/mypage";
     }
 
     @GetMapping("/coupon")
-    public String couponPage(@ModelAttribute("cri") SearchCriteria criteria, Model model){
+    public String couponPage(@AuthenticationPrincipal MemberImpl member, @ModelAttribute("cri") SearchCriteria criteria, Model model){
 
         /* 세션에서 멤버 가져와서 id 값을 이용하자 */
-        String userId = "user01";
+        String userId = member.getUsername();
 
         Pagination pagination = new Pagination(criteria, mypageService.listTotalCount(criteria, userId, "sellerInquire"));
 
@@ -73,10 +78,10 @@ public class MypageController {
     }
 
     @GetMapping("/seller-inquire")
-    public String selleInquire(@ModelAttribute("cri") SearchCriteria criteria, Model model){
+    public String selleInquire(@AuthenticationPrincipal MemberImpl member, @ModelAttribute("cri") SearchCriteria criteria, Model model){
 
         //세션으로부터 받자
-        String userId = "user01";
+        String userId = member.getUsername();
 
         Pagination pagination = new Pagination(criteria, mypageService.listTotalCount(criteria, userId, "sellerInquire"));
 
@@ -90,10 +95,10 @@ public class MypageController {
     }
 
     @GetMapping("/inquire")
-    public String adminInquire(@ModelAttribute("cri") SearchCriteria criteria, Model model){
+    public String adminInquire(@AuthenticationPrincipal MemberImpl member, @ModelAttribute("cri") SearchCriteria criteria, Model model){
 
         //세션으로부터 받자
-        String userId = "user01";
+        String userId = member.getUsername();
 
         Pagination pagination = new Pagination(criteria, mypageService.listTotalCount(criteria, userId, "adminInquire"));
 
@@ -107,10 +112,10 @@ public class MypageController {
     }
 
     @GetMapping("/report")
-    public String reportList(@ModelAttribute("cri") SearchCriteria criteria, Model model){
+    public String reportList(@AuthenticationPrincipal MemberImpl member, @ModelAttribute("cri") SearchCriteria criteria, Model model){
 
         //세션으로부터 받자
-        String userId = "user01";
+        String userId = member.getUsername();
 
         Pagination pagination = new Pagination(criteria, mypageService.listTotalCount(criteria, userId, "report"));
 
@@ -125,10 +130,10 @@ public class MypageController {
 
 
     @GetMapping("/like-funding")
-    public String likeFundingList(@ModelAttribute("cri") SearchCriteria criteria, Model model){
+    public String likeFundingList(@AuthenticationPrincipal MemberImpl member, @ModelAttribute("cri") SearchCriteria criteria, Model model){
 
         //세션으로부터 받자
-        String userId = "user01";
+        String userId = member.getUsername();
 
         Pagination pagination = new Pagination(criteria, mypageService.listTotalCount(criteria, userId, "like"));
 

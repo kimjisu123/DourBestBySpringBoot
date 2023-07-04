@@ -4,6 +4,7 @@ import com.won.dourbest.common.exception.member.MemberModifyException;
 import com.won.dourbest.common.exception.member.MemberRegistException;
 import com.won.dourbest.common.exception.member.MemberRemoveException;
 import com.won.dourbest.user.dto.AddressDTO;
+import com.won.dourbest.user.dto.CheckMemberDTO;
 import com.won.dourbest.user.dto.MemberDTO;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
@@ -24,6 +25,10 @@ public interface MemberService extends UserDetailsService {
     // 이메일 체크하기
     boolean emailCheck(String memberEmail);
 
+    public Optional<MemberDTO> findUser(String userId);
+
+    public int modifyMemberPwd(CheckMemberDTO member);
+
     //맵 객체를 만들어서 넘겨준다.
 
 //    // 회원 정보 수정용 메소드
@@ -32,6 +37,5 @@ public interface MemberService extends UserDetailsService {
 //   //회원 탈퇴용 메소드
 //   public void removeMember(MemberDTO member) ;
 
-    public Optional<MemberDTO> findUser(String userId);
 
 }
