@@ -203,11 +203,11 @@ public class MypageController {
 //        }
 
     @PostMapping("checkMember")
-    @ResponseBody
-    public String checkMember(@AuthenticationPrincipal MemberImpl user,@RequestParam String pwd){
+    public String checkMember(@AuthenticationPrincipal MemberImpl user, @RequestParam String pwd){
+
+        log.info("user = " +  user);
 
         log.info("pwd = " +  pwd);
-        System.out.println("pwd = " +  pwd);
 
         boolean result = passwordEncoder.matches( pwd , user.getPassword());  // false면 중복값이 없으므로 success
 
@@ -235,7 +235,6 @@ public class MypageController {
 //   회원정보 수정
     @PostMapping ("changeInfo")
     public String changeInfo (@ModelAttribute MemberDTO member, @ModelAttribute AddressDTO address, Model model){
-
 
         Map<String, Object> map = new HashMap<>();
         member.setMemberPhone(member.getMemberPhone().replace("-", "").replace("+82","0"));  // +82 -> 0변경 하이픈제외
