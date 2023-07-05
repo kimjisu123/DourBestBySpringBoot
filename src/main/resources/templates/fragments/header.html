@@ -13,7 +13,7 @@
       </h1>
       <div class="header-menu">
         <ul class="flex-wrapper">
-          <th:block sec:authorize="isAnonymous()">
+          <th:block sec:authorize="!isAuthenticated()">
             <li><a href="/">펀딩오픈</a></li>
             <li><a th:href="@{/user/login}">로그인</a></li>
             <li><a th:href="@{/user/signup}">회원가입</a></li>

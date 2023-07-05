@@ -1,7 +1,6 @@
 package com.won.dourbest.config;
 
 import com.won.dourbest.admin.account.service.AdminService;
-import com.won.dourbest.user.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,10 +16,10 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
+@Order(1)
 public class AdminSecurityConfig {
 
     private final AdminService adminService;
-    private final MemberService memberService;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -39,22 +38,17 @@ public class AdminSecurityConfig {
         provider.setUserDetailsService(adminService);
         return provider;
     }
-//    @Bean
-//    public DaoAuthenticationProvider userAuthenticationProvider(){
-//        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-//        provider.setPasswordEncoder(passwordEncoder());
-//        provider.setUserDetailsService(memberService);
-//        return provider;
-//    }
 
-    @Order(2)
+
     @Bean
     public SecurityFilterChain adminFilterChain(HttpSecurity http) throws Exception {
         return http.csrf().disable()
                 .authenticationProvider(adminAuthenticationProvider())
+                .antMatcher("/admin/**")   // 이거만 추가했음
                 .authorizeRequests()
-                .antMatchers("/admin/**").access("hasRole('ADMIN') or hasRole('SUPER')")
                 .antMatchers("/admin/adminAccount").hasRole("SUPER")
+                .antMatchers("/admin/**").access("hasRole('ADMIN') or hasRole('SUPER')")
+                .anyRequest().permitAll()
                 .and()
                 .formLogin()
                 .loginPage("/user/login")
@@ -71,8 +65,6 @@ public class AdminSecurityConfig {
                 .and().build();
 
     }
-
-
 
 
 //    @Bean

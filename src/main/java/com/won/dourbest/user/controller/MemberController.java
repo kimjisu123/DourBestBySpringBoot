@@ -81,7 +81,7 @@ public class MemberController {
     }
 
 
-//     회원 가입 페이지에서 값이 들어가는지 확인하는 메소드
+    //     회원 가입 페이지에서 값이 들어가는지 확인하는 메소드
     @PostMapping("/signup")
     public String signupMember(@ModelAttribute @Valid MemberDTO member, @ModelAttribute @Valid AddressDTO address, BindingResult bindingResult, HttpServletRequest request) {
 
@@ -135,16 +135,12 @@ public class MemberController {
 //        log.info("pwd = " +  pwd);
         boolean result = passwordEncoder.matches( pwd , user.getPassword());
 //        log.info("result = " + result);
-            if(result) {
-                return "redirect:/mypage/changeInfo";
-            } else {
+        if(result) {
+            return "redirect:/mypage/changeInfo";
+        } else {
 //
-                return "redirect:/mypage/checkMember";
-            }
+            return "redirect:/mypage/checkMember";
+        }
     }
-
-
-
-
 
 }

@@ -35,17 +35,10 @@ public class AccountController {
         this.passwordEncoder = passwordEncoder;
     }
 
-    @GetMapping("/login")    //이동할 페이지
-    public String login(){
-
-        return "admin/login";
-    }
-
-
     // 모든 회원 목록 조회
     @GetMapping("/admin")                                                                      // input hidden으로 넣어뒀던 현재 페이지
     public ModelAndView account(ModelAndView mv, @RequestParam(required = false) String searchId, @RequestParam(defaultValue = "1", value="currentPage") int pageNO
-                                ){
+    ){
 
         Map<String, String> searchMap = new HashMap<>();
         System.out.println("searchId : " + searchId);
