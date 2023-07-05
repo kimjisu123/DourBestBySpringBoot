@@ -17,6 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -140,6 +141,7 @@ public class MemberController {
 
 
     @PostMapping("/checkMember")
+    @Transactional(rollbackFor = { Exception.class })
     public String checkMember(@AuthenticationPrincipal MemberImpl user, @RequestParam String pwd){
 //        log.info("user = " +  user);
 //        log.info("pwd = " +  pwd);
@@ -148,9 +150,9 @@ public class MemberController {
             if(result) {
                 return "redirect:/mypage/changeInfo";
             } else {
-                throw new IllegalStateException("redirect:/");
+//
+                return "redirect:/mypage/checkMember";
             }
-
     }
 
 

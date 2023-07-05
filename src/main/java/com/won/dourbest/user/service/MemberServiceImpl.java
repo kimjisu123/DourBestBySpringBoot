@@ -96,8 +96,11 @@ public class MemberServiceImpl implements MemberService {
     public int updateMember(Map<String, Object> map) {
 
         System.out.println("map = " + map);
-        int result = mapper.updateMember(map);
+
+        int result = mapper.updateMember(map);  // 매퍼로 수정
         int result2 = mapper.updateAddress(map);
+
+        //업데이트는 리턴 받을 값이 없음(그래서 int 리턴)
 
         if (result > 0 && result2 > 0) {
             return 1;

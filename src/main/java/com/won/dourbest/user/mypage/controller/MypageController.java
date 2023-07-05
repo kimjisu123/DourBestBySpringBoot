@@ -195,20 +195,24 @@ public class MypageController {
         return "user/mypage/changeInfo";
 
     }
+
     //   회원정보 수정
     @PostMapping ("changeInfo")
     public String changeInfo (@AuthenticationPrincipal MemberImpl user,@ModelAttribute MemberDTO member, @ModelAttribute AddressDTO address){
 
-        log.info("MemberDTO : ",member.toString());
-        log.info("AddressDTO : ",address.toString());
-        Map<String, Object> map = new HashMap<>();
+        MemberDTO findMember = memberService.findUser(user.getMemberId()).orElseThrow();  // 현재 회원 정보담은 것
+        member.setMemberId(user.getMemberId());  //회원 id만 불러오기
+        address.setAddressCode(findMember.getAddress().getAddressCode());  // 회원 주소코드만 불러오기 (쿼리문때문에)
+
+        Map<String, Object> map = new HashMap<>(); // 객체담을 맵 생성
         map.put("member" ,member);
         map.put("address",address);
+//        log.info("MemberDTO : ",member.toString());
+//        log.info("AddressDTO : ",address.toString());
+        memberService.updateMember(map);  //객체 담은 후 서비스로 전송
 
-        memberService.updateMember(map);
 
-
-        return "redirect:/category";
+        return "redirect:/mypage";
 
     }
 
