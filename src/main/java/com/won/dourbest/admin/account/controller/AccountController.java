@@ -150,12 +150,20 @@ public class AccountController {
     @ResponseBody
     public String adminRegist(@RequestBody @Valid AdminRegistDTO adminRegist){
 
-        adminRegist.setAdminPhone(adminRegist.getAdminPhone().replace("-", ""));
-        adminRegist.setAdminPassword(passwordEncoder.encode(adminRegist.getAdminPassword()));
+        // 전화번호가 입력이 되었을 경우만 실행
+        if(adminRegist.getAdminPhone() != null) {
+            adminRegist.setAdminPhone(adminRegist.getAdminPhone().replace("-", ""));
+        }
 
+        // 비밀번호가 입력이 되었을 경우만 실행
+        if(adminRegist.getAdminPassword() != null) {
+            adminRegist.setAdminPassword(passwordEncoder.encode(adminRegist.getAdminPassword()));
+        }
         String message = adminService.registAdmin(adminRegist);
 
-        return message;
+
+
+                return message;
     }
 
 

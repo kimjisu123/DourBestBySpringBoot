@@ -115,7 +115,7 @@
                                         이름
                                     </div>
                                     <div class="adminRegi">
-                                        <input name="adminName" class="inputName" type="text" placeholder="이름">
+                                        <input name="adminName" id="inputName" type="text" placeholder="이름">
                                     </div>
                                 </div>
                                 <div>
@@ -123,9 +123,9 @@
                                         전화번호
                                     </div>
                                     <div class="adminRegi">
-                                        <input name="adminPhone" class="inputPhone" type="text" placeholder="전화번호">
+                                        <input name="adminPhone" class="Redundancy" id="inputPhone" type="text" placeholder="전화번호">
                                     </div>
-                                    <div class="Redundancy">
+                                    <div id="phoneRedundancy">
                                         중복되는 전화번호가 있습니다.
                                     </div>
                                 </div>
@@ -134,9 +134,9 @@
                                         이메일
                                     </div>
                                     <div class="adminRegi">
-                                        <input name="adminEmail" class="inputEmail" type="text" placeholder="이메일">
+                                        <input name="adminEmail" class="Redundancy" id="inputEmail" type="text" placeholder="이메일">
                                     </div>
-                                    <div class="Redundancy">
+                                    <div id="emailRedundancy">
                                         중복 되는 이메일이 있습니다.
                                     </div>
                                 </div>
@@ -145,7 +145,7 @@
                                         비밀번호
                                     </div>
                                     <div class="adminRegi">
-                                        <input name="adminPassword" class="inputPassword" type="password" placeholder="비밀번호">
+                                        <input name="adminPassword" id="inputPassword" type="password" placeholder="비밀번호">
                                     </div>
                                 </div>
                                 <div>
@@ -153,7 +153,7 @@
                                         비밀번호 확인
                                     </div>
                                     <div class="adminRegi">
-                                        <input name="adminCheckpass" class="inputCheckpass" type="password" placeholder="비밀번호 확인">
+                                        <input name="adminCheckpass" id="inputCheckpass" type="password" placeholder="비밀번호 확인">
                                     </div>
                                 </div>
                                 <button class="submit" type="button" id="btnCreate">계정 만들기</button>
@@ -165,10 +165,10 @@
         </section>
     <script>
         $('#btnCreate').click(function(){
-            let adminName = $('.inputName').val();
-            let adminPhone = $('.inputPhone').val();
-            let adminEmail = $('.inputEmail').val();
-            let adminPassword = $('.inputPassword').val();
+            let adminName = $('#inputName').val();
+            let adminPhone = $('#inputPhone').val();
+            let adminEmail = $('#inputEmail').val();
+            let adminPassword = $('#inputPassword').val();
 
             let admin = {
                 adminName:adminName,
@@ -196,25 +196,25 @@
 
         $('.Redundancy').keyup(function(){
 
-            let adminPhone = $('.inputPhone').val();
-            let adminEmail = $('.inputEmail').val();
+            let adminPhone = $('#inputPhone').val();
+            let adminEmail = $('#inputEmail').val();
 
             let adminRedundancy = {
-                adminPhone,
-                adminEmail
+                adminPhone:adminPhone,
+                adminEmail:adminEmail
             }
 
             $.ajax({
                 contentType: "application/json",
-                dataType :"POST",
+                type :"POST",
                 url:"/admin/adminAccount",
-                data : adminRedundancy,
+                data : JSON.stringify(adminRedundancy),
                 success(data){
                     console.log(data)
                     if(data === "중복되는 전화번호가 있습니다."){
-                        $('#RedundancyPhone').css('display', 'block')
+                        $('#phoneRedundancy').css('display', 'block')
                     } else if(data === "중복되는 이메일이 있습니다."){
-                        $('#RedundancyEmail').css('display', 'block')
+                        $('#emailRedundancy').css('display', 'block')
                     }
                 },
                 error(error){

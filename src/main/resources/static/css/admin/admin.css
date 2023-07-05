@@ -1606,27 +1606,27 @@ a {
     margin: 0px 0px 0px 45px;
 }
 
-.inputName{
+#inputName{
     width: 400px;
     height: 30px;
     margin: 0px 0px 10px 0px;
 }
-.inputPhone{
+#inputPhone{
     width: 400px;
     height: 30px;
     margin: 0px 0px 10px 0px;
 }
-.inputEmail{
+#inputEmail{
     width: 400px;
     height: 30px;
     margin: 0px 0px 10px 0px;
 }
-.inputPassword{
+#inputPassword{
     width: 400px;
     height: 30px;
     margin: 0px 0px 10px 0px;
 }
-.inputCheckpass{
+#inputCheckpass{
     width: 400px;
     height: 30px;
     margin: 0px auto 20px auto;
@@ -1635,8 +1635,13 @@ a {
     display: flex;
     justify-content: center;
 }
-.Redundancy{
+
+#emailRedundancy{
     display: none;
     color: red;
 }
 
+#phoneRedundancy{
+    display: none;
+    color:red;
+}

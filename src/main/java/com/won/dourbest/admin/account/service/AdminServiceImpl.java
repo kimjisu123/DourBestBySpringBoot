@@ -96,13 +96,26 @@ public class AdminServiceImpl implements AdminService {
 
         // 중복되는 값이 있으면 result1, result2에 값이 들어온다.
 
-        // 전화번호 중복체크
-        String result1 = mapper.phoneRedundancy(adminRegist);
-        // 이메일 중복체크
-        String result2 = mapper.emailRedundancy(adminRegist);
-        // 관리자 계정 생성 유무
-        int result3 = mapper.registAdmin(adminRegist);
 
+        String result1 = null;
+        String result2 = null;
+        int result3 = 0;
+
+        // 전화번호가 입력시 중복체크
+        if(adminRegist.getAdminPhone() != null){
+            result1 = mapper.phoneRedundancy(adminRegist);
+        }
+        // 이메일이 입력시 중복체크
+        if(adminRegist.getAdminEmail() != null){
+            result2 = mapper.emailRedundancy(adminRegist);
+        }
+        // 관리자 계정 생성 유무
+        if(adminRegist.getAdminPassword() != null && adminRegist.getAdminEmail() != null &&
+            adminRegist.getAdminName() != null && adminRegist.getAdminPhone()  != null){
+            result3 = mapper.registAdmin(adminRegist);
+        }
+
+        System.out.println("result1 : " + result1 + "result2 : " + result2 + "result3 : " + result3);
         String message = "";
 
         if(result1 == null){
