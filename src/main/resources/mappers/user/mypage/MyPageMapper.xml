@@ -249,6 +249,7 @@
                     LEFT JOIN TBL_FUNDING_FILE TFF ON F.FUNDING_CODE = TFF.FUNDING_CODE
                     JOIN TBL_CATEGORY TC on F.CATEGORY_CODE = TC.CATEGORY_CODE
                 WHERE M.MEMBER_ID = #{ userId }
+                AND TFF.FILE_TYPE='메인'
                 <if test="cri.searchType != null">
                     AND TC.CATEGORY_NAME = #{cri.searchType}
                 </if>
