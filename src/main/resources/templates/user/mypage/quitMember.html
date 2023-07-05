@@ -90,7 +90,7 @@
             <section>
                 <div class="mainbody">
                     <div class="catenick">
-                        <div class="nickname">님,</div>
+                        <div class="nickname"><h3 th:value="${ user.getMemberName()}"></h3> 님,</div>
                         <div>어떤점이 불편하셨나요?</div>
                         <pre class="underselect">DourBest를 이용하면서 불편했던점을 말씀해주시면 서비스 개선에 참고하도록 하겠습니다.</pre>
                     </div>
@@ -136,15 +136,15 @@
                             <p>안전한 탈퇴를 위해 본인인증 절차를 진행합니다. 본인확인하기 버튼을 클릭해주세요. </p>
                         </div>
                     </div>
-                    <div class="buttons">
-                        <div>
-                            <button class="checkButton" th:onclick="|@{/mypage/checkMember}|">
-                                <span class="longinName">본인 확인</span>
-                            </button>
-                        </div>
-                    </div>
+<!--                    <div class="buttons">-->
+<!--                        <div>-->
+<!--                            <button class="checkButton" th:onclick="|@{/mypage/checkMember}|">-->
+<!--                                <span class="longinName">본인 확인</span>-->
+<!--                            </button>-->
+<!--                        </div>-->
+<!--                    </div>-->
                     <div class="button2">
-                        <button class="redbutton" type="submit" id="button2">
+                        <button class="checkButton" type="submit" id="button2" onclick="quitMember()" th:action="post">
                                 <span>
                                     탈퇴하기
                                 </span>

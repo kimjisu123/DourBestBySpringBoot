@@ -107,6 +107,7 @@ public class MemberServiceImpl implements MemberService {
         }
     }
 
+    // 비밀번호 변경
     @Override
     @Transactional(rollbackFor = { Exception.class })
     public int changePwd(MemberDTO member) {
@@ -119,4 +120,13 @@ public class MemberServiceImpl implements MemberService {
             throw new IllegalStateException();
         }
     }
+
+    public int quitMember(String memberId){
+
+        int result = mapper.deleteMember(memberId);
+
+        return result;
+    }
+
+
 }
