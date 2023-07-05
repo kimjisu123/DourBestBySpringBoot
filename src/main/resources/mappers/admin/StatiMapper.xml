@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.won.dourbest.admin.statistics.dao.StatiMapper">
+
+    <resultMap id="StatiResultMap" type="com.won.dourbest.admin.statistics.dto.StatiDTO">
+        <id property="memberId" column="MEMBER_ID"/>
+        <result property="memberEmail" column="MEMBER_EMAIL"/>
+        <result property="fundingTitle" column="FUNDING_TITLE"/>
+        <result property="totalPrice" column="VIEWS"/>
+        <result property="likes" column="LIKES"/>
+        <result property="views" column="TOTAL_PRICE"/>
+    </resultMap>
+
+    <select id="selectAllPrice" resultMap="StatiResultMap">
+        SELECT
+            A.MEMBER_ID,
+            A.MEMBER_EMAIL,
+            C.FUNDING_TITLE,
+            C.VIEWS,
+            C.LIKES,
+            SUM(D.ORDER_PRICE) AS TOTAL_PRICE
+        FROM TBL_MEMBER A
+                JOIN TBL_SELLER B ON A.MEMBER_CODE = B.MEMBER_CODE
+                JOIN TBL_FUNDING C ON B.SELLER_CODE = C.SELLER_CODE
+                JOIN TBL_ORDER D ON C.FUNDING_CODE = D.FUNDING_CODE
+        GROUP BY
+            A.MEMBER_ID,
+            A.MEMBER_EMAIL,
+            C.FUNDING_TITLE,
+            C.VIEWS,
+            C.LIKES
+        ORDER BY TOTAL_PRICE DESC
+    </select>
+
+
+
+    <select id="selectAllViews" resultMap="StatiResultMap">
+        SELECT
+            A.MEMBER_ID,
+            A.MEMBER_EMAIL,
+            C.FUNDING_TITLE,
+            C.VIEWS,
+            C.LIKES,
+            SUM(D.ORDER_PRICE) AS TOTAL_PRICE
+        FROM TBL_MEMBER A
+                 JOIN TBL_SELLER B ON A.MEMBER_CODE = B.MEMBER_CODE
+                 JOIN TBL_FUNDING C ON B.SELLER_CODE = C.SELLER_CODE
+                 JOIN TBL_ORDER D ON C.FUNDING_CODE = D.FUNDING_CODE
+        GROUP BY
+            A.MEMBER_ID,
+            A.MEMBER_EMAIL,
+            C.FUNDING_TITLE,
+            C.VIEWS,
+            C.LIKES
+        ORDER BY C.VIEWS DESC
+    </select>
+
+    <select id="selectAllLikes" resultMap="StatiResultMap">
+        SELECT
+            A.MEMBER_ID,
+            A.MEMBER_EMAIL,
+            C.FUNDING_TITLE,
+            C.VIEWS,
+            C.LIKES,
+            SUM(D.ORDER_PRICE) AS TOTAL_PRICE
+        FROM TBL_MEMBER A
+                 JOIN TBL_SELLER B ON A.MEMBER_CODE = B.MEMBER_CODE
+                 JOIN TBL_FUNDING C ON B.SELLER_CODE = C.SELLER_CODE
+                 JOIN TBL_ORDER D ON C.FUNDING_CODE = D.FUNDING_CODE
+        GROUP BY
+            A.MEMBER_ID,
+            A.MEMBER_EMAIL,
+            C.FUNDING_TITLE,
+            C.VIEWS,
+            C.LIKES
+        ORDER BY C.LIKES DESC
+    </select>
+
+    <select id="selectMonthPrice" resultMap="StatiResultMap">
+        SELECT
+            A.MEMBER_ID,
+            A.MEMBER_EMAIL,
+            C.FUNDING_TITLE,
+            C.VIEWS,
+            C.LIKES,
+            SUM(D.ORDER_PRICE) AS TOTAL_PRICE
+        FROM TBL_MEMBER A
+                 JOIN TBL_SELLER B ON A.MEMBER_CODE = B.MEMBER_CODE
+                 JOIN TBL_FUNDING C ON B.SELLER_CODE = C.SELLER_CODE
+                 JOIN TBL_ORDER D ON C.FUNDING_CODE = D.FUNDING_CODE
+        WHERE SUBSTR(D.ORDER_DATE, 1, 7) = SUBSTR(SYSDATE, 1, 7) -- 이번 달 기준으로 필터링
+        GROUP BY
+            A.MEMBER_ID,
+            A.MEMBER_EMAIL,
+            C.FUNDING_TITLE,
+            C.VIEWS,
+            C.LIKES
+        ORDER BY TOTAL_PRICE DESC
+    </select>
+
+
+    <select id="selectMonthViews" resultMap="StatiResultMap">
+        SELECT
+            A.MEMBER_ID,
+            A.MEMBER_EMAIL,
+            C.FUNDING_TITLE,
+            C.VIEWS,
+            C.LIKES,
+            SUM(D.ORDER_PRICE) AS TOTAL_PRICE
+        FROM TBL_MEMBER A
+                 JOIN TBL_SELLER B ON A.MEMBER_CODE = B.MEMBER_CODE
+                 JOIN TBL_FUNDING C ON B.SELLER_CODE = C.SELLER_CODE
+                 JOIN TBL_ORDER D ON C.FUNDING_CODE = D.FUNDING_CODE
+        WHERE SUBSTR(D.ORDER_DATE, 1, 7) = SUBSTR(SYSDATE, 1, 7) -- 이번 달 기준으로 필터링
+        GROUP BY
+            A.MEMBER_ID,
+            A.MEMBER_EMAIL,
+            C.FUNDING_TITLE,
+            C.VIEWS,
+            C.LIKES
+        ORDER BY C.VIEWS DESC
+    </select>
+
+    <select id="selectMonthLikes" resultMap="StatiResultMap">
+        SELECT
+            A.MEMBER_ID,
+            A.MEMBER_EMAIL,
+            C.FUNDING_TITLE,
+            C.VIEWS,
+            C.LIKES,
+            SUM(D.ORDER_PRICE) AS TOTAL_PRICE
+        FROM TBL_MEMBER A
+                 JOIN TBL_SELLER B ON A.MEMBER_CODE = B.MEMBER_CODE
+                 JOIN TBL_FUNDING C ON B.SELLER_CODE = C.SELLER_CODE
+                 JOIN TBL_ORDER D ON C.FUNDING_CODE = D.FUNDING_CODE
+        WHERE SUBSTR(D.ORDER_DATE, 1, 7) = SUBSTR(SYSDATE, 1, 7) -- 이번 달 기준으로 필터링
+        GROUP BY
+            A.MEMBER_ID,
+            A.MEMBER_EMAIL,
+            C.FUNDING_TITLE,
+            C.VIEWS,
+            C.LIKES
+        ORDER BY C.LIKES DESC
+    </select>
+
+
+</mapper>

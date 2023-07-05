@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.won.dourbest.admin.account.dao.AdminMapper">
+
+
+    <resultMap id="accountResultMap" type="com.won.dourbest.admin.account.dto.AccountDTO">
+        <result property="memberId" column="MEMBER_ID"/>
+        <result property="memberName" column="MEMBER_NAME"/>
+        <result property="memberPhone" column="MEMBER_PHONE"/>
+        <result property="memberEmail" column="MEMBER_EMAIL"/>
+        <result property="registDate" column="REGIST_DATE"/>
+        <result property="sellerCode" column="SELLER_CODE"/>
+    </resultMap>
+
+    <resultMap id="FundingPaymentResultMap" type="com.won.dourbest.admin.account.dto.FundingPaymentDTO">
+    <result property="memberId" column="MEMBER_ID"/>
+    <result property="memberEmail" column="MEMBER_EMAIL"/>
+    <result property="memberName" column="MEMBER_NAME"/>
+    <result property="memberPhone" column="MEMBER_PHONE"/>
+    <result property="creditStatus" column="CREDIT_STATUS"/>
+    <result property="cteditDate" column="CREDIT_DATE"/>
+    </resultMap>
+
+    <resultMap id="MembershipPaymentResultMap" type="com.won.dourbest.admin.account.dto.MembershipPaymentDTO">
+        <result property="memberId" column="MEMBER_ID"/>
+        <result property="memberEmail" column="MEMBER_EMAIL"/>
+        <result property="memberName" column="MEMBER_NAME"/>
+        <result property="memberPhone" column="MEMBER_PHONE"/>
+        <result property="membershipStatus" column="MEMBERSHIP_STATUS"/>
+        <result property="paymentDate" column="PAYMENT_DATE"/>
+    </resultMap>
+
+    <resultMap id="BlacklistResultMap" type="com.won.dourbest.admin.account.dto.BlcaklistDTO">
+        <result property="memberId" column="MEMBER_ID"/>
+        <result property="memberEmail" column="MEMBER_EMAIL"/>
+        <result property="memberName" column="MEMBER_NAME"/>
+        <result property="memberPhone" column="MEMBER_PHONE"/>
+        <result property="blacklistReason" column="BLACKLIST_REASON"/>
+        <result property="addtionalDate" column="ADDITIONAL_DATE"/>
+    </resultMap>
+
+    <resultMap id="AdminAccountResultMap" type="com.won.dourbest.admin.account.dto.AdminAccountDTO">
+        <result property="adminCode" column="ADMIN_CODE"/>
+        <result property="adminName" column="ADMIN_NAME"/>
+        <result property="adminPhone" column="ADMIN_PHONE"/>
+        <result property="adminEmail" column="ADMIN_EMAIL"/>
+        <result property="regiDate" column="REGI_DATE"/>
+    </resultMap>
+    <resultMap id="AdminRegistResultMap" type="com.won.dourbest.admin.account.dto.AdminRegistDTO">
+        <result property="adminPhone" column="ADMIN_PHONE"/>
+        <result property="adminEmail" column="ADMIN_EMAIL"/>
+    </resultMap>
+
+    <!--  회원 목록 조회  -->
+    <select id="selectAllaccountList" resultMap="accountResultMap">
+        SELECT
+            A.MEMBER_CODE,
+            A.MEMBER_ID,
+            A.MEMBER_NAME,
+            A.MEMBER_EMAIL,
+            A.MEMBER_PHONE,
+            A.REGIST_DATE,
+            B.SELLER_CODE
+        FROM TBL_MEMBER A
+        LEFT JOIN TBL_SELLER B ON A.MEMBER_CODE = B.MEMBER_CODE
+        ORDER BY A.MEMBER_CODE ASC
+        OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
+
+    </select>
+
+    <!--  탈퇴 회원 목록 조회  -->
+    <select id="selectAllwithdrawnList" resultMap="accountResultMap">
+        SELECT
+            A.MEMBER_ID,
+            A.MEMBER_NAME,
+            A.MEMBER_EMAIL,
+            A.MEMBER_PHONE,
+            A.REGIST_DATE,
+            B.SELLER_CODE
+        FROM    TBL_MEMBER A
+        LEFT JOIN    TBL_SELLER B ON (A.MEMBER_CODE = B.MEMBER_CODE)
+        WHERE WITHDRAWAL_STATUS IN 'Y'
+    </select>
+
+    <!--  펀딩 결제 내역 조회  -->
+    <select id="selectAllFunPaymentList" resultMap="FundingPaymentResultMap">
+        SELECT
+            A.MEMBER_ID,
+            A.MEMBER_NAME,
+            A.MEMBER_EMAIL,
+            A.MEMBER_PHONE,
+            D.CREDIT_STATUS,
+            D.CREDIT_DATE
+        FROM TBL_MEMBER A
+        JOIN TBL_ORDER B ON (A.MEMBER_CODE = B.MEMBER_CODE)
+        JOIN TBL_CREDIT C ON (B.ORDER_CODE = C.ORDER_CODE)
+        JOIN TBL_FUNDING_CREDITLIST D ON (C.PAYMENT_CODE = D.PAYMENT_CODE)
+    </select>
+
+    <!--  멤버십 결제 내역 조회  -->
+    <select id="selectAllmemPaymentList" resultMap="MembershipPaymentResultMap">
+        SELECT
+            A.MEMBER_ID,
+            A.MEMBER_NAME,
+            A.MEMBER_EMAIL,
+            A.MEMBER_PHONE,
+            C.MEMBERSHIP_STATUS,
+            C.PAYMENT_DATE
+        FROM TBL_MEMBER A
+        JOIN TBL_MEMBERSHIP_CREDIT B ON (A.MEMBER_CODE = B.MEMBER_CODE)
+        JOIN TBL_MEMBERSHIP_CREDITLIST C ON (B.MEMBERSHIP_CREDIT_CODE = C.MEMBERSHIP_CREDIT_CODE)
+    </select>
+
+    <!--  블랙리스트 조회  -->
+    <select id="selectallBlackList" resultMap="BlacklistResultMap">
+        SELECT
+            B.MEMBER_ID,
+            B.MEMBER_NAME,
+            B.MEMBER_EMAIL,
+            B.MEMBER_PHONE,
+            A.BLACKLIST_REASON,
+            A.ADDITIONAL_DATE
+        FROM TBL_BLACKLIST_LIST A
+        JOIN TBL_MEMBER B ON (B.MEMBER_CODE = A.MEMBER_CODE)
+    </select>
+
+    <!--  관리자 계정 조회  -->
+    <select id="selectAllAdminAccount" resultMap="AdminAccountResultMap">
+        SELECT
+            ADMIN_CODE,
+            ADMIN_NAME,
+            ADMIN_EMAIL,
+            ADMIN_PHONE,
+            REGI_DATE
+        FROM TBL_ADMIN
+        ORDER BY ADMIN_CODE
+    </select>
+
+    <!--  총 페이지 갯수  -->
+    <select id="selectTotalPage">
+        SELECT
+            count(*)
+        FROM    TBL_MEMBER A
+        <if test="searchId != null and searchId != ''">
+        WHERE   MEMBER_ID = #{ searchId }
+        </if>
+    </select>
+
+    <!--  값이 들어올 경우 where절이 실행이 되어 조건(id)에 맞는 페이지의 갯수를 가져오고  -->
+    <!--  값이 들어오지 않을경우 where절이 실행이 되지 않아 총 페이지(all) 갯수를 가져온다.  -->
+
+    <!--  관리자 계정 생성  -->
+    <insert id="registAdmin">
+        INSERT INTO TBL_ADMIN
+        VALUES
+        (
+            SEQ_ADMIN_CODE.nextval,
+            #{ adminEmail },
+            DEFAULT,
+            #{ adminPhone },
+            #{ adminPassword },
+            #{ adminName }
+        )
+    </insert>
+
+    <!--  이메일 중복 체크  -->
+    <select id="emailRedundancy">
+        SELECT
+            ADMIN_EMAIL
+        FROM    TBL_ADMIN
+        WHERE   ADMIN_EMAIL = #{adminEmail}
+    </select>
+
+    <!--  전화번호 중복 체크  -->
+    <select id="phoneRedundancy">
+        SELECT
+            ADMIN_PHONE
+        FROM    TBL_ADMIN
+        WHERE   ADMIN_PHONE = #{adminPhone}
+    </select>
+</mapper>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.won.dourbest.admin.funding.dao.AdminFundingMapper">
+
+    <resultMap id="fundingResultMap" type="com.won.dourbest.admin.funding.dto.AdminFundingDTO">
+        <result property="memberId" column="MEMBER_ID"/>
+        <result property="memberEmail" column="MEMBER_EMAIL"/>
+        <result property="fundingTitle" column="FUNDING_TITLE"/>
+        <result property="startDate" column="START_DATE"/>
+        <result property="endDate" column="END_DATE"/>
+    </resultMap>
+
+    <!-- 오픈 예정 펀딩 -->
+    <select id="selectAllWillopen" resultMap="fundingResultMap">
+        SELECT
+            A.FUNDING_TITLE,
+            A.START_DATE,
+            A.END_DATE,
+            C.MEMBER_EMAIL,
+            C.MEMBER_ID
+        FROM TBL_FUNDING A
+        JOIN TBL_SELLER B ON (A.SELLER_CODE = B.SELLER_CODE)
+        JOIN TBL_MEMBER C ON (B.MEMBER_CODE = C.MEMBER_CODE)
+        WHERE A.START_DATE &gt; SYSDATE
+    </select>
+    <!-- 진행중인 펀딩 목록 -->
+    <select id="selectAllOngoing" resultMap="fundingResultMap">
+        SELECT
+        A.FUNDING_TITLE,
+        A.START_DATE,
+        A.END_DATE,
+        C.MEMBER_EMAIL,
+        C.MEMBER_ID
+        FROM TBL_FUNDING A
+        JOIN TBL_SELLER B ON (A.SELLER_CODE = B.SELLER_CODE)
+        JOIN TBL_MEMBER C ON (B.MEMBER_CODE = C.MEMBER_CODE)
+        WHERE A.START_DATE &lt;= SYSDATE
+        AND A.END_DATE &gt; SYSDATE
+    </select>
+
+    <!-- 완료된 펀딩 목록 -->
+    <select id="selectAllFinished" resultMap="fundingResultMap">
+        SELECT
+            A.FUNDING_TITLE,
+            A.START_DATE,
+            A.END_DATE,
+            C.MEMBER_EMAIL,
+            C.MEMBER_ID
+        FROM TBL_FUNDING A
+                 JOIN TBL_SELLER B ON (A.SELLER_CODE = B.SELLER_CODE)
+                 JOIN TBL_MEMBER C ON (B.MEMBER_CODE = C.MEMBER_CODE)
+        WHERE A.END_DATE &lt; SYSDATE
+    </select>
+
+    <!-- 승인된 펀딩 목록 -->
+    <select id="selectAllapproved" resultMap="fundingResultMap">
+        SELECT
+            A.FUNDING_TITLE,
+            A.START_DATE,
+            A.END_DATE,
+            E.MEMBER_EMAIL,
+            E.MEMBER_ID,
+            C.FUNDING_STATUS_NAME
+        FROM TBL_FUNDING A
+                 JOIN TBL_FUNDING_STATUSLIST B ON (A.FUNDING_CODE = B.FUNDING_CODE)
+                 JOIN TBL_FUNDING_STATUS C ON (B.FUNDING_STATUS_CODE = C.FUNDING_STATUS_CODE)
+                 JOIN TBL_SELLER D ON (A.SELLER_CODE = D.SELLER_CODE)
+                 JOIN TBL_MEMBER E ON (D.MEMBER_CODE = E.MEMBER_CODE)
+        WHERE C.FUNDING_STATUS_NAME = '승인완료'
+    </select>
+    <!-- 신청한 펀딩 목록 -->
+    <select id="selectAllApplied" resultMap="fundingResultMap">
+        SELECT
+            A.FUNDING_TITLE,
+            A.START_DATE,
+            A.END_DATE,
+            E.MEMBER_EMAIL,
+            E.MEMBER_ID,
+            C.FUNDING_STATUS_NAME
+        FROM TBL_FUNDING A
+                 JOIN TBL_FUNDING_STATUSLIST B ON (A.FUNDING_CODE = B.FUNDING_CODE)
+                 JOIN TBL_FUNDING_STATUS C ON (B.FUNDING_STATUS_CODE = C.FUNDING_STATUS_CODE)
+                 JOIN TBL_SELLER D ON (A.SELLER_CODE = D.SELLER_CODE)
+                 JOIN TBL_MEMBER E ON (D.MEMBER_CODE = E.MEMBER_CODE)
+        WHERE C.FUNDING_STATUS_NAME = '승인대기'
+
+
+    </select>
+
+    <!-- 판매자 신청 목록 -->
+    <select id="selectAllSellerRegiList" resultMap="fundingResultMap">
+        SELECT
+            B.FUNDING_TITLE,
+            B.START_DATE,
+            B.END_DATE,
+            C.MEMBER_EMAIL,
+            C.MEMBER_ID,
+            A.SELLER_APPROVAL
+        FROM TBL_SELLER A
+                 JOIN TBL_FUNDING B ON (A.SELLER_CODE = B.SELLER_CODE)
+                 JOIN TBL_MEMBER C ON (A.MEMBER_CODE = C.MEMBER_CODE)
+        WHERE A.SELLER_APPROVAL IN '승인대기'
+    </select>
+
+
+</mapper>

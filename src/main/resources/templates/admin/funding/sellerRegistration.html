@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html th:replace="~{/layouts/adminbase :: layout(~{::main}, ~{::link}, ~{::script})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" th:href="@{/css/admin/admin.css}">
+</head>
+
+<!-- 메인 -->
+<main>
+    <!-- 메뉴 -->
+    <div class="menu">
+
+        <!-- 사이드 메뉴-->
+
+
+
+        <div id="sideMenuBar">
+            <!-- 사이드 메뉴 항목 -->
+            <div id="sideMenuContainer">
+                <div th:onclick="|location.href='@{/admin/admin}'|" id="sidebutton1" class="sideMenuButton">
+                    계정 관리
+                </div>
+                <div th:onclick="|location.href='@{/admin/willopen}'|" id="sidebuttonMain" class="sideMenuButton">
+                    펀딩 목록 관리
+                </div>
+                <div th:onclick="|location.href='@{/admin/allPrice}'|" id="sidebutton3" class="sideMenuButton">
+                    결제 통계 확인
+                </div>
+                <div th:onclick="|location.href='@{/admin/notice}'|" id="sidebutton4" class="sideMenuButton">
+                    공지사항
+                </div>
+                <div th:onclick="|location.href='@{/admin/reportDetails}'|" id="sidebutton5" class="sideMenuButton">
+                    신고 관리
+                </div>
+                <div th:onclick="|location.href='@{/admin/Issuance}'|" id="sidebutton6" class="sideMenuButton">
+                    쿠폰 관리
+                </div>
+            </div>
+
+
+
+        </div>
+        <!-- 메인 메뉴 -->
+        <section>
+            <div id="backgroundpage">
+
+
+
+                <!-- 메인 메뉴 항목-->
+                <div id="mainMenuContainer">
+                    <div th:onclick="|location.href='@{/admin/willopen}'|" id="mainMenuButton1" class="FundingMenuButton" >
+                        오픈 예정 펀딩 목록
+                    </div>
+                    <div th:onclick="|location.href='@{/admin/ongoing}'|" id="mainMenuButton2" class="FundingMenuButton">
+                        진행중인 펀딩 목록
+                    </div>
+                    <div th:onclick="|location.href='@{/admin/finished}'|" id="mainMenuButton3" class="FundingMenuButton">
+                        완료된 펀딩 목록
+                    </div>
+                    <div th:onclick="|location.href='@{/admin/approved}'|" id="mainMenuButton4" class="FundingMenuButton">
+                        승인된 펀딩 목록
+                    </div>
+                    <div th:onclick="|location.href='@{/admin/applied}'|" id="mainMenuButton5" class="FundingMenuButton">
+                        신청한 펀딩 목록
+                    </div>
+                    <div th:onclick="|location.href='@{/admin/sellerRegi}'|" id="mainMenuContainernotfirst" class="FundingMenuButton">
+                        판매자 등록 신청 목록
+                    </div>
+
+                </div>
+
+
+
+                <!-- 아이디 검색 버튼 -->
+                <div class="memberIDSearchContainer">
+                    <div id="memberID" class="memberIDButton">
+                        아이디
+                    </div>
+                    <input type="text" placeholder="검색하실 회원의 아이디를 입력해주세요" id="inputID" class="memberIDButton">
+
+                    </input>
+                    <div id="searchButton" class="memberIDButton">
+                        검색
+                    </div>
+                </div>
+
+
+
+                <!-- 조회 결과 페이지 -->
+                <div class="listPage">
+                    <div class="SortationContainer">
+                        <div id="Sortation1" class="SortationList">
+                            아이디
+                        </div>
+                        <div id="Sortation2" class="SortationList">
+                            이름
+                        </div>
+                        <div id="Sortation3" class="SortationList">
+                            전화번호
+                        </div>
+                        <div id="Sortation4" class="SortationList">
+                            이메일
+                        </div>
+                        <div id="Sortation5" class="SortationList">
+                            사업자 등록 번호
+                        </div>
+                        <div id="Sortation6" class="SortationList">
+                            판매자 등록 여부
+                        </div>
+                    </div>
+
+                    <div th:each="sellerRegiList : ${sellerRegiList}" class="table">
+                        <input type="checkbox" class="fundcheckbox" name="my_checkbox" value="1">
+                        <div th:text="${sellerRegiList.getMemberId()}" id="adminAccount1"></div>
+                        <div th:text="${sellerRegiList.getMemberEmail()}" id="adminAccount2"></div>
+                        <div th:text="${sellerRegiList.getFundingTitle()}" id="adminAccount3"></div>
+                        <div th:text="${#dates.format(sellerRegiList.getStartDate(), 'yyyy/MM/dd')}" id="adminAccount4"></div>
+                        <div th:text="${#dates.format(sellerRegiList.getEndDate(), 'yyyy/MM/dd')}" id="adminAccount5"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+
+    <ul class="pagination">
+        <li class="page-prev">
+            <a class="prev" href="#"><svg t="1580195949197" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4493" width="20" height="20"><path d="M906.78272 588.78976c-0.02048 8.4992-6.88128 15.36-15.38048 15.37024l-443.6992-0.01024 75.70432 191.68256c2.51904 6.42048 0.48128 13.76256-5.03808 17.90976-5.51936 4.16768-13.13792 4.1472-18.61632-0.09216l-376.5248-289.47456c-3.77856-2.89792-6.00064-7.41376-6.00064-12.16512 0-4.78208 2.22208-9.27744 6.00064-12.1856l376.5248-289.47456c2.7648-2.11968 6.06208-3.19488 9.37984-3.19488 3.23584 0 6.5024 1.03424 9.23648 3.10272 5.51936 4.1472 7.5776 11.48928 5.03808 17.90976L447.68256 419.84l443.71968-0.01024c8.4992 0.01024 15.36 6.88128 15.36 15.36L906.78272 588.78976z" p-id="4494" fill="#777777"></path></svg></a>
+        </li>
+        <li class="page-number active"><a href="#">1</a></li>
+        <li class="page-number"><a href="#">2</a></li>
+        <li class="page-number"><a href="#">3</a></li>
+        <li class="page-number"><a href="#">4</a></li>
+        <li class="page-number"><a href="#">5</a></li>
+        <li class="page-number"><a href="#">6</a></li>
+        <li class="page-next">
+            <a class="next" href="#"><svg t="1580195920917" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4995" width="20" height="20"><path d="M906.77248 512c0 4.77184-2.21184 9.2672-5.9904 12.17536l-376.5248 289.4848c-2.7648 2.11968-6.06208 3.18464-9.3696 3.18464-3.25632 0-6.5024-1.03424-9.24672-3.09248-5.50912-4.15744-7.5776-11.48928-5.03808-17.90976l75.71456-191.67232L132.58752 604.17024c-8.48896 0-15.36-6.88128-15.36-15.36l0-153.6c0-8.48896 6.87104-15.36 15.36-15.36l443.72992 0-75.71456-191.68256c-2.53952-6.42048-0.47104-13.75232 5.04832-17.90976 5.50912-4.15744 13.12768-4.13696 18.60608 0.09216l376.5248 289.4848C904.56064 502.7328 906.77248 507.22816 906.77248 512z" p-id="4996" fill="#777777"></path></svg></a>
+        </li>
+        <button type="button" id="createadminAccount">승인</button>
+        <button class="contactBtn" id="Withdrawal">반려</button>
+    </ul>
+
+
+
+    <div class="contactmodal">
+        <div class="contactmodal-container">
+            <div class="contactmodal-content">
+                <span class="close">&times;</span>
+                <h2 class="contactmodal-title">글 작성</h2>
+                <form class="mb-3 contact" name="contact" id="contact" method="post">
+                    <label for=""></label>
+                    <select name="contactCode" id="contactCode">
+                        <option value="">판매자 등록 신청 반려</option>
+                    </select>
+                    <textarea class="col-auto form-control contactContents" type="text" id="" placeholder="판매자 등록 반려 사유를 입력해주세요." maxlength="3000"></textarea>
+                    <div class="file-container">
+                        <label for="contact-imgInput">
+                            <span><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#f35f4c}</style><path d="M149.1 64.8L138.7 96H64C28.7 96 0 124.7 0 160V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V160c0-35.3-28.7-64-64-64H373.3L362.9 64.8C356.4 45.2 338.1 32 317.4 32H194.6c-20.7 0-39 13.2-45.5 32.8zM256 192a96 96 0 1 1 0 192 96 96 0 1 1 0-192z"/></svg>사진 등록</span>
+                        </label>
+                        <input type="file" id="contact-imgInput" onchange="contactreadURL(this)">
+                        <div class="contact-imgdiv"></div>
+                    </div>
+                    <button class="" type="submit">제출</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        const contactmodal = document.querySelector(".contactmodal");
+        const btn = document.querySelector(".contactBtn");
+        const $span = document.querySelector(".close");
+
+
+        btn.addEventListener('click', openContactModal);
+        $span.addEventListener('click', closeContactModal);
+
+        function openContactModal() {
+            contactmodal.style.display = "block";
+            contactmodal.animate([{opacity: 0}, {opacity: 1}], {duration: 300, fill: "forwards"});
+        }
+
+        function closeContactModal() {
+            contactmodal.animate([{opacity: 1}, {opacity: 0}], {duration: 300, fill: "forwards"}).onfinish = function() {
+                contactmodal.style.display = "none";
+                const $img = document.querySelector(".contact-imgdiv");
+                if($img.hasChildNodes()){
+                    $img.replaceChildren();
+                }
+            };
+        }
+    </script>
+    <script>
+        function contactreadURL(obj) {
+
+            let reader = new FileReader();
+            if(!obj.files.length) {
+                return;
+            }
+            reader.readAsDataURL(obj.files[0]);
+            reader.onload = function (e) {
+                let $div = $('<div>');
+                $($div).css('width','120px');
+                $($div).css('height','120px');
+                $($div).css('padding','10px 10px 0px 0px');
+
+                $('.contact-imgdiv').append($div);
+
+                let img = $('<img />');
+                $(img).attr('src', e.target.result);
+                $(img).css('width','100%');
+                $(img).css('height','100%');
+                $($div).append(img);
+            }
+        }
+    </script>
+
+
+    </section>
+    <script>
+
+    </script>
+    </div>
+</main>
+</html>

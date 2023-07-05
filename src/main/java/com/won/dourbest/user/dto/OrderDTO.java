@@ -11,9 +11,10 @@ public class OrderDTO {
 
     private int orderCode;
     private int orderCount;
-    private int price;
+    private int totalPrice;
     private int fundingCode;
     private int memberCode;
     private String orderRequest;
 
+    private MemberDTO memberDTO;
 }
