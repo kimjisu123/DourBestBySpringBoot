@@ -158,6 +158,11 @@
         WHERE M.MEMBER_ID = #{ memberId }
     </update>
 
+    <select id="findByEmail">
+        SELECT M.MEMBER_EMAIL from TBL_MEMBER M
+        WHERE m.MEMBER_EMAIL= #{memberEmail}
+    </select>
+
 
 
 </mapper>

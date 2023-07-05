@@ -18,8 +18,6 @@ public class MailService {
     private final JavaMailSender emailSender;
     private final SpringTemplateEngine templateEngine;
 
-
-
     public String createCode(){
 
         Random random = new Random();
@@ -56,7 +54,6 @@ public class MailService {
         message.setText(setContext(code),"utf-8", "html");
 
         return message;
-
     }
 
     public String sendMail(String toEmail) throws MessagingException {

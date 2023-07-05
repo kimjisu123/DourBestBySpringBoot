@@ -35,7 +35,7 @@
                     },
                     function (rsp) {
                         $.ajax({
-                            type : "POST",
+                            type  : "POST",
                             url : "/membership/verifyIamport/" + rsp.imp_uid
                         }).done(function(data) {
 

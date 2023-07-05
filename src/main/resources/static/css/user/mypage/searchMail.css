@@ -1,0 +1,73 @@
+.tabs{
+    display: flex;
+    margin-bottom: 20px;
+    box-shadow: 0 1px #00000014;
+}
+
+.tabs li{
+    flex: 1;
+    background: none;
+    color: #222;
+    padding: 15px;
+    cursor: pointer;
+    text-align: center;
+}
+
+ul.tabs li.current{
+    border-bottom: #f35f4c 1px solid;
+}
+
+
+.user-search{
+    max-width: 400px;
+    width: 100%;
+    margin: 0 auto;
+
+}
+
+.tab-content > p{
+    font-size: 15px;
+    color: #747575;
+    margin-bottom: 20px;
+}
+
+.page-input{
+    margin-bottom: 20px;
+}
+
+.page-input > input{
+    width: 100%;
+    outline: none;
+    height: 50px;
+    padding: 0.8em;
+    border-radius: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.page-input > input:focus{
+    border: 1px solid #E54945;
+}
+
+.tab-content > button{
+    width: 100%;
+    background-color: #E54945;
+    color: #ffffff;
+    padding: 15px;
+    border-radius: 4px;
+}
+
+.tab-content > button:hover{
+    background-color: #cc322b;
+
+}
+
+
+.tab-content{
+    display: none;
+    padding: 15px;
+}
+
+.tab-content.current{
+    display: inherit;
+}
+

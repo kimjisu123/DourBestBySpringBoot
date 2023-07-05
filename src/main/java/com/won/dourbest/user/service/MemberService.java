@@ -29,7 +29,7 @@ public interface MemberService extends UserDetailsService {
 
     public int modifyMemberPwd(CheckMemberDTO member);
 
-    //맵 객체를 만들어서 넘겨준다.
+    String searchMail(String memberEmail);
 
 //    // 회원 정보 수정용 메소드
     int modifiyMember(Map<String, Object> map);

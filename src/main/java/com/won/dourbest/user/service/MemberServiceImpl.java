@@ -1,5 +1,6 @@
 package com.won.dourbest.user.service;
 
+import com.won.dourbest.common.exception.user.EmailNotFoundException;
 import com.won.dourbest.user.dao.MemberMapper;
 import com.won.dourbest.user.dto.*;
 import lombok.RequiredArgsConstructor;
@@ -84,6 +85,17 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public int modifyMemberPwd(CheckMemberDTO member) {
         return mapper.updatePwd(member);
+    }
+
+    @Override
+    public String searchMail(String memberEmail) {
+
+        String findEmail = mapper.findByEmail(memberEmail);
+
+        if (findEmail == null) throw new EmailNotFoundException("가입된 이메일이 없습니다");
+
+        return findEmail;
+
     }
 
     @Override

@@ -30,6 +30,8 @@ public interface MemberMapper {
 
     int updatePwd(CheckMemberDTO member);
 
+    String findByEmail(String memberEmail);
+
 
 
 //    MemberDTO selectMember(MemberDTO member);

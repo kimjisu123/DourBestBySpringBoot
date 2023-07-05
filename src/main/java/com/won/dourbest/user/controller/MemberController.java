@@ -98,35 +98,6 @@ public class MemberController {
         return "redirect:/category";
     }
 
-    @GetMapping("/modify")
-    public String modifyMemvberInfo(@AuthenticationPrincipal MemberImpl member, Model model){
-        MemberDTO findMember = service.findUser(member.getMemberId()).orElseThrow();
-        boolean result = passwordEncoder.matches("iYk6786w", member.getPassword());
-
-        log.info("member={}",findMember);
-        System.out.println("result = " + result);
-
-        model.addAttribute("member", findMember);
-
-
-        return "redirect:/";
-    }
-
-    @PostMapping("/modi")
-    public String infoModifytest(@AuthenticationPrincipal MemberImpl user, @RequestParam String userId, @RequestParam String pwd){
-        log.info("member={}",user);
-        log.info("memberid-{}", user.getMemberId());
-        log.info("userpwd={}", user.getPassword());
-
-
-        //확인완료
-        boolean result = passwordEncoder.matches(pwd, user.getPassword());
-
-        log.info("result={}",result);
-
-        return "redirect:/"; //수정하는페이지로이동
-    }
-
     @GetMapping("/checkMember")
     public String checkMemberForm(@AuthenticationPrincipal MemberImpl user) {
 
