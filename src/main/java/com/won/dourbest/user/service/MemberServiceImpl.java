@@ -59,21 +59,7 @@ public class MemberServiceImpl implements MemberService {
         return mapper.emailCheck(memberEmail) > 0? true : false; // 중복값이 있으면 1로 true를 리턴 없으면 0으로 false를 반환
     }
 
-    //회원 정보 수정
-    @Override
-    public int modifiyMember(Map<String, Object> map) {
 
-        System.out.println("map = " + map);
-        int result = mapper.registMember(map);
-        int result2 = mapper.registAddress(map);
-
-        if (result > 0 && result2 > 0) {
-            return 1;
-        } else {
-            throw new IllegalStateException();
-        }
-
-    }
 
     @Override
     public Optional<MemberDTO> findUser(String userId) {
@@ -82,6 +68,7 @@ public class MemberServiceImpl implements MemberService {
 
     }
     
+
 
 
     @Override
@@ -101,5 +88,22 @@ public class MemberServiceImpl implements MemberService {
         return user;
     }
 
+    //회원 정보 수정
+    @Override
+    @Transactional(rollbackFor = { Exception.class })
+    public int updateMember(Map<String, Object> map) {
 
+        System.out.println("map = " + map);
+
+        int result = mapper.updateMember(map);  // 매퍼로 수정
+        int result2 = mapper.updateAddress(map);
+
+        //업데이트는 리턴 받을 값이 없음(그래서 int 리턴)
+
+        if (result > 0 && result2 > 0) {
+            return 1;
+        } else {
+            throw new IllegalStateException();
+        }
+    }
 }

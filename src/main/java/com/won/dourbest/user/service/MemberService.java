@@ -28,7 +28,7 @@ public interface MemberService extends UserDetailsService {
     public Optional<MemberDTO> findUser(String userId);
 
 //    // 회원 정보 수정용 메소드
-    int modifiyMember(Map<String, Object> map);
+    int updateMember(Map<String, Object> map);
 //
 //   //회원 탈퇴용 메소드
 //   public void removeMember(MemberDTO member) ;

@@ -152,7 +152,7 @@
         WHERE  M.MEMBER_ID = #{ userId }
     </select>
 
-    <update id="updatePwd" parameterType="CheckMemberDTO">
+    <update id="updatePwd" parameterType="map">
         UPDATE TBL_MEMBER M
         SET M.MEMBER_PWD = #{ memberPwd }
         WHERE M.MEMBER_EMAIL = #{ memberEmail }
@@ -163,6 +163,32 @@
         FROM TBL_MEMBER M
         WHERE m.MEMBER_EMAIL= #{ memberEmail }
     </select>
+
+
+        <!--  회원 정보 수정  -->
+
+    <update id="updateMember" parameterType="map">
+        UPDATE TBL_MEMBER M
+        SET     M.MEMBER_PHONE = #{ member.memberPhone }
+              , M.MEMBER_EMAIL = #{ member.memberEmail }
+          WHERE M.MEMBER_ID = #{ member.memberId }
+    </update>
+
+    <update id="updateAddress" parameterType="map">
+        UPDATE TBL_ADDRESS A
+        SET     A.ZIP_CODE = #{ address.zipcode }
+              , A.BASE_ADDRESS  = #{ address.baseAddress }
+              , A.DETAIL_ADDRESS = #{ address.detailAddress }
+        WHERE A.MEMBER_CODE = (SELECT M.MEMBER_CODE FROM TBL_MEMBER M
+                             WHERE M.MEMBER_ID = #{ member.memberId } )
+    </update>
+
+    <!-- 회원 탈퇴   -->
+    <update id="deleteMember" parameterType="String">
+        UPDATE TBL_MEMBER
+        SET    WITHDRAWAL_STATUS = 'Y'
+        WHERE MEMBER_ID = #{ memberId } )
+    </update>
 
 
 

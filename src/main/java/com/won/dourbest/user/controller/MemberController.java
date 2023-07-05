@@ -17,6 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -98,27 +99,48 @@ public class MemberController {
         return "redirect:/category";
     }
 
-    @GetMapping("/checkMember")
-    public String checkMemberForm(@AuthenticationPrincipal MemberImpl user) {
+    @GetMapping("/modify")
+    public String modifyMemvberInfo(@AuthenticationPrincipal MemberImpl member, Model model){
+        MemberDTO findMember = service.findUser(member.getMemberId()).orElseThrow();
+        boolean result = passwordEncoder.matches("iYk6786w", member.getPassword());
 
+        log.info("member={}",findMember);
+        System.out.println("result = " + result);
+
+        model.addAttribute("member", findMember);
+
+
+        return "redirect:/";
+    }
+
+    @PostMapping("/modi")
+    public String infoModifytest(@AuthenticationPrincipal MemberImpl user, @RequestParam String userId, @RequestParam String pwd){
         log.info("member={}",user);
         log.info("memberid-{}", user.getMemberId());
         log.info("userpwd={}", user.getPassword());
 
-        return "user/checkMember";
+        //확인완료
+        boolean result = passwordEncoder.matches(pwd, user.getPassword());
 
+        log.info("result={}",result);
+
+        return "redirect:/"; //수정하는페이지로이동
     }
 
+    // 회원정보 수정 전에 정보 회원 확인
     @PostMapping("/checkMember")
+    @Transactional(rollbackFor = { Exception.class })
     public String checkMember(@AuthenticationPrincipal MemberImpl user, @RequestParam String pwd){
-
-        log.info("user = " +  user);
-        log.info("pwd = " +  pwd);
-
-        boolean result = passwordEncoder.matches( pwd , user.getPassword());  // false면 중복값이 없으므로 success
-
-        return "redirect:/";
-
+//        log.info("user = " +  user);
+//        log.info("pwd = " +  pwd);
+        boolean result = passwordEncoder.matches( pwd , user.getPassword());
+//        log.info("result = " + result);
+            if(result) {
+                return "redirect:/mypage/changeInfo";
+            } else {
+//
+                return "redirect:/mypage/checkMember";
+            }
     }
 
 

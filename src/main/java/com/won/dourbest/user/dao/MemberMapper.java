@@ -32,6 +32,10 @@ public interface MemberMapper {
 
     Optional<String> findByEmail(String memberEmail);
 
+    int updateMember(Map<String, Object> map);
+
+    int updateAddress(Map<String, Object> map);
+
 
 
 //    MemberDTO selectMember(MemberDTO member);
