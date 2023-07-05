@@ -10,9 +10,9 @@ import lombok.*;
 public class AddressDTO {
 
     private int addressCode;
-    private int zipCode;
+    private int zipcode;
     private String baseAddress;
     private String detailAddress;
-    private MemberDTO memberCode;
+//    private MemberDTO memberCode;
 
 }

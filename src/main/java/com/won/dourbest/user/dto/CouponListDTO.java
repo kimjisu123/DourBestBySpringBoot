@@ -18,11 +18,7 @@ public class CouponListDTO {
     private Date validDate; // 유효날짜
     private char couponRegiStatus; //등록 여부
     private char couponUseStatus; // 사용여부
-
-    private List<CouponDTO> couponList; // 쿠폰 코드(FK)
-    private MemberDTO memberList; // 회원 코드 (FK)
-
-
+    private CouponDTO coupon; // 쿠폰 코드(FK)
 
 
 }

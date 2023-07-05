@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html th:replace="~{/layouts/base :: layout(~{::main}, ~{::link}, ~{::script})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" th:href="@{/css/common/page.css}">
+    <link rel="stylesheet" th:href="@{/css/common/item-card.css}">
+    <link rel="stylesheet" th:href="@{/css/common/board.css}">
+</head>
+<main>
+    <div class="page-wrapper">
+        <section>
+            <div class="page-title">
+                <h1>판매자 문의내역</h1>
+            </div>
+            <div class="filter-wrapper">
+                <ul>
+                    <li>
+                        <a th:href="|@{/mypage/seller-inquire}|">
+                            전체
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="|@{/mypage/seller-inquire(status='Y')}|">
+                            답변완료
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="|@{/mypage/seller-inquire(status='N')}|">
+                            답변 대기중
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="page-container">
+                <div class="page-content">
+                    <h2 class="sr-only">판매자 문의내역</h2>
+                    <th:block th:unless="${!list.isEmpty()} or ${list.size()} > 0 ">
+
+                        <p class="no-list"> 판매자 문의 내역이 없습니다. </p>
+
+                    </th:block>
+
+                    <th:block th:if="${!list.isEmpty()} or ${list.size()} > 0 ">
+                        <div class="board_list_wrap">
+                            <div class="board_list">
+                                <div class="top board-content">
+                                    <div class="num">번호</div>
+                                    <div class="count">카테고리</div>
+                                    <div class="title">제목</div>
+                                    <div class="date">날짜</div>
+                                </div>
+                                <div th:each="inquire : ${list}" class="board-content">
+                                    <div class="num" th:text="${inquire.rowNum}">0</div>
+                                    <div class="count" th:text="${inquire.getCategoryName()}">카테고리</div>
+                                    <div class="title">
+                                        <a th:text="${inquire.sellerInqTitle}" th:href="|@{/seller-inquire/{id}(id = ${inquire.sellerInqCode})}|">
+                                            제목
+                                        </a>
+                                    </div>
+                                    <div class="date"
+                                         th:text="${#dates.format(inquire.getSellerInqDate(), 'yyyy/MM/dd HH:mm')}">
+                                        2021.1.15
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="board_page">
+                                <th:block th:if="${pagination.prev}">
+                                    <a th:href="|@{/mypage/seller-inquire}${cri.makeQuery(pagination.startPage)}|"
+                                       class="bt first"><<</a>
+                                </th:block>
+                                <th:block th:if="${pagination.getCriteria().page > pagination.startPage}">
+                                    <a th:href="|@{/mypage/seller-inquire}${cri.makeQuery(cri.getPage()-1)}|"
+                                       class="bt prev"><</a>
+                                </th:block>
+
+                                <th:block th:each="page : ${#numbers.sequence(pagination.startPage, pagination.endPage)}">
+                                    <a class="num" th:classappend="${page == pagination.getCriteria().page} ? 'on'"
+                                       th:text="${page}"
+                                       th:href="|@{/mypage/seller-inquire}${cri.makeQuery(page)}|">
+                                    </a>
+                                </th:block>
+
+                                <a th:if="${pagination.getCriteria().page < pagination.endPage}"
+                                   th:href="|@{/mypage/seller-inquire}${cri.makeQuery(cri.getPage()+1)}|"
+                                   class="bt next">></a>
+                                <a th:if="${pagination.next}"
+                                   th:href="|@{/mypage/seller-inquire}${cri.makeQuery(pagination.endPage)}|"
+                                   class="bt last">>></a>
+                            </div>
+                        </div>
+                    </th:block>
+
+                    <div th:class="back-mypage">
+                        <a th:href="|@{/mypage}|"> 마이페이지 이동</a>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </div>
+</main>
+<script src=""></script>
+
+
+</html>

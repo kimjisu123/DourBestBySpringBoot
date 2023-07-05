@@ -36,7 +36,6 @@ new Swiper(".swiper2", {
 	},
 	
 });
-1
 
 
 new Swiper(".review", {

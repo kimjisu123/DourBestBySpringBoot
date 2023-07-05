@@ -4,10 +4,9 @@ server:
 mybatis:
   # mapper.xml location Setting
   mapper-locations: mappers/**/*Mapper.xml  # alias Setting
-#  type-aliases-package: com.ohgiraffers.thymeleafspringboot
+  type-aliases-package: com.won.dourbest.seller.dto, com.won.dourbest.user.dto, com.won.dourbest.admin.dto, com.won.dourbest.common.dto
   configuration:
     map-underscore-to-camel-case: true
-  type-aliases-package: com.won.dourbest.seller.dto, com.won.dourbest.user.dto, com.won.dourbest.admin.dto, com.won.dourbest.common.dto
 
 spring:
   datasource:
@@ -24,3 +23,35 @@ spring:
   mvc:
     converters:
       preferred-json-mapper: gson
+  mail:
+    host: smtp.naver.com #smtp 서버 주소
+    port: 465 # 메일 인증서버 포트
+    username: ddj04323 #네이버 아이디
+    password: H3FVS7HFTCDZ #네이버 비밀번호
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+          #            required: true
+          auth: true
+          #          connectiontimeout: 5000
+          #          timeout: 5000
+          #          writetimeout: 5000
+          ssl:
+            #trust: smtp.naver.com
+            enable: true #반드시 필요 -> SSL 필요로 되어있으면
+
+kakaocert:
+  #링크허브에서 발급받은 파트너 링크아이디.
+  linkId: TESTER
+  #링크허브에서 발급받는 비밀키.
+  secretKey: SwWxqU+0TErBXy/9TVjIPEnI0VTUMMSQZtJf3Ed8q3I=
+  #이용기관코드, 파트너가 등록한 이용기관의 코드, (파트너 사이트에서 확인가능)
+  clientCode: '023030000004'
+  #인증토큰 발급 IP 제한 On/Off, ture-제한기능 사용(기본값-권장),  false-제한기능 미사용
+  isIpRestrictOnOff: true
+  #카카오써트 API 서비스 고정 IP 사용여부, true-사용, false-미사용, 기본값(false)
+  useStaticIp: false
+  #로컬시스템 시간 사용여부 true-사용, false-미사용, 기본값(true)
+  useLocalTimeYN: true

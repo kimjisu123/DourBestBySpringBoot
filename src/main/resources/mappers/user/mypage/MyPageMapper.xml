@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.won.dourbest.user.mypage.repository.MypageMapper">
+
+<!--    <resultMap id="MemberResultMap" type="com.won.dourbest.user.dto.MemberDTO">-->
+<!--        <id property="memberCode" column="MEMBER_CODE"/>-->
+<!--        <result property="memberId" column="MEMBER_ID"/>-->
+<!--        <result property="memberPwd" column="MEMBER_PWD"/>-->
+<!--        <result property="memberName" column="MEMBER_NAME"/>-->
+<!--        <result property="memberPhone" column="MEMBER_PHONE"/>-->
+<!--        <result property="memberEmail" column="MEMBER_EMAIL"/>-->
+<!--        <result property="registDate" column="REGIST_DATE"/>-->
+<!--        <result property="adultStatus" column="ADULT_STATUS"/>-->
+
+<!--        <association property="membership" resultMap="MemberShipResultMap"/>-->
+<!--        <association property="address" resultMap="MemberShipResultMap"/>-->
+<!--        <collection property="likeFundingList" resultMap="LikeFundingResultMap"/>-->
+<!--        <collection property="purchasedFundingList" resultMap="PurchasedFundingResultMap"/>-->
+<!--    </resultMap>-->
+
+    <resultMap id="MemberShipResultMap" type="MemberShipDTO">
+        <id property="membershipCode" column="MEMBERSHIP_CODE"/>
+        <result property="membershipName" column="MEMBERSHIP_NAME"/>
+        <result property="accrualRate" column="ACCRUAL_RATE"/>
+        <result property="membershipContent" column="MEMBERSHIP_CONTENT"/>
+    </resultMap>
+
+    <resultMap id="AddressResultMap" type="AddressDTO">
+        <id property="addressCode" column="couponListCode"/>
+        <result property="zipCode" column="ZIP_CODE"/>
+        <result property="baseAddress" column="BASE_ADDRESS"/>
+        <result property="detailAddress" column="DETAIL_ADDRESS"/>
+    </resultMap>
+
+    <resultMap id="MypageMainMap" type="MypageMainDTO">
+        <id property="memberId" column="MEMBER_ID"/>
+        <result property="memberName" column="MEMBER_NAME"/>
+        <result property="membershipName" column="MEMBERSHIP_NAME"/>
+        <result property="pointTotalAmount" column="POINT_TOTAL_AMOUNT"/>
+        <result property="couponCount" column="COUPON_COUNT"/>
+    </resultMap>
+
+    <resultMap type="MypageDTO" id="MypageResultMap" extends="MypageMainMap">
+        <result property="readyCount" column="READY_COUNT"/>
+        <result property="ingCount" column="ING_COUNT"/>
+        <result property="finishCount" column="FINISH_COUNT"/>
+    </resultMap>
+
+    <resultMap id="CoupListResultMap" type="MemberCouponList">
+        <id property="couponListCode" column="COUPONLIST_CODE"/>
+        <result property="rowNum" column="RNUM"/>
+        <result property="useStatus" column="COUPON_USE_STATUS"/>
+        <result property="regiStatus" column="COUPON_REGI_STATUS"/>
+        <result property="validDate" column="VALID_DATE"/>
+        <association property="coupon" resultMap="CouponMap"/>
+    </resultMap>
+
+    <resultMap id="CouponMap" type="CouponDTO">
+        <id property="couponCode" column="COUPON_CODE"/>
+        <result property="couponName" column="COUPON_NAME"/>
+        <result property="couponContent" column="COUPON_CONTENT"/>
+        <result property="couponDiscount" column="COUPON_DISCOUNT"/>
+    </resultMap>
+
+
+    <resultMap id="LikeFundingResultMap" type="LikeFundingDTO">
+        <id property="fundingCode" column="FUNDING_CODE"/>
+        <result property="rowNum" column="RNUM"/>
+        <result property="fundingTitle" column="FUNDING_TITLE"/>
+        <result property="fundingSummary" column="FUNDING_SUMMARY"/>
+        <result property="categoryName" column="CATEGORY_NAME"/>
+        <result property="filePath" column="FILE_MODIFICATION_NAME"/>
+    </resultMap>
+
+    <resultMap id="PurchasedFundingResultMap" type="PurchasedFundingListDTO">
+        <id property="fundingCode" column="FUNDING_CODE"/>
+        <result property="fundingTitle" column="FUNDING_TITLE"/>
+        <result property="fundingSummary" column="FUNDING_SUMMARY"/>
+        <result property="endDate" column="END_DATE"/>
+        <result property="reviewCode" column="REVIEW_CODE"/>
+        <result property="orderCode" column="ORDER_CODE"/>
+    </resultMap>
+
+    <resultMap id="FundingResultMap" type="FundingDTO">
+        <id property="fundingCode" column="FUNDING_CODE"/>
+        <result property="fundingTitle" column="FUNDING_TITLE"/>
+        <result property="fundingSummary" column="FUNDING_SUMMARY"/>
+    </resultMap>
+
+    <resultMap id="InquireResult" type="MemberInquireListDTO">
+        <id property="inquiriesCode" column="INQUIRIES_CODE"/>
+        <result property="rowNum" column="RNUM"/>
+        <result property="contactSubject" column="CONTACT_SUBJECT"/>
+        <result property="creationDate" column="DATE_CREATION_INQUIRY"/>
+        <result property="contactAnswer" column="WHETHER_ANSWER"/>
+        <result property="categoryName" column="CATEGORY_NAME"/>
+    </resultMap>
+
+    <resultMap id="ReportResult" type="MemberReportListDTO">
+        <id property="reportCode" column="REPORT_CODE"/>
+        <result property="rowNum" column="RNUM"/>
+        <result property="responseCode" column="REPORT_RESPONSE_CODE"/>
+        <result property="fundingTitle" column="FUNDING_TITLE"/>
+        <result property="reportDate" column="REPORT_DATE"/>
+        <result property="categoryName" column="CATEGORY_NAME"/>
+        <result property="answerStatus" column="ANSWERS_STATUS"/>
+    </resultMap>
+
+    <resultMap id="SellerInquireResult" type="MemberSellerInquireDTO">
+        <id property="sellerInqCode" column="SELLER_INQUIRY_CODE"/>
+        <result property="rowNum" column="RNUM"/>
+        <result property="sellerInqDate" column="INQUIRY_DATE"/>
+        <result property="sellerInqAnswerStatus" column="ANSWER_STATUS"/>
+        <result property="categoryName" column="CATEGORY_NAME"/>
+    </resultMap>
+
+    <sql id="search">
+        <if test="cri.searchType != null">
+            AND TC.CATEGORY_NAME = #{cri.searchType}
+        </if>
+        <if test="cri.status != null">
+            AND TSI.ANSWER_STATUS = #{cri.status}
+        </if>
+    </sql>
+
+    <select id="findById" resultMap="MypageResultMap">
+        SELECT
+            T1.MEMBER_ID,
+            T1.MEMBER_NAME,
+            T1.MEMBERSHIP_NAME,
+            T1.POINT_TOTAL_AMOUNT,
+            T1.COUPON_COUNT,
+            T1.READY_COUNT,
+            T1.ING_COUNT,
+            T1.FINISH_COUNT
+        FROM (SELECT
+                  M.MEMBER_ID,
+                  M.MEMBER_NAME,
+                  TM.MEMBERSHIP_NAME,
+                  NVL(PL.POINT_TOTAL_AMOUNT,0) POINT_TOTAL_AMOUNT,
+                  (SELECT COUNT(COUPON_CODE) FROM TBL_COUPONLIST TCL WHERE MEMBER_CODE = (SELECT MEMBER_CODE
+                                                                                          FROM TBL_MEMBER
+                                                                                          WHERE MEMBER_ID = #{ userId })
+                                                                       AND TCL.COUPON_REGI_STATUS = 'Y'
+                  ) COUPON_COUNT,
+                  COUNT(DECODE(D.DELIVERY_STATUS, '배송준비중','1')) READY_COUNT,
+                  COUNT(DECODE(D.DELIVERY_STATUS, '배송중','1')) ING_COUNT,
+                  COUNT(DECODE(D.DELIVERY_STATUS, '배송완료','1')) FINISH_COUNT
+              FROM TBL_MEMBER M
+                       LEFT JOIN TBL_MEMBERSHIP TM ON (M.MEMBERSHIP_CODE = TM.MEMBERSHIP_CODE)
+                       LEFT JOIN TBL_ORDER O ON (M.MEMBER_CODE = O.MEMBER_CODE)
+                       LEFT JOIN TBL_CREDIT T ON (O.ORDER_CODE = T.ORDER_CODE)
+                       left JOIN TBL_DELIVERY TD ON (T.PAYMENT_CODE = TD.PAYMENT_CODE)
+                       left JOIN TBL_DELIVERYLIST D ON (TD.DELIVERY_CODE = D.DELIVERY_CODE)
+                       LEFT JOIN TBL_POINTLIST PL ON (M.MEMBER_CODE = PL.MEMBER_CODE)
+              where M.MEMBER_ID = #{ userId }
+              group by M.MEMBER_ID, M.MEMBER_NAME, TM.MEMBERSHIP_NAME, PL.POINT_TOTAL_AMOUNT
+              ORDER BY PL.POINT_TOTAL_AMOUNT DESC) T1
+        WHERE ROWNUM = 1
+    </select>
+
+    <select id="findByCoupon" resultMap="CoupListResultMap">
+        SELECT
+            B.RNUM,
+            B.COUPON_CODE,
+            B.COUPON_NAME,
+            B.COUPON_CONTENT,
+            B.COUPON_DISCOUNT,
+            B.COUPONLIST_CODE,
+            B.COUPON_USE_STATUS,
+            B.COUPON_REGI_STATUS,
+            B.VALID_DATE
+        FROM(
+            SELECT
+                ROWNUM RNUM,
+                A.COUPON_CODE,
+                A.COUPON_NAME,
+                A.COUPON_DISCOUNT,
+                A.COUPON_CONTENT,
+                A.COUPONLIST_CODE,
+                A.COUPON_USE_STATUS,
+                A.COUPON_REGI_STATUS,
+                A.VALID_DATE
+            FROM(
+                SELECT
+                    TC.COUPON_CODE,
+                    TC.COUPON_NAME,
+                    TC.COUPON_CONTENT,
+                    TC.COUPON_DISCOUNT,
+                    TCL.COUPONLIST_CODE,
+                    TCL.COUPON_USE_STATUS,
+                    TCL.COUPON_REGI_STATUS,
+                    TCL.VALID_DATE
+                FROM TBL_COUPONLIST TCL
+                        JOIN TBL_MEMBER TM on TCL.MEMBER_CODE = TM.MEMBER_CODE
+                        JOIN TBL_COUPON TC on TCL.COUPON_CODE = TC.COUPON_CODE
+                    WHERE TM.MEMBER_ID = #{ userId }
+<!--                <if test="cri.status != Y">-->
+<!--                    AND TCL.COUPON_REGI_STATUS = #{ cri.status }-->
+<!--                </if>-->
+                <choose>
+                    <when test="cri.order != null ">
+                        AND TCL.COUPON_USE_STATUS = #{ cri.order }
+                    </when>
+                    <when test="cri.status != null">
+                        AND TCL.COUPON_REGI_STATUS = #{ cri.status }
+                    </when>
+                    <otherwise>
+                        AND TCL.COUPON_REGI_STATUS = 'Y'
+                    </otherwise>
+                </choose>
+                ORDER BY TCL.VALID_DATE DESC
+                ) A
+        <![CDATA[
+                WHERE ROWNUM <= #{ cri.rowEnd }
+        ]]>
+            )B
+        WHERE B.RNUM >= #{ cri.rowStart }
+    </select>
+
+    <select id="findLikeFundingById" resultMap="LikeFundingResultMap">
+        SELECT
+            B.RNUM,
+            B.FUNDING_CODE,
+            B.FUNDING_TITLE,
+            B.FUNDING_SUMMARY,
+            B.CATEGORY_NAME,
+            B.FILE_MODIFICATION_NAME
+        FROM(
+            SELECT
+                ROWNUM RNUM,
+                A.FUNDING_CODE,
+                A.FUNDING_TITLE,
+                A.FUNDING_SUMMARY,
+                A.CATEGORY_NAME,
+                A.FILE_MODIFICATION_NAME
+            FROM(
+                SELECT
+                    F.FUNDING_CODE,
+                    F.FUNDING_TITLE,
+                    F.FUNDING_SUMMARY,
+                    TC.CATEGORY_NAME,
+                    TFF.FILE_MODIFICATION_NAME
+                FROM TBL_MEMBER M
+                    JOIN TBL_LIKE_FUNDING_LIST TLFL ON (M.MEMBER_CODE = TLFL.MEMBER_CODE)
+                    JOIN TBL_FUNDING F ON (TLFL.FUNDING_CODE = F.FUNDING_CODE)
+                    LEFT JOIN TBL_FUNDING_FILE TFF ON F.FUNDING_CODE = TFF.FUNDING_CODE
+                    JOIN TBL_CATEGORY TC on F.CATEGORY_CODE = TC.CATEGORY_CODE
+                WHERE M.MEMBER_ID = #{ userId }
+                AND TFF.FILE_TYPE='메인'
+                <if test="cri.searchType != null">
+                    AND TC.CATEGORY_NAME = #{cri.searchType}
+                </if>
+                <choose>
+                    <when test="cri.order == null ">
+                        ORDER BY F.APPLICATION_DATE DESC
+                    </when>
+                    <otherwise>
+                        ORDER BY F.APPLICATION_DATE ASC
+                    </otherwise>
+               </choose>
+                ) A
+        <![CDATA[
+            WHERE ROWNUM <= #{ cri.rowEnd }
+            ]]>
+            ) B
+        WHERE B.RNUM >= #{ cri.rowStart }
+        ORDER BY 1 ASC
+    </select>
+
+    <select id="findPurchasedFundingById" resultMap="PurchasedFundingResultMap">
+        SELECT DISTINCT
+            TF.FUNDING_TITLE,
+            TF.FUNDING_SUMMARY,
+            TF.END_DATE,
+            TR.REVIEW_CODE,
+            O.ORDER_CODE
+        FROM TBL_MEMBER M
+                 LEFT JOIN TBL_PURCHASED_FUNDING_LIST TPFL ON M.MEMBER_CODE = TPFL.MEMBER_CODE
+                 LEFT JOIN TBL_FUNDING TF on TPFL.FUNDING_CODE = TF.FUNDING_CODE
+                 LEFT JOIN TBL_ORDER O on M.MEMBER_CODE = O.MEMBER_CODE
+                 LEFT JOIN TBL_REVIEW TR on M.MEMBER_CODE = TR.MEMBER_CODE
+        WHERE M.MEMBER_ID = #{userId}
+    </select>
+
+    <select id="findInquireAllById" resultMap="InquireResult">
+        SELECT B.RNUM,
+            B.INQUIRIES_CODE,
+            B.CONTACT_SUBJECT,
+            B.DATE_CREATION_INQUIRY,
+            B.WHETHER_ANSWER,
+            B.CATEGORY_NAME
+        FROM (
+            SELECT ROWNUM RNUM,
+                A.INQUIRIES_CODE,
+                A.CONTACT_SUBJECT,
+                A.DATE_CREATION_INQUIRY,
+                A.WHETHER_ANSWER,
+                A.CATEGORY_NAME
+            FROM(
+                SELECT
+                    TAI.INQUIRIES_CODE,
+                    TAI.CONTACT_SUBJECT,
+                    TAI.DATE_CREATION_INQUIRY,
+                    TAI.WHETHER_ANSWER,
+                    TC.CATEGORY_NAME
+                FROM TBL_MEMBER M
+                JOIN TBL_ADMIN_INQUIRIES TAI on M.MEMBER_CODE = TAI.MEMBER_CODE
+                JOIN TBL_CATEGORY TC on TAI.CATEGORY_CODE = TC.CATEGORY_CODE
+                WHERE M.MEMBER_ID = #{ userId }
+                <if test="cri.status != null">
+                    AND TAI.WHETHER_ANSWER = #{ cri.status }
+                </if>
+
+                ORDER BY DATE_CREATION_INQUIRY DESC
+                ) A
+            <![CDATA[
+                WHERE ROWNUM <= #{ cri.rowEnd }
+            ]]>
+        ) B
+        WHERE B.RNUM >= #{ cri.rowStart }
+        ORDER BY 1 ASC
+    </select>
+
+    <select id="findReportAllById" resultMap="ReportResult">
+        SELECT
+            B.RNUM,
+            B.REPORT_CODE,
+            B.REPORT_RESPONSE_CODE,
+            B.FUNDING_TITLE,
+            B.REPORT_DATE,
+            B.CATEGORY_NAME,
+            B.ANSWERS_STATUS
+        FROM(
+            SELECT
+                ROWNUM RNUM,
+                A.REPORT_CODE,
+                A.REPORT_RESPONSE_CODE,
+                A.FUNDING_TITLE,
+                A.REPORT_DATE,
+                A.CATEGORY_NAME,
+                A.ANSWERS_STATUS
+            FROM (
+                SELECT
+                    TFR.REPORT_CODE,
+                    TRR.REPORT_RESPONSE_CODE,
+                    F.FUNDING_TITLE,
+                    TFR.REPORT_DATE,
+                    TC.CATEGORY_NAME,
+                    TFR.REPORT_RESP_STATUS ANSWERS_STATUS
+                FROM TBL_MEMBER M
+                    JOIN TBL_FUNDING_REPORT TFR on M.MEMBER_CODE = TFR.MEMBER_CODE
+                    LEFT JOIN TBL_REPORT_RESPONSE TRR ON TFR.REPORT_CODE = TRR.REPORT_CODE
+                    JOIN TBL_FUNDING F ON TFR.FUNDING_CODE = F.FUNDING_CODE
+                    JOIN TBL_CATEGORY TC on TFR.CATEGORY_CODE = TC.CATEGORY_CODE
+                WHERE M.MEMBER_ID = #{userId}
+                <if test="cri.status != null">
+                    AND TFR.REPORT_RESP_STATUS = #{ cri.status }
+                </if>
+
+                ORDER BY TFR.REPORT_DATE DESC
+                ) A
+             <![CDATA[
+                WHERE ROWNUM <= #{ cri.rowEnd }
+            ]]>
+            ) B
+        WHERE B.RNUM >= #{ cri.rowStart }
+        ORDER BY 1 ASC
+    </select>
+
+    <select id="findSellerInquireById" resultMap="SellerInquireResult">
+        SELECT B.RNUM,
+            B.SELLER_INQUIRY_CODE,
+            B.INQUIRY_TITLE,
+            B.INQUIRY_DATE,
+            B.ANSWER_STATUS,
+            B.CATEGORY_NAME
+                FROM (select ROWNUM RNUM,
+                A.SELLER_INQUIRY_CODE,
+                A.INQUIRY_TITLE,
+                A.INQUIRY_DATE,
+                A.ANSWER_STATUS,
+                A.CATEGORY_NAME
+                    from (
+                    SELECT
+                    TSI.SELLER_INQUIRY_CODE,
+                    TSI.INQUIRY_TITLE,
+                    TSI.INQUIRY_DATE,
+                    TSI.ANSWER_STATUS,
+                    TC.CATEGORY_NAME
+                        FROM TBL_MEMBER M
+                        JOIN TBL_SELLER_INQUIRY TSI on M.MEMBER_CODE = TSI.MEMBER_CODE
+                        JOIN TBL_CATEGORY TC on TSI.CATEGORY_CODE = TC.CATEGORY_CODE
+                        WHERE M.MEMBER_ID = #{ userId }
+                        <include refid="search"/>
+                        ORDER BY TSI.INQUIRY_DATE DESC
+                    ) A
+                        <![CDATA[
+                      WHERE ROWNUM <= #{ cri.rowEnd }
+                  ]]>
+                        ) B
+            WHERE B.RNUM >= #{ cri.rowStart }
+        ORDER BY 1 ASC
+    </select>
+
+    <select id="listCount">
+        <if test="name == 'sellerInquire'">
+            SELECT
+            COUNT(*)
+            FROM TBL_MEMBER M
+            JOIN TBL_SELLER_INQUIRY TSI on M.MEMBER_CODE = TSI.MEMBER_CODE
+            JOIN TBL_CATEGORY TC on TSI.CATEGORY_CODE = TC.CATEGORY_CODE
+            WHERE M.MEMBER_ID = #{ userId }
+            <include refid="search"/>
+        </if>
+        <if test="name == 'adminInquire'">
+            SELECT
+            COUNT(*)
+            FROM TBL_MEMBER M
+            JOIN TBL_ADMIN_INQUIRIES TAI on M.MEMBER_CODE = TAI.MEMBER_CODE
+            JOIN TBL_CATEGORY TC on TAI.CATEGORY_CODE = TC.CATEGORY_CODE
+            WHERE M.MEMBER_ID = #{ userId }
+            <if test="cri.status != null">
+                AND TAI.WHETHER_ANSWER = #{ cri.status }
+            </if>
+        </if>
+        <if test="name == 'report'">
+            SELECT
+            COUNT(*)
+            FROM TBL_MEMBER M
+                JOIN TBL_FUNDING_REPORT TFR on M.MEMBER_CODE = TFR.MEMBER_CODE
+                LEFT JOIN TBL_REPORT_RESPONSE TRR ON TFR.REPORT_CODE = TRR.REPORT_CODE
+                JOIN TBL_FUNDING F ON TFR.FUNDING_CODE = F.FUNDING_CODE
+                JOIN TBL_CATEGORY TC on TFR.CATEGORY_CODE = TC.CATEGORY_CODE
+            <if test="cri.status != null">
+                AND TFR.REPORT_RESP_STATUS = #{ cri.status }
+            </if>
+        </if>
+        <if test="name == 'coupon'">
+            SELECT
+            COUNT(*)
+            FROM TBL_COUPONLIST TCL
+                JOIN TBL_MEMBER TM on TCL.MEMBER_CODE = TM.MEMBER_CODE
+                JOIN TBL_COUPON TC on TCL.COUPON_CODE = TC.COUPON_CODE
+            <if test="cri.status != null">
+                AND TCL.COUPON_REGI_STATUS = #{ cri.status }
+            </if>
+            <if test="cri.order != null">
+                AND TCL.COUPON_USE_STATUS = #{ cri.order }
+            </if>
+        </if>
+        <if test="name == 'like'">
+            SELECT
+                COUNT(*)
+            FROM TBL_MEMBER M
+                JOIN TBL_LIKE_FUNDING_LIST TLFL ON (M.MEMBER_CODE = TLFL.MEMBER_CODE)
+                JOIN TBL_FUNDING F ON (TLFL.FUNDING_CODE = F.FUNDING_CODE)
+                LEFT JOIN TBL_FUNDING_FILE TFF ON F.FUNDING_CODE = TFF.FUNDING_CODE
+                JOIN TBL_CATEGORY TC on F.CATEGORY_CODE = TC.CATEGORY_CODE
+            <if test="cri.searchType != null">
+                AND TC.CATEGORY_NAME = #{cri.searchType}
+            </if>
+        </if>
+    </select>
+
+    <update id="updateCouponStatus" parameterType="_int">
+        UPDATE TBL_COUPONLIST TCL
+        SET TCL.COUPON_REGI_STATUS = 'Y'
+        WHERE TCL.COUPONLIST_CODE = #{code}
+        AND TCL.COUPON_REGI_STATUS ='N'
+    </update>
+
+
+
+</mapper>
