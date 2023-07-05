@@ -44,12 +44,12 @@ public class MypageController {
     private final PasswordEncoder passwordEncoder;
 
     @GetMapping
-    public String mypage(Model model, @AuthenticationPrincipal MemberImpl member){
+    public String mypage(Model model, @AuthenticationPrincipal MemberImpl member) {
 
         log.info("member={}", member);
         /* 세션에서 멤버 가져와서 id 값을 이용하자 */
         String userId = member.getUsername();
-        log.info("userId={}",userId);
+        log.info("userId={}", userId);
 
         MypageDTO mypageInfo = mypageService.myPageinfo(userId);
 
@@ -61,7 +61,7 @@ public class MypageController {
     }
 
     @GetMapping("/coupon")
-    public String couponPage(@AuthenticationPrincipal MemberImpl member, @ModelAttribute("cri") SearchCriteria criteria, Model model){
+    public String couponPage(@AuthenticationPrincipal MemberImpl member, @ModelAttribute("cri") SearchCriteria criteria, Model model) {
 
         /* 세션에서 멤버 가져와서 id 값을 이용하자 */
         String userId = member.getUsername();
@@ -79,7 +79,7 @@ public class MypageController {
     }
 
     @GetMapping("/seller-inquire")
-    public String selleInquire(@AuthenticationPrincipal MemberImpl member, @ModelAttribute("cri") SearchCriteria criteria, Model model){
+    public String selleInquire(@AuthenticationPrincipal MemberImpl member, @ModelAttribute("cri") SearchCriteria criteria, Model model) {
 
         //세션으로부터 받자
         String userId = member.getUsername();
@@ -96,7 +96,7 @@ public class MypageController {
     }
 
     @GetMapping("/inquire")
-    public String adminInquire(@AuthenticationPrincipal MemberImpl member, @ModelAttribute("cri") SearchCriteria criteria, Model model){
+    public String adminInquire(@AuthenticationPrincipal MemberImpl member, @ModelAttribute("cri") SearchCriteria criteria, Model model) {
 
         //세션으로부터 받자
         String userId = member.getUsername();
@@ -113,7 +113,7 @@ public class MypageController {
     }
 
     @GetMapping("/report")
-    public String reportList(@AuthenticationPrincipal MemberImpl member, @ModelAttribute("cri") SearchCriteria criteria, Model model){
+    public String reportList(@AuthenticationPrincipal MemberImpl member, @ModelAttribute("cri") SearchCriteria criteria, Model model) {
 
         //세션으로부터 받자
         String userId = member.getUsername();
@@ -131,7 +131,7 @@ public class MypageController {
 
 
     @GetMapping("/like-funding")
-    public String likeFundingList(@AuthenticationPrincipal MemberImpl member, @ModelAttribute("cri") SearchCriteria criteria, Model model){
+    public String likeFundingList(@AuthenticationPrincipal MemberImpl member, @ModelAttribute("cri") SearchCriteria criteria, Model model) {
 
         //세션으로부터 받자
         String userId = member.getUsername();
@@ -151,21 +151,21 @@ public class MypageController {
 
     @PostMapping(value = "/coupon/regist", produces = "application/json")
     @ResponseBody
-    public ResponseEntity<CommonResponse> couponRegist(@RequestBody MemberCouponList code){
+    public ResponseEntity<CommonResponse> couponRegist(@RequestBody MemberCouponList code) {
         log.info("code={}", code);
 
         mypageService.couponRegister(code.getCouponListCode());
 
-        CommonResponse response = new CommonResponse(true,"쿠폰등록성공");
+        CommonResponse response = new CommonResponse(true, "쿠폰등록성공");
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     // 회원 정보
     @GetMapping("/current")
-    public MemberDTO currentMember(@AuthenticationPrincipal MemberImpl member, Model model){
+    public MemberDTO currentMember(@AuthenticationPrincipal MemberImpl member, Model model) {
         MemberDTO findMember = memberService.findUser(member.getMemberId()).orElseThrow();
-        log.info("member={}",findMember);
+        log.info("member={}", findMember);
         model.addAttribute("member", member);
         return findMember;
 
@@ -176,7 +176,7 @@ public class MypageController {
     @GetMapping("checkMember")
     public String checkmember(@AuthenticationPrincipal MemberImpl user, Model model) {
 
-        model.addAttribute( "user", user );
+        model.addAttribute("user", user);
 
 
         return "/user/mypage/checkMember";
@@ -185,7 +185,7 @@ public class MypageController {
 
 
     @GetMapping("changeInfo")
-    public String changeInfo(@AuthenticationPrincipal MemberImpl member, Model model){
+    public String changeInfo(@AuthenticationPrincipal MemberImpl member, Model model) {
 
         MemberDTO mypageInfo = memberService.findUser(member.getMemberId()).orElseThrow();
 
@@ -197,16 +197,16 @@ public class MypageController {
     }
 
     //   회원정보 수정
-    @PostMapping ("changeInfo")
-    public String changeInfo (@AuthenticationPrincipal MemberImpl user,@ModelAttribute MemberDTO member, @ModelAttribute AddressDTO address){
+    @PostMapping("changeInfo")
+    public String changeInfo(@AuthenticationPrincipal MemberImpl user, @ModelAttribute MemberDTO member, @ModelAttribute AddressDTO address) {
 
         MemberDTO findMember = memberService.findUser(user.getMemberId()).orElseThrow();  // 현재 회원 정보담은 것
         member.setMemberId(user.getMemberId());  //회원 id만 불러오기
         address.setAddressCode(findMember.getAddress().getAddressCode());  // 회원 주소코드만 불러오기 (쿼리문때문에)
 
         Map<String, Object> map = new HashMap<>(); // 객체담을 맵 생성
-        map.put("member" ,member);
-        map.put("address",address);
+        map.put("member", member);
+        map.put("address", address);
 //        log.info("MemberDTO : ",member.toString());
 //        log.info("AddressDTO : ",address.toString());
         memberService.updateMember(map);  //객체 담은 후 서비스로 전송
@@ -216,10 +216,29 @@ public class MypageController {
 
     }
 
+    // 회원탈퇴 메소드
+    @GetMapping("quitMember")    //이동할 페이지
+    public String quitMember(@AuthenticationPrincipal MemberImpl user, Model model) {
 
+////     MemberDTO mypageInfo = memberService.findUser(user.getMemberId()).orElseThrow();
+//       model.addAttribute("mypageInfo", mypageInfo);  //멤버 배송지 모두 담겨있음.
+         model.addAttribute("user", user);
+//       log.info("memberName" , mypageInfo);
 
+        return "user/mypage/quitMember";
+    }
 
-
+// 탈퇴
+//    @PostMapping("quitMember")    //이동할 페이지
+//    public String quitMember(@AuthenticationPrincipal MemberImpl user, Model model) {
+//
+//     MemberDTO mypageInfo = memberService.findUser(user.getMemberId()).orElseThrow();
+//       model.addAttribute("mypageInfo", mypageInfo);  //멤버 배송지 모두 담겨있음.
+//        model.addAttribute("user", user);
+//       log.info("memberName" , mypageInfo);
+//
+//        return "user/mypage/quitMember";
+//    }
 
 
 }

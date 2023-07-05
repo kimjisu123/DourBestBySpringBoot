@@ -62,17 +62,6 @@ public class MemberController {
         return "user/login";
     }
 
-    // 회원탈퇴 메소드
-    @GetMapping("/quitMember")    //이동할 페이지
-    public String quitMember(@AuthenticationPrincipal MemberImpl member, Model model){
-
-        MemberDTO mypageInfo = service.findUser(member.getMemberId()).orElseThrow();
-
-        model.addAttribute("mypageInfo", mypageInfo);  //멤버 배송지 모두 담겨있음.
-        model.addAttribute("member", member);
-
-        return "user/mypage/quitMember";
-    }
 
     // 중복아이디 체크
     @PostMapping("checkId")
@@ -139,7 +128,7 @@ public class MemberController {
         return "redirect:/"; //수정하는페이지로이동
     }
 
-
+    // 회원정보 수정 전에 정보 회원 확인
     @PostMapping("/checkMember")
     @Transactional(rollbackFor = { Exception.class })
     public String checkMember(@AuthenticationPrincipal MemberImpl user, @RequestParam String pwd){

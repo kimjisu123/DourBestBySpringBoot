@@ -177,6 +177,13 @@
                              WHERE M.MEMBER_ID = #{ member.memberId } )
     </update>
 
+    <!-- 회원 탈퇴   -->
+    <update id="deleteMember" parameterType="String">
+        UPDATE TBL_MEMBER
+        SET    WITHDRAWAL_STATUS = 'Y'
+        WHERE MEMBER_ID = #{ memberId } )
+    </update>
+
 
 
 </mapper>
