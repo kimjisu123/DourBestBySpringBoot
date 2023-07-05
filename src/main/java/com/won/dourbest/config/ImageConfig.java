@@ -11,7 +11,8 @@ public class ImageConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
 
         registry.addResourceHandler("/fundingImg/**")
-                .addResourceLocations("file:///c:/dev/fundingImg/fundContentImg/");
+                .addResourceLocations("file:///c:/dev/fundingImg/fundContentImg/")
+                .addResourceLocations("file:///c:/dev/fundingImg/mainImg/");
 
 
     }

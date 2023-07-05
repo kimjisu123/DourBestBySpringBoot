@@ -19,7 +19,6 @@ public class FundingOptionDTO {
     private int fundingCode;
     private String optionSize;
     private String optionColor;
-    private int deliverPrice;
     private Date deliverDate;
     private int currKey;
 
