@@ -1,12 +1,9 @@
-package com.won.dourbest.user.login.conroller;
+package com.won.dourbest.user.mypage.controller;
 
-import com.won.dourbest.common.dto.CommonResponse;
 import com.won.dourbest.user.dto.CheckMemberDTO;
-import com.won.dourbest.user.login.model.service.MailService;
+import com.won.dourbest.user.mypage.service.MailService;
 import com.won.dourbest.user.service.MemberService;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -24,23 +21,25 @@ public class MailController {
 
     @GetMapping
     public String mailForm(){
-        return "user/mypage/test";
+        return "/user/mypage/mailcheck";
     }
 
     @PostMapping("/check")
     @ResponseBody
-    public String mailConfirm(@RequestParam String email, @RequestParam String memberId) throws MessagingException {
+    public String mailConfirm(@RequestParam String email, @RequestParam(required = false) String memberId) throws MessagingException {
 
-        String code = mailService.sendMail(email);
-
-        int result = memberService.modifyMemberPwd(new CheckMemberDTO(memberId, passwordEncoder.encode(code)));
-
-        if(result < 0) {
-            //실패 예외 작성
+        if(memberId == null ){
+            return mailService.sendMail(email,"id");
         }
 
-        return memberId;
+        String result = mailService.sendMail(email,"pwd");
+
+
+        return result;
     }
+
+
+
 
 
 

@@ -1,51 +1,73 @@
 <!DOCTYPE html>
 <html th:replace="~{/layouts/base :: layout(~{::main}, ~{::link}, ~{::script})}" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link rel="stylesheet" th:href="@{/css/user/login.css}" />
+    <link rel="stylesheet" th:href="@{/css/user/login.css}"/>
+    <script th:src="@{/js/user/member/login.js}"></script>
 </head>
 <main>
     <section>
         <div class="login">
-            <div class="pagetitle">
-                <h1>로그인</h1>
+                <ul class="tabnav">
+                    <li class="tab-menu active"><a class="taptitle" href="#tab01">회원</a></li>
+                    <li class="tap-menu"><a class="taptitle" href="#tab02">관리자</a></li>
+                </ul>
+            <div class="contents">
+                <div id="tab01" class="content target">
+                    <div class="pagetitle"><h1>회원 로그인</h1></div>
+                    <form id="loginForm" action="/user/login" method="post">
+                            <div class="inputboxs">
+                                <div class="inputMargin">
+                                    <div>
+                                        <input data-testid="input-box" type="text" name="username" class="userId"
+                                               placeholder="아이디를 입력해주세요." autofocus value>
+                                    </div>
+                                        <div class="boxMargin2">
+                                            <input type="password" name="password" class="password" placeholder="비밀번호를 입력해주세요"
+                                                   autocomplete="off" value>
+                                        </div>
+                                </div>
+                                    <div class="finding">
+                                        <a href="/user/html/findId.html">아이디찾기</a>
+                                            <span class="line">│</span>
+                                        <a href="/user/html/findpw.html">비밀번호찾기</a>
+                                    </div>
+                            </div>
+                                <div class="buttons">
+                                    <div>
+                                        <button class="loginButton" type="submit">로그인</button>
+                                    </div>
+                                    <div>
+                                        <button class="signupButton" type="button" th:href="@{/user/signup}">회원가입</button>
+                                    </div>
+                                </div>
+                    </form>
+                </div>
+                    <div id="tab02" class="content">
+                        <div class="pagetitle"><h1>관리자 로그인</h1></div>
+                        <form id="adminForm" action="/admin/login" method="post">
+                            <div class="inputboxs">
+                                <div class="inputMargin">
+                                    <div>
+                                        <input data-testid="input-box" type="text" name="username" class="userId"
+                                               placeholder="아이디를 입력해주세요." autofocus value>
+                                    </div>
+                                    <div class="boxMargin2">
+                                        <input type="password" name="password" class="password" placeholder="비밀번호를 입력해주세요"
+                                               autocomplete="off" value>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="buttons">
+                                <div>
+                                    <button class="loginButton" type="submit">관리자로 로그인하기</button>
+                                </div>
+                                <div>
+                                    <button class="signupButton" type="button" th:href="@{/admin/signup}">관리자 회원가입</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
             </div>
-            <form id="loginForm" action="/user/login" method="post">
-                <!--                <input type="hidden" value="사이트를 통한 로그인">-->
-                <div class="inputboxs">
-                    <div class="inputMargin">
-                        <div>
-                            <input data-testid="input-box" type="text" name="username" class="userId"
-                                   placeholder="아이디를 입력해주세요." autofocus value>
-                        </div>
-                        <div class="boxMargin2">
-                            <input type="password" name="password" class="password" placeholder="비밀번호를 입력해주세요"
-                                   autocomplete="off" value>
-                        </div>
-                    </div>
-                    <input type="checkbox" id="remainedId">
-                    <span>아이디 저장하기</span><br>
-                    <input type="checkbox" id="changeAdmin">
-                    <span style="color: gray;">관리자모드</span><br>
-                    <div class="finding">
-                        <a href="/user/html/findId.html">아이디찾기</a>
-                        <span class="line">│</span>
-                        <a href="/user/html/findpw.html">비밀번호찾기</a>
-                    </div>
-                </div>
-                <div class="buttons">
-                    <div>
-                        <button class="loginButton" type="submit">
-                            로그인
-                        </button>
-                    </div>
-                    <div>
-                        <a th:href="@{/user/signup}">
-                            <button class="signupButton" type="button">회원가입
-                            </button>
-                        </a>
-                    </div>
-                </div>
-            </form>
         </div>
     </section>
 

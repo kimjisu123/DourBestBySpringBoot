@@ -81,22 +81,8 @@ public class MemberServiceImpl implements MemberService {
         return mapper.findByMember(userId);
 
     }
+    
 
-    @Override
-    public int modifyMemberPwd(CheckMemberDTO member) {
-        return mapper.updatePwd(member);
-    }
-
-    @Override
-    public String searchMail(String memberEmail) {
-
-        String findEmail = mapper.findByEmail(memberEmail);
-
-        if (findEmail == null) throw new EmailNotFoundException("가입된 이메일이 없습니다");
-
-        return findEmail;
-
-    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

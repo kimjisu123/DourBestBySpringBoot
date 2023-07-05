@@ -28,9 +28,9 @@ public interface MemberMapper {
 
     Optional<MemberDTO> findByMember(String userId);
 
-    int updatePwd(CheckMemberDTO member);
+    int updatePwd(CheckMemberDTO checkMember);
 
-    String findByEmail(String memberEmail);
+    Optional<String> findByEmail(String memberEmail);
 
 
 

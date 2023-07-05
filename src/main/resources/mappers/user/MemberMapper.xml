@@ -155,12 +155,13 @@
     <update id="updatePwd" parameterType="CheckMemberDTO">
         UPDATE TBL_MEMBER M
         SET M.MEMBER_PWD = #{ memberPwd }
-        WHERE M.MEMBER_ID = #{ memberId }
+        WHERE M.MEMBER_EMAIL = #{ memberEmail }
     </update>
 
     <select id="findByEmail">
-        SELECT M.MEMBER_EMAIL from TBL_MEMBER M
-        WHERE m.MEMBER_EMAIL= #{memberEmail}
+        SELECT M.MEMBER_ID
+        FROM TBL_MEMBER M
+        WHERE m.MEMBER_EMAIL= #{ memberEmail }
     </select>
 
 

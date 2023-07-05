@@ -27,10 +27,6 @@ public interface MemberService extends UserDetailsService {
 
     public Optional<MemberDTO> findUser(String userId);
 
-    public int modifyMemberPwd(CheckMemberDTO member);
-
-    String searchMail(String memberEmail);
-
 //    // 회원 정보 수정용 메소드
     int modifiyMember(Map<String, Object> map);
 //

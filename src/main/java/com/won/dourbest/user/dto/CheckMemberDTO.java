@@ -9,7 +9,7 @@ import lombok.*;
 @ToString
 public class CheckMemberDTO {
 
-    private String memberId;
+    private String memberEmail;
 
     private String memberPwd;
 }
