@@ -189,38 +189,46 @@
                     window.location.reload()
                 },
                 error : function (error) {
+                    console.log(error);
                     alert(error);
+                    $('.contactmodal').css('display', 'none')
+                    window.location.reload()
                 }
             })
         });
 
-        $('.Redundancy').keyup(function(){
+    $('.Redundancy').keyup(function(){
 
-            let adminPhone = $('#inputPhone').val();
-            let adminEmail = $('#inputEmail').val();
+        let adminPhone = $('#inputPhone').val();
+        let adminEmail = $('#inputEmail').val();
 
-            let adminRedundancy = {
-                adminPhone:adminPhone,
-                adminEmail:adminEmail
-            }
+        let adminRedundancy = {
+            adminPhone:adminPhone,
+            adminEmail:adminEmail
+        }
 
-            $.ajax({
-                contentType: "application/json",
-                type :"POST",
-                url:"/admin/adminAccount",
-                data : JSON.stringify(adminRedundancy),
-                success(data){
-                    console.log(data)
-                    if(data === "중복되는 전화번호가 있습니다."){
-                        $('#phoneRedundancy').css('display', 'block')
-                    } else if(data === "중복되는 이메일이 있습니다."){
-                        $('#emailRedundancy').css('display', 'block')
-                    }
-                },
-                error(error){
-                    console.log(error)
+        $.ajax({
+            contentType: "application/json",
+            type :"POST",
+            url:"/admin/adminAccount",
+            data : JSON.stringify(adminRedundancy),
+            success(data){
+                console.log(data)
+                if(data === "중복되는 전화번호가 있습니다."){
+                    $('#phoneRedundancy').css('display', 'block')
+                } else {
+                    $('#phoneRedundancy').css('display', 'none')
                 }
-            })
+                if(data === "중복되는 이메일이 있습니다."){
+                    $('#emailRedundancy').css('display', 'block')
+                } else {
+                    $('#emailRedundancy').css('display', 'none')
+                }
+            },
+            error(error){
+                console.log(error)
+            }
+        })
 
 
         })

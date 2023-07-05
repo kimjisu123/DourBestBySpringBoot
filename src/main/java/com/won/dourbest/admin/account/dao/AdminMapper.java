@@ -39,4 +39,10 @@ public interface AdminMapper {
 
     // 전화번호 중복체크
     String phoneRedundancy(AdminRegistDTO adminRegist);
+
+    // 권한 추가
+    int insertAuth();
+
+    // 아이디로 검색
+    AccountDTO selectSearchId(String searchId);
 }

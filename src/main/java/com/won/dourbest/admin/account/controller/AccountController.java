@@ -5,10 +5,12 @@ import com.won.dourbest.admin.account.dto.*;
 import com.won.dourbest.admin.account.service.AdminServiceImpl;
 import com.won.dourbest.admin.common.Pagenation;
 import com.won.dourbest.admin.common.SelectCriteria;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -30,7 +32,6 @@ public class AccountController {
 
     // 생성자 의존 주입
     public AccountController(AdminServiceImpl adminService, PasswordEncoder passwordEncoder) {
-
         this.adminService = adminService;
         this.passwordEncoder = passwordEncoder;
     }
@@ -41,12 +42,11 @@ public class AccountController {
                                 ){
 
         Map<String, String> searchMap = new HashMap<>();
-        System.out.println("searchId : " + searchId);
         searchMap.put("searchId", searchId);
 
         // 조건이 있을시에 보여지는 페이지의 갯수
         int totalPage = adminService.selectTotalPage(searchMap);
-        System.out.println("totalPage = " + totalPage);
+
         // 한 페이지에 보여줄 게시물 수
         int limit = 8;
 
@@ -61,9 +61,8 @@ public class AccountController {
             selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button);           // 조건이 없을 경우
         }
 
-        log.info("selectCriteria : " + selectCriteria);
 
-        List<AccountDTO> accountList = adminService.selectAllaccountList(selectCriteria);
+        List<AccountDTO> accountList = adminService.selectAllaccountList(selectCriteria);                   // 모든 회원을 조회
 
         // 페이징 처리에 대한 데이터 값을 담고 있는 객체를 전송한다.
         mv.addObject("selectCriteria", selectCriteria);
@@ -71,7 +70,18 @@ public class AccountController {
         mv.addObject("accountList", accountList);
         mv.setViewName("admin/account/account");
 
+
         return mv;
+    }
+
+    // 아이디로 검색한 회원 조회
+    @GetMapping("/admin/{searchId}")
+    @ResponseBody
+    public AccountDTO searchId(@PathVariable(value = "searchId", required = false) String searchId){
+
+        AccountDTO account = adminService.selectSearchId(searchId);
+
+        return account;
     }
 
     // 탈퇴한 회원 조회
@@ -161,9 +171,7 @@ public class AccountController {
         }
         String message = adminService.registAdmin(adminRegist);
 
-
-
-                return message;
+        return message;
     }
 
 

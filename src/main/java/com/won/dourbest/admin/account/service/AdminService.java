@@ -33,4 +33,8 @@ public interface AdminService {
 
     // 관리자 계정 생성
     String registAdmin(AdminRegistDTO adminRegist);
+
+
+    // 아이디로 검색
+    AccountDTO selectSearchId(String searchId);
 }

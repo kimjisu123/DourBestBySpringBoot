@@ -67,12 +67,10 @@
 
                     <input type="hidden" name="currentPage" value="1">
 
-                    <form method="get" , th:action="@{/admin/admin}"
-                    >
+                    <div>
                         <input type="search" placeholder="검색하실 회원의 아이디를 입력해주세요" id="inputID" class="memberIDButton" name="searchId">
                         <input type="submit"  id="searchButton" class="memberIDButton" value="검색"/>
-                    </form>
-                    </form>
+                    </div>
 
 
                 </div>
@@ -100,13 +98,29 @@
                             판매자 등록 여부
                         </div>
                     </div>
-                    <div th:each="account : ${accountList}" class="table">
-                        <div th:text="${account.getMemberId()}" id="adminAccount1"></div>
-                        <div th:text="${account.getMemberName()}" id="adminAccount2"></div>
-                        <div th:text="${account.getMemberEmail()}" id="adminAccount3"></div>
-                        <div th:text="${account.getMemberPhone()}" id="adminAccount4"></div>
-                        <div th:text="${#dates.format(account.getRegistDate(), 'yyyy/MM/dd')}" id="adminAccount5"></div>
-                        <div th:text="${account.getSellerCode()}"  id="adminAccount6"></div>
+                    <div>
+                        <div th:if="${accountList}">
+                            <div th:each="account : ${accountList}" class="table">
+                                <div th:text="${account.getMemberId()}" id="adminAccount1"></div>
+                                <div th:text="${account.getMemberName()}" id="adminAccount2"></div>
+                                <div th:text="${account.getMemberEmail()}" id="adminAccount3"></div>
+                                <div th:text="${account.getMemberPhone()}" id="adminAccount4"></div>
+                                <div th:text="${#dates.format(account.getRegistDate(), 'yyyy/MM/dd')}" id="adminAccount5"></div>
+                                <div th:text="${account.getSellerCode()}"  id="adminAccount6"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div th:if="${account}">
+                            <div th:each="account : ${accountList}" class="table">
+                                <div th:text="${account.getMemberId()}"></div>
+                                <div th:text="${account.getMemberName()}"></div>
+                                <div th:text="${account.getMemberEmail()}"></div>
+                                <div th:text="${account.getMemberPhone()}"></div>
+                                <div th:text="${#dates.format(account.getRegistDate(), 'yyyy/MM/dd')}" ></div>
+                                <div th:text="${account.getSellerCode()}"></div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- 페이지 처리 -->
@@ -160,6 +174,37 @@
     </div>
 
     <script>
+
+
+        $('#searchButton').click(function(){
+            let inputID = $('#inputID').val();
+
+            $.ajax({
+                url: "admin/admin/" + inputID,
+                type: "GET",
+                data: { id: inputID },
+                success: function(data) {
+                    // 응답 데이터를 화면에 표시
+                    if (data) {
+                        // 응답 데이터가 존재할 경우
+                        $('#resultContainer').html(data);
+                    } else {
+                        // 응답 데이터가 없을 경우
+                        $('#resultContainer').empty();
+                    }
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        });
+
+
+
+
+
+
+
 
     </script>
 </main>
