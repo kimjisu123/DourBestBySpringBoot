@@ -51,11 +51,25 @@
     <resultMap id="selectOrderResultMap" type="com.won.dourbest.user.dto.OrderDTO">
         <result property="totalPrice" column="TOTAL_PRICE"/>
         <result property="memberCode" column="MEMBER_CODE"/>
+        <result property="deliveryCharge" column="DELIVERY_CHARGE"/>
     </resultMap>
 
     <resultMap id="selectDIsCountResultMap" type="com.won.dourbest.user.dto.CouponDTO">
         <result property="couponDiscount" column="COUPON_DISCOUNT"/>
     </resultMap>
+
+    <resultMap id="selectPointResultMap" type="com.won.dourbest.user.dto.PointListDTO">
+
+        <result property="pointDate" column="POINT_DATE"/>
+        <result property="pointStatus" column="POINT_STATUS"/>
+        <result property="pointAmount" column="POINT_AMOUNT"/>
+        <result property="pointTotalAmount" column="POINT_TOTAL_AMOUNT"/>
+        <result property="pointCode" column="POINT_CODE"/>
+        <result property="memberCode" column="MEMBER_CODE"/>
+
+    </resultMap>
+
+
 
 
     <select id="selectMemberCode" parameterType="com.won.dourbest.user.dto.MemberDTO">
@@ -94,8 +108,9 @@
     <select id="selectProductName" resultMap="selectFundingOption">
         SELECT
             A.OPTION_NAME
+           ,A.OPTION_PRICE
          FROM TBL_FUNDING_OPTIONS A
-        WHERE FUNDING_CODE = 3
+        WHERE FUNDING_OPTION_CODE = 111
 
     </select>
 
@@ -116,6 +131,7 @@
         WHERE MEMBER_CODE = 5
     </select>
 
+
     <select id="selectCouponList" resultMap="selectCouponListResultMap">
         SELECT
             COUPON_NAME
@@ -123,15 +139,9 @@
            JOIN TBL_COUPONLIST TC on (TBL_COUPON.COUPON_CODE = TC.COUPON_CODE)
            JOIN TBL_MEMBER TM on (TC.MEMBER_CODE = TM.MEMBER_CODE)
         WHERE TC.MEMBER_CODE = 5
-    </select>
+          AND COUPON_REGI_STATUS = 'Y'
 
-    <select id="selectTotalPrice" resultMap="selectOrderResultMap">
-        SELECT
-            TOTAL_PRICE
-          FROM TBL_ORDER
-         WHERE MEMBER_CODE = 5
     </select>
-
 
 
     <select id="selectDIsCount" resultMap="selectDIsCountResultMap">
@@ -140,6 +150,40 @@
          FROM TBL_COUPON
          WHERE COUPON_DISCOUNT =  #{ coupon }
     </select>
+
+
+    <select id="selectPoint" resultMap="selectPointResultMap">
+        SELECT
+
+
+         POINT_TOTAL_AMOUNT
+
+          FROM TBL_POINTLIST
+        WHERE POINT_CODE = 3
+
+
+    </select>
+
+    <select id="selectDelivery" resultMap="selectOrderResultMap">
+        SELECT
+            DELIVERY_CHARGE
+          FROM TBL_ORDER
+         WHERE ORDER_CODE = 15
+    </select>
+
+    <select id="selectProductPrice" resultType="_int">
+        SELECT
+            ORDER_PRICE
+          FROM TBL_ORDER
+         WHERE ORDER_CODE = 15
+    </select>
+
+    <delete id="deleteDelivery">
+        DELETE
+        DELIVERY_CHARGE
+          FROM TBL_ORDER
+         WHERE ORDER_CODE = 1
+    </delete>
 
 
 

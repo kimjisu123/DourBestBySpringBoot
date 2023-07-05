@@ -20,9 +20,15 @@ public interface SellerMapper {
 
     List<CouponDTO> selectCouponList();
 
-    OrderDTO selectTotalPrice();
+    int selectProductPrice();
 
     CouponDTO selectDIsCount();
 
     CouponDTO registCoupon(String contact);
+
+    PointListDTO selectPoint();
+
+    OrderDTO selectDelivery();
+
+    int deleteDelivery();
 }

@@ -4,7 +4,6 @@ import com.won.dourbest.seller.dto.FundingOptionDTO;
 import com.won.dourbest.seller.dto.SellerDTO;
 import com.won.dourbest.user.dto.*;
 
-import java.lang.reflect.Member;
 import java.util.List;
 
 public interface SellerService {
@@ -22,7 +21,16 @@ public interface SellerService {
 
 //    CouponDTO selectTotalCouponDC();
 
-    CouponDTO registCoupon(String contact);
+//    CouponDTO registCoupon(String contact);
+
+    PointListDTO selectPoint();
+
+    OrderDTO selectDelivery();
+
+    int registCoupon(String map);
+
+
+
 
 //    CouponDTO selectTotalPrice();
 

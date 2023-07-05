@@ -16,5 +16,6 @@ public class OrderDTO {
     private int fundingCode;
     private int memberCode;
     private String orderRequest;
+    private int deliveryCharge;
 
 }

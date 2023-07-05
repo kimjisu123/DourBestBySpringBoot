@@ -15,10 +15,10 @@
         <div class="main-container5">
           <div class="final-payment text1">최종 결제금액</div>
           <ul>
-            <li class="text2 final-detaile">상품가격</li>
+            <li class="text2 final-detaile">상품가격 : <p class="product-price" th:text="${product.getOptionPrice()}" ></p></li>
             <li class="text2 final-detaile">쿠폰할인</li>
             <li class="text2 final-detaile">포인트사용</li>
-            <li class="text2 final-detaile">배송비</li>
+            <li class="text2 final-detaile">배송비 : <p class="delivery" th:text="${delivery.getDeliveryCharge()}"></p></li>
           </ul>
         </div>
 
@@ -73,13 +73,15 @@
 
         <div class="main-container7">
           <div class="consent"></div>
-          <input type="checkbox" class="consent" id="box3">
-          <label for="box3">전체 동의</label>
-          <input type="checkbox" class="consent" id="box4">
-          <label for="box4">구매조건 확인 및 결제진행에 동의</label>
-          <div class="button-panel">
+          <input type="checkbox" class="consent" id="checkbox1">
+          <label for="checkbox1" class="ok">만 14세 이상입니다.</label> <br>
+          <input type="checkbox" class="consent" id="checkbox2">
+          <label for="checkbox2" class="ok">개인 정보 수집 동의</label> <br>
+          <input type="checkbox" class="consent" id="checkbox3">
+          <label for="checkbox3" class="ok">개인정보 제3자 제공 동의</label> <br>
+          <input type="checkbox" class="consent" id="checkbox4">
+          <label for="checkbox4" class="ok">구매조건 확인 및 결제진행에 동의</label>
             <button class="button-payment">결제하기</button>
-          </div>
         </div>
 
 
@@ -112,51 +114,41 @@
           <div class="coupon-point text1">쿠폰/포인트</div>
           <div>
             <div class="coupon-text text3">쿠폰</div>
-            <div class="coupon-application"><p id="totalCouponPrice"></p></div>
+            <div class="coupon-application" ><p class="couponApply" ></p></div>
             <div class="button-interval">
               <div class="button-panel">
-                <button class="button">쿠폰 적용</button>
+                <button class="buttonCoupon">쿠폰 적용</button>
               </div>
               <div class="point text3">포인트</div>
               <div class="button-panel">
-                <button class="button">전액사용</button>
+                <button class="buttonPoint">전액 사용</button>
               </div>
             </div>
-            <div class="hold-point text3">보유 포인트 :</div>
-            <div class="point-application" id="totalPointPrice">포인트 얼마인지 뜨는곳</div>
+            <div class="hold-point text3">보유 포인트 : <p id="pointAmount" th:text="${ point.getPointTotalAmount() }"></p> </div>
+            <div class="point-application" id="totalPointPrice"></div>
             <div class="hold-point2">5,000 포인트 이상 보유 및 10,000원 이상 구매시 사용 가능</div>
           </div>
         </div>
 
       </div>
 
-
-
-
       <div class="contactmodal">
         <div class="contactmodal-container">
           <div class="contactmodal-content">
             <span class="close">&times;</span>
             <h2 class="contactmodal-title">쿠폰 사용</h2>
-            <form class="mb-3 contact" name="contact" id="contact" method="post">
+            <div class="mb-3 contact"  id="contact" >
               <label for=""></label>
               <th:block th:each="coupon, item : ${couponName}">
-              <input th:id="|@{box}${item.index + 5}|" type="checkbox">
-              <label th:for="|@{box}${item.index + 5}|"><p th:text="${ coupon.getCouponName()}"></p></label> <br>
+                <input th:id="|@{box}${item.index + 5}|" type="checkbox" name="userCoupon" class="userCouponCheck">
+                <label th:for="|@{box}${item.index + 5}|" ><p class="couponName" th:text="${ coupon.getCouponName()}"></p></label> <br>
               </th:block>
-<!--              <input id="box6" type="checkbox">-->
-<!--              <label for="box6"><p th:text="${ couponName[1].getCouponName()}"></p></label> <br>-->
-<!--              <input id="box7" type="checkbox">-->
-<!--              <label for="box7"><p th:text="${ couponName[2]}"></p></label> <br>-->
-<!--              <input id="box8" type="checkbox">-->
-<!--              <label for="box8"><p th:text="${ couponName[3]}"></p></label>-->
               <div class="file-container">
-
                 <input type="file" id="contact-imgInput" onchange="contactreadURL(this)">
                 <div class="contact-imgdiv"></div>
               </div>
-              <button class="" type="submit" id="send">제출</button>
-            </form>
+              <button class="" type="submit" id="send" onclick="closeContactModal()">제출</button>
+            </div>
           </div>
         </div>
       </div>
@@ -165,14 +157,16 @@
   </main>
 
 <script>
-  $(".send").click(function (){
+
+  $("#send").click(function (){
+
     const totalCouponPrice = $(".totalCouponPrice").val();
     $.ajax({
       url: "/seller/payment",
-      type : "POST",
+      type : "GET",
       data : {totalCouponPrice : totalCouponPrice},
       success : function(data) {
-
+          console.log(data)
       },
       error : function (error) {
         alert(error);
@@ -182,10 +176,35 @@
 
 </script>
 
+<script>
+
+$("#send").click(function(){
+
+  $(".userCouponCheck").each(function(){
+    if(this.checked == true) {
+      const choiceCoupon =  this.nextElementSibling.children[0].innerText;
+
+      $.ajax({
+        url: "/seller/payment",
+        type : "POST",
+        data : {choiceCoupon : choiceCoupon},
+        success : function(data) {
+            $(".coupon-application").text(data)
+        },
+        error : function (error) {
+          alert(error);
+        }
+      });
+    }
+  })
+})
+
+
+</script>
 
 <script>
   const contactmodal = document.querySelector(".contactmodal");
-  const btn = document.querySelector(".button");
+  const btn = document.querySelector(".buttonCoupon");
   const $span = document.querySelector(".close");
 
 
@@ -231,6 +250,30 @@
     }
   }
 </script>
+
+<script>
+  $(".buttonPoint").click(function() {
+    const point = $("#pointAmount").text()
+    $.ajax({
+      url: "/seller/payment",
+      type : "POST",
+      data : {point : point},
+      success : function(data) {
+          $("#totalPointPrice").text(data);
+      },
+      error : function (error) {
+        alert(error);
+      }
+    });
+  });
+</script>
+
+<script>
+  $.
+</script>
+
+
+
 
 
 </html>

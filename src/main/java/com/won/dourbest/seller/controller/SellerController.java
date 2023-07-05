@@ -6,6 +6,7 @@ import com.won.dourbest.seller.service.SellerService;
 import com.won.dourbest.seller.service.SellerServiceImpl;
 import com.won.dourbest.user.dto.*;
 import org.apache.ibatis.annotations.Param;
+import org.apache.tomcat.util.json.JSONParser;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,7 +16,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 
@@ -98,24 +101,42 @@ public class SellerController {
 
         model.addAttribute("couponName" , couponName);
 
-        // 포인트 적용
-//        CouponDTO totalCouponPrice = service.selectTotalCouponDC();
 
-//        model.addAttribute("totalCouponPrice" , totalCouponPrice);
+        // 보유 포인트
+
+        PointListDTO point = service.selectPoint();
+
+        model.addAttribute("point" , point);
+
+        // 배송비
+
+        OrderDTO delivery = service.selectDelivery();
+
+        model.addAttribute("delivery" , delivery );
 
         return "seller/giwon_seller/payment_page";
     }
 
     @PostMapping("/payment")
-    public String payment(@RequestParam String contact , Model model) {
+    @ResponseBody
+    public int payment(@RequestParam("choiceCoupon") String choiceCoupon ) {
 
-        System.out.println("contact : " + contact);
-        CouponDTO disCount = service.registCoupon(contact);
 
-        System.out.println("disCount : " + disCount);
+        System.out.println("choiceCoupon = " + choiceCoupon);
+        // 쿠폰 사용
+        int couponApply = service.registCoupon(choiceCoupon);
 
-        return "seller/giwon_seller/payment_page";
+
+
+        return couponApply;
     }
+
+
+
+
+
+
+
 
 
 }

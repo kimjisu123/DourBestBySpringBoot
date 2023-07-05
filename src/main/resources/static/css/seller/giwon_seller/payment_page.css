@@ -125,8 +125,8 @@
     box-shadow: 0 0 1px rgba(0, 0, 0, 0.1), inset 0 0 10px rgba(0, 0, 0, 0.07);}
 
 
-.button:focus,
-.button:hover {
+.buttonCoupon:focus,.buttonPoint:focus,
+.buttonCoupon:hover,.buttonPoint:hover {
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
 }
 
@@ -140,8 +140,13 @@
 /*    line-height: 40px;*/
 /*    font-size: 14px;}*/
 
-.ie button {
+.ie buttonCoupon, .buttonPoint {
     display: none;
+}
+#pointAmount {
+    position: relative;
+    left: 141px;
+    top: -20px;
 }
 
 
@@ -223,7 +228,7 @@ select::-ms-expand {
 
 /* 버튼 */
 
-.button {
+.buttonPoint, .buttonCoupon {
     background-color: #f35f4c;
     /* Green */
     border: none;
@@ -287,7 +292,7 @@ select::-ms-expand {
     float: right;
 
     width: 27em;
-    height: 200px;
+    height: 275px;
 
     border: 1px solid rgba(148, 144, 144, 0.1);
 
@@ -298,10 +303,11 @@ select::-ms-expand {
     padding: 15px;
     border-radius: 5px;
     background-color: white;
+    line-height: 40px;
 }
 
 .button-payment {
-    background-color: #f35f4c;
+    background-color: rgba(155,155,155,0.5);
     /* Green */
     border: none;
     color: white;
@@ -313,7 +319,7 @@ select::-ms-expand {
     position: relative;
     left: -16px;
     width: 379px;
-    top: 114px;
+    top: 45px;
 }
 
 .text1 {
@@ -421,8 +427,9 @@ select::-ms-expand {
 }
 
 .final-detaile {
-    line-height: 60px;
+
     font-size: 15px;
+    height: 50px;
 }
 
 
@@ -615,4 +622,32 @@ input[type=checkbox]:checked+label:before {
     display: block;
     width: 100%;
     margin-bottom: 12px;
+}
+
+.product-price {
+    display: inline;
+
+}
+
+.delivery {
+    display: inline;
+}
+
+.final-payment {
+    margin-bottom: 30px;
+}
+
+section {
+    margin-bottom: 70px;
+
+}
+.couponApply::before {
+    content: "쿠폰 적용된 금액";
+    color: gray;
+    font-size: 20px;
+
+}
+
+.consent {
+    line-height: 50px;
 }
