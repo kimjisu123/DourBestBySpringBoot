@@ -67,8 +67,6 @@ public class MemberServiceImpl implements MemberService {
         return mapper.findByMember(userId);
 
     }
-    
-
 
 
     @Override

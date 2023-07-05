@@ -8,6 +8,7 @@ import oracle.jdbc.logging.annotations.Logging;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;
 
@@ -44,6 +45,9 @@ class AdminServiceImplTest {
     }
 
     @Test
-    void selectAllAdminAccount() {
+    void findByadmin() {
+        UserDetails userDetails = adminService.loadUserByUsername("testAccount@gmail.com");
+
+        System.out.println("userDetails.getAuthorities() = " + userDetails.getAuthorities());
     }
 }

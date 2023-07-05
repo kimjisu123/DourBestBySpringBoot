@@ -32,7 +32,7 @@
         <result property="paymentDate" column="PAYMENT_DATE"/>
     </resultMap>
 
-    <resultMap id="BlacklistResultMap" type="com.won.dourbest.admin.account.dto.BlcaklistDTO">
+    <resultMap id="BlacklistResultMap" type="BlcaklistDTO">
         <result property="memberId" column="MEMBER_ID"/>
         <result property="memberEmail" column="MEMBER_EMAIL"/>
         <result property="memberName" column="MEMBER_NAME"/>
@@ -41,17 +41,36 @@
         <result property="addtionalDate" column="ADDITIONAL_DATE"/>
     </resultMap>
 
-    <resultMap id="AdminAccountResultMap" type="com.won.dourbest.admin.account.dto.AdminAccountDTO">
-        <result property="adminCode" column="ADMIN_CODE"/>
+    <resultMap id="AdminAccountResultMap" type="AdminAccountDTO">
+        <id property="adminCode" column="ADMIN_CODE"/>
+        <result property="adminPwd" column="ADMIN_PWD"/>
         <result property="adminName" column="ADMIN_NAME"/>
         <result property="adminPhone" column="ADMIN_PHONE"/>
         <result property="adminEmail" column="ADMIN_EMAIL"/>
         <result property="regiDate" column="REGI_DATE"/>
+        <collection property="adminAuthList" resultMap="AdminAuthList"/>
     </resultMap>
+
+    <resultMap id="AdminAuthList" type="AdminAuthListDTO">
+        <id property="adminAuthName" column="ADMIN_AUTH_NAME"/>
+        <result property="adminCode" column="ADMIN_CODE"/>
+        <association property="adminAuth" resultMap="AdminAuth"/>
+    </resultMap>
+
+    <resultMap id="AdminAuth" type="AdminAuthDTO">
+        <id property="adminAuthName" column="ADMIN_AUTH_NAME"/>
+        <result property="authName" column="AUTH_NAME"/>
+        <result property="authDesc" column="AUTH_DESC"/>
+    </resultMap>
+
+
+
+
     <resultMap id="AdminRegistResultMap" type="com.won.dourbest.admin.account.dto.AdminRegistDTO">
         <result property="adminPhone" column="ADMIN_PHONE"/>
         <result property="adminEmail" column="ADMIN_EMAIL"/>
     </resultMap>
+
 
     <!--  회원 목록 조회  -->
     <select id="selectAllaccountList" resultMap="accountResultMap">
@@ -180,4 +199,25 @@
         FROM    TBL_ADMIN
         WHERE   ADMIN_PHONE = #{adminPhone}
     </select>
+
+    <!--관리자 1명 조회 -->
+    <select id="findByAdmin" resultMap="AdminAccountResultMap">
+        SELECT
+            A.ADMIN_CODE,
+            A.ADMIN_PWD,
+            A.ADMIN_NAME,
+            A.ADMIN_PHONE,
+            A.ADMIN_EMAIL,
+            A.REGI_DATE,
+            TAA.ADMIN_CODE,
+            TAA.ADMIN_AUTH_NAME,
+            TA.ADMIN_AUTH_NAME,
+            TA.AUTH_NAME,
+            TA.AUTH_DESC
+        FROM TBL_ADMIN A
+                 LEFT JOIN TBL_ADMIN_AUTHLIST TAA ON A.ADMIN_CODE = TAA.ADMIN_CODE
+                 LEFT JOIN TBL_ADMINAUTH TA ON TAA.ADMIN_AUTH_NAME = TA.ADMIN_AUTH_NAME
+        WHERE A.ADMIN_EMAIL = #{ adminId }
+    </select>
+
 </mapper>

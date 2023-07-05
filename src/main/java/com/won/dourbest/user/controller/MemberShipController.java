@@ -37,7 +37,7 @@ public class MemberShipController {
     @GetMapping
     public String membership(Model model, @AuthenticationPrincipal MemberImpl member){
 
-        if (member==null) return "/user/login";
+        if (member == null) return "/user/login";
 
 
         MemberDTO findMember = memberService.findUser(member.getMemberId()).orElseThrow();

@@ -5,21 +5,25 @@ package com.won.dourbest.admin.account.service;
 import com.won.dourbest.admin.account.dao.AdminMapper;
 import com.won.dourbest.admin.account.dto.*;
 import com.won.dourbest.admin.common.SelectCriteria;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @Service
+@RequiredArgsConstructor
 public class AdminServiceImpl implements AdminService {
 
     // 매퍼 생성자
     private final AdminMapper mapper;
-    public AdminServiceImpl(AdminMapper mapper) {
-        this.mapper = mapper;
-
-    }
-
 
     // 모든 회원 목록 조회
     @Override
@@ -133,5 +137,21 @@ public class AdminServiceImpl implements AdminService {
         }
 
         return message;
+    }
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        //예외처리 추가해야함.
+        AdminAccountDTO admin = mapper.findByAdmin(username).orElseThrow();
+
+        List<AdminAuthListDTO> adminAuthList = admin.getAdminAuthList();
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        adminAuthList.forEach(list -> authorities.add(new SimpleGrantedAuthority(list.getAdminAuth().getAuthName())));
+        AdminImpl adminImpl = new AdminImpl(admin.getAdminEmail(), admin.getAdminPwd(), authorities);
+
+        adminImpl.setDetail(admin);
+
+        log.info("adminImpl={}", adminImpl);
+
+        return adminImpl;
     }
 }

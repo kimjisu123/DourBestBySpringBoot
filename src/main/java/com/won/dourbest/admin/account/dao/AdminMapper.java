@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Mapper
 public interface AdminMapper {
@@ -27,7 +28,6 @@ public interface AdminMapper {
     // 관리자 계정 조회
     List<AdminAccountDTO> selectAllAdminAccount();
 
-
     int selectTotalPage(Map<String, String> searchMap);
 
     // 관리자 회원가입
@@ -39,4 +39,8 @@ public interface AdminMapper {
 
     // 전화번호 중복체크
     String phoneRedundancy(AdminRegistDTO adminRegist);
+
+    Optional<AdminAccountDTO> findByAdmin(String adminId);
+
+
 }

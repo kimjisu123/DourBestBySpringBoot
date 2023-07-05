@@ -3,6 +3,7 @@ package com.won.dourbest.admin.account.dto;
 import lombok.*;
 
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -12,9 +13,13 @@ import java.util.Date;
 public class AdminAccountDTO {
 
     private int adminCode;
-    private String adminName;
-    private String adminPhone;
     private String adminEmail;
-    private String adminPwd;
     private Date regiDate;
+    private String adminPhone;
+    private String adminName;
+    private String adminPwd;
+
+    private List<AdminAuthListDTO> adminAuthList;
+
+
 }

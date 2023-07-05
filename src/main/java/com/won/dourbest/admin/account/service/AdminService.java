@@ -2,12 +2,13 @@ package com.won.dourbest.admin.account.service;
 
 import com.won.dourbest.admin.account.dto.*;
 import com.won.dourbest.admin.common.SelectCriteria;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
 import java.util.Map;
 
 
-public interface AdminService {
+public interface AdminService extends UserDetailsService {
 
 
 
