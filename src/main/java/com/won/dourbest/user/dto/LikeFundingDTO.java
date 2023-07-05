@@ -1,6 +1,5 @@
 package com.won.dourbest.user.dto;
 
-import com.won.dourbest.seller.dto.FundingDTO;
 import lombok.*;
 
 @Getter
@@ -10,9 +9,19 @@ import lombok.*;
 @ToString
 public class LikeFundingDTO {
 
+    private int rowNum;
 
     private int fundingCode;
-    private int memberCode;
 
-    private FundingDTO funding;
+    private String fundingTitle;
+
+    private String fundingSummary;
+
+    private String categoryName;
+
+    private String filePath;
+
+
+
+
 }

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.won.dourbest.user.dao.MemberShipMapper">
+
+    <resultMap id="MemberResultMap" type="MemberDTO">
+        <id property="memberCode" column="MEMBER_CODE"/>
+        <result property="memberId" column="MEMBER_ID"/>
+        <result property="memberPwd" column="MEMBER_PWD"/>
+        <result property="memberName" column="MEMBER_NAME"/>
+        <result property="memberPhone" column="MEMBER_PHONE"/>
+        <result property="memberEmail" column="MEMBER_EMAIL"/>
+        <result property="registDate" column="REGIST_DATE"/>
+        <result property="withdrawalStatus" column="WITHDRAWAL_STATUS"/>
+        <result property="adultStatus" column="ADULT_STATUS"/>
+        <association property="address" resultMap="AddressResultMap"/>
+        <association property="membership" resultMap="MemberShipResultMap"/>
+        <collection property="memberAuthList" resultMap="MemberAuthList"/>
+    </resultMap>
+
+    <resultMap id="MemberShipResultMap" type="MemberShipDTO">
+        <id property="membershipCode" column="MEMBERSHIP_CODE"/>
+        <result property="membershipName" column="MEMBERSHIP_NAME"/>
+        <result property="accrualRate" column="ACCRUAL_RATE"/>
+        <result property="membershipContent" column="MEMBERSHIP_CONTENT"/>
+    </resultMap>
+
+    <resultMap id="MemberAuthList" type="MemberAuthListDTO">
+        <id property="memberAuthCode" column="MEMBER_AUTH_CODE"/>
+        <result property="memberCode" column="MEMBER_CODE"/>
+
+        <association property="memberAuth" resultMap="MemberAuth"/>
+    </resultMap>
+
+    <resultMap id="MemberAuth" type="MemberAuthDTO">
+        <id property="memberAuthCode" column="MEMBER_AUTH_CODE"/>
+        <result property="memberAuthName" column="MEMBER_AUTH_NAME"/>
+        <result property="memberAuthDesc" column="MEMBER_AUTH_DESC"/>
+    </resultMap>
+
+    <resultMap id="MemberShipCredit" type="MemberShipCreditDTO">
+        <id property="membershipCreditCode" column="MEMBERSHIP_CREDIT_CODE"/>
+        <result property="memberCode" column="MEMBER_CODE"/>
+        <result property="cardCompany" column="CARD_COMPANY"/>
+        <result property="paymentNumber" column="PAYMENT_NUMBER"/>
+        <result property="paymentDate" column="PAYMENT_DATE"/>
+        <result property="memberStatus" column="MEMBERSHIP_STATUS"/>
+    </resultMap>
+
+
+    <update id="memberShipUpdate">
+        UPDATE TBL_MEMBER M
+        SET M.MEMBERSHIP_CODE = 2
+        WHERE M.MEMBER_CODE = #{memberCode}
+    </update>
+
+    <select id="findByCredit" resultMap="MemberShipCredit">
+        SELECT
+            TMC.MEMBERSHIP_CREDIT_CODE,
+            TMC.CARD_COMPANY,
+            TMC.PAYMENT_NUMBER,
+            TMC.PAYMENT_DATE,
+            TMC.MEMBERSHIP_STATUS
+        FROM TBL_MEMBERSHIP_CREDIT TMC
+        WHERE TMC.MEMBER_CODE = #{memberCode}
+    </select>
+
+    <insert id="insertCredit" parameterType="MemberShipCreditDTO">
+        INSERT INTO TBL_MEMBERSHIP_CREDIT
+        VALUES(
+            SEQ_MEMERSHIP_CREDIT_CODE.nextval,
+            #{memberCode},
+            #{cardCompany},
+            #{paymentNumber},
+            #{paymentDate},
+            #{memberStatus}
+            )
+    </insert>
+
+
+</mapper>

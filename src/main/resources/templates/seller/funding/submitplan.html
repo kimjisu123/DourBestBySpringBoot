@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html th:replace="~{/layouts/base :: layout(~{::main}, ~{::link}, ~{::script})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link rel="stylesheet" th:href="@{/css/seller/jiho/submitpage.css}">
+  <link rel="stylesheet" th:href="@{/css/seller/jiho/submitplan.css}">
+  <link rel="stylesheet" th:href="@{/css/seller/jiho/sellerbutton.css}">
+</head>
+  <main>
+    <section>
+      <div class="submitpage subpage">
+        <div class="stepper">
+          <div class="step first active done">
+            <div class="circle circle1">
+              <span>1</span>
+            </div>
+            <div class="title">요금제</div>
+            <div class="left-bar"></div>
+            <div class="right-bar"></div>
+          </div>
+          <div class="step second active editing">
+            <div class="circle circle2">
+              <span>2</span>
+            </div>
+            <div class="title">목표금액</div>
+            <div class="left-bar"></div>
+            <div class="right-bar"></div>
+          </div>
+          <div class="step third active">
+            <div class="circle circle3">
+              <span>3</span>
+            </div>
+            <div class="title">펀딩정보</div>
+            <div class="left-bar"></div>
+            <div class="right-bar"></div>
+          </div>
+          <div class="step forth active">
+            <div class="circle circle4">
+              <span>4</span>
+            </div>
+            <div class="title">상세정보</div>
+            <div class="left-bar"></div>
+            <div class="right-bar"></div>
+          </div>
+          <div class="step fifth active">
+            <div class="circle circle5">
+              <span>5</span>
+            </div>
+            <div class="title">물품옵션</div>
+            <div class="left-bar"></div>
+            <div class="right-bar"></div>
+          </div>
+          <div class="step sixth active">
+            <div class="circle circle6">
+              <span>6</span>
+            </div>
+            <div class="title">판매자 정보</div>
+            <div class="left-bar"></div>
+            <div class="right-bar"></div>
+          </div>
+          <div class="step seventh active">
+            <div class="circle circle7">
+              <span>7</span>
+            </div>
+            <div class="title">환불규정</div>
+            <div class="left-bar"></div>
+            <div class="right-bar"></div>
+          </div>
+        </div>
+        <div class="headtext">
+          요금제 선택
+        </div>
+        <div class="subtext">
+          원하시는 요금제를 선택해주세요.
+        </div>
+        <input type="hidden" name="categoryCode" th:value="${categoryCode}">
+        <div class="bodywrap">
+          <div th:each="plan, stat: ${ planList }">
+            <div th:class="|basicfare${stat.index}|">
+              <div class="fare">
+                <h1 th:text="${ plan.planName }"></h1>
+                <p th:text="${ plan.koPlanName}"></p>
+                <div class="fee">
+                  <span>수수료</span>
+                  <strong th:text="|${ plan.fee } %|"></strong>
+                </div>
+              </div>
+              <div class="fare-info">
+                <div class="intro">
+                  <p th:text="${ plan.topText }"></p>
+                  <br><br>
+                  <th:block th:each="map: ${pmap[stat.index]}">
+                    <li th:text="${map}"></li>
+                  </th:block>
+<!--                  <div class="more">더 알아보기 ></div>-->
+                </div>
+                <div class="selectbtn" style="display: flex;">
+                  <button th:onclick="|location.href='@{money(code=${plan.planCode}, categoryCode=${categoryCode})}'|">선택하기</button>
+                </div>
+              </div>
+            </div>
+<!--            <div class="vipfare">-->
+<!--              <div class="vfare">-->
+<!--                <h1>Vip</h1>-->
+<!--                <p>(vip)</p>-->
+<!--                <div class="fee">-->
+<!--                  <span>수수료</span>-->
+<!--                  <strong>14%</strong>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              <div class="fare-info">-->
+<!--                <div class="intro">-->
+<!--                  <p>더욱 업그레이드 된 서비스.</p>-->
+<!--                  <li>basic 서비스 포함</li>-->
+<!--                  <li>~~~</li>-->
+<!--                  <li>~~~</li>-->
+<!--                  <li>~~~</li>-->
+<!--                  <div class="more">더 알아보기 ></div>-->
+<!--                </div>-->
+<!--                <div class="selectbtn" style="display: flex;">-->
+<!--                  <button>선택하기</button>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+            <br><br><br>
+          </div>
+<!--          <div class="button4">-->
+<!--            <button class="redbutton" id="button4" th:onclick="|location.href='@{money}'|">-->
+<!--              <span>-->
+<!--                저장 및 다음단계-->
+<!--              </span>-->
+<!--            </button>-->
+<!--          </div>-->
+          <br><br><br><br><br>
+        </div>
+      </div>
+    </section>
+  </main>
+<script src=""></script>
+<script>
+
+</script>
+</html>

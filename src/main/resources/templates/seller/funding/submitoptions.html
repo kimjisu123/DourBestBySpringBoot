@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html th:replace="~{/layouts/base :: layout(~{::main}, ~{::link}, ~{::script})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link rel="stylesheet" th:href="@{/css/seller/jiho/submitpage.css}">
+  <link rel="stylesheet" th:href="@{/css/seller/jiho/submitproduct.css}">
+  <script th:src="@{/js/seller/jquery-ui-1.13.2.custom/jquery-ui.min.js}"></script>
+  <script th:src="@{/js/seller/jquery-ui-1.13.2.custom/jquery-ui.min.css}"></script>
+  <script th:src="@{/js/seller/option.js}"></script>
+</head>
+  <!-- 메인 -->
+  <main>
+    <section>
+      <div class="submitpage">
+        <div class="stepper">
+          <div class="step first active done">
+            <div class="circle circle1">
+              <span>1</span>
+            </div>
+            <div class="title">요금제</div>
+            <div class="left-bar"></div>
+            <div class="right-bar"></div>
+          </div>
+          <div class="step second active editing">
+            <div class="circle circle2">
+              <span>2</span>
+            </div>
+            <div class="title">목표금액</div>
+            <div class="left-bar"></div>
+            <div class="right-bar"></div>
+          </div>
+          <div class="step third active">
+            <div class="circle circle3">
+              <span>3</span>
+            </div>
+            <div class="title">펀딩정보</div>
+            <div class="left-bar"></div>
+            <div class="right-bar"></div>
+          </div>
+          <div class="step forth active">
+            <div class="circle circle4">
+              <span>4</span>
+            </div>
+            <div class="title">상세정보</div>
+            <div class="left-bar"></div>
+            <div class="right-bar"></div>
+          </div>
+          <div class="step fifth active">
+            <div class="circle circle5">
+              <span>5</span>
+            </div>
+            <div class="title">물품옵션</div>
+            <div class="left-bar"></div>
+            <div class="right-bar"></div>
+          </div>
+          <div class="step sixth active">
+            <div class="circle circle6">
+              <span>6</span>
+            </div>
+            <div class="title">판매자 정보</div>
+            <div class="left-bar"></div>
+            <div class="right-bar"></div>
+          </div>
+          <div class="step seventh active">
+            <div class="circle circle7">
+              <span>7</span>
+            </div>
+            <div class="title">환불규정</div>
+            <div class="left-bar"></div>
+            <div class="right-bar"></div>
+          </div>
+        </div>
+        <div class="headtext">
+          물품옵션 추가하기
+        </div>
+        <div class="subtext">
+          펀딩 물품의 대한 옵션을 추가해주세요.
+        </div>
+        <div class="submitwrap">
+          <div class="option-wrapper">
+            <div class="option-title">
+              옵션명
+            </div>
+            <div class="option-sub">
+              예시) 초경량 땀 흡수복
+            </div>
+            <div class="group">
+              <input type="text" name="optionName" id="optionName" placeholder="옵션명을 입력해주세요.">
+              <span class="highlight"></span>
+              <span class="bar"></span>
+            </div>
+            <span id="count">50</span>
+            <small>/50</small>
+            <div class="option-title">
+              옵션 설명
+            </div>
+            <div class="fundsummary">
+              <textarea name="optionInfo" id="optionInfo" cols="30" rows="10" placeholder="내용을 입력해주세요." onKeyPress="javascript: if (event.keyCode==13) return false;"></textarea>
+            </div>
+            <span style="padding-left: 5px; margin-top: 2px; font-weight: 700;" id="count1">300</span> <!-- 자바 스크립트로 한글자 쓸 때마다 숫자 1 줄이기 -->
+            <small>/300</small>
+            <div class="option-title">
+              금액
+            </div>
+            <div class="group">
+              <input type="text" name="optionMoney" id="optionMoney" placeholder="금액을 입력해주세요.">
+              <span class="highlight"></span>
+              <span class="bar"></span>
+            </div>
+            <div class="option-title">
+              사이즈 ◦ 색상
+            </div>
+            <div class="option-sub">
+              사이즈와 색상을 입력해주세요.
+            </div>
+            <div class="group">
+              <input type="text" name="optionSize" id="optionSize" placeholder="사이즈를 입력해주세요.">
+              <span class="highlight"></span>
+              <span class="bar"></span>
+            </div>
+            <div class="option-sub">
+              예시) S, M, L
+            </div>
+            <div class="group">
+              <input type="text" name="optionColor" id="optionColor" placeholder="색상을 입력해주세요.">
+              <span class="highlight"></span>
+              <span class="bar"></span>
+            </div>
+            <div class="option-sub">
+              예시) 블랙, 네이비, 레드
+            </div>
+            <div class="option-title">
+              제한 수량
+            </div>
+            <div class="group">
+              <input type="text" name="optionAmount" id="optionAmount" placeholder="상품별 제한수량을 입력해주세요.">
+              <span class="highlight"></span>
+              <span class="bar"></span>
+            </div>
+              <input type="hidden" name="currentKey" id="currentKey" th:value="${ currentKey }">
+            <div class="option-title">
+              배송 시작 일자
+            </div>
+            <div class="datepick group">
+              <input type="text" id="deliverDate" name="deliverDate" class="datepicker" placeholder="배송 시작 일자를 입력해주세요.">
+              <span class="highlight"></span>
+              <span class="bar"></span>
+            </div>
+            <div class="buttons">
+              <div class="button8">
+                  <span class="redbutton" id="button8">
+                      추가하기
+                  </span>
+              </div>
+              <div class="button9">
+                <button class="redbutton1" id="button9" th:onclick="|location.href='@{seller(fundingCode=${ currentKey })}'|">
+                                        <span>
+                                            저장 및 다음단계
+                                        </span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="options">
+            <div id="inputOption"></div>
+<!--             <div class="option">-->
+<!--              <div class="opt-top">-->
+<!--                <div class="opt-title">-->
+<!--                  20,000원-->
+<!--                </div>-->
+<!--                <div class="opt-amount">-->
+<!--                  제한 수량 200개-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              <div class="line"></div>-->
+<!--              <div class="opt-mid">-->
+<!--                <div class="opt-name">-->
+<!--                  옵션명-->
+<!--                </div>-->
+<!--                <div class="opt-info">-->
+<!--                  옵션에 대한 설명입니다.-->
+<!--                  줄 바꿔서 쓰는 것도 가능하게 만들고-->
+<!--                  알아서 내려가게 만들거에요. 아주 좋지요.-->
+<!--                  내가 여기서 더 쓰면 길이는 더 길어지지요.-->
+<!--                </div>-->
+<!--                <div class="opt-opt">-->
+<!--                  <div class="size"></div>-->
+<!--                  <div class="color"></div>-->
+<!--                </div>-->
+<!--                <div class="opt-bot1">-->
+<!--                  <div class="del-price">-->
+<!--                    배송비-->
+<!--                  </div>-->
+<!--                  <div class="del-price1">-->
+<!--                    2500원-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--                <div class="opt-bot2">-->
+<!--                  <div class="del-date">-->
+<!--                    배송 시작일-->
+<!--                  </div>-->
+<!--                  <div class="del-date1">-->
+<!--                    yyyy년 MM월 dd일-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              <div class="opt-bottom">-->
+<!--                <button>삭제하기</button>-->
+<!--              </div>-->
+<!--            </div>-->
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script src=""></script>
+<script>
+  $('.button8').click(function() {
+    if(check()) {
+
+      let optionName = $('#optionName').val();
+      let optionInfo = $('#optionInfo').val();
+      let optionMoney = $('#optionMoney').val();
+      let optionSize = $('#optionSize').val();
+      let optionColor = $('#optionColor').val();
+      let optionAmount = $('#optionAmount').val();
+      let str = $('#deliverDate').val();
+      const date = new Date(str);
+      let deliverDate = date;
+      let currKey = $('#currentKey').val();
+      let options = {
+        optionName : optionName,
+        optionContents : optionInfo,
+        optionPrice : optionMoney,
+        optionSize : optionSize,
+        optionColor : optionColor,
+        limitQuantity : optionAmount,
+        deliverDate : deliverDate,
+        currKey : currKey
+      }
+      $.ajax({
+        contentType: "application/json",
+        data : JSON.stringify(options),
+        type : "POST",
+        url : "/submit/option",
+        success : function(data) {
+          alert("1"+data); // success , fail
+          let code = '';
+          let num = 1;
+          code += '<div class="option">\n' +
+                  '              <div class="opt-top">\n' +
+                  '                <div class="opt-title">\n' +
+                                      $('#optionMoney').val() + '원\n' +
+                  '                </div>\n' +
+                  '                <div class="opt-amount">\n' +
+                  '                  제한 수량' + $('#optionAmount').val() + '개\n' +
+                  '                </div>\n' +
+                  '              </div>\n' +
+                  '              <div class="line"></div>\n' +
+                  '              <div class="opt-mid">\n' +
+                  '                <div class="opt-name">\n' +
+                                      $('#optionName').val() + '\n' +
+                  '                </div>\n' +
+                  '                <div class="opt-info">\n' +
+                                      $('#optionInfo').val() + '\n' +
+                  '                </div>\n' +
+                  '                <div class="opt-opt">\n' +
+                          '<div class="size">' + $('#optionSize').val() + '</div> \n' +
+                          '<div class="color">' + $('#optionColor').val() + '</div> \n' +
+                          '</div>' +
+
+                  '                <div class="opt-bot2">\n' +
+                  '                  <div class="del-date">\n' +
+                  '                    배송 시작일\n' +
+                  '                  </div>\n' +
+                  '                  <div class="del-date1">\n' +
+                                        $('#deliverDate').val() + '\n' +
+                  '                  </div>\n' +
+                  '                </div>\n' +
+                  '              </div>\n' +
+                  '              <div class="opt-bottom">\n' +
+                  ' <input type="hidden" value="' + $('#optionName').val() + '" >' +
+                  ' <input type="hidden" value="' + $('#optionInfo').val() + '" >' +
+                  ' <input type="hidden" value="' + $('#optionSize').val() + '" >' +
+                  ' <input type="hidden" value="' + $('#optionColor').val() +'" >' +
+                  '                <button class="delete" onclick="del(this)">삭제하기</button>\n' +
+                  '              </div>\n' +
+                  '            </div>' +
+                  '     <br>';
+
+          var option = document.getElementById('inputOption');
+          option.innerHTML += code;
+
+          $('#optionName').val('');
+          $('#optionInfo').val('');
+          $('#optionMoney').val('');
+          $('#optionSize').val('');
+          $('#optionColor').val('');
+          $('#optionAmount').val('');
+          $('#deliverDate').val('');
+          $('#optionName').focus();
+
+          console.log('성공');
+        },
+        error : function(error,xhr,m) {
+          alert("2"+error);
+          console.log(xhr);
+          console.log(m);
+        }
+      });
+    }
+  });
+
+  function del(opt) {
+    let optionName = $(opt).siblings()[0].value;
+    let optionInfo = $(opt).siblings()[1].value;
+    let optionSize = $(opt).siblings()[2].value;
+    let optionColor = $(opt).siblings()[3].value;
+    let option = {
+      optionName : optionName,
+      optionInfo : optionInfo,
+      optionSize : optionSize,
+      optionColor : optionColor
+    }
+
+    $.ajax({
+      contentType : "application/json",
+      data : JSON.stringify(option),
+      type : "POST",
+      url : "/submit/delete",
+      success : function(data) {
+        alert(1 + data);
+      },
+      error : function(error) {
+        alert(2 + error);
+      }
+    });
+
+    opt.parentElement.parentElement.remove();
+  }
+
+  function check() {
+    if($('#optionName').val() !== '') {
+      if($('#optionInfo').val() !== '') {
+        if($('#optionMoney').val() !== '') {
+          if($('#optionSize').val() !== '') {
+            if($('#optionColor').val() !== '') {
+              if($('#optionAmount').val() !== '') {
+                  if($('#deliverDate').val() !== '') {
+                      return true;
+                    }
+                  alert('배송 날짜를 입력해주세요!');
+                  $('#deliverDate').focus();
+                  return;
+                }
+              alert('제한 수량을 입력해주세요!');
+              $('#optionAmount').focus();
+              return;
+              }
+            alert('옵션 색상을 입력해주세요!');
+            $('#optionColor').focus();
+            return;
+            }
+          alert('옵션 사이즈를 입력해주세요!');
+          $('#optionSize').focus();
+          return;
+          }
+        alert('옵션 가격을 입력해주세요!');
+        $('#optionMoney').focus();
+        return;
+        }
+      alert('옵션 설명을 입력해주세요!');
+      $('#optionInfo').focus();
+      return;
+      }
+    alert('옵션명을 입력해주세요!');
+    $('#optionName').focus();
+    }
+</script>
+</html>

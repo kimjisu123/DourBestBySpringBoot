@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html th:replace="~{/layouts/base :: layout(~{::main}, ~{::link}, ~{::script})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link rel="stylesheet" th:href="@{/css/seller/jiho/submitpage.css}">
+  <link rel="stylesheet" th:href="@{/css/seller/jiho/submitmoney.css}">
+  <link rel="stylesheet" th:href="@{/css/seller/jiho/sellerbutton.css}">
+</head>
+  <!-- 메인 -->
+  <main>
+    <section>
+      <div class="submitpage">
+        <div class="stepper">
+          <div class="step first active done">
+            <div class="circle circle1">
+              <span>1</span>
+            </div>
+            <div class="title">요금제</div>
+            <div class="left-bar"></div>
+            <div class="right-bar"></div>
+          </div>
+          <div class="step second active editing">
+            <div class="circle circle2">
+              <span>2</span>
+            </div>
+            <div class="title">목표금액</div>
+            <div class="left-bar"></div>
+            <div class="right-bar"></div>
+          </div>
+          <div class="step third active">
+            <div class="circle circle3">
+              <span>3</span>
+            </div>
+            <div class="title">펀딩정보</div>
+            <div class="left-bar"></div>
+            <div class="right-bar"></div>
+          </div>
+          <div class="step forth active">
+            <div class="circle circle4">
+              <span>4</span>
+            </div>
+            <div class="title">상세정보</div>
+            <div class="left-bar"></div>
+            <div class="right-bar"></div>
+          </div>
+          <div class="step fifth active">
+            <div class="circle circle5">
+              <span>5</span>
+            </div>
+            <div class="title">물품옵션</div>
+            <div class="left-bar"></div>
+            <div class="right-bar"></div>
+          </div>
+          <div class="step sixth active">
+            <div class="circle circle6">
+              <span>6</span>
+            </div>
+            <div class="title">판매자 정보</div>
+            <div class="left-bar"></div>
+            <div class="right-bar"></div>
+          </div>
+          <div class="step seventh active">
+            <div class="circle circle7">
+              <span>7</span>
+            </div>
+            <div class="title">환불규정</div>
+            <div class="left-bar"></div>
+            <div class="right-bar"></div>
+          </div>
+        </div>
+        <div class="headtext">
+          목표금액 선택
+        </div>
+        <div class="subtext">
+          목표금액을 입력해주세요.
+        </div>
+        <form action="/submit/fundinfo" method="post" onsubmit="return check()">
+          <div class="group">
+            <input type="text" id="inputmoney" name="inputMoney" required onkeyup="this.value=this.value.replace(/[^-0-9]/g,'')">
+            <input type="hidden" name="planCode" th:value="${planCode}">
+            <input type="hidden" name="categoryCode" th:value="${categoryCode}">
+            <span class="highlight"></span>
+            <span class="bar"></span>
+            <label>목표 금액을 입력해주세요.</label>
+          </div>
+          <div class="moneytext">
+            최소 50만원에서 최대 5,000만원까지 가능해요.
+          </div>
+          <div class="button5">
+            <button class="redbutton" id="button5">
+              <span>
+                저장 및 다음단계
+              </span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+<script src=></script>
+
+<script>
+  $('.redbutton').click(function check () {
+    if(Number($('#inputmoney').val().replace(',', '')) > 50000000 || Number($('#inputmoney').val().replace(',', '') < 500000)) {
+      alert('50만원 이상 5000만원 이하여야 합니다.');
+      $('#inputmoney').focus();
+      return false;
+    }
+    return  true;
+    console.log($('#inputmoney').val());
+
+  })
+
+  document.getElementById("inputmoney").addEventListener("keyup", function (e) {
+    $(this).val($(this).val().replace(/\,/g, '').replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,'));
+    console.log($('#inputmoney').val().replace(',', ''));
+  });
+</script>
+</html>

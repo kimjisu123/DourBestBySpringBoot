@@ -24,8 +24,11 @@ public class FundingDTO {
     private Date endDate;
     private int fundingGoalMoney;
     private String returnRole;
+    // 판매자 코드
     private int sellerCode;
+    // 카테고리 코드
     private int categoryCode;
+    // 요금제 코드
     private int planCode;
 
     // 펀딩 태그 리스트
@@ -44,4 +47,8 @@ public class FundingDTO {
     private List<SellerInquiryDTO> sellerInquiry;
     // 펀딩 상태 이력
     private List<FundingStatusListDTO> fundingStatusList;
+    // 주문 총 금액
+    private int orderTotalPrice;
+    // 주문한 수
+    private int orderNumber;
 }

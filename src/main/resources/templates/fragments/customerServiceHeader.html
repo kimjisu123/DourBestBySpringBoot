@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<header th:fragment="customerServiceHeader">
+  <div class="wrapper">
+    <!-- 헤더 -->
+    <header>
+      <div class="header-container">
+        <!-- 헤더 상단 메뉴 -->
+        <div class="header-top">
+          <img id="headerlogo" th:src="@{/images/common/logo.jpeg}" alt="DourBest로고">
+
+          <button class="contactBtn">문의 등록</button>
+
+          <div id="mainGo">
+            메인페이지
+          </div>
+
+        </div>
+      </div>
+    </header>
+  </div>
+</header>

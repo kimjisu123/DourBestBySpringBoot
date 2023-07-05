@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.won.dourbest.user.dao.MemberMapper">
+
+    <resultMap id="MemberResultMap" type="MemberDTO">
+        <id property="memberCode" column="MEMBER_CODE"/>
+        <result property="memberId" column="MEMBER_ID"/>
+        <result property="memberPwd" column="MEMBER_PWD"/>
+        <result property="memberName" column="MEMBER_NAME"/>
+        <result property="memberPhone" column="MEMBER_PHONE"/>
+        <result property="memberEmail" column="MEMBER_EMAIL"/>
+        <result property="registDate" column="REGIST_DATE"/>
+        <result property="withdrawalStatus" column="WITHDRAWAL_STATUS"/>
+        <result property="adultStatus" column="ADULT_STATUS"/>
+        <association property="address" resultMap="AddressResultMap"/>
+        <association property="membership" resultMap="MemberShipResultMap"/>
+        <collection property="memberAuthList" resultMap="MemberAuthList"/>
+    </resultMap>
+
+    <resultMap id="MemberShipResultMap" type="MemberShipDTO">
+        <id property="membershipCode" column="MEMBERSHIP_CODE"/>
+        <result property="membershipName" column="MEMBERSHIP_NAME"/>
+        <result property="accrualRate" column="ACCRUAL_RATE"/>
+        <result property="membershipContent" column="MEMBERSHIP_CONTENT"/>
+    </resultMap>
+
+    <resultMap id="MemberAuthList" type="MemberAuthListDTO">
+        <id property="memberAuthCode" column="MEMBER_AUTH_CODE"/>
+        <result property="memberCode" column="MEMBER_CODE"/>
+
+        <association property="memberAuth" resultMap="MemberAuth"/>
+    </resultMap>
+
+    <resultMap id="MemberAuth" type="MemberAuthDTO">
+        <id property="memberAuthCode" column="MEMBER_AUTH_CODE"/>
+        <result property="memberAuthName" column="MEMBER_AUTH_NAME"/>
+        <result property="memberAuthDesc" column="MEMBER_AUTH_DESC"/>
+    </resultMap>
+
+    <resultMap id="AddressResultMap" type="AddressDTO">
+        <id property="addressCode" column="ADDRESS_CODE"/>
+        <result property="zipcode" column="ZIP_CODE"/>
+        <result property="baseAddress" column="BASE_ADDRESS"/>
+        <result property="detailAddress" column="DETAIL_ADDRESS"/>
+    </resultMap>
+
+
+    <insert id="registMember"  parameterType="map">
+            INSERT
+            INTO TBL_MEMBER
+                (
+              MEMBER_CODE
+            , MEMBER_ID
+            , MEMBER_PWD
+            , MEMBER_NAME
+            , MEMBER_PHONE
+            , MEMBER_EMAIL
+            , REGIST_DATE
+            , WITHDRAWAL_STATUS
+            , ADULT_STATUS
+            , MEMBERSHIP_CODE
+            )
+            VALUES
+                (
+                SEQ_MEMBER_CODE.NEXTVAL
+                , #{ member.memberId }
+                , #{ member.memberPwd }
+                , #{ member.memberName }
+                , #{ member.memberPhone }
+                , #{ member.memberEmail }
+                , SYSDATE
+                , DEFAULT
+                , DEFAULT
+                , DEFAULT
+            )
+            </insert>
+
+    <insert id="registAddress" parameterType="map">
+        INSERT /* com.won.dourbest.user.dao.MemberMapper#insertMember() */
+        INTO TBL_ADDRESS
+            (
+          ADDRESS_CODE
+        , ZIP_CODE
+        , BASE_ADDRESS
+        , DETAIL_ADDRESS
+        , MEMBER_CODE
+            )
+        VALUES
+            (
+                SEQ_ADDRESS_CODE.NEXTVAL
+                , #{ address.zipcode }
+                , #{ address.baseAddress }
+                , #{ address.detailAddress }
+                , SEQ_MEMBER_CODE.CURRVAL
+            )
+</insert>
+
+    <!--     아이디 중복 확인       -->
+    <select id="idCheck" resultType="_int">
+        SELECT
+              COUNT(*) <!-- 수를 체크해줌-->
+        FROM TBL_MEMBER
+          WHERE MEMBER_ID = #{ memeber.memberId }
+    </select>
+
+    <!--     이메일 중복 확인       -->
+    <select id="emailCheck" resultType="_int">
+        SELECT
+        COUNT(*) <!-- 수를 체크해줌-->
+        FROM TBL_MEMBER
+        WHERE MEMBER_EMAIL = #{ memeber.memberEmail }
+    </select>
+
+    <insert id="insertMemberAuth">
+        INSERT INTO TBL_MEMBER_AUTHLIST(
+                  MEMBER_AUTH_CODE,
+                  MEMBER_CODE)
+        VALUES(1, SEQ_MEMBER_CODE.CURRVAL)
+    </insert>
+
+    <select id="findByMember" resultMap="MemberResultMap">
+        select
+            M.MEMBER_CODE,
+            M.MEMBER_ID,
+            M.MEMBER_PWD,
+            M.MEMBER_NAME,
+            M.MEMBER_PHONE,
+            M.MEMBER_EMAIL,
+            M.REGIST_DATE,
+            M.WITHDRAWAL_STATUS,
+            M.ADULT_STATUS,
+            TMA.MEMBER_CODE,
+            TMA.MEMBER_AUTH_CODE,
+            TM.MEMBER_AUTH_CODE,
+            TM.MEMBER_AUTH_NAME,
+            TM.MEMBER_AUTH_DESC,
+            T.MEMBERSHIP_CODE,
+            T.MEMBERSHIP_NAME,
+            T.ACCRUAL_RATE,
+            T.MEMBERSHIP_CONTENT,
+            TA.ADDRESS_CODE,
+            TA.ZIP_CODE,
+            TA.BASE_ADDRESS,
+            TA.DETAIL_ADDRESS
+        from TBL_MEMBER M
+                 LEFT JOIN TBL_MEMBER_AUTHLIST TMA ON M.MEMBER_CODE = TMA.MEMBER_CODE
+                 LEFT JOIN TBL_MEMBERAUTH TM on TMA.MEMBER_AUTH_CODE = TM.MEMBER_AUTH_CODE
+                 LEFT JOIN TBL_MEMBERSHIP T on M.MEMBERSHIP_CODE = T.MEMBERSHIP_CODE
+                 LEFT JOIN TBL_ADDRESS TA on M.MEMBER_CODE = TA.MEMBER_CODE
+        WHERE  M.MEMBER_ID = #{ userId }
+    </select>
+
+    <update id="updatePwd" parameterType="CheckMemberDTO">
+        UPDATE TBL_MEMBER M
+        SET M.MEMBER_PWD = #{ memberPwd }
+        WHERE M.MEMBER_EMAIL = #{ memberEmail }
+    </update>
+
+    <select id="findByEmail">
+        SELECT M.MEMBER_ID
+        FROM TBL_MEMBER M
+        WHERE m.MEMBER_EMAIL= #{ memberEmail }
+    </select>
+
+
+
+</mapper>

@@ -2,6 +2,8 @@ package com.won.dourbest.seller.dto;
 
 import lombok.*;
 
+import java.util.Date;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -15,5 +17,9 @@ public class FundingOptionDTO {
     private int optionPrice;
     private int limitQuantity;
     private int fundingCode;
+    private String optionSize;
+    private String optionColor;
+    private Date deliverDate;
+    private int currKey;
 
 }

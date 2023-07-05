@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.won.dourbest.seller.dao.jiho.SellerMapper">
+
+    <resultMap id="planResultMap" type="PlanDTO">
+        <id property="planCode" column="PLAN_CODE"/>
+        <result property="planName" column="PLAN_NAME"/>
+        <result property="fee" column="FEE"/>
+        <result property="planContent" column="PLAN_CONTENT"/>
+        <result property="koPlanName" column="KO_PLAN_NAME"/>
+        <result property="topText" column="TOP_TEXT"/>
+    </resultMap>
+
+    <resultMap id="tagResultMap" type="TagDTO">
+        <id property="tagCode" column="TAG_CODE"/>
+        <result property="tagName" column="TAG_NAME"/>
+    </resultMap>
+
+    <resultMap id="fundingCategoryResultMap" type="CategoryDTO">
+        <id property="categoryCode" column="CATEGORY_CODE"/>
+        <result property="categoryName" column="CATEGORY_NAME"/>
+        <result property="categoryKind" column="CATEGORY_KIND"/>
+    </resultMap>
+
+    <select id="getFundCategory" resultMap="fundingCategoryResultMap">
+        SELECT * FROM TBL_CATEGORY WHERE CATEGORY_KIND = '펀딩'
+    </select>
+
+    <select id="allPlan" resultMap="planResultMap">
+        SELECT
+               *
+          FROM TBL_PLAN
+    </select>
+
+    <select id="selectTag" resultType="_int">
+        SELECT
+               COUNT(*)
+          FROM TBL_TAG
+         WHERE TAG_NAME = #{ tag }
+    </select>
+
+    <insert id="insertTag" parameterType="TagDTO">
+        INSERT
+          INTO TBL_TAG
+        (
+          TAG_CODE
+        , TAG_NAME
+        )
+        VALUES
+        (
+          SEQ_TAG_CODE.NEXTVAL
+        , #{ tag }
+        )
+    </insert>
+
+    <insert id="insertFunding" parameterType="HashMap">
+        INSERT
+          INTO TBL_FUNDING
+        (
+          FUNDING_CODE
+        , FUNDING_TITLE
+        , FUNDING_SUMMARY
+        , FUNDING_CONTENTS
+        , VIEWS
+        , LIKES
+        , APPLICATION_DATE
+        , START_DATE
+        , END_DATE
+        , FUNDING_GOAL_MONEY
+        , RETURN_ROLE
+        , SELLER_CODE
+        , CATEGORY_CODE
+        , PLAN_CODE
+        )
+        VALUES
+        (
+          SEQ_FUNDING_CODE.NEXTVAL
+        , #{ fundTitle }
+        , #{ fundSummary }
+        , #{ fundContent }
+        , default
+        , default
+        , default
+        , #{ startDate }
+        , #{ endDate }
+        , #{ goalMoney }
+        , null
+        , 1
+        , #{ categoryCode }
+        , #{ planCode }
+        )
+        <selectKey keyProperty="currkey" resultType="_int" order="AFTER">
+            SELECT
+                   SEQ_FUNDING_CODE.CURRVAL
+              FROM DUAL
+        </selectKey>
+    </insert>
+
+    <insert id="insertMainFile" parameterType="HashMap">
+        INSERT
+          INTO TBL_FUNDING_FILE
+        (
+          FUNDING_FILE_CODE
+        , FILE_ORIGINAL_NAME
+        , FILE_MODIFICATION_NAME
+        , UPLOAD_DATE
+        , FILE_TYPE
+        , DELETION_STATUS
+        , FUNDING_CODE
+        )
+        VALUES
+        (
+          SEQ_FUNDING_FILE_CODE.NEXTVAL
+        , #{ mainPhotoOrigin }
+        , #{ mainPhotoSaved }
+        , default
+        , '메인'
+        , default
+        , SEQ_FUNDING_CODE.CURRVAL
+        )
+    </insert>
+
+    <insert id="insertTopFile" parameterType="HashMap">
+        INSERT
+        INTO TBL_FUNDING_FILE
+        (
+          FUNDING_FILE_CODE
+        , FILE_ORIGINAL_NAME
+        , FILE_MODIFICATION_NAME
+        , UPLOAD_DATE
+        , FILE_TYPE
+        , DELETION_STATUS
+        , FUNDING_CODE
+        )
+        VALUES
+        (
+          SEQ_FUNDING_FILE_CODE.NEXTVAL
+        , #{ topPhotoOrigin }
+        , #{ topPhotoSaved }
+        , default
+        , '상단'
+        , default
+        , SEQ_FUNDING_CODE.CURRVAL
+        )
+    </insert>
+
+    <insert id="insertContentFile" parameterType="HashMap">
+        INSERT
+        INTO TBL_FUNDING_FILE
+        (
+          FUNDING_FILE_CODE
+        , FILE_ORIGINAL_NAME
+        , FILE_MODIFICATION_NAME
+        , UPLOAD_DATE
+        , FILE_TYPE
+        , DELETION_STATUS
+        , FUNDING_CODE
+        )
+        VALUES
+        (
+          SEQ_FUNDING_FILE_CODE.NEXTVAL
+        , #{ fundContentPhotoOrigin }
+        , #{ fundContentPhotoSaved }
+        , default
+        , '본문'
+        , default
+        , SEQ_FUNDING_CODE.CURRVAL
+        )
+    </insert>
+
+    <insert id="insertOption" parameterType="FundingOptionDTO">
+        INSERT
+          INTO TBL_FUNDING_OPTIONS
+        (
+          FUNDING_OPTION_CODE
+        , OPTION_NAME
+        , OPTION_CONTENTS
+        , OPTION_PRICE
+        , LIMIT_QUANTITY
+        , OPTION_COLOR
+        , OPTION_SIZE
+        , DELIVER_DATE
+        , FUNDING_CODE
+        )
+        VALUES
+        (
+          SEQ_FUNDING_OPTIONS_CODE.NEXTVAL
+        , #{ optionName }
+        , #{ optionContents }
+        , #{ optionPrice }
+        , #{ limitQuantity }
+        , #{ optionColor }
+        , #{ optionSize }
+        , #{ deliverDate }
+        , #{ currKey }
+        )
+    </insert>
+
+    <delete id="deleteOption" parameterType="HashMap">
+        DELETE
+          FROM TBL_FUNDING_OPTIONS
+         WHERE OPTION_NAME = #{ optionName }
+           AND OPTION_CONTENTS = #{ optionInfo }
+           AND OPTION_SIZE = #{ optionSize }
+           AND OPTION_COLOR = #{ optionColor }
+    </delete>
+
+    <update id="updateSeller" parameterType="HashMap">
+        UPDATE TBL_SELLER
+           SET ACCOUNT_NUMBER = #{ accountNum },
+               BANK_NAME = #{ bankName },
+               SELLER_KAKAO = #{ kakaoUrl },
+               SELLER_SNS = #{ snsUrl },
+               SELLER_URL = #{ homepageUrl }
+         WHERE SELLER_CODE = 1
+    </update>
+
+    <update id="updateFunding" parameterType="HashMap">
+        UPDATE TBL_FUNDING
+           SET RETURN_ROLE = #{ refundRule }
+         WHERE FUNDING_CODE = #{ fundingCode }
+    </update>
+
+</mapper>

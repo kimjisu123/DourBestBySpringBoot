@@ -3,6 +3,7 @@ package com.won.dourbest.user.dto;
 import com.won.dourbest.common.dto.MemberShipDTO;
 import com.won.dourbest.seller.dto.SellerDTO;
 import lombok.*;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Date;
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class MemberDTO {
+public class MemberDTO{
 
     private Integer memberCode;  // 멤버코드
     private String memberId;  // 아이디

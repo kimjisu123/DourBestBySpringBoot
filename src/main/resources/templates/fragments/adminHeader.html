@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<header th:fragment="adminHeader">
+<div class="wrapper">
+  <!-- 헤더 -->
+  <header>
+    <div class="header-container">
+      <!-- 헤더 상단 메뉴 -->
+      <div class="header-top">
+        <div>
+          <img class="logo" th:src="@{/images/common/logo.jpeg}" alt="DourBest로고">
+        </div>
+        <div>
+          <div>
+            <img class="adminlogo" th:src="@{/images/admin/adminlogo.png}" alt="admin로고">
+          </div>
+          <div class="adminName">
+            관리자 ~~~님 환영합니다!
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+</div>

@@ -13,4 +13,6 @@ public class PlanDTO {
     private String planName;
     private int fee;
     private String planContent;
+    private String koPlanName;
+    private String topText;
 }
