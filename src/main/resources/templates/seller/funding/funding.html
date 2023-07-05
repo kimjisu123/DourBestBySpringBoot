@@ -2,7 +2,7 @@
 <html th:replace="~{/layouts/base :: layout(~{::main}, ~{::link}, ~{::script})}"
       xmlns:th="http://www.thymeleaf.org">
 <head>
-  <link rel="stylesheet" th:href="/css/seller/jiho/funding/css">
+  <link rel="stylesheet" th:href="@{/css/seller/jiho/funding.css}">
 </head>
   <main>
     <section>
@@ -17,11 +17,11 @@
           <div class="fundleft">
             <div class="photo"></div>
             <div class="underphoto">
-              <div>현재</div>
-              <div class="red">2172</div>
+              <div>현재 &nbsp;</div>
+              <div class="red" th:text="${tossMap['funding'].buyNumber}">2172</div>
               <div class="line">명 참여</div>
-              <div class="line">54,342,000원</div>
-              <div class="red">1027% 달성</div>
+              <div class="line" th:text="${tossMap['funding'].totalRev}">54,342,000원</div>
+              <div class="red" th:text="|${percent}% 달성|">1027% 달성</div>
             </div>
             <div class="funding">
               <div class="intext">
@@ -32,26 +32,24 @@
           </div>
           <div class="fundright">
             <div class="right-t">
-              <div class="cate">
-                카테고리
-              </div>
+              <div class="cate" th:text="${tossMap['funding'].categoryName}"></div>
               <div class="tag">
                 태그
               </div>
             </div>
             <div class="horizon"></div>
             <div class="right-m">
-              <div class="title">
-                펀딩 이름
-              </div>
-              <div class="explain">
-                펀딩 설명 펀딩 설명 펀딩 설명 펀딩 설명 펀딩 설명 펀딩 설명 펀딩 설명 펀딩 설명 펀딩 설명 펀딩 설명 펀딩 설명 펀딩 설명 펀딩 설명 펀딩 설명 펀딩 설명 펀딩 설명 펀딩 설명 펀딩 설명
-
-              </div>
+              <div class="title" th:text="${tossMap['funding'].fundingTitle}"></div>
+              <div class="explain" th:text="${tossMap['funding'].fundingSummary}"></div>
             </div>
             <div class="horizon"></div>
-            <div class="d-day">
-              172일 남음
+            <div class="he">
+              <div class="d-day">
+                172일 남음
+              </div>
+              <div class="heart">
+
+              </div>
             </div>
             <div class="horizon"></div>
             <div class="person">
@@ -64,23 +62,21 @@
             </div>
             <div class="horizon"></div>
             <div class="buy">
-              <div class="heart">
 
-              </div>
-              <div class="selectbox">
-                <select>
-                  <option value="basic" selected disabled hidden>옵션 선택</option>
-                  <option value="one">1번</option>
-                  <option value="two">2번</option>
-                  <option value="three">3번</option>
-                  <option value="four">4번</option>
-                  <option value="five">5번</option>
-                  <option value="six">6번</option>
-                </select>
-              </div>
-              <button class="custom-btn btn-7">
-                <span>구매하기</span>
-              </button>
+<!--              <div class="selectbox">-->
+<!--                <select>-->
+<!--                  <option value="basic" selected disabled hidden>옵션 선택</option>-->
+<!--                  <option value="one">1번</option>-->
+<!--                  <option value="two">2번</option>-->
+<!--                  <option value="three">3번</option>-->
+<!--                  <option value="four">4번</option>-->
+<!--                  <option value="five">5번</option>-->
+<!--                  <option value="six">6번</option>-->
+<!--                </select>-->
+<!--              </div>-->
+<!--              <button class="custom-btn btn-7">-->
+<!--                <span>구매하기</span>-->
+<!--              </button>-->
             </div>
             <div class="opt-scroll">
               <div class="option">

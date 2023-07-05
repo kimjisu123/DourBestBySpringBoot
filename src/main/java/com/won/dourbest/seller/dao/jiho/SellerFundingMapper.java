@@ -9,12 +9,12 @@ import java.util.List;
 import java.util.Map;
 
 @Mapper
-public interface SellerMapper {
+public interface SellerFundingMapper {
     // 플랜 조회
     List<PlanDTO> allPlan();
 
     // 태그 select
-    int selectTag(String tag);
+    Integer selectTag(String tag);
 
     // 태그 insert
     int insertTag(String tag);
@@ -45,4 +45,9 @@ public interface SellerMapper {
 
     // 펀딩 업데이트
     int updateFunding(Map<String, Object> map);
+
+    // 태그 리스트
+    Integer insertTagList(int num);
+
+
 }

@@ -1,7 +1,7 @@
 package com.won.dourbest.seller.service.jiho;
 
 import com.won.dourbest.common.dto.CategoryDTO;
-import com.won.dourbest.seller.dao.jiho.SellerMapper;
+import com.won.dourbest.seller.dao.jiho.SellerFundingMapper;
 import com.won.dourbest.seller.dto.FundingOptionDTO;
 import com.won.dourbest.seller.dto.PlanDTO;
 import org.springframework.stereotype.Service;
@@ -14,16 +14,16 @@ import java.util.Map;
 @Service
 public class SubmitServiceImpl implements SubmitService{
 
-    private SellerMapper sellerMapper;
+    private SellerFundingMapper sellerFundingMapper;
 
-    public SubmitServiceImpl(SellerMapper sellerMapper) {
-        this.sellerMapper = sellerMapper;
+    public SubmitServiceImpl(SellerFundingMapper sellerFundingMapper) {
+        this.sellerFundingMapper = sellerFundingMapper;
     }
 
     @Override
     public List<PlanDTO> allPlan() {
 
-        return sellerMapper.allPlan();
+        return sellerFundingMapper.allPlan();
     }
 
     @Override
@@ -35,12 +35,12 @@ public class SubmitServiceImpl implements SubmitService{
         for(int i = 0; i < sarr.length; i++) {
             String tag = sarr[i].trim();
             System.out.println(tag);
-            int result = sellerMapper.selectTag(tag);
+            Integer result = sellerFundingMapper.selectTag(tag);
             System.out.println(result);
 
 
-            if(result == 0) {
-                int num = sellerMapper.insertTag(tag);
+            if(result == null) {
+                int num = sellerFundingMapper.insertTag(tag);
                 count += num;
             } else {
                 System.out.println(tag + "는 이미 있는 태그입니다.");
@@ -53,19 +53,30 @@ public class SubmitServiceImpl implements SubmitService{
     @Override
     public List<CategoryDTO> getFundCategory() {
 
-        return sellerMapper.getFundCategory();
+        return sellerFundingMapper.getFundCategory();
     }
 
     @Override
+    @Transactional
     public Map<String, Integer> insertAboutFunding(Map<String, Object> tossMap) {
 
-        int result = sellerMapper.insertFunding(tossMap);
+        int result = sellerFundingMapper.insertFunding(tossMap);
         System.out.println("tossMap = " + tossMap);
-        int result1 = sellerMapper.insertMainFile(tossMap);
+        int result1 = sellerFundingMapper.insertMainFile(tossMap);
 
-        int result2 = sellerMapper.insertTopFile(tossMap);
+        int result2 = sellerFundingMapper.insertTopFile(tossMap);
 
-        int result3 = sellerMapper.insertContentFile(tossMap);
+        int result3 = sellerFundingMapper.insertContentFile(tossMap);
+
+        Integer result4 = 0;
+        String tagList = (String) tossMap.get("tagList");
+        String[] sarr = tagList.split(",");
+        for(int i = 0; i < sarr.length; i++) {
+            String tag = sarr[i].trim();
+            Integer num = sellerFundingMapper.selectTag(tag);
+            System.out.println("num = " + num);
+            result4 = sellerFundingMapper.insertTagList(num);
+        }
 
         int num = 0;
 
@@ -84,7 +95,7 @@ public class SubmitServiceImpl implements SubmitService{
     @Override
     public int insertOption(FundingOptionDTO option) {
 
-        int result = sellerMapper.insertOption(option);
+        int result = sellerFundingMapper.insertOption(option);
 
         int num = 0;
 
@@ -100,7 +111,7 @@ public class SubmitServiceImpl implements SubmitService{
     @Override
     public int deleteOption(Map<String, String> map) {
 
-        int result = sellerMapper.deleteOption(map);
+        int result = sellerFundingMapper.deleteOption(map);
 
         return result > 0? 1 : 0;
     }
@@ -108,7 +119,7 @@ public class SubmitServiceImpl implements SubmitService{
     @Override
     public int updateSeller(Map<String, Object> map) {
 
-        int result = sellerMapper.updateSeller(map);
+        int result = sellerFundingMapper.updateSeller(map);
 
         return result > 0? 1 : 0;
     }
@@ -116,7 +127,7 @@ public class SubmitServiceImpl implements SubmitService{
     @Override
     public int updateFunding(Map<String, Object> map) {
 
-        int result = sellerMapper.updateFunding(map);
+        int result = sellerFundingMapper.updateFunding(map);
 
         return result > 0? 1 : 0;
     }

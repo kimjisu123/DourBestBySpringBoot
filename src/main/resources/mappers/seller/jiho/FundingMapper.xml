@@ -4,84 +4,33 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.won.dourbest.seller.dao.jiho.FundingMapper">
 
-    <resultMap id="memberResultMap" type="MemberDTO">
-        <id property="memberCode" column="MEMBER_CODE"/>
-        <result property="memberId" column="MEMBER_ID"/>
-    </resultMap>
-
-    <resultMap id="sellerResultMap" type="SellerDTO">
-        <id property="sellerCode" column="SELLER_CODE"/>
-
-        <association property="memberCode" resultMap="memberResultMap"/>
-    </resultMap>
-
     <resultMap id="categoryResultMap" type="CategoryDTO">
-        <id property="categoryCode" column="CATEGORY_CODE"/>
-        <result property="categoryName" column="CATEGORY_NAME"/>
-        <result property="categoryKind" column="CATEGORY_KIND"/>
-    </resultMap>
-    
-    <resultMap id="fileResultMap" type="FundingFileDTO">
-        <id property="fundingFileCode" column="FUNDING_FILE_CODE"/>
-        <result property="fileOriginalName" column="FILE_ORIGINAL_NAME"/>
-        <result property="fileModificationName" column="FILE_MODIFICATION_NAME"/>
-        <result property="fileType" column="FILE_TYPE"/>
-        <result property="deletionStatus" column="DELETION_STATUS"/>
-        
-        <association property="fundingCode" resultMap="fundingResultMap"/>
-    </resultMap>
-    
-    <resultMap id="optionResultMap" type="FundingOptionDTO">
-        <id property="fundingOptionCode" column="FUNDING_OPTION_CODE"/>
-        <result property="optionName" column="OPTION_NAME"/>
-        <result property="optionContents" column="OPTION_CONTENTS"/>
-        <result property="optionPrice" column="OPTION_PRICE"/>
-        <result property="limitQuantity" column="LIMIT_QUANTITY"/>
-        <result property="optionSize" column="OPTION_SIZE"/>
-        <result property="optionColor" column="OPTION_COLOR"/>
-        <result property="deliverDate" column="DELIVER_DATE"/>
-
-        <association property="fundingCode" resultMap="fundingResultMap"/>
-    </resultMap>
-
-    <resultMap id="tagResultMap" type="TagDTO">
-        <id property="tagCode" column="TAG_CODE"/>
-        <result property="tagName" column="TAG_NAME"/>
-    </resultMap>
-
-    <resultMap id="orderResultMap" type="OrderDTO">
-        <id property="orderCode" column="ORDER_CODE"/>
-        <result property="orderPrice" column="ORDER_PRICE"/>
-
-        <association property="fundingCode" resultMap="fundingResultMap"/>
+        <id property="categoryName" column="CategoryName"/>
     </resultMap>
 
     <resultMap id="fundingResultMap" type="FundingDTO">
-        <id property="fundingCode" column="FUNDING_CODE"/>
-        <result property="fundingTitle" column="FUNDING_TITLE"/>
+        <id property="fundingTitle" column="FUNDING_TITLE"/>
         <result property="fundingSummary" column="FUNDING_SUMMARY"/>
         <result property="fundingContents" column="FUNDING_CONTENTS"/>
-        <result property="views" column="VIEWS"/>
-        <result property="likes" column="LIKES"/>
-        <result property="applicationDate" column="APPLICATION_DATE"/>
-        <result property="startDate" column="START_DATE"/>
         <result property="endDate" column="END_DATE"/>
         <result property="fundingGoalMoney" column="FUNDING_GOAL_MONEY"/>
-        <result property="returnRole" column="RETURN_ROLE"/>
-
-        <association property="sellerCode" resultMap="sellerResultMap"/>
-        <association property="categoryCode" resultMap="categoryResultMap"/>
-
-        <collection property="tagList" resultMap="tagResultMap"/>
-        <collection property="fileList" resultMap="fileResultMap"/>
-        <collection property="optionList" resultMap="optionResultMap"/>
+        <result property="categoryName" column="CATEGORY_NAME"/>
+        <result property="buyNumber" column="BUY_NUMBER"/>
+        <result property="totalRev" column="TOTAL_REV"/>
     </resultMap>
 
-    <select id="selectFunding" resultMap="fundingResultMap">
+    <select id="selectFunding" parameterType="_int">
         SELECT
-               A.FUNDING_TITLE
-             , A.FUNDING_SUMMARY
-             , A.FUNDING_CONTENTS
-             ,
+               F.FUNDING_TITLE
+             , F.FUNDING_SUMMARY
+             , F.FUNDING_CONTENTS
+             , F.END_DATE
+             , F.FUNDING_GOAL_MONEY
+             , C.CATEGORY_NAME
+             , (SELECT COUNT(*) FROM TBL_ORDER WHERE FUNDING_CODE = #{ code }) AS BUY_NUMBER
+             , (SELECT SUM(ORDER_PRICE) FROM TBL_ORDER WHERE FUNDING_CODE = #{ code }) AS TOTAL_REV
+          FROM TBL_FUNDING F
+          JOIN TBL_CATEGORY C ON(F.CATEGORY_CODE = C.CATEGORY_CODE)
+         WHERE F.FUNDING_CODE = #{ code }
     </select>
 </mapper>

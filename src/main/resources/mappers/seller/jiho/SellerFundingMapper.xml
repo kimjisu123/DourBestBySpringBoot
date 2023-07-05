@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.won.dourbest.seller.dao.jiho.SellerMapper">
+<mapper namespace="com.won.dourbest.seller.dao.jiho.SellerFundingMapper">
 
     <resultMap id="planResultMap" type="PlanDTO">
         <id property="planCode" column="PLAN_CODE"/>
@@ -34,9 +34,23 @@
           FROM TBL_PLAN
     </select>
 
+    <select id="insertTagList" resultType="_int">
+        INSERT
+          INTO TBL_FUNDING_TAG
+        (
+          TAG_CODE
+        , FUNDING_CODE
+        )
+        VALUES
+        (
+          #{ num }
+        , SEQ_FUNDING_CODE.CURRVAL
+        )
+    </select>
+
     <select id="selectTag" resultType="_int">
         SELECT
-               COUNT(*)
+               TAG_CODE
           FROM TBL_TAG
          WHERE TAG_NAME = #{ tag }
     </select>
@@ -222,5 +236,6 @@
            SET RETURN_ROLE = #{ refundRule }
          WHERE FUNDING_CODE = #{ fundingCode }
     </update>
+
 
 </mapper>

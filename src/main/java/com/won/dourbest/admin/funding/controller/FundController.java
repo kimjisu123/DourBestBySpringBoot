@@ -3,7 +3,6 @@ package com.won.dourbest.admin.funding.controller;
 
 import com.won.dourbest.admin.funding.dto.AdminFundingDTO;
 import com.won.dourbest.admin.funding.service.FundingListServiceImpl;
-import lombok.extern.java.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -15,10 +14,10 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
-public class FundingController {
+public class FundController {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
     private final FundingListServiceImpl fundingListService;
-    public FundingController(FundingListServiceImpl fundingListService) {
+    public FundController(FundingListServiceImpl fundingListService) {
         this.fundingListService = fundingListService;
     }
 
