@@ -1,7 +1,7 @@
 package com.won.dourbest.seller.service.jiho;
 
 import com.won.dourbest.common.dto.CategoryDTO;
-import com.won.dourbest.seller.dao.jiho.SellerMapper;
+import com.won.dourbest.seller.dao.jiho.SellerFundingMapper;
 import com.won.dourbest.seller.dto.FundingOptionDTO;
 import com.won.dourbest.seller.dto.PlanDTO;
 import org.springframework.stereotype.Service;
@@ -14,9 +14,9 @@ import java.util.Map;
 @Service
 public class SubmitServiceImpl implements SubmitService{
 
-    private SellerMapper sellerMapper;
+    private SellerFundingMapper sellerMapper;
 
-    public SubmitServiceImpl(SellerMapper sellerMapper) {
+    public SubmitServiceImpl(SellerFundingMapper sellerMapper) {
         this.sellerMapper = sellerMapper;
     }
 

@@ -106,4 +106,17 @@ public class MemberServiceImpl implements MemberService {
             throw new IllegalStateException();
         }
     }
+
+    @Override
+    @Transactional(rollbackFor = { Exception.class })
+    public int changePwd(MemberDTO member) {
+
+        int result = mapper.changePwd(member);
+
+        if (result > 0) {
+            return 1;
+        } else {
+            throw new IllegalStateException();
+        }
+    }
 }

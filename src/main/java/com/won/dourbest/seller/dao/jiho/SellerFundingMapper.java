@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 @Mapper
-public interface SellerMapper {
+public interface SellerFundingMapper {
     // 플랜 조회
     List<PlanDTO> allPlan();
 

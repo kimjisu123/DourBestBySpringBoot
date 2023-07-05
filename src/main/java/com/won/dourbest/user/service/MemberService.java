@@ -33,5 +33,7 @@ public interface MemberService extends UserDetailsService {
 //   //회원 탈퇴용 메소드
 //   public void removeMember(MemberDTO member) ;
 
+    int changePwd(MemberDTO member);
+
 
 }

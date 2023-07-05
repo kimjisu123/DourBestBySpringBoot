@@ -36,7 +36,7 @@ public interface MemberMapper {
 
     int updateAddress(Map<String, Object> map);
 
-
+    int changePwd(MemberDTO member);
 
 //    MemberDTO selectMember(MemberDTO member);
 //

@@ -144,6 +144,26 @@ public class MemberController {
     }
 
 
+    // 비밀번호 수정 전에 정보 회원 확인
+    @PostMapping("/checkMemberPw")
+    @Transactional(rollbackFor = { Exception.class })
+    public String checkMemberPw(@AuthenticationPrincipal MemberImpl user, @RequestParam String pwd){
+//        log.info("user = " +  user);
+//        log.info("pwd = " +  pwd);
+        boolean result = passwordEncoder.matches( pwd , user.getPassword());
+//        log.info("result = " + result);
+        if(result) {
+            return "redirect:/mypage/changePwd";
+        } else {
+
+            return "redirect:/mypage/checkMemberPw";
+        }
+    }
+
+
+
+
+
 
 
 

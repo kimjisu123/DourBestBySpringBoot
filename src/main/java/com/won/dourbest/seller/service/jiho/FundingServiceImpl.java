@@ -2,9 +2,12 @@ package com.won.dourbest.seller.service.jiho;
 
 import com.won.dourbest.seller.dao.jiho.FundingMapper;
 import com.won.dourbest.seller.dto.FundingDTO;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
+
+@Service
 
 public class FundingServiceImpl implements FundingService{
 

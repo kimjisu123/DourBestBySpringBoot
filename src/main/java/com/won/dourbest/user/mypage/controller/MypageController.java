@@ -172,7 +172,7 @@ public class MypageController {
 
     }
 
-    // 회원 정보 변경
+    // 회원 정보 변경 전 재로그인 페이지 이동
     @GetMapping("checkMember")
     public String checkmember(@AuthenticationPrincipal MemberImpl user, Model model) {
 
@@ -180,6 +180,17 @@ public class MypageController {
 
 
         return "/user/mypage/checkMember";
+
+    }
+
+    // 비밀번호 변경 전 재로그인 페이지 이동
+    @GetMapping("checkMemberPw")
+    public String checkmemberPw(@AuthenticationPrincipal MemberImpl user, Model model) {
+
+        model.addAttribute("user", user);
+
+
+        return "/user/mypage/checkMemberPw";
 
     }
 
@@ -240,5 +251,33 @@ public class MypageController {
 //        return "user/mypage/quitMember";
 //    }
 
+
+    @GetMapping("/changePwd")    //이동할 페이지
+    public String changePwd(){
+
+        return "user/mypage/changePwd";
+    }
+
+
+
+
+    @PostMapping ("/changePwd")    //이동할 페이지
+    public String changePwd(@AuthenticationPrincipal MemberImpl member, @RequestParam String pwd, @RequestParam String pwdCheck){
+
+        MemberDTO member1 = new MemberDTO();
+        MemberDTO findMember = memberService.findUser(member.getMemberId()).orElseThrow();
+        member1.setMemberId(findMember.getMemberId());  // 기존 회원 id 불러오기 쿼리문필요
+
+        // 두가지가 트루인걸 확인!
+        if(pwd.equals(pwdCheck)){
+
+            member1.setMemberPwd(passwordEncoder.encode(pwd));  // 비밀번호 암호화 안되면 로그인 안됨.
+            memberService.changePwd(member1);
+
+        }
+
+
+        return "user/mypage/changePwd";
+    }
 
 }
