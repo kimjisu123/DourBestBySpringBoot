@@ -19,5 +19,7 @@ public class PurchasedFundingListDTO {
     private Date endDate;
     private Integer reviewCode;
     private int orderCode;
+    private String mainFile;
+    private int rowNum;
 
 }

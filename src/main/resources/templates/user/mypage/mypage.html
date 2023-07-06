@@ -91,7 +91,7 @@
                     <h2>펀딩리스트</h2>
                     <ul class="mypage-list flex-wrapper">
                         <li>
-                            <a href="/main-page/attend-funding.html" class="flex-wrapper">
+                            <a th:href="|@{mypage/purchase-funding}|" class="flex-wrapper">
                                         <span>
                                             <svg xmlns="http://www.w3.org/2000/svg" height="2em" viewBox="0 0 640 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg {
                                                 fill: #f35f4c
@@ -168,7 +168,7 @@
                     <ul class="mypage-list flex-wrapper">
                         <li>
                             <a href="" class="flex-wrapper">
-                                        <span th:text="${mypageInfo.getReadyCount()}">
+                                        <span th:text="${delivery.getReadyCount()}">
                                             0
                                         </span>
                                 <p>배송 준비중</p>
@@ -176,7 +176,7 @@
                         </li>
                         <li>
                             <a href="" class="flex-wrapper">
-                                        <span th:text="${mypageInfo.getIngCount()}">
+                                        <span th:text="${delivery.getIngCount()}">
                                             0
                                         </span>
                                 <p>배송 중</p>
@@ -184,7 +184,7 @@
                         </li>
                         <li>
                             <a href="" class="flex-wrapper">
-                                        <span th:text="${mypageInfo.getFinishCount()}">
+                                        <span th:text="${delivery.getFinishCount()}">
                                             0
                                         </span>
                                 <p>배송 완료</p>

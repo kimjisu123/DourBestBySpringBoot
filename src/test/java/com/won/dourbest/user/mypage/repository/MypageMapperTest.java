@@ -27,9 +27,20 @@ class MypageMapperTest {
 
         String userId = "testuser";
 
-        MypageDTO result = mypageMapper.findById(userId);
+        MypageMainDTO result = mypageMapper.findById(userId);
 
         log.info("resul={}", result);
+
+    }
+
+    @Test
+    void findBydelivery() {
+
+        String userId = "testuser";
+
+        MypageDTO delivery = mypageMapper.findDelivery(userId);
+
+        log.info("resul={}", delivery);
 
     }
 
@@ -61,8 +72,8 @@ class MypageMapperTest {
     @Test
     void findPurchasedFundingById(){
         String userId = "user01";
-        List<PurchasedFundingListDTO> result = mypageMapper.findPurchasedFundingById(userId);
-        log.info("result={}", result);
+//        List<PurchasedFundingListDTO> result = mypageMapper.findPurchasedFundingById(userId);
+//        log.info("result={}", result);
     }
 
     @Test
@@ -106,10 +117,14 @@ class MypageMapperTest {
 
     }
     @Test
-    void valid(){
-        int code = 26;
+    void findByOrder(){
+        int orderCode = 18;
+        String userId="testuser";
+        OrderFundingDTO byOrder = mypageMapper.findByOrder(userId, orderCode);
+        OrderCreditDTO byCredit = mypageMapper.findByCredit(orderCode);
 
-
+        System.out.println("byCredit = " + byCredit);
+        System.out.println("byOrder = " + byOrder);
     }
 
 

@@ -42,7 +42,7 @@
         <result property="couponCount" column="COUPON_COUNT"/>
     </resultMap>
 
-    <resultMap type="MypageDTO" id="MypageResultMap" extends="MypageMainMap">
+    <resultMap id="MypageResultMap" type="MypageDTO">
         <result property="readyCount" column="READY_COUNT"/>
         <result property="ingCount" column="ING_COUNT"/>
         <result property="finishCount" column="FINISH_COUNT"/>
@@ -64,7 +64,40 @@
         <result property="couponDiscount" column="COUPON_DISCOUNT"/>
     </resultMap>
 
+    <resultMap id="OrderFundingResult" type="OrderFundingDTO">
+        <id property="rowNum" column="ROWNUM"/>
+        <result property="orderCode" column="ORDER_CODE"/>
+        <result property="fundingTitle" column="FUNDING_TITLE"/>
+        <result property="fundingCode" column="FUNDING_CODE"/>
+        <result property="fundingSummary" column="FUNDING_SUMMARY"/>
+        <result property="optionName" column="OPTION_NAME"/>
+        <result property="changeDate" column="CHANGE_DATE"/>
+        <result property="fundingStatusName" column="FUNDING_STATUS_NAME"/>
+        <result property="filePath" column="FILE_MODIFICATION_NAME"/>
+    </resultMap>
 
+    <resultMap id="OrderCreditResult" type="OrderCreditDTO">
+        <id property="rowNum" column="ROWNUM"/>
+        <result property="orderPrice" column="ORDER_PRICE"/>
+        <result property="couponListCode" column="COUPONLIST_CODE"/>
+        <result property="paymentCode" column="PAYMENT_CODE"/>
+        <result property="deliveryCharge" column="DELIVERY_CHARGE"/>
+        <result property="carCompany" column="CARD_COMPANY"/>
+        <result property="cardNumber" column="CARD_NUMBER"/>
+        <result property="totalPrice" column="TOTAL_PRICE"/>
+        <result property="pointAmount" column="POINT_AMOUNT"/>
+        <result property="creditStatus" column="CREDIT_STATUS"/>
+        <result property="creditDate" column="CREDIT_DATE"/>
+        <result property="deliveryStatus" column="DELIVERY_STATUS"/>
+        <result property="deliveryDate" column="DELIVERY_DATE"/>
+        <result property="deliveryNumber" column="DELIVERY_NUMBER"/>
+        <result property="memberName" column="MEMBER_NAME"/>
+        <result property="memberPhone" column="MEMBER_PHONE"/>
+        <result property="BaseAddress" column="BASE_ADDRESS"/>
+        <result property="detailAddress" column="DETAIL_ADDRESS"/>
+        <result property="zipCode" column="ZIP_CODE"/>
+    </resultMap>
+    
     <resultMap id="LikeFundingResultMap" type="LikeFundingDTO">
         <id property="fundingCode" column="FUNDING_CODE"/>
         <result property="rowNum" column="RNUM"/>
@@ -81,6 +114,8 @@
         <result property="endDate" column="END_DATE"/>
         <result property="reviewCode" column="REVIEW_CODE"/>
         <result property="orderCode" column="ORDER_CODE"/>
+        <result property="mainFile" column="FILE_MODIFICATION_NAME"/>
+        <result property="rowNum" column="RNUM"/>
     </resultMap>
 
     <resultMap id="FundingResultMap" type="FundingDTO">
@@ -116,6 +151,12 @@
         <result property="categoryName" column="CATEGORY_NAME"/>
     </resultMap>
 
+    <resultMap id="contactCategoryResult" type="CategoryDTO">
+        <id property="categoryCode" column="CATEGORY_CODE"/>
+        <result property="categoryName" column="CATEGORY_NAME"/>
+        <result property="categoryKind" column="CATEGORY_KIND"/>
+    </resultMap>
+
     <sql id="search">
         <if test="cri.searchType != null">
             AND TC.CATEGORY_NAME = #{cri.searchType}
@@ -125,40 +166,46 @@
         </if>
     </sql>
 
-    <select id="findById" resultMap="MypageResultMap">
+    <select id="findById" resultMap="MypageMainMap">
         SELECT
-            T1.MEMBER_ID,
-            T1.MEMBER_NAME,
-            T1.MEMBERSHIP_NAME,
-            T1.POINT_TOTAL_AMOUNT,
-            T1.COUPON_COUNT,
-            T1.READY_COUNT,
-            T1.ING_COUNT,
-            T1.FINISH_COUNT
-        FROM (SELECT
-                  M.MEMBER_ID,
-                  M.MEMBER_NAME,
-                  TM.MEMBERSHIP_NAME,
-                  NVL(PL.POINT_TOTAL_AMOUNT,0) POINT_TOTAL_AMOUNT,
-                  (SELECT COUNT(COUPON_CODE) FROM TBL_COUPONLIST TCL WHERE MEMBER_CODE = (SELECT MEMBER_CODE
-                                                                                          FROM TBL_MEMBER
-                                                                                          WHERE MEMBER_ID = #{ userId })
-                                                                       AND TCL.COUPON_REGI_STATUS = 'Y'
-                  ) COUPON_COUNT,
-                  COUNT(DECODE(D.DELIVERY_STATUS, '배송준비중','1')) READY_COUNT,
-                  COUNT(DECODE(D.DELIVERY_STATUS, '배송중','1')) ING_COUNT,
-                  COUNT(DECODE(D.DELIVERY_STATUS, '배송완료','1')) FINISH_COUNT
-              FROM TBL_MEMBER M
-                       LEFT JOIN TBL_MEMBERSHIP TM ON (M.MEMBERSHIP_CODE = TM.MEMBERSHIP_CODE)
-                       LEFT JOIN TBL_ORDER O ON (M.MEMBER_CODE = O.MEMBER_CODE)
-                       LEFT JOIN TBL_CREDIT T ON (O.ORDER_CODE = T.ORDER_CODE)
-                       left JOIN TBL_DELIVERY TD ON (T.PAYMENT_CODE = TD.PAYMENT_CODE)
-                       left JOIN TBL_DELIVERYLIST D ON (TD.DELIVERY_CODE = D.DELIVERY_CODE)
-                       LEFT JOIN TBL_POINTLIST PL ON (M.MEMBER_CODE = PL.MEMBER_CODE)
-              where M.MEMBER_ID = #{ userId }
-              group by M.MEMBER_ID, M.MEMBER_NAME, TM.MEMBERSHIP_NAME, PL.POINT_TOTAL_AMOUNT
-              ORDER BY PL.POINT_TOTAL_AMOUNT DESC) T1
-        WHERE ROWNUM = 1
+            M.MEMBER_ID,
+            M.MEMBER_NAME,
+            TM.MEMBERSHIP_NAME,
+            NVL(PL.POINT_TOTAL_AMOUNT,0) POINT_TOTAL_AMOUNT,
+            (SELECT COUNT(COUPON_CODE) FROM TBL_COUPONLIST TCL WHERE MEMBER_CODE = (SELECT MEMBER_CODE
+                                                                                    FROM TBL_MEMBER
+                                                                                    WHERE MEMBER_ID = #{userId})
+                                                                 AND TCL.COUPON_REGI_STATUS = 'Y'
+            ) COUPON_COUNT
+        FROM TBL_MEMBER M
+                 LEFT JOIN TBL_MEMBERSHIP TM ON (M.MEMBERSHIP_CODE = TM.MEMBERSHIP_CODE)
+                 LEFT JOIN TBL_ORDER O ON (M.MEMBER_CODE = O.MEMBER_CODE)
+                 LEFT JOIN TBL_POINTLIST PL ON (M.MEMBER_CODE = PL.MEMBER_CODE)
+        where M.MEMBER_ID = #{userId}
+        group by M.MEMBER_ID, M.MEMBER_NAME, TM.MEMBERSHIP_NAME, PL.POINT_TOTAL_AMOUNT
+        ORDER BY PL.POINT_TOTAL_AMOUNT DESC
+    </select>
+
+    <select id="findDelivery" resultMap="MypageResultMap">
+        SELECT
+            COUNT(DECODE(A.DELIVERY_STATUS,'배송준비중','1')) READY_COUNT,
+            COUNT(DECODE(A.DELIVERY_STATUS,'배송 중','1')) ING_COUNT,
+            COUNT(DECODE(A.DELIVERY_STATUS,'배송완료','1')) FINISH_COUNT
+        FROM(
+                select
+                    D.DELIVERY_STATUS,
+                    D.DELIVERY_DATE,
+                    ROW_NUMBER() over (PARTITION BY D.DELIVERY_CODE ORDER BY D.DELIVERY_DATE DESC) AS RN,
+                        D.DELIVERY_CODE
+                from TBL_MEMBER M
+                         LEFT JOIN TBL_ORDER O ON (M.MEMBER_CODE = O.MEMBER_CODE)
+                         LEFT JOIN TBL_CREDIT T ON (O.ORDER_CODE = T.ORDER_CODE)
+                         left JOIN TBL_DELIVERY TD ON (T.PAYMENT_CODE = TD.PAYMENT_CODE)
+                         left JOIN TBL_DELIVERYLIST D ON (TD.DELIVERY_CODE = D.DELIVERY_CODE)
+                         LEFT JOIN TBL_POINTLIST PL ON (M.MEMBER_CODE = PL.MEMBER_CODE)
+                WHERE M.MEMBER_ID = #{userId}
+                ORDER BY D.DELIVERY_DATE DESC)A
+        WHERE RN = 1
     </select>
 
     <select id="findByCoupon" resultMap="CoupListResultMap">
@@ -271,18 +318,57 @@
     </select>
 
     <select id="findPurchasedFundingById" resultMap="PurchasedFundingResultMap">
-        SELECT DISTINCT
-            TF.FUNDING_TITLE,
-            TF.FUNDING_SUMMARY,
-            TF.END_DATE,
-            TR.REVIEW_CODE,
-            O.ORDER_CODE
-        FROM TBL_MEMBER M
-                 LEFT JOIN TBL_PURCHASED_FUNDING_LIST TPFL ON M.MEMBER_CODE = TPFL.MEMBER_CODE
-                 LEFT JOIN TBL_FUNDING TF on TPFL.FUNDING_CODE = TF.FUNDING_CODE
-                 LEFT JOIN TBL_ORDER O on M.MEMBER_CODE = O.MEMBER_CODE
-                 LEFT JOIN TBL_REVIEW TR on M.MEMBER_CODE = TR.MEMBER_CODE
-        WHERE M.MEMBER_ID = #{userId}
+        SELECT
+            B.RNUM,
+            B.FUNDING_CODE,
+            B.FUNDING_TITLE,
+            B.FUNDING_SUMMARY,
+            B.END_DATE,
+            B.REVIEW_CODE,
+            B.ORDER_CODE,
+            B.FILE_MODIFICATION_NAME
+            FROM (
+                SELECT
+                    ROWNUM RNUM,
+                    A.FUNDING_CODE,
+                    A.FUNDING_TITLE,
+                    A.FUNDING_SUMMARY,
+                    A.END_DATE,
+                    A.REVIEW_CODE,
+                    A.ORDER_CODE,
+                    A.FILE_MODIFICATION_NAME
+                FROM(
+                    SELECT DISTINCT
+                        TF.FUNDING_CODE,
+                        TF.FUNDING_TITLE,
+                        TF.FUNDING_SUMMARY,
+                        TF.END_DATE,
+                        TR.REVIEW_CODE,
+                        O.ORDER_CODE,
+                        TFF.FILE_MODIFICATION_NAME
+                    FROM TBL_MEMBER M
+                        LEFT JOIN TBL_PURCHASED_FUNDING_LIST TPFL ON M.MEMBER_CODE = TPFL.MEMBER_CODE
+                        LEFT JOIN TBL_FUNDING TF on TPFL.FUNDING_CODE = TF.FUNDING_CODE
+                        LEFT JOIN TBL_FUNDING_FILE TFF ON TF.FUNDING_CODE = TFF.FUNDING_CODE
+                        LEFT JOIN TBL_ORDER O on M.MEMBER_CODE = O.MEMBER_CODE
+                        LEFT JOIN TBL_REVIEW TR on M.MEMBER_CODE = TR.MEMBER_CODE
+                    WHERE M.MEMBER_ID = #{ userId }
+                    AND TFF.FILE_TYPE='메인'
+                    <if test="cri.order != null">
+                        <![CDATA[
+                                 AND TF.END_DATE < SYSDATE
+                             ]]>
+                    </if>
+                    <if test="cri.status != null">
+                        AND TR.REVIEW_CODE IS NOT NULL
+                    </if>
+                    ) A
+                <![CDATA[
+                    WHERE ROWNUM <= #{ cri.rowEnd }
+                ]]>
+                ) B
+        WHERE B.RNUM >= 1
+        ORDER BY 1 ASC
     </select>
 
     <select id="findInquireAllById" resultMap="InquireResult">
@@ -463,6 +549,26 @@
                 AND TC.CATEGORY_NAME = #{cri.searchType}
             </if>
         </if>
+        <if test="name == 'purchase'">
+            SELECT
+                COUNT( DISTINCT O.ORDER_CODE)
+            FROM TBL_MEMBER M
+            LEFT JOIN TBL_PURCHASED_FUNDING_LIST TPFL ON M.MEMBER_CODE = TPFL.MEMBER_CODE
+            LEFT JOIN TBL_FUNDING TF on TPFL.FUNDING_CODE = TF.FUNDING_CODE
+            LEFT JOIN TBL_FUNDING_FILE TFF ON TF.FUNDING_CODE = TFF.FUNDING_CODE
+            LEFT JOIN TBL_ORDER O on M.MEMBER_CODE = O.MEMBER_CODE
+            LEFT JOIN TBL_REVIEW TR on M.MEMBER_CODE = TR.MEMBER_CODE
+            WHERE M.MEMBER_ID = #{ userId }
+            AND TFF.FILE_TYPE='메인'
+            <if test="cri.order != null">
+                <![CDATA[
+                                 AND TF.END_DATE < SYSDATE
+                             ]]>
+            </if>
+            <if test="cri.status != null">
+                AND TR.REVIEW_CODE IS NOT NULL
+            </if>
+        </if>
     </select>
 
     <update id="updateCouponStatus" parameterType="_int">
@@ -472,6 +578,102 @@
         AND TCL.COUPON_REGI_STATUS ='N'
     </update>
 
+    <select id="findByOrder" resultMap="OrderFundingResult">
+        SELECT
+            ROWNUM,
+            A.ORDER_CODE,
+            A.FUNDING_TITLE,
+            A.FUNDING_CODE,
+            A.FUNDING_SUMMARY,
+            A.OPTION_NAME,
+            A.CHANGE_DATE,
+            A.FUNDING_STATUS_NAME,
+            A.FILE_MODIFICATION_NAME
+        FROM
+            (SELECT
+                 O.ORDER_CODE,
+                 TF.FUNDING_CODE,
+                 TF.FUNDING_TITLE,
+                 TF.FUNDING_SUMMARY,
+                 FO.OPTION_NAME,
+                 TFS.CHANGE_DATE,
+                 TS.FUNDING_STATUS_NAME,
+                 TFF.FILE_MODIFICATION_NAME
+             FROM TBL_ORDER O
+                      JOIN TBL_MEMBER M ON O.MEMBER_CODE = M.MEMBER_CODE
+                      LEFT JOIN TBL_FUNDING TF on O.FUNDING_CODE = TF.FUNDING_CODE
+                      LEFT JOIN TBL_FUNDING_OPTIONS FO ON O.FUNDING_OPTION_CODE = FO.FUNDING_OPTION_CODE
+                      LEFT JOIN TBL_FUNDING_FILE TFF on TF.FUNDING_CODE = TFF.FUNDING_CODE
+                      LEFT JOIN TBL_FUNDING_STATUSLIST TFS on TF.FUNDING_CODE = TFS.FUNDING_CODE
+                      LEFT JOIN TBL_FUNDING_STATUS TS ON TFS.FUNDING_STATUS_CODE = TS.FUNDING_STATUS_CODE
+             WHERE M.MEMBER_ID = #{userId}
+               and o.ORDER_CODE = #{orderCode}
+             ORDER BY TFS.CHANGE_DATE DESC) A
+        WHERE ROWNUM = 1
+    </select>
+
+    <select id="findByCredit" resultMap="OrderCreditResult">
+        SELECT ROWNUM,
+               A.ORDER_PRICE,
+               A.COUPONLIST_CODE,
+               A.DELIVERY_CHARGE,
+               A.PAYMENT_CODE,
+               A.CARD_COMPANY,
+               A.CARD_NUMBER,
+               A.TOTAL_PRICE,
+               A.POINT_AMOUNT ,
+               A.CREDIT_STATUS,
+               A.CREDIT_DATE,
+               A.DELIVERY_STATUS,
+               A.DELIVERY_DATE,
+               A.DELIVERY_NUMBER,
+               A.MEMBER_NAME,
+               A.MEMBER_PHONE,
+               A.BASE_ADDRESS,
+               A.DETAIL_ADDRESS,
+               A.ZIP_CODE
+        FROM
+            (SELECT
+                 O.ORDER_PRICE,
+                 NVL(O.COUPONLIST_CODE,0) COUPONLIST_CODE,
+                 O.DELIVERY_CHARGE,
+                 TC.PAYMENT_CODE,
+                 TC.CARD_COMPANY,
+                 TC.CARD_NUMBER,
+                 TC.TOTAL_PRICE,
+                 NVL(DECODE(TP.POINT_STATUS, '사용', TP.POINT_AMOUNT),0) POINT_AMOUNT ,
+                 TFC.CREDIT_STATUS,
+                 TFC.CREDIT_DATE,
+                 T.DELIVERY_STATUS,
+                 T.DELIVERY_DATE,
+                 TD.DELIVERY_NUMBER,
+                 M.MEMBER_NAME,
+                 M.MEMBER_PHONE,
+                 TA.BASE_ADDRESS,
+                 TA.DETAIL_ADDRESS,
+                 TA.ZIP_CODE
+             FROM TBL_CREDIT TC
+                      LEFT JOIN TBL_ORDER O on TC.ORDER_CODE = O.ORDER_CODE
+                      LEFT JOIN TBL_MEMBER M ON O.MEMBER_CODE = M.MEMBER_CODE
+                      LEFT JOIN TBL_ADDRESS TA on M.MEMBER_CODE = TA.MEMBER_CODE
+                      LEFT JOIN TBL_FUNDING_CREDITLIST TFC on TC.PAYMENT_CODE = TFC.PAYMENT_CODE
+                      LEFT JOIN TBL_POINTLIST TP ON O.ORDER_CODE = TP.ORDER_CODE
+                      LEFT JOIN TBL_DELIVERY TD on TC.PAYMENT_CODE = TD.PAYMENT_CODE
+                      LEFT JOIN TBL_DELIVERYLIST T on TD.DELIVERY_CODE = T.DELIVERY_CODE
+             WHERE O.ORDER_CODE = #{ orderCode }
+               AND TP.POINT_STATUS IS NULL
+             ORDER BY T.DELIVERY_DATE DESC
+            ) A
+        WHERE ROWNUM = 1
+    </select>
+
+    <select id="contactCategory" resultMap="contactCategoryResult">
+        SELECT
+            TC.CATEGORY_CODE,
+            TC.CATEGORY_NAME
+            FROM TBL_CATEGORY TC
+        WHERE TC.CATEGORY_KIND='판매자 문의'
+    </select>
 
 
 </mapper>

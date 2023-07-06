@@ -41,8 +41,6 @@ public class MypageController {
 
     private final MemberService memberService;
 
-    private final PasswordEncoder passwordEncoder;
-
     @GetMapping
     public String mypage(Model model, @AuthenticationPrincipal MemberImpl member) {
 
@@ -50,12 +48,11 @@ public class MypageController {
         /* 세션에서 멤버 가져와서 id 값을 이용하자 */
         String userId = member.getUsername();
         log.info("userId={}", userId);
+        Map<String, Object> mypageInfo = mypageService.myPageinfo(userId);
 
-        MypageDTO mypageInfo = mypageService.myPageinfo(userId);
 
-        model.addAttribute("mypageInfo", mypageInfo);
-        log.info("mypageInfo={}", mypageInfo);
-
+        model.addAttribute("mypageInfo", mypageInfo.get("mypageMain"));
+        model.addAttribute("delivery", mypageInfo.get("delivery"));
 
         return "user/mypage/mypage";
     }
@@ -93,6 +90,28 @@ public class MypageController {
         model.addAttribute("pagination", pagination);
 
         return "user/mypage/sellerInquire";
+    }
+    @GetMapping("/purchase-funding")
+    public String purchaseList(@AuthenticationPrincipal MemberImpl member, @ModelAttribute("cri") SearchCriteria criteria, Model model) {
+
+        //세션으로부터 받자
+        String userId = member.getUsername();
+
+        Pagination pagination = new Pagination(criteria, mypageService.listTotalCount(criteria, userId, "purchase"));
+
+        List<PurchasedFundingListDTO> list = mypageService.purchaseList(criteria, userId);
+        log.info("list={}", list);
+        
+        list.forEach(li-> System.out.println("li.getMainFile() = " + li.getMainFile()));
+        
+        
+        List<CategoryDTO> category = commonService.fundingCategory();
+
+        model.addAttribute("category", category);
+        model.addAttribute("list", list);
+        model.addAttribute("pagination", pagination);
+
+        return "user/mypage/purchase";
     }
 
     @GetMapping("/inquire")
@@ -228,17 +247,16 @@ public class MypageController {
         return "user/mypage/quitMember";
     }
 
-// 탈퇴
-//    @PostMapping("quitMember")    //이동할 페이지
-//    public String quitMember(@AuthenticationPrincipal MemberImpl user, Model model) {
-//
-//     MemberDTO mypageInfo = memberService.findUser(user.getMemberId()).orElseThrow();
-//       model.addAttribute("mypageInfo", mypageInfo);  //멤버 배송지 모두 담겨있음.
-//        model.addAttribute("user", user);
-//       log.info("memberName" , mypageInfo);
-//
-//        return "user/mypage/quitMember";
-//    }
+    @GetMapping("/purchase-funding/{id}")
+    public String OrderDetail(@AuthenticationPrincipal MemberImpl user, @PathVariable int id, Model model){
 
+        Map<String, Object> result = mypageService.OrderAndCreditInfo(user.getUsername(), id);
+
+        model.addAttribute("order",(OrderFundingDTO) result.get("order"));
+        model.addAttribute("credit",(OrderCreditDTO) result.get("credit"));
+        model.addAttribute("contactCategory", result.get("contactCategory"));
+
+        return "user/order/funding-detail";
+    }
 
 }

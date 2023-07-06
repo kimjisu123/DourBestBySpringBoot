@@ -1,5 +1,6 @@
 package com.won.dourbest.user.mypage.service;
 
+import com.won.dourbest.common.dto.CategoryDTO;
 import com.won.dourbest.common.dto.SearchCriteria;
 import com.won.dourbest.common.exception.user.CouponNotFoundException;
 import com.won.dourbest.user.dto.*;
@@ -9,7 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -19,8 +22,15 @@ public class MypageServiceImple implements MypageService{
     private final MypageMapper mypageMapper;
 
     @Override
-    public MypageDTO myPageinfo(String userId) {
-        return mypageMapper.findById(userId);
+    @Transactional
+    public Map<String,Object> myPageinfo(String userId) {
+        HashMap<String, Object> mypageInfo = new HashMap<>();
+        MypageMainDTO mypageMain = mypageMapper.findById(userId);
+        MypageDTO delivery = mypageMapper.findDelivery(userId);
+        mypageInfo.put("mypageMain",mypageMain);
+        mypageInfo.put("delivery",delivery);
+
+        return mypageInfo;
     }
 
 
@@ -51,6 +61,11 @@ public class MypageServiceImple implements MypageService{
     }
 
     @Override
+    public List<PurchasedFundingListDTO> purchaseList(SearchCriteria searchCriteria, String userId) {
+        return mypageMapper.findPurchasedFundingById(searchCriteria,userId);
+    }
+
+    @Override
     public int listTotalCount(SearchCriteria searchCriteria, String userId, String name) {
         return mypageMapper.listCount(searchCriteria, userId, name);
     }
@@ -65,7 +80,21 @@ public class MypageServiceImple implements MypageService{
         return result;
     }
 
+    @Override
+    @Transactional
+    public Map<String, Object> OrderAndCreditInfo(String userId, int orderCode) {
 
+        OrderFundingDTO byOrder = mypageMapper.findByOrder(userId, orderCode);
+        OrderCreditDTO byCredit = mypageMapper.findByCredit(orderCode);
+        List<CategoryDTO> category = mypageMapper.contactCategory();
+
+        Map<String,Object> info = new HashMap<>();
+        info.put("order", byOrder);
+        info.put("credit", byCredit);
+        info.put("contactCategory", category);
+
+        return info;
+    }
 
 
 }

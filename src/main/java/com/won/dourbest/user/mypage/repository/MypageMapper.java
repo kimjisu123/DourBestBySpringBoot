@@ -1,5 +1,6 @@
 package com.won.dourbest.user.mypage.repository;
 
+import com.won.dourbest.common.dto.CategoryDTO;
 import com.won.dourbest.common.dto.Criteria;
 import com.won.dourbest.common.dto.SearchCriteria;
 import com.won.dourbest.user.dto.*;
@@ -13,14 +14,15 @@ import java.util.Optional;
 @Mapper
 public interface MypageMapper {
 
-    MypageDTO findById(String userId);
+    MypageMainDTO findById(String userId);
 
+    MypageDTO findDelivery(String userId);
 
     List<MemberCouponList> findByCoupon(@Param("cri") SearchCriteria searchCriteria, @Param("userId") String userId);
 
     List<LikeFundingDTO> findLikeFundingById(@Param("cri") SearchCriteria searchCriteria, @Param("userId") String userId);
 
-    List<PurchasedFundingListDTO> findPurchasedFundingById(String userId);
+    List<PurchasedFundingListDTO> findPurchasedFundingById(@Param("cri") SearchCriteria searchCriteria, @Param("userId") String userId);
 
     List<MemberInquireListDTO> findInquireAllById(@Param("cri") SearchCriteria searchCriteria, @Param("userId") String userId);
 
@@ -31,4 +33,11 @@ public interface MypageMapper {
     int listCount(@Param("cri") SearchCriteria searchCriteria, @Param("userId") String userId, @Param("name") String name);
 
     int updateCouponStatus (int code);
+
+    OrderFundingDTO findByOrder(@Param("userId") String userId, @Param("orderCode") int orderCode);
+
+    OrderCreditDTO findByCredit(int orderCode);
+
+    List<CategoryDTO> contactCategory();
+
 }
