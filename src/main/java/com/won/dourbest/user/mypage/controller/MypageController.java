@@ -91,28 +91,6 @@ public class MypageController {
 
         return "user/mypage/sellerInquire";
     }
-    @GetMapping("/purchase-funding")
-    public String purchaseList(@AuthenticationPrincipal MemberImpl member, @ModelAttribute("cri") SearchCriteria criteria, Model model) {
-
-        //세션으로부터 받자
-        String userId = member.getUsername();
-
-        Pagination pagination = new Pagination(criteria, mypageService.listTotalCount(criteria, userId, "purchase"));
-
-        List<PurchasedFundingListDTO> list = mypageService.purchaseList(criteria, userId);
-        log.info("list={}", list);
-        
-        list.forEach(li-> System.out.println("li.getMainFile() = " + li.getMainFile()));
-        
-        
-        List<CategoryDTO> category = commonService.fundingCategory();
-
-        model.addAttribute("category", category);
-        model.addAttribute("list", list);
-        model.addAttribute("pagination", pagination);
-
-        return "user/mypage/purchase";
-    }
 
     @GetMapping("/inquire")
     public String adminInquire(@AuthenticationPrincipal MemberImpl member, @ModelAttribute("cri") SearchCriteria criteria, Model model) {
@@ -167,6 +145,28 @@ public class MypageController {
 
         return "user/mypage/like";
     }
+
+    @GetMapping("/purchase-funding")
+    public String purchaseList(@AuthenticationPrincipal MemberImpl member, @ModelAttribute("cri") SearchCriteria criteria, Model model) {
+
+        //세션으로부터 받자
+        String userId = member.getUsername();
+
+        Pagination pagination = new Pagination(criteria, mypageService.listTotalCount(criteria, userId, "like"));
+
+        List<PurchasedFundingListDTO> list = mypageService.purchaseList(criteria, userId);
+        log.info("list={}", list);
+        List<CategoryDTO> category = commonService.fundingCategory();
+
+        model.addAttribute("category", category);
+        model.addAttribute("list", list);
+        model.addAttribute("pagination", pagination);
+
+        return "user/mypage/purchase";
+    }
+
+
+
 
     @PostMapping(value = "/coupon/regist", produces = "application/json")
     @ResponseBody

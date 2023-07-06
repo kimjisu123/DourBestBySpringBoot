@@ -33,7 +33,6 @@ public class MypageServiceImple implements MypageService{
         return mypageInfo;
     }
 
-
     @Override
     public List<MemberCouponList> allCoupon(SearchCriteria searchCriteria, String userId) {
         return mypageMapper.findByCoupon(searchCriteria, userId);
@@ -56,13 +55,13 @@ public class MypageServiceImple implements MypageService{
     }
 
     @Override
-    public List<LikeFundingDTO> likeFundingList(SearchCriteria searchCriteria, String userId) {
-        return mypageMapper.findLikeFundingById(searchCriteria,userId);
+    public List<PurchasedFundingListDTO> purchaseList(SearchCriteria searchCriteria, String userId) {
+        return mypageMapper.findPurchasedFundingById(searchCriteria,userId);
     }
 
     @Override
-    public List<PurchasedFundingListDTO> purchaseList(SearchCriteria searchCriteria, String userId) {
-        return mypageMapper.findPurchasedFundingById(searchCriteria,userId);
+    public List<LikeFundingDTO> likeFundingList(SearchCriteria searchCriteria, String userId) {
+        return mypageMapper.findLikeFundingById(searchCriteria,userId);
     }
 
     @Override

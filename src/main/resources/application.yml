@@ -4,7 +4,7 @@ server:
 mybatis:
   # mapper.xml location Setting
   mapper-locations: mappers/**/*Mapper.xml  # alias Setting
-  type-aliases-package: com.won.dourbest.seller.dto, com.won.dourbest.user.dto, com.won.dourbest.admin.account.dto, com.won.dourbest.common.dto
+  type-aliases-package: com.won.dourbest.seller.dto, com.won.dourbest.user.dto, com.won.dourbest.admin.account.dto, com.won.dourbest.common.dto, com.won.dourbest.main.model.dto
   configuration:
     map-underscore-to-camel-case: true
 

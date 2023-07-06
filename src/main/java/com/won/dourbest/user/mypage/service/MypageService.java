@@ -19,8 +19,9 @@ public interface MypageService {
 
     public List<MemberReportListDTO> reportList(SearchCriteria searchCriteria, String userId);
 
-    List<LikeFundingDTO> likeFundingList(SearchCriteria searchCriteria, String userId);
     public List<PurchasedFundingListDTO> purchaseList(SearchCriteria searchCriteria, String userId);
+
+    List<LikeFundingDTO> likeFundingList(SearchCriteria searchCriteria, String userId);
 
     public int listTotalCount(SearchCriteria searchCriteria, String userId, String name);
 

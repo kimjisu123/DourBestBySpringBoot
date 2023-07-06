@@ -97,7 +97,7 @@
         <result property="detailAddress" column="DETAIL_ADDRESS"/>
         <result property="zipCode" column="ZIP_CODE"/>
     </resultMap>
-    
+
     <resultMap id="LikeFundingResultMap" type="LikeFundingDTO">
         <id property="fundingCode" column="FUNDING_CODE"/>
         <result property="rowNum" column="RNUM"/>
@@ -114,8 +114,6 @@
         <result property="endDate" column="END_DATE"/>
         <result property="reviewCode" column="REVIEW_CODE"/>
         <result property="orderCode" column="ORDER_CODE"/>
-        <result property="mainFile" column="FILE_MODIFICATION_NAME"/>
-        <result property="rowNum" column="RNUM"/>
     </resultMap>
 
     <resultMap id="FundingResultMap" type="FundingDTO">

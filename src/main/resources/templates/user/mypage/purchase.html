@@ -5,36 +5,25 @@
   <link rel="stylesheet" th:href="@{/css/common/item-card.css}">
   <link rel="stylesheet" th:href="@{/css/common/board.css}">
 </head>
-<main>
-  <div class="page-wrapper">
-    <section>
-      <div class="page-title">
-        <h1>참여한 펀딩</h1>
-      </div>
-      <div class="filter-wrapper">
-        <ul>
-          <li>
-            <a th:href="|@{/mypage/purchase-funding}|">
-              전체
-            </a>
-          </li>
-          <!--            <li>-->
-          <!--              <a th:href="|@{/mypage/coupon(status='N')}|">-->
-          <!--                진행중인 펀딩-->
-          <!--              </a>-->
-          <!--            </li>-->
-          <li>
-            <a th:href="|@{/mypage/purchase-funding(order='Y')}|">
-              완료된 펀딩
-            </a>
-          </li>
-          <li>
-            <a th:href="|@{/mypage/purchase-funding(status='Y')}|">
-              후기 미작성
-            </a>
-          </li>
-        </ul>
-      </div>
+  <main>
+    <div class="page-wrapper">
+      <section>
+        <div class="page-title">
+          <h1>관심 펀딩</h1>
+        </div>
+        <div class="filter-wrapper">
+          <ul>
+            <li>
+              <a th:href="|@{/mypage/like-funding}|">
+                전체
+              </a>
+            </li>
+            <li th:each=" cate : ${category}">
+              <a th:href="|@{/mypage/like-funding(searchType=${cate.categoryName})}|" th:text="${cate.categoryName}">
+              </a>
+            </li>
+          </ul>
+        </div>
 
       <div class="page-container">
         <div class="page-content">
@@ -46,7 +35,6 @@
             <div class="item" th:each="funding : ${list}">
               <a th:href="@{/mypage/purchase-funding/{id}(id=${funding.orderCode})}" class="card">
                 <div class="thumb" th:style="'background-image: url('+@{/fundingImg/}+${funding.mainFile}+')'" ></div>
-
                 <article>
                   <h1 th:text="${funding.fundingTitle}">item1</h1>
                   <p th:text="${funding.fundingSummary}">설명</p>
