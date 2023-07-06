@@ -1,6 +1,7 @@
 package com.won.dourbest.admin.notice.service;
 
 
+import com.won.dourbest.admin.common.SelectCriteria;
 import com.won.dourbest.admin.notice.dao.NoticeMapper;
 import com.won.dourbest.admin.notice.dto.AdminNoticeDTO;
 import com.won.dourbest.admin.notice.dto.AdminEventDTO;
@@ -9,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class NoticeServiceImpl implements NoticeService{
@@ -22,9 +24,9 @@ public class NoticeServiceImpl implements NoticeService{
 
     // 공지사항 조회
     @Override
-    public List<AdminNoticeDTO> selectNoticeList() {
+    public List<AdminNoticeDTO> selectNoticeList(SelectCriteria selectCriteria) {
 
-        List<AdminNoticeDTO> adminNoticeList = mapper.selectNoticeList();
+        List<AdminNoticeDTO> adminNoticeList = mapper.selectNoticeList(selectCriteria);
 
         for (int i = 0; i < adminNoticeList.size(); i++){
 
@@ -38,9 +40,9 @@ public class NoticeServiceImpl implements NoticeService{
 
     // 진행중인 이벤트 조회
     @Override
-    public List<AdminEventDTO> selectOngoingEventList() {
+    public List<AdminEventDTO> selectOngoingEventList(SelectCriteria selectCriteria) {
 
-        List<AdminEventDTO> adminNoticeList = mapper.selectOngoingEventList();
+        List<AdminEventDTO> adminNoticeList = mapper.selectOngoingEventList(selectCriteria);
 
         for (int i = 0; i < adminNoticeList.size(); i++){
 
@@ -52,14 +54,22 @@ public class NoticeServiceImpl implements NoticeService{
 
     // 종료된 이벤트 조회
     @Override
-    public List<AdminEventDTO> selectFinshedEventList() {
+    public List<AdminEventDTO> selectFinshedEventList(SelectCriteria selectCriteria) {
 
-        List<AdminEventDTO> finshedEventList = mapper.selectFinshedEventList();
+        List<AdminEventDTO> finshedEventList = mapper.selectFinshedEventList(selectCriteria);
 
         for (int i = 0; i < finshedEventList.size(); i++){
 
             finshedEventList.get(i).setEventTitle(finshedEventList.get(i).getEventTitle().substring(0, 35));
         }
         return finshedEventList;
+    }
+
+    @Override
+    public int selectTotalPage(Map<String, String> searchMap) {
+
+        int result = mapper.selectTotalPage(searchMap);
+
+        return result;
     }
 }

@@ -1,7 +1,7 @@
 package com.won.dourbest.seller.service.jiho;
 
 import com.won.dourbest.common.dto.CategoryDTO;
-import com.won.dourbest.seller.dao.jiho.SellerFundingMapper;
+import com.won.dourbest.seller.dao.jiho.SellerMapper;
 import com.won.dourbest.seller.dto.FundingOptionDTO;
 import com.won.dourbest.seller.dto.PlanDTO;
 import org.springframework.stereotype.Service;
@@ -53,7 +53,7 @@ public class SubmitServiceImpl implements SubmitService{
     @Override
     public List<CategoryDTO> getFundCategory() {
 
-        return sellerFundingMapper.getFundCategory();
+        return sellerMapper.getFundCategory();
     }
 
     @Override
@@ -95,7 +95,7 @@ public class SubmitServiceImpl implements SubmitService{
     @Override
     public int insertOption(FundingOptionDTO option) {
 
-        int result = sellerFundingMapper.insertOption(option);
+        int result = sellerMapper.insertOption(option);
 
         int num = 0;
 
@@ -111,7 +111,7 @@ public class SubmitServiceImpl implements SubmitService{
     @Override
     public int deleteOption(Map<String, String> map) {
 
-        int result = sellerFundingMapper.deleteOption(map);
+        int result = sellerMapper.deleteOption(map);
 
         return result > 0? 1 : 0;
     }
@@ -119,7 +119,7 @@ public class SubmitServiceImpl implements SubmitService{
     @Override
     public int updateSeller(Map<String, Object> map) {
 
-        int result = sellerFundingMapper.updateSeller(map);
+        int result = sellerMapper.updateSeller(map);
 
         return result > 0? 1 : 0;
     }
@@ -127,7 +127,7 @@ public class SubmitServiceImpl implements SubmitService{
     @Override
     public int updateFunding(Map<String, Object> map) {
 
-        int result = sellerFundingMapper.updateFunding(map);
+        int result = sellerMapper.updateFunding(map);
 
         return result > 0? 1 : 0;
     }

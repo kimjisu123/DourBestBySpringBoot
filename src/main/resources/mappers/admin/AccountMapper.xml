@@ -5,7 +5,7 @@
 <mapper namespace="com.won.dourbest.admin.account.dao.AdminMapper">
 
 
-    <resultMap id="accountResultMap" type="com.won.dourbest.admin.account.dto.AccountDTO">
+    <resultMap id="accountResultMap" type="AccountDTO">
         <result property="memberId" column="MEMBER_ID"/>
         <result property="memberName" column="MEMBER_NAME"/>
         <result property="memberPhone" column="MEMBER_PHONE"/>
@@ -14,7 +14,7 @@
         <result property="sellerCode" column="SELLER_CODE"/>
     </resultMap>
 
-    <resultMap id="FundingPaymentResultMap" type="com.won.dourbest.admin.account.dto.FundingPaymentDTO">
+    <resultMap id="FundingPaymentResultMap" type="FundingPaymentDTO">
     <result property="memberId" column="MEMBER_ID"/>
     <result property="memberEmail" column="MEMBER_EMAIL"/>
     <result property="memberName" column="MEMBER_NAME"/>
@@ -23,7 +23,7 @@
     <result property="cteditDate" column="CREDIT_DATE"/>
     </resultMap>
 
-    <resultMap id="MembershipPaymentResultMap" type="com.won.dourbest.admin.account.dto.MembershipPaymentDTO">
+    <resultMap id="MembershipPaymentResultMap" type="MembershipPaymentDTO">
         <result property="memberId" column="MEMBER_ID"/>
         <result property="memberEmail" column="MEMBER_EMAIL"/>
         <result property="memberName" column="MEMBER_NAME"/>
@@ -32,7 +32,7 @@
         <result property="paymentDate" column="PAYMENT_DATE"/>
     </resultMap>
 
-    <resultMap id="BlacklistResultMap" type="com.won.dourbest.admin.account.dto.BlcaklistDTO">
+    <resultMap id="BlacklistResultMap" type="BlcaklistDTO">
         <result property="memberId" column="MEMBER_ID"/>
         <result property="memberEmail" column="MEMBER_EMAIL"/>
         <result property="memberName" column="MEMBER_NAME"/>
@@ -41,14 +41,14 @@
         <result property="addtionalDate" column="ADDITIONAL_DATE"/>
     </resultMap>
 
-    <resultMap id="AdminAccountResultMap" type="com.won.dourbest.admin.account.dto.AdminAccountDTO">
+    <resultMap id="AdminAccountResultMap" type="AdminAccountDTO">
         <result property="adminCode" column="ADMIN_CODE"/>
         <result property="adminName" column="ADMIN_NAME"/>
         <result property="adminPhone" column="ADMIN_PHONE"/>
         <result property="adminEmail" column="ADMIN_EMAIL"/>
         <result property="regiDate" column="REGI_DATE"/>
     </resultMap>
-    <resultMap id="AdminRegistResultMap" type="com.won.dourbest.admin.account.dto.AdminRegistDTO">
+    <resultMap id="AdminRegistResultMap" type="AdminRegistDTO">
         <result property="adminPhone" column="ADMIN_PHONE"/>
         <result property="adminEmail" column="ADMIN_EMAIL"/>
     </resultMap>
@@ -65,8 +65,13 @@
             B.SELLER_CODE
         FROM TBL_MEMBER A
         LEFT JOIN TBL_SELLER B ON A.MEMBER_CODE = B.MEMBER_CODE
+        <if test="searchId != null and searchId != ''">
+            WHERE   MEMBER_ID = #{ searchId }
+        </if>
         ORDER BY A.MEMBER_CODE ASC
         OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
+
+
 
     </select>
 
@@ -82,6 +87,13 @@
         FROM    TBL_MEMBER A
         LEFT JOIN    TBL_SELLER B ON (A.MEMBER_CODE = B.MEMBER_CODE)
         WHERE WITHDRAWAL_STATUS IN 'Y'
+        <where>
+            <if test="searchId != null and searchId != ''">
+                WHERE   MEMBER_ID = #{ searchId }
+            </if>
+        </where>
+        ORDER BY A.MEMBER_CODE ASC
+        OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
     </select>
 
     <!--  펀딩 결제 내역 조회  -->
@@ -97,6 +109,13 @@
         JOIN TBL_ORDER B ON (A.MEMBER_CODE = B.MEMBER_CODE)
         JOIN TBL_CREDIT C ON (B.ORDER_CODE = C.ORDER_CODE)
         JOIN TBL_FUNDING_CREDITLIST D ON (C.PAYMENT_CODE = D.PAYMENT_CODE)
+        <where>
+            <if test="searchId != null and searchId != ''">
+                WHERE   MEMBER_ID = #{ searchId }
+            </if>
+        </where>
+        ORDER BY A.MEMBER_CODE ASC
+        OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
     </select>
 
     <!--  멤버십 결제 내역 조회  -->
@@ -111,6 +130,13 @@
         FROM TBL_MEMBER A
         JOIN TBL_MEMBERSHIP_CREDIT B ON (A.MEMBER_CODE = B.MEMBER_CODE)
         JOIN TBL_MEMBERSHIP_CREDITLIST C ON (B.MEMBERSHIP_CREDIT_CODE = C.MEMBERSHIP_CREDIT_CODE)
+        <where>
+            <if test="searchId != null and searchId != ''">
+                WHERE   MEMBER_ID = #{ searchId }
+            </if>
+        </where>
+        ORDER BY A.MEMBER_CODE ASC
+        OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
     </select>
 
     <!--  블랙리스트 조회  -->
@@ -124,6 +150,13 @@
             A.ADDITIONAL_DATE
         FROM TBL_BLACKLIST_LIST A
         JOIN TBL_MEMBER B ON (B.MEMBER_CODE = A.MEMBER_CODE)
+        <where>
+            <if test="searchId != null and searchId != ''">
+                WHERE   MEMBER_ID = #{ searchId }
+            </if>
+        </where>
+        ORDER BY B.MEMBER_CODE ASC
+        OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
     </select>
 
     <!--  관리자 계정 조회  -->
@@ -135,7 +168,13 @@
             ADMIN_PHONE,
             REGI_DATE
         FROM TBL_ADMIN
-        ORDER BY ADMIN_CODE
+<!--        <where>-->
+<!--            <if test="searchId != null and searchId != ''">-->
+<!--                WHERE   ADMIN_CODE = #{ searchId }-->
+<!--            </if>-->
+<!--        </where>-->
+        ORDER BY ADMIN_CODE ASC
+        OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
     </select>
 
     <!--  총 페이지 갯수  -->
@@ -144,7 +183,7 @@
             count(*)
         FROM    TBL_MEMBER A
         <if test="searchId != null and searchId != ''">
-        WHERE   MEMBER_ID = #{ searchId }
+            WHERE   MEMBER_ID = #{ searchId }
         </if>
     </select>
 
@@ -180,4 +219,17 @@
         FROM    TBL_ADMIN
         WHERE   ADMIN_PHONE = #{adminPhone}
     </select>
+
+    <insert id="insertAuth">
+        INSERT INTO TBL_ADMIN_AUTHLIST
+        VALUES
+            (
+                SEQ_ADMIN_CODE.currval,
+                1
+            )
+    </insert>
+
+
+
+
 </mapper>

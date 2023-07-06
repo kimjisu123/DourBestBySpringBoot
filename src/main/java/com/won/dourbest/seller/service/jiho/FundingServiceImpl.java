@@ -1,11 +1,7 @@
 package com.won.dourbest.seller.service.jiho;
 
 import com.won.dourbest.seller.dao.jiho.FundingMapper;
-import com.won.dourbest.seller.dto.FundPageDTO;
 import com.won.dourbest.seller.dto.FundingDTO;
-import com.won.dourbest.seller.dto.MainImgDTO;
-import com.won.dourbest.seller.dto.OptionDTO;
-import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -69,11 +65,7 @@ public class FundingServiceImpl implements FundingService{
         // 탑 사진 불러오기
         int categoryCode = fundingMapper.categoryCode(code);
 
-        String topImg = fundingMapper.selectFile(code);
-        map.put("topImg",topImg);
-
-        List<MainImgDTO> mainImg = fundingMapper.topFive(code, categoryCode);
-        map.put("mainImg", mainImg);
+        FundingDTO funding = fundingMapper.selectFunding();
 
         return map;
     }
