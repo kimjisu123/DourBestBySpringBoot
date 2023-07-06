@@ -15,26 +15,24 @@
         </div>
         <div class="fundmain">
           <div class="fundleft">
-            <div class="photo"></div>
+            <div class="photo" th:style="'background-image: url('+@{/fundingImg/}+${tossMap['topImg']}+'); background-size: cover'"></div>
             <div class="underphoto">
               <div>현재 &nbsp;</div>
-              <div class="red" th:text="${tossMap['funding'].buyNumber}">2172</div>
+              <div class="red" th:text="${tossMap['funding'].buyNumber}"></div>
               <div class="line">명 참여</div>
-              <div class="line" th:text="${tossMap['funding'].totalRev}">54,342,000원</div>
-              <div class="red" th:text="|${percent}% 달성|">1027% 달성</div>
+              <div class="line" th:text="|판매금액 ${tossMap['funding'].totalRev}원|"></div>
+              <div class="red" th:text="|${tossMap['percent']}% 달성|"></div>
             </div>
             <div class="funding">
-              <div class="intext">
-
-              </div>
+              <div class="intext" th:utext="${tossMap['funding'].fundingContents}"></div>
               <input type="checkbox" class="morebutton">
             </div>
           </div>
           <div class="fundright">
             <div class="right-t">
               <div class="cate" th:text="${tossMap['funding'].categoryName}"></div>
-              <div class="tag">
-                태그
+              <div class="tagList" th:each="tag : ${tossMap['tagList']}">
+                <div class="tag" th:text="${tag}"></div>
               </div>
             </div>
             <div class="horizon"></div>
@@ -44,10 +42,8 @@
             </div>
             <div class="horizon"></div>
             <div class="he">
-              <div class="d-day">
-                172일 남음
-              </div>
-              <div class="heart">
+              <div class="d-day" th:text="|${tossMap['remainDate']}일 남음|"></div>
+              <div class="heart" th:src="@{/images/seller/free-icon-hearth-4225972.png}">
 
               </div>
             </div>
@@ -79,158 +75,152 @@
 <!--              </button>-->
             </div>
             <div class="opt-scroll">
-              <div class="option">
+              <div class="option"  th:each="option : ${tossMap['optionList']}">
                 <div class="opt-top">
-                  <div class="opt-title">
+                  <div class="opt-title" th:text="|${option.optionPrice}원|">
                     20,000원
                   </div>
-                  <div class="opt-amount">
+                  <div class="opt-amount" th:text="|제한 수량 ${option.limitQuantity}|">
                     제한 수량 200개
                   </div>
                 </div>
                 <div class="line"></div>
                 <div class="opt-mid">
-                  <div class="opt-name">
+                  <div class="opt-name" th:text="${option.optionName}">
                     옵션명
                   </div>
-                  <div class="opt-info">
+                  <div class="opt-info" th:text="${option.optionContents}">
                     옵션에 대한 설명입니다.
                     줄 바꿔서 쓰는 것도 가능하게 만들고
                     알아서 내려가게 만들거에요. 아주 좋지요.
                     내가 여기서 더 쓰면 길이는 더 길어지지요.
                   </div>
                   <div class="opt-bot1">
-                    <div class="del-price">
-                      배송비
-                    </div>
-                    <div class="del-price1">
-                      2500원
-                    </div>
                   </div>
                   <div class="opt-bot2">
                     <div class="del-date">
                       배송 시작일
                     </div>
-                    <div class="del-date1">
+                    <div class="del-date1" th:text="${option.deliverDate}">
                       yyyy년 MM월 dd일
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="option">
-                <div class="opt-top">
-                  <div class="opt-title">
-                    20,000원
-                  </div>
-                  <div class="opt-amount">
-                    제한 수량 200개
-                  </div>
-                </div>
-                <div class="line"></div>
-                <div class="opt-mid">
-                  <div class="opt-name">
-                    옵션명
-                  </div>
-                  <div class="opt-info">
-                    옵션에 대한 설명입니다.
-                    줄 바꿔서 쓰는 것도 가능하게 만들고
-                    알아서 내려가게 만들거에요. 아주 좋지요.
-                    내가 여기서 더 쓰면 길이는 더 길어지지요.
-                  </div>
-                  <div class="opt-bot1">
-                    <div class="del-price">
-                      배송비
-                    </div>
-                    <div class="del-price1">
-                      2500원
-                    </div>
-                  </div>
-                  <div class="opt-bot2">
-                    <div class="del-date">
-                      배송 시작일
-                    </div>
-                    <div class="del-date1">
-                      yyyy년 MM월 dd일
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="option">
-                <div class="opt-top">
-                  <div class="opt-title">
-                    20,000원
-                  </div>
-                  <div class="opt-amount">
-                    제한 수량 200개
-                  </div>
-                </div>
-                <div class="line"></div>
-                <div class="opt-mid">
-                  <div class="opt-name">
-                    옵션명
-                  </div>
-                  <div class="opt-info">
-                    옵션에 대한 설명입니다.
-                    줄 바꿔서 쓰는 것도 가능하게 만들고
-                    알아서 내려가게 만들거에요. 아주 좋지요.
-                    내가 여기서 더 쓰면 길이는 더 길어지지요.
-                  </div>
-                  <div class="opt-bot1">
-                    <div class="del-price">
-                      배송비
-                    </div>
-                    <div class="del-price1">
-                      2500원
-                    </div>
-                  </div>
-                  <div class="opt-bot2">
-                    <div class="del-date">
-                      배송 시작일
-                    </div>
-                    <div class="del-date1">
-                      yyyy년 MM월 dd일
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="option">
-                <div class="opt-top">
-                  <div class="opt-title">
-                    20,000원
-                  </div>
-                  <div class="opt-amount">
-                    제한 수량 200개
-                  </div>
-                </div>
-                <div class="line"></div>
-                <div class="opt-mid">
-                  <div class="opt-name">
-                    옵션명
-                  </div>
-                  <div class="opt-info">
-                    옵션에 대한 설명입니다.
-                    줄 바꿔서 쓰는 것도 가능하게 만들고
-                    알아서 내려가게 만들거에요. 아주 좋지요.
-                    내가 여기서 더 쓰면 길이는 더 길어지지요.
-                  </div>
-                  <div class="opt-bot1">
-                    <div class="del-price">
-                      배송비
-                    </div>
-                    <div class="del-price1">
-                      2500원
-                    </div>
-                  </div>
-                  <div class="opt-bot2">
-                    <div class="del-date">
-                      배송 시작일
-                    </div>
-                    <div class="del-date1">
-                      yyyy년 MM월 dd일
-                    </div>
-                  </div>
-                </div>
-              </div>
+<!--              <div class="option">-->
+<!--                <div class="opt-top">-->
+<!--                  <div class="opt-title">-->
+<!--                    20,000원-->
+<!--                  </div>-->
+<!--                  <div class="opt-amount">-->
+<!--                    제한 수량 200개-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--                <div class="line"></div>-->
+<!--                <div class="opt-mid">-->
+<!--                  <div class="opt-name">-->
+<!--                    옵션명-->
+<!--                  </div>-->
+<!--                  <div class="opt-info">-->
+<!--                    옵션에 대한 설명입니다.-->
+<!--                    줄 바꿔서 쓰는 것도 가능하게 만들고-->
+<!--                    알아서 내려가게 만들거에요. 아주 좋지요.-->
+<!--                    내가 여기서 더 쓰면 길이는 더 길어지지요.-->
+<!--                  </div>-->
+<!--                  <div class="opt-bot1">-->
+<!--                    <div class="del-price">-->
+<!--                      배송비-->
+<!--                    </div>-->
+<!--                    <div class="del-price1">-->
+<!--                      2500원-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                  <div class="opt-bot2">-->
+<!--                    <div class="del-date">-->
+<!--                      배송 시작일-->
+<!--                    </div>-->
+<!--                    <div class="del-date1">-->
+<!--                      yyyy년 MM월 dd일-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              <div class="option">-->
+<!--                <div class="opt-top">-->
+<!--                  <div class="opt-title">-->
+<!--                    20,000원-->
+<!--                  </div>-->
+<!--                  <div class="opt-amount">-->
+<!--                    제한 수량 200개-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--                <div class="line"></div>-->
+<!--                <div class="opt-mid">-->
+<!--                  <div class="opt-name">-->
+<!--                    옵션명-->
+<!--                  </div>-->
+<!--                  <div class="opt-info">-->
+<!--                    옵션에 대한 설명입니다.-->
+<!--                    줄 바꿔서 쓰는 것도 가능하게 만들고-->
+<!--                    알아서 내려가게 만들거에요. 아주 좋지요.-->
+<!--                    내가 여기서 더 쓰면 길이는 더 길어지지요.-->
+<!--                  </div>-->
+<!--                  <div class="opt-bot1">-->
+<!--                    <div class="del-price">-->
+<!--                      배송비-->
+<!--                    </div>-->
+<!--                    <div class="del-price1">-->
+<!--                      2500원-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                  <div class="opt-bot2">-->
+<!--                    <div class="del-date">-->
+<!--                      배송 시작일-->
+<!--                    </div>-->
+<!--                    <div class="del-date1">-->
+<!--                      yyyy년 MM월 dd일-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              <div class="option">-->
+<!--                <div class="opt-top">-->
+<!--                  <div class="opt-title">-->
+<!--                    20,000원-->
+<!--                  </div>-->
+<!--                  <div class="opt-amount">-->
+<!--                    제한 수량 200개-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--                <div class="line"></div>-->
+<!--                <div class="opt-mid">-->
+<!--                  <div class="opt-name">-->
+<!--                    옵션명-->
+<!--                  </div>-->
+<!--                  <div class="opt-info">-->
+<!--                    옵션에 대한 설명입니다.-->
+<!--                    줄 바꿔서 쓰는 것도 가능하게 만들고-->
+<!--                    알아서 내려가게 만들거에요. 아주 좋지요.-->
+<!--                    내가 여기서 더 쓰면 길이는 더 길어지지요.-->
+<!--                  </div>-->
+<!--                  <div class="opt-bot1">-->
+<!--                    <div class="del-price">-->
+<!--                      배송비-->
+<!--                    </div>-->
+<!--                    <div class="del-price1">-->
+<!--                      2500원-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                  <div class="opt-bot2">-->
+<!--                    <div class="del-date">-->
+<!--                      배송 시작일-->
+<!--                    </div>-->
+<!--                    <div class="del-date1">-->
+<!--                      yyyy년 MM월 dd일-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
             </div>
           </div>
         </div>
@@ -239,11 +229,14 @@
             같은 카테고리의 인기 상품
           </div>
           <div class="samecategory">
-            <div class="adimg"><img src="../../resources/img/pexels-jane-doan-1099680.jpg" alt=""></div>
-            <div class="adimg"><img src="../../resources/img/pexels-jane-doan-1099680.jpg" alt=""></div>
-            <div class="adimg"><img src="../../resources/img/pexels-jane-doan-1099680.jpg" alt=""></div>
-            <div class="adimg"><img src="../../resources/img/pexels-jane-doan-1099680.jpg" alt=""></div>
-            <div class="adimg"><img src="../../resources/img/pexels-jane-doan-1099680.jpg" alt=""></div>
+            <div  th:each="main, stat : ${tossMap['mainImg']}">
+              <div class="adimg"><img th:style="'background-image: url('+@{/fundingImg/}+${main.fileModificationName}+'); background-size: cover'"
+              th:onclick="|location.href='@{${main.fundingCode}}'|"></div>
+            </div>
+<!--            <div class="adimg"><img src="../../resources/img/pexels-jane-doan-1099680.jpg" alt=""></div>-->
+<!--            <div class="adimg"><img src="../../resources/img/pexels-jane-doan-1099680.jpg" alt=""></div>-->
+<!--            <div class="adimg"><img src="../../resources/img/pexels-jane-doan-1099680.jpg" alt=""></div>-->
+<!--            <div class="adimg"><img src="../../resources/img/pexels-jane-doan-1099680.jpg" alt=""></div>-->
           </div>
         </div>
       </div>

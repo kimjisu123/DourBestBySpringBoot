@@ -19,6 +19,21 @@
         <result property="totalRev" column="TOTAL_REV"/>
     </resultMap>
 
+    <resultMap id="optionResultMap" type="OptionDTO">
+        <id property="optionName" column="OPTION_NAME"/>
+        <result property="optionContents" column="OPTION_CONTENTS"/>
+        <result property="optionPrice" column="OPTION_PRICE"/>
+        <result property="limitQuantity" column="LIMIT_QUANTITY"/>
+        <result property="optionColor" column="OPTION_COLOR"/>
+        <result property="optionSize" column="OPTION_SIZE"/>
+        <result property="deliverDate" column="DELIVER_DATE"/>
+    </resultMap>
+
+    <resultMap id="mainImgResultMap" type="MainImgDTO">
+        <id property="fileModificationName" column="FILE_MODIFICATION_NAME"/>
+        <result property="fundingCode" column="FUNDING_CODE"/>
+    </resultMap>
+
     <select id="selectFunding" parameterType="_int">
         SELECT
                F.FUNDING_TITLE
@@ -32,5 +47,70 @@
           FROM TBL_FUNDING F
           JOIN TBL_CATEGORY C ON(F.CATEGORY_CODE = C.CATEGORY_CODE)
          WHERE F.FUNDING_CODE = #{ code }
+    </select>
+
+    <select id="selectTag" parameterType="_int">
+        SELECT
+               TAG_NAME
+          FROM TBL_TAG T
+          JOIN TBL_FUNDING_TAG FT ON(T.TAG_CODE = FT.TAG_CODE)
+         WHERE FT.FUNDING_CODE = #{ code }
+    </select>
+
+    <select id="selectOption" resultMap="optionResultMap">
+        SELECT
+               OPTION_NAME
+             , OPTION_CONTENTS
+             , OPTION_PRICE
+             , LIMIT_QUANTITY
+             , OPTION_COLOR
+             , OPTION_SIZE
+             , DELIVER_DATE
+          FROM TBL_FUNDING_OPTIONS
+         WHERE FUNDING_CODE = #{ code }
+    </select>
+
+    <select id="selectFile" parameterType="_int">
+        SELECT
+               FILE_MODIFICATION_NAME
+          FROM TBL_FUNDING_FILE
+         WHERE FUNDING_CODE = #{ code }
+           AND FILE_TYPE = '상단'
+    </select>
+
+    <select id="topFive" resultMap="mainImgResultMap">
+        SELECT
+               B.FUNDING_CODE
+             , B.FILE_MODIFICATION_NAME
+          FROM (SELECT
+                       ROWNUM
+                     , A.FILE_MODIFICATION_NAME
+                     , A.FUNDING_CODE
+                  FROM (SELECT
+                               FF.FILE_MODIFICATION_NAME
+                             , FF.FUNDING_CODE
+                          FROM TBL_FUNDING_FILE FF
+                          JOIN TBL_FUNDING TF ON (FF.FUNDING_CODE = TF.FUNDING_CODE)
+                         WHERE FILE_TYPE = '메인'
+                           AND FF.FUNDING_CODE != #{code}
+                           AND TF.CATEGORY_CODE = #{categoryCode}) A) B
+                <![CDATA[WHERE ROWNUM <= 5]]>
+
+    </select>
+
+
+    <select id="findCode" parameterType="string">
+        SELECT
+               FUNDING_CODE
+          FROM TBL_FUNDING_FILE
+         WHERE FILE_MODIFICATION_NAME = 5af9b6b332e64fb593da12efb4b1ad58.jpg
+           AND FILE_TYPE = '메인'
+    </select>
+
+    <select id="categoryCode" parameterType="_int">
+        SELECT
+               CATEGORY_CODE
+          FROM TBL_FUNDING
+         WHERE FUNDING_CODE = #{ code }
     </select>
 </mapper>

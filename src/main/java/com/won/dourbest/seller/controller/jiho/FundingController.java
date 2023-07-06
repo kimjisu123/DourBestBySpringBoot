@@ -33,4 +33,5 @@ public class FundingController {
 
         return "seller/funding/funding";
     }
+
 }
