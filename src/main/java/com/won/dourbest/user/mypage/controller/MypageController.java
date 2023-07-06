@@ -231,24 +231,25 @@ public class MypageController {
     @GetMapping("quitMember")    //이동할 페이지
     public String quitMember(@AuthenticationPrincipal MemberImpl user, Model model) {
 
-////     MemberDTO mypageInfo = memberService.findUser(user.getMemberId()).orElseThrow();
+//     MemberDTO mypageInfo = memberService.findUser(user.getMemberId()).orElseThrow();
 //       model.addAttribute("mypageInfo", mypageInfo);  //멤버 배송지 모두 담겨있음.
-         model.addAttribute("user", user);
-//       log.info("memberName" , mypageInfo);
+        model.addAttribute("user", user);
+
 
         return "user/mypage/quitMember";
     }
 
 // 회원 탈퇴
-    @PostMapping("quitMember")
-    public String quitMember(@AuthenticationPrincipal MemberImpl user) {
-
-     MemberDTO mypageInfo = memberService.findUser(user.getMemberId()).orElseThrow();
-     log.info("memberName" , mypageInfo);
-     memberService.quitMember(mypageInfo.getMemberId());
-
-        return "user/mypage/quitMember";
-    }
+//    @PostMapping("quitMember")
+//    public String quitMember(@AuthenticationPrincipal MemberImpl user) {
+//
+//     MemberDTO mypageInfo = memberService.findUser(user.getMemberId()).orElseThrow();
+//     log.info("memberName" , mypageInfo);
+//     memberService.quitMember(mypageInfo.getMemberId());
+//     log.info("memberId" , mypageInfo.getMemberId());
+//
+//        return "user/mypage/quitMember";
+//    }
 
 
     @GetMapping("/changePwd")    //이동할 페이지

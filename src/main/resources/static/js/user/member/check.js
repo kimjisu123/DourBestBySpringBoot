@@ -39,12 +39,14 @@ $('#pwdButton').click(function (event){
     let check_pwd =   /^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$/;
 
 
+
+
     // 비밀번호 공백 확인
     if ( pwd == "" || pwd == null) {
-        $('#pwd-error').html('비밀번호를 입력해주세요.')
+        alert ('비밀번호를 입력해주세요.');
         $('#newPwd').focus();
         event.preventDefault();
-        // return false;
+
     }
 
     // 비밀번호 유효성 체크
@@ -53,7 +55,7 @@ $('#pwdButton').click(function (event){
         $('#newPwd').val("");
         $('#newPwd').focus();
         event.preventDefault();
-        // return false;
+
     }
 
     // 비밀번호 일치성 체크
@@ -63,18 +65,27 @@ $('#pwdButton').click(function (event){
         $('#pwdCheck').val("");
         $('#pwd').focus();
         event.preventDefault();
-        // return false;
+
     }
+
 });
 
 
 
 
-function quitMember(){
+$('#button2').click(function (event){
 
-    alert ('정말로 탈퇴하시겠습니까?');
+    var result = confirm("정말로 탈퇴하시겠습니까?");
+    if(result){
+
+        alert("탈퇴가 완료되었습니다.");
+        return result;
+
+    } else {
+
+        alert("서비스를 이용해주셔서 감사합니다.");
+        return result;
+    }
 
 
-
-
-}
+});

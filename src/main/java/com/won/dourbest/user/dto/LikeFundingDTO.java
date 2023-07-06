@@ -2,6 +2,8 @@ package com.won.dourbest.user.dto;
 
 import lombok.*;
 
+import java.util.Date;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -20,6 +22,10 @@ public class LikeFundingDTO {
     private String categoryName;
 
     private String filePath;
+
+    private Date startDate;
+
+    private Date endDate;
 
 
 
