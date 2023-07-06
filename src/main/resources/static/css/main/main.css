@@ -25,7 +25,8 @@ section{
     width: 100%;
 }
 
-.swiper-slide > a > div { 
+
+.swiper-slide > a > div {
     position: absolute;
     bottom: 10%;
     left: 30px;
@@ -36,7 +37,14 @@ section{
     text-align: left;
 }
 
+.slider-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
+
 .swiper-slide {
+    position: relative;
     text-align: center;
     font-size: 18px;
     background: #fff;
