@@ -16,4 +16,5 @@ public class QuestionDTO {
     private String inquiryTitle;
     private String MemberName;
     private String inquiryDate;
+
 }

@@ -81,7 +81,7 @@
           <label for="checkbox3" class="ok">개인정보 제3자 제공 동의</label> <br>
           <input type="checkbox" class="consent" id="checkbox4">
           <label for="checkbox4" class="ok">구매조건 확인 및 결제진행에 동의</label>
-            <button class="button-payment">결제하기</button>
+            <button class="button-payment" id="payment">결제하기</button>
         </div>
 
 
@@ -269,7 +269,27 @@ $("#send").click(function(){
 </script>
 
 <script>
-  $.
+  let box = $("#payment");
+
+  let check = $("input:checkbox[class='consent']");
+
+  check.click(function (){
+    let idx = 0;
+    check.each(function () {
+        if ($(this).prop("checked") == true) {
+          idx++;
+        }
+        if(idx == 4){
+          box.css('background-color', '#f35f4c')
+
+        }
+        if($(this).prop("checked") == false) {
+          idx--;
+          box.css('background-color', 'rgba(155,155,155,0.5)')
+        }
+    });
+    });
+
 </script>
 
 

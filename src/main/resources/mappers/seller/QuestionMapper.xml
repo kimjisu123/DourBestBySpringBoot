@@ -19,10 +19,19 @@
           , A.INQUIRY_CONTENT
           , B.MEMBER_NAME
           , C.CATEGORY_NAME
+          , A.INQUIRY_CONTENT
 
           FROM TBL_SELLER_INQUIRY A
           JOIN TBL_MEMBER B ON (A.MEMBER_CODE = B.MEMBER_CODE)
         JOIN TBL_CATEGORY C ON (A.CATEGORY_CODE = C.CATEGORY_CODE)
+        OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
+    </select>
+
+    <select id="selectSearch">
+        SELECT
+          COUNT(*)
+        FROM TBL_SELLER_INQUIRY A
+
     </select>
 
 </mapper>

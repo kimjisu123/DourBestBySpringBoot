@@ -66,7 +66,7 @@
         FROM TBL_MEMBER A
         LEFT JOIN TBL_SELLER B ON A.MEMBER_CODE = B.MEMBER_CODE
         ORDER BY A.MEMBER_CODE ASC
-        OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
+        OFFSET #{startRow} -1 ROWS       FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
 
     </select>
 
