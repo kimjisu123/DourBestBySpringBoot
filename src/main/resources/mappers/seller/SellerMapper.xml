@@ -92,6 +92,7 @@
          , BUSINESS_LICENSE
          , NUMBER_REPORTED
          , TOTAL_REVENUE
+         , SELLER_DATE
          )
         VALUES
         (
@@ -100,6 +101,7 @@
          ,#{ businessLicense }
          ,0
          ,0
+         , DEFAULT
         )
 
 

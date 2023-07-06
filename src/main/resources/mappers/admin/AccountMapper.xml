@@ -69,7 +69,7 @@
             WHERE   MEMBER_ID = #{ searchId }
         </if>
         ORDER BY A.MEMBER_CODE ASC
-        OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
+        OFFSET #{startRow} -1 ROWS       FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
 
 
 

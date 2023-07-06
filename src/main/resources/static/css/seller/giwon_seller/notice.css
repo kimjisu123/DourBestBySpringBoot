@@ -32,7 +32,7 @@
 }
 
 
-.box1:hover {
+.box1{
     background-color: #F35F4C;
     color: white;
 }
@@ -47,7 +47,7 @@
     color: white;
 }
 
-.box3 {
+.box3:hover {
     background-color: #F35F4C;
     color: white;
 }
@@ -60,11 +60,12 @@
     display: flex;
     border-top: 3px solid gray;
 
+
 }
 
 .container1-box1 {
     display: flex;
-    width: 200px;
+    width: 900px;
     justify-content: center;
     align-items: center;
 }
@@ -119,7 +120,7 @@
 
 .list1-2 {
     display: flex;
-    width: 700px;
+    width: 900px;
     justify-content: center;
     align-items: center;
 
@@ -141,15 +142,13 @@
 
 .answer {
     width: 700px;
-
+    text-align: center;
     position: relative;
     top: -30px;
-    text-align: center;
-
+    line-height: 100px;
     background-color: rgba(128, 128, 128, 0.2);;
     width: 1282px;
     height: 100px;
-    line-height: 100px;
 
 
 }
@@ -159,65 +158,8 @@
 
 }
 
-.img-check {
-    height: 200px;
-    width: 200px;
-    position: relative;
-    top: 50%;
-    margin-top: 50%;
-}
-
-
-
-
-@media (max-width: 880px) {
-
-    .board_list .num{
-        width: 10%;
-    }
-    .board_list .title{
-        width: 45%;
-    }
-}
-
 section {
     margin-bottom: 200px;
-}
-
-/*@media (max-width: 880px) {*/
-
-/*    .board_list .num{*/
-/*        width: 10%;*/
-/*    }*/
-/*    .board_list .title{*/
-/*        width: 45%;*/
-/*    }*/
-/*}*/
-
-/*---------------------------훔쳐온거---------------------- */
-
-.pagingArea {
-    display: inline-block;
-}
-
-.paging-button {
-    color: black;
-    float: left;
-    padding: 8px 16px;
-    text-decoration: none;
-}
-
-.pagingArea.active {
-    background-color: #F35F4C;
-    color: white;
-}
-
-.pagingArea button:hover:not(.active) {background-color: #ddd;}
-
-.pagingArea {
-    position: relative;
-    top: 5px;
-    left: 543px;
 }
 
 

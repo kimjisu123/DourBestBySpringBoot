@@ -2,6 +2,7 @@ package com.won.dourbest.seller.service.jiho;
 
 import com.won.dourbest.seller.dao.jiho.FundingMapper;
 import com.won.dourbest.seller.dto.FundingDTO;
+import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

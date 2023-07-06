@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html th:replace="~{/layouts/base :: layout(~{::section}, ~{::link}, ~{::script})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link rel="stylesheet" th:href="@{/css/seller/giwon_seller/review.css}">
+</head>
+
+  <section>
+    <div class="main-container0">
+      <a href="/seller/notice" class="box1 text1">공지사항</a>
+
+      <a class="box2 text1" >리뷰
+        <p class="count text1">()</p>
+      </a>
+
+      <a href="/seller/question" class="box3 text1" >Q&A</a>
+      <a class="box4 text1">환불 정책</a>
+
+    </div>
+
+    <div class="main-container1">
+      <div class="container1-box1 text2">아이디</div>
+      <div class="container1-box2 text2">리뷰</div>
+      <div class="container1-box4 text2">작성일</div>
+    </div>
+
+
+    <div class="main-container2">
+      <th:block th:each="review, item : ${ review }">
+        <div class="list1" th:id="|@{review}${item.index}|">
+          <div class="list1-1 text2" th:text="${ review.getMemberId()}">아이디</div>
+          <div class="list1-2 text2" th:text="${ review.getReviewTitle()}">제목</div>
+          <div class="list1-3 text2" th:text="${ review.getCreationDate()}">작성일</div>
+        </div>
+
+          <p class="answer" th:text="${ review.getReviewContent}">답변하는 내용</p>
+        <div class="horizon"></div>
+      </th:block>
+    </div>
+
+  </section>
+
+<script>
+
+  window.onload($('.answer').hide(),
+          $('.list1').click(function () {
+            // $('.answer').slideUp();
+            $(this).next('p').slideToggle();
+            // $('.answer').slideUp();
+            // $(this).next('p').slideDown();
+            // if((!this).next('p').click(function() {
+            // }))
+
+          }));
+
+</script>
+
+
+
+
+</html>
