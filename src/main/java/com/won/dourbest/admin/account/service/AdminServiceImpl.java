@@ -43,26 +43,26 @@ public class AdminServiceImpl implements AdminService {
 
     // 탈퇴한 회원 조회
     @Override
-    public List<withdrawnMemberDTO> selectAllwithdrawnList() {
+    public List<withdrawnMemberDTO> selectAllwithdrawnList(SelectCriteria selectCriteria) {
 
-        List<withdrawnMemberDTO> selectAllwithdrawnList = mapper.selectAllwithdrawnList();
+        List<withdrawnMemberDTO> selectAllwithdrawnList = mapper.selectAllwithdrawnList(selectCriteria);
         return selectAllwithdrawnList;
     }
 
     // 펀딩 결제 내역 조회
     @Override
-    public List<FundingPaymentDTO> selectAllFunPaymentList() {
+    public List<FundingPaymentDTO> selectAllFunPaymentList(SelectCriteria selectCriteria) {
 
-        List<FundingPaymentDTO> funPaymentList = mapper.selectAllFunPaymentList();
+        List<FundingPaymentDTO> funPaymentList = mapper.selectAllFunPaymentList(selectCriteria);
 
         return funPaymentList;
     }
 
     // 멤버십 결제 내역 조회
     @Override
-    public List<MembershipPaymentDTO> selectAllmemPaymentList() {
+    public List<MembershipPaymentDTO> selectAllmemPaymentList(SelectCriteria selectCriteria) {
 
-        List<MembershipPaymentDTO> memPaymentList = mapper.selectAllmemPaymentList();
+        List<MembershipPaymentDTO> memPaymentList = mapper.selectAllmemPaymentList(selectCriteria);
 
 
         return memPaymentList;
@@ -70,18 +70,18 @@ public class AdminServiceImpl implements AdminService {
 
     // 블랙리스트 조회
     @Override
-    public List<BlcaklistDTO> selectallBlackList() {
+    public List<BlcaklistDTO> selectallBlackList(SelectCriteria selectCriteria) {
 
-        List<BlcaklistDTO> blcaklistList = mapper.selectallBlackList();
+        List<BlcaklistDTO> blcaklistList = mapper.selectallBlackList(selectCriteria);
 
         return blcaklistList;
     }
 
     // 관리자 계정 조회
     @Override
-    public List<AdminAccountDTO> selectAllAdminAccount() {
+    public List<AdminAccountDTO> selectAllAdminAccount(SelectCriteria selectCriteria) {
 
-        List<AdminAccountDTO> adminAccountList = mapper.selectAllAdminAccount();
+        List<AdminAccountDTO> adminAccountList = mapper.selectAllAdminAccount(selectCriteria);
 
         return adminAccountList;
     }
@@ -144,12 +144,6 @@ public class AdminServiceImpl implements AdminService {
         return "회원가입에 실패하셨습니다.";
     }
 
-    @Override
-    public AccountDTO selectSearchId(String searchId) {
 
-        AccountDTO account = mapper.selectSearchId(searchId);
-
-        return account;
-    }
 
 }

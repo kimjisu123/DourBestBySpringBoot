@@ -13,19 +13,19 @@ public interface AdminMapper {
     public List<AccountDTO> selectAllaccountList(SelectCriteria selectCriteria);
 
     // 탈퇴한 회원 조회
-    List<withdrawnMemberDTO> selectAllwithdrawnList();
+    List<withdrawnMemberDTO> selectAllwithdrawnList(SelectCriteria selectCriteria);
 
     // 펀딩 결제 내역 조회
-    List<FundingPaymentDTO> selectAllFunPaymentList();
+    List<FundingPaymentDTO> selectAllFunPaymentList(SelectCriteria selectCriteria);
 
     // 멤버십 결제 내역 조회
-    List<MembershipPaymentDTO> selectAllmemPaymentList();
+    List<MembershipPaymentDTO> selectAllmemPaymentList(SelectCriteria selectCriteria);
 
     // 블랙리스트 조회
-    List<BlcaklistDTO> selectallBlackList();
+    List<BlcaklistDTO> selectallBlackList(SelectCriteria selectCriteria);
 
     // 관리자 계정 조회
-    List<AdminAccountDTO> selectAllAdminAccount();
+    List<AdminAccountDTO> selectAllAdminAccount(SelectCriteria selectCriteria);
 
 
     int selectTotalPage(Map<String, String> searchMap);
@@ -42,7 +42,4 @@ public interface AdminMapper {
 
     // 권한 추가
     int insertAuth();
-
-    // 아이디로 검색
-    AccountDTO selectSearchId(String searchId);
 }

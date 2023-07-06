@@ -1,10 +1,12 @@
 package com.won.dourbest.admin.statistics.service;
 
+import com.won.dourbest.admin.common.SelectCriteria;
 import com.won.dourbest.admin.statistics.dao.StatiMapper;
 import com.won.dourbest.admin.statistics.dto.StatiDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class StatiServiceImpl implements StatiService{
@@ -18,9 +20,9 @@ public class StatiServiceImpl implements StatiService{
 
     // 총 금액 순으로 조회
     @Override
-    public List<StatiDTO> selectAllPrice() {
+    public List<StatiDTO> selectAllPrice(SelectCriteria selectCriteria) {
 
-        List<StatiDTO> statiAllPriceList = mapper.selectAllPrice();
+        List<StatiDTO> statiAllPriceList = mapper.selectAllPrice(selectCriteria);
 
         return statiAllPriceList;
     }
@@ -30,46 +32,54 @@ public class StatiServiceImpl implements StatiService{
     // 총 조회수 순으로 조회
 
     @Override
-    public List<StatiDTO> selectAllViews() {
+    public List<StatiDTO> selectAllViews(SelectCriteria selectCriteria) {
 
-        List<StatiDTO> statiAllViewsList = mapper.selectAllViews();
+        List<StatiDTO> statiAllViewsList = mapper.selectAllViews(selectCriteria);
 
         return statiAllViewsList;
     }
 
     // 총 좋아요 순으로 조회
     @Override
-    public List<StatiDTO> selectAllLikes() {
+    public List<StatiDTO> selectAllLikes(SelectCriteria selectCriteria) {
 
-        List<StatiDTO> statiallLikesList = mapper.selectAllLikes();
+        List<StatiDTO> statiallLikesList = mapper.selectAllLikes(selectCriteria);
 
         return statiallLikesList;
     }
 
     // 월 기준 금액순으로 조회
     @Override
-    public List<StatiDTO> selectMonthPrice() {
+    public List<StatiDTO> selectMonthPrice(SelectCriteria selectCriteria) {
 
-        List<StatiDTO> statiMonthPriceList = mapper.selectMonthPrice();
+        List<StatiDTO> statiMonthPriceList = mapper.selectMonthPrice(selectCriteria);
 
         return statiMonthPriceList;
     }
 
     // 월 기준 조회수 순으로 조회
     @Override
-    public List<StatiDTO> selectMonthViews() {
+    public List<StatiDTO> selectMonthViews(SelectCriteria selectCriteria) {
 
-        List<StatiDTO> statiMonthViewsList = mapper.selectMonthViews();
+        List<StatiDTO> statiMonthViewsList = mapper.selectMonthViews(selectCriteria);
 
         return statiMonthViewsList;
     }
 
     // 월 기준 좋아요 순으로 조회
     @Override
-    public List<StatiDTO> selectMonthLikes() {
+    public List<StatiDTO> selectMonthLikes(SelectCriteria selectCriteria) {
 
-        List<StatiDTO> statiMonthLikesList =  mapper.selectMonthLikes();
+        List<StatiDTO> statiMonthLikesList =  mapper.selectMonthLikes(selectCriteria);
         return statiMonthLikesList;
+    }
+
+    @Override
+    public int selectTotalPage(Map<String, String> searchMap) {
+
+        int result = mapper.selectTotalPage(searchMap);
+
+        return result;
     }
 
 

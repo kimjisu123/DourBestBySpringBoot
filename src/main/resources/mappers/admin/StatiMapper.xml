@@ -25,6 +25,11 @@
                 JOIN TBL_SELLER B ON A.MEMBER_CODE = B.MEMBER_CODE
                 JOIN TBL_FUNDING C ON B.SELLER_CODE = C.SELLER_CODE
                 JOIN TBL_ORDER D ON C.FUNDING_CODE = D.FUNDING_CODE
+        <where>
+            <if test="searchId != null and searchId != ''">
+                WHERE   MEMBER_ID = #{ searchId }
+            </if>
+        </where>
         GROUP BY
             A.MEMBER_ID,
             A.MEMBER_EMAIL,
@@ -32,6 +37,7 @@
             C.VIEWS,
             C.LIKES
         ORDER BY TOTAL_PRICE DESC
+        OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
     </select>
 
 
@@ -48,6 +54,11 @@
                  JOIN TBL_SELLER B ON A.MEMBER_CODE = B.MEMBER_CODE
                  JOIN TBL_FUNDING C ON B.SELLER_CODE = C.SELLER_CODE
                  JOIN TBL_ORDER D ON C.FUNDING_CODE = D.FUNDING_CODE
+        <where>
+            <if test="searchId != null and searchId != ''">
+                WHERE   MEMBER_ID = #{ searchId }
+            </if>
+        </where>
         GROUP BY
             A.MEMBER_ID,
             A.MEMBER_EMAIL,
@@ -55,20 +66,25 @@
             C.VIEWS,
             C.LIKES
         ORDER BY C.VIEWS DESC
+        OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
     </select>
 
     <select id="selectAllLikes" resultMap="StatiResultMap">
-        SELECT
-            A.MEMBER_ID,
-            A.MEMBER_EMAIL,
-            C.FUNDING_TITLE,
-            C.VIEWS,
-            C.LIKES,
-            SUM(D.ORDER_PRICE) AS TOTAL_PRICE
+        SELECT A.MEMBER_ID,
+               A.MEMBER_EMAIL,
+               C.FUNDING_TITLE,
+               C.VIEWS,
+               C.LIKES,
+               SUM(D.ORDER_PRICE) AS TOTAL_PRICE
         FROM TBL_MEMBER A
                  JOIN TBL_SELLER B ON A.MEMBER_CODE = B.MEMBER_CODE
                  JOIN TBL_FUNDING C ON B.SELLER_CODE = C.SELLER_CODE
                  JOIN TBL_ORDER D ON C.FUNDING_CODE = D.FUNDING_CODE
+        <where>
+            <if test="searchId != null and searchId != ''">
+                WHERE   MEMBER_ID = #{ searchId }
+            </if>
+        </where>
         GROUP BY
             A.MEMBER_ID,
             A.MEMBER_EMAIL,
@@ -76,6 +92,7 @@
             C.VIEWS,
             C.LIKES
         ORDER BY C.LIKES DESC
+        OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
     </select>
 
     <select id="selectMonthPrice" resultMap="StatiResultMap">
@@ -91,6 +108,11 @@
                  JOIN TBL_FUNDING C ON B.SELLER_CODE = C.SELLER_CODE
                  JOIN TBL_ORDER D ON C.FUNDING_CODE = D.FUNDING_CODE
         WHERE SUBSTR(D.ORDER_DATE, 1, 7) = SUBSTR(SYSDATE, 1, 7) -- 이번 달 기준으로 필터링
+        <where>
+            <if test="searchId != null and searchId != ''">
+                WHERE   MEMBER_ID = #{ searchId }
+            </if>
+        </where>
         GROUP BY
             A.MEMBER_ID,
             A.MEMBER_EMAIL,
@@ -98,6 +120,7 @@
             C.VIEWS,
             C.LIKES
         ORDER BY TOTAL_PRICE DESC
+        OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
     </select>
 
 
@@ -114,6 +137,11 @@
                  JOIN TBL_FUNDING C ON B.SELLER_CODE = C.SELLER_CODE
                  JOIN TBL_ORDER D ON C.FUNDING_CODE = D.FUNDING_CODE
         WHERE SUBSTR(D.ORDER_DATE, 1, 7) = SUBSTR(SYSDATE, 1, 7) -- 이번 달 기준으로 필터링
+        <where>
+            <if test="searchId != null and searchId != ''">
+                WHERE   MEMBER_ID = #{ searchId }
+            </if>
+        </where>
         GROUP BY
             A.MEMBER_ID,
             A.MEMBER_EMAIL,
@@ -121,6 +149,7 @@
             C.VIEWS,
             C.LIKES
         ORDER BY C.VIEWS DESC
+        OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
     </select>
 
     <select id="selectMonthLikes" resultMap="StatiResultMap">
@@ -136,6 +165,11 @@
                  JOIN TBL_FUNDING C ON B.SELLER_CODE = C.SELLER_CODE
                  JOIN TBL_ORDER D ON C.FUNDING_CODE = D.FUNDING_CODE
         WHERE SUBSTR(D.ORDER_DATE, 1, 7) = SUBSTR(SYSDATE, 1, 7) -- 이번 달 기준으로 필터링
+        <where>
+            <if test="searchId != null and searchId != ''">
+                WHERE   MEMBER_ID = #{ searchId }
+            </if>
+        </where>
         GROUP BY
             A.MEMBER_ID,
             A.MEMBER_EMAIL,
@@ -143,7 +177,17 @@
             C.VIEWS,
             C.LIKES
         ORDER BY C.LIKES DESC
+        OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
     </select>
 
+    <!--  총 페이지 갯수  -->
+    <select id="selectTotalPage">
+        SELECT
+        count(*)
+        FROM    TBL_MEMBER A
+        <if test="searchId != null and searchId != ''">
+            WHERE   MEMBER_ID = #{ searchId }
+        </if>
+    </select>
 
 </mapper>
