@@ -27,4 +27,12 @@ public class SearchCriteria extends Criteria{
                 .build()
                 .toUriString();
     }
+
+    public String makeQuery(){
+        return UriComponentsBuilder.newInstance()
+                .queryParamIfPresent("searchType", Optional.ofNullable(searchType))
+                .encode()
+                .build()
+                .toUriString();
+    }
 }

@@ -199,7 +199,6 @@ public class MypageController {
 
         model.addAttribute("user", user);
 
-
         return "/user/mypage/checkMember";
 
     }
@@ -210,11 +209,9 @@ public class MypageController {
 
         model.addAttribute("user", user);
 
-
         return "/user/mypage/checkMemberPw";
 
     }
-
 
     @GetMapping("changeInfo")
     public String changeInfo(@AuthenticationPrincipal MemberImpl member, Model model) {
@@ -242,7 +239,6 @@ public class MypageController {
 //        log.info("MemberDTO : ",member.toString());
 //        log.info("AddressDTO : ",address.toString());
         memberService.updateMember(map);  //객체 담은 후 서비스로 전송
-
 
         return "redirect:/mypage";
 
@@ -275,7 +271,6 @@ public class MypageController {
 
         Map<String, Object> result = mypageService.OrderAndCreditInfo(user.getUsername(), id);
 
-
         model.addAttribute("order",(OrderFundingDTO) result.get("order"));
         model.addAttribute("credit",(OrderCreditDTO) result.get("credit"));
         model.addAttribute("contactCategory", result.get("contactCategory"));
@@ -298,6 +293,7 @@ public class MypageController {
         MemberDTO member1 = new MemberDTO();
         MemberDTO findMember = memberService.findUser(member.getMemberId()).orElseThrow();
         member1.setMemberId(findMember.getMemberId());  // 기존 회원 id 불러오기 쿼리문필요
+
 
         // 두가지가 트루인걸 확인!
         if(pwd.equals(pwdCheck)){
