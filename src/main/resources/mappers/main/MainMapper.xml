@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.won.dourbest.main.dao.MainMapper">
+
+<!--    <resultMap id="SlideFileMap" type="fundingDTO">-->
+<!--        <id property="fundingFileCode" column="FUNDING_FILE_CODE"/>-->
+<!--        <result property="fileOriginalName" column="FILE_ORIGINAL_NAME"/>-->
+<!--        <result property="fileModificationName" column="FILE_MODIFICATION_NAME"/>-->
+<!--        <result property="uploadDate" column="UPLOAD_DATE"/>-->
+<!--        <result property="fileType" column="FILE_TYPE"/>-->
+<!--        <result property="deletionStatus" column="DELETION_STATUS"/>-->
+<!--        <result property="fundingCode" column="FUNDING_CODE"/>-->
+<!--    </resultMap>-->
+
+    <resultMap id="SlideFileMap" type="LikeFundingDTO">
+        <id property="fundingCode" column="FUNDING_CODE"/>
+        <result property="rowNum" column="RNUM"/>
+        <result property="fundingTitle" column="FUNDING_TITLE"/>
+        <result property="fundingSummary" column="FUNDING_SUMMARY"/>
+        <result property="categoryName" column="CATEGORY_NAME"/>
+        <result property="filePath" column="FILE_MODIFICATION_NAME"/>
+        <result property="startDate" column="START_DATE"/>
+        <result property="endDate" column="END_DATE"/>
+<!--        <collection property="likeFundingList" resultMap="LikeFundingResultMap"/>-->
+    </resultMap>
+
+
+        <!--  메인이미지 슬라이드 쿼리문 업로드 날짜 순으로 표시 리미트 8개    -->
+<!--        <select id="getSlideImages" resultMap="fundingFileDTO">-->
+<!--         SELECT-->
+<!--                 FILE_MODIFICATION_NAME-->
+<!--                FROM TBL_FUNDING_FILE;-->
+<!--                WHERE FILE_TYPE = '메인'-->
+<!--             ORDER BY UPLOAD_DATE DESC-->
+<!--                LIMIT 8-->
+<!--         </select>-->
+
+
+    <select id="getSlideImages" resultMap="SlideFileMap">
+SELECT
+    ROWNUM RNUM,
+    A.FUNDING_CODE,
+    A.FUNDING_TITLE,
+    A.FUNDING_SUMMARY,
+    A.FILE_MODIFICATION_NAME
+FROM (
+      SELECT
+        F.FUNDING_CODE,
+        F.FUNDING_TITLE,
+        F.FUNDING_SUMMARY,
+        TFF.FILE_MODIFICATION_NAME
+        FROM TBL_FUNDING F
+        JOIN TBL_FUNDING_FILE TFF ON F.FUNDING_CODE = TFF.FUNDING_CODE
+        WHERE  TFF.FILE_TYPE='메인'
+         ORDER BY F.APPLICATION_DATE DESC) A
+    <![CDATA[
+    WHERE ROWNUM <= 8
+    ]]>
+    </select>
+
+
+
+    <select id="ToplikeFundings" resultMap="SlideFileMap">
+        SELECT
+            ROWNUM RNUM,
+            A.FUNDING_CODE,
+            A.FUNDING_TITLE,
+            A.FUNDING_SUMMARY,
+            A.FILE_MODIFICATION_NAME
+        FROM (
+                 SELECT
+                     F.FUNDING_CODE,
+                     F.FUNDING_TITLE,
+                     F.FUNDING_SUMMARY,
+                     TFF.FILE_MODIFICATION_NAME
+                 FROM TBL_FUNDING F
+                          JOIN TBL_FUNDING_FILE TFF ON F.FUNDING_CODE = TFF.FUNDING_CODE
+                 WHERE  TFF.FILE_TYPE='메인'
+                 ORDER BY F.LIKES DESC) A
+    <![CDATA[
+        WHERE ROWNUM <= 5
+        ]]>
+    </select>
+
+
+    <select id="OpenFundings" resultMap="SlideFileMap">
+        SELECT
+            ROWNUM RNUM,
+            A.START_DATE,
+            A.FUNDING_CODE,
+            A.FUNDING_TITLE,
+            A.FUNDING_SUMMARY,
+            A.FILE_MODIFICATION_NAME
+        FROM (
+                 SELECT
+                     F.START_DATE,
+                     F.FUNDING_CODE,
+                     F.FUNDING_TITLE,
+                     F.FUNDING_SUMMARY,
+                     TFF.FILE_MODIFICATION_NAME
+                 FROM TBL_FUNDING F
+                          JOIN TBL_FUNDING_FILE TFF ON F.FUNDING_CODE = TFF.FUNDING_CODE
+                 WHERE  TFF.FILE_TYPE='메인'
+                 ORDER BY (F.START_DATE - TRUNC(SYSDATE))) A
+    <![CDATA[
+        WHERE ROWNUM <= 5
+        ]]>
+    </select>
+
+
+    <select id="EndFundings" resultMap="SlideFileMap">
+        SELECT
+            ROWNUM RNUM,
+            A.END_DATE,
+            A.FUNDING_CODE,
+            A.FUNDING_TITLE,
+            A.FUNDING_SUMMARY,
+            A.FILE_MODIFICATION_NAME
+        FROM (
+                 SELECT
+                     F.END_DATE,
+                     F.FUNDING_CODE,
+                     F.FUNDING_TITLE,
+                     F.FUNDING_SUMMARY,
+                     TFF.FILE_MODIFICATION_NAME
+                 FROM TBL_FUNDING F
+                          JOIN TBL_FUNDING_FILE TFF ON F.FUNDING_CODE = TFF.FUNDING_CODE
+                 WHERE  TFF.FILE_TYPE='메인'
+                 ORDER BY (F.END_DATE - TRUNC(SYSDATE))) A
+    <![CDATA[
+        WHERE ROWNUM <= 5
+        ]]>
+    </select>
+
+
+</mapper>
+
