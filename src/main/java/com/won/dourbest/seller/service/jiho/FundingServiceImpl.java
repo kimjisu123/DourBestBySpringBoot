@@ -1,6 +1,7 @@
 package com.won.dourbest.seller.service.jiho;
 
 import com.won.dourbest.seller.dao.jiho.FundingMapper;
+import com.won.dourbest.seller.dto.FundPageDTO;
 import com.won.dourbest.seller.dto.FundingDTO;
 import com.won.dourbest.seller.dto.MainImgDTO;
 import com.won.dourbest.seller.dto.OptionDTO;
