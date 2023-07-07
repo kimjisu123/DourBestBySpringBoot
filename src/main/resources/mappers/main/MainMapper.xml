@@ -67,7 +67,9 @@
                      TFF.FILE_MODIFICATION_NAME
                  FROM TBL_FUNDING F
                           JOIN TBL_FUNDING_FILE TFF ON F.FUNDING_CODE = TFF.FUNDING_CODE
-                 WHERE  TFF.FILE_TYPE='메인'
+                          JOIN TBL_FUNDING_STATUSLIST FSL ON F.FUNDING_CODE = FSL.FUNDING_CODE
+                          JOIN TBL_FUNDING_STATUS FSS ON FSS.FUNDING_STATUS_CODE = FSL.FUNDING_STATUS_CODE
+                   WHERE  TFF.FILE_TYPE='메인' AND FSS.FUNDING_STATUS_NAME = '승인완료' <!-- 나중에 펀딩진행중로 변경해야함-->
                  ORDER BY F.APPLICATION_DATE DESC) A
     <![CDATA[
         WHERE ROWNUM <= 8
@@ -91,7 +93,9 @@
                      TFF.FILE_MODIFICATION_NAME
                  FROM TBL_FUNDING F
                           JOIN TBL_FUNDING_FILE TFF ON F.FUNDING_CODE = TFF.FUNDING_CODE
-                 WHERE  TFF.FILE_TYPE='메인'
+                          JOIN TBL_FUNDING_STATUSLIST FSL ON F.FUNDING_CODE = FSL.FUNDING_CODE
+                          JOIN TBL_FUNDING_STATUS FSS ON FSS.FUNDING_STATUS_CODE = FSL.FUNDING_STATUS_CODE
+                 WHERE  TFF.FILE_TYPE='메인' AND FSS.FUNDING_STATUS_NAME = '승인완료' <!-- 나중에 펀딩진행중로 변경해야함-->
                  ORDER BY F.LIKES DESC) A
     <![CDATA[
         WHERE ROWNUM <= 5
@@ -116,7 +120,9 @@
                      TFF.FILE_MODIFICATION_NAME
                  FROM TBL_FUNDING F
                           JOIN TBL_FUNDING_FILE TFF ON F.FUNDING_CODE = TFF.FUNDING_CODE
-                 WHERE  TFF.FILE_TYPE='메인'
+                          JOIN TBL_FUNDING_STATUSLIST FSL ON F.FUNDING_CODE = FSL.FUNDING_CODE
+                          JOIN TBL_FUNDING_STATUS FSS ON FSS.FUNDING_STATUS_CODE = FSL.FUNDING_STATUS_CODE
+                 WHERE  TFF.FILE_TYPE='메인' AND FSS.FUNDING_STATUS_NAME = '승인완료'
                  ORDER BY (F.START_DATE - TRUNC(SYSDATE))) A
     <![CDATA[
         WHERE ROWNUM <= 5
@@ -141,7 +147,9 @@
                      TFF.FILE_MODIFICATION_NAME
                  FROM TBL_FUNDING F
                           JOIN TBL_FUNDING_FILE TFF ON F.FUNDING_CODE = TFF.FUNDING_CODE
-                 WHERE  TFF.FILE_TYPE='메인'
+                          JOIN TBL_FUNDING_STATUSLIST FSL ON F.FUNDING_CODE = FSL.FUNDING_CODE
+                          JOIN TBL_FUNDING_STATUS FSS ON FSS.FUNDING_STATUS_CODE = FSL.FUNDING_STATUS_CODE
+                 WHERE  TFF.FILE_TYPE='메인' AND FSS.FUNDING_STATUS_NAME = '승인완료' <!-- 나중에 펀딩진행중로 변경해야함-->
                  ORDER BY (F.END_DATE - TRUNC(SYSDATE))) A
     <![CDATA[
         WHERE ROWNUM <= 5

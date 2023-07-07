@@ -95,5 +95,20 @@ public class MypageServiceImple implements MypageService{
         return info;
     }
 
+    // 문의사항 세부내역
+    @Override
+    @Transactional
+    public Map<String, Object> InquireAndwer(String userId, int orderCode) {
+
+        OrderFundingDTO byOrder = mypageMapper.findByOrder(userId, orderCode);
+        List<MemberInquireListDTO> inquires = mypageMapper.QnaInqurireAndwer();
+
+        Map<String , Object> inquireView = new HashMap<>();
+        inquireView.put("order" ,byOrder);
+        inquireView.put("inquire" ,inquires);
+
+        return inquireView ;
+    }
+
 
 }

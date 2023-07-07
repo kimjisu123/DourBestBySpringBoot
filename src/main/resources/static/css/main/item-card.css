@@ -45,7 +45,7 @@
 }
 
 .card .thumb {
-    padding-bottom: 70%;
+    /*padding-bottom: 70%;*/
     background-size: cover;
     background-position: center center;
 }

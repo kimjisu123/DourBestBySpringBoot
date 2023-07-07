@@ -674,4 +674,28 @@
     </select>
 
 
+<!-- 고객 문의사항 쿼리문 -->
+
+    <select id="QnaInqurireAndwer" resultMap="InquireResult">
+
+        SELECT
+            TAI.CONTACT_SUBJECT,
+            TAI.CONTACT_DETAILS,
+            TAI.DATE_CREATION_INQUIRY,
+            TC.CATEGORY_NAME,
+            TAQ.ADMIN_QNA_CODE,
+            TAQ.ANSWER_CONTENT,
+            TAQ.ANSWER_DATE
+        FROM TBL_ADMIN_INQUIRIES TAI
+                 LEFT JOIN TBL_ADMIN_QNA TAQ on TAI.INQUIRIES_CODE = TAQ.INQUIRIES_CODE
+                 LEFT JOIN TBL_MEMBER M on TAI.MEMBER_CODE = M.MEMBER_CODE
+                 LEFT JOIN TBL_CATEGORY TC on TAI.CATEGORY_CODE = TC.CATEGORY_CODE
+        where M.MEMBER_ID='user01'
+          and TAI.INQUIRIES_CODE = 2
+
+
+    </select>
+
+
+
 </mapper>

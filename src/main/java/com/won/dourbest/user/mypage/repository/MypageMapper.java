@@ -40,4 +40,6 @@ public interface MypageMapper {
 
     List<CategoryDTO> contactCategory();
 
+    List<MemberInquireListDTO> QnaInqurireAndwer();
+
 }

@@ -289,9 +289,6 @@ public class MypageController {
         return "user/mypage/changePwd";
     }
 
-
-
-
     @PostMapping ("/changePwd")    //이동할 페이지
     public String changePwd(@AuthenticationPrincipal MemberImpl member, @RequestParam String pwd, @RequestParam String pwdCheck){
 
@@ -309,6 +306,15 @@ public class MypageController {
 
 
         return "user/mypage/changePwd";
+    }
+
+
+    @GetMapping("/inquireVeiw")    //이동할 페이지
+    public String inquireView(@AuthenticationPrincipal MemberImpl user){
+
+
+
+        return "user/mypage/inquireVeiw";
     }
 
 }

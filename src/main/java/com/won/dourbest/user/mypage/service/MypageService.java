@@ -29,4 +29,6 @@ public interface MypageService {
 
     public Map<String,Object> OrderAndCreditInfo(String userId, int orderCode);
 
+    public Map<String,Object> InquireAndwer(String userId, int orderCode);
+
 }

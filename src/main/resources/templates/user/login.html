@@ -37,7 +37,7 @@
                                 <button class="loginButton" type="submit">로그인</button>
                             </div>
                             <div>
-                                <button class="signupButton" type="button" th:href="@{/user/signup}">회원가입</button>
+                                <button class="signupButton" type="button" th:onclick="|location.href='@{/user/signup}'|">회원가입</button>
                             </div>
                         </div>
                     </form>
@@ -67,7 +67,7 @@
                                 <button class="loginButton" type="submit">관리자로 로그인하기</button>
                             </div>
                             <div>
-                                <button class="signupButton" type="button" th:href="@{/user/signup}">관리자 회원가입</button>
+                                <button class="signupButton" type="button" th:onclick="|location.href='@{/admin/adminAccount}'|">관리자 회원가입</button>
                             </div>
                         </div>
                     </form>
@@ -75,7 +75,6 @@
             </div>
         </div>
     </section>
-
 </main>
 <script src=""></script>
 </html>
