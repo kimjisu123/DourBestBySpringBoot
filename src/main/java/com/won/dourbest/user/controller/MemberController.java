@@ -135,12 +135,12 @@ public class MemberController {
 //        log.info("pwd = " +  pwd);
         boolean result = passwordEncoder.matches( pwd , user.getPassword());
 //        log.info("result = " + result);
-            if(result) {
-                return "redirect:/mypage/changeInfo";
-            } else {
+        if(result) {
+            return "redirect:/mypage/changeInfo";
+        } else {
 //
-                return "redirect:/mypage/checkMember";
-            }
+            return "redirect:/mypage/checkMember";
+        }
     }
 
 

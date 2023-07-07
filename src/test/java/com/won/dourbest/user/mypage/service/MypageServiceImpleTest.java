@@ -1,10 +1,13 @@
 package com.won.dourbest.user.mypage.service;
 
 import com.won.dourbest.user.dto.MypageDTO;
+import com.won.dourbest.user.dto.MypageMainDTO;
 import com.won.dourbest.user.mypage.repository.MypageMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -15,9 +18,10 @@ class MypageServiceImpleTest {
 
     @Test
     void myPageinfo() {
+        Map<String, Object> testuser = mypageService.myPageinfo("testuser");
+        System.out.println("testuser = " + testuser.get("mypageMain"));
+        System.out.println("delivery = " + testuser.get("delivery"));
 
-        MypageDTO mypageDTO = mypageService.myPageinfo("testuser");
-        System.out.println("mypageDTO = " + mypageDTO);
     }
 
     @Test

@@ -23,7 +23,7 @@
     height: 100px;
 }
 
-.main-container0 > div{
+.main-container0 > a{
     width: 33.3333%;
     display: flex;
     justify-content: center;
@@ -141,13 +141,15 @@
 
 .answer {
     width: 700px;
-    display: flex;
+
     position: relative;
     top: -30px;
+    text-align: center;
 
     background-color: rgba(128, 128, 128, 0.2);;
     width: 1282px;
     height: 100px;
+    line-height: 100px;
 
 
 }
@@ -166,6 +168,57 @@
 }
 
 
+
+
+@media (max-width: 880px) {
+
+    .board_list .num{
+        width: 10%;
+    }
+    .board_list .title{
+        width: 45%;
+    }
+}
+
+section {
+    margin-bottom: 200px;
+}
+
+/*@media (max-width: 880px) {*/
+
+/*    .board_list .num{*/
+/*        width: 10%;*/
+/*    }*/
+/*    .board_list .title{*/
+/*        width: 45%;*/
+/*    }*/
+/*}*/
+
+/*---------------------------훔쳐온거---------------------- */
+
+.pagingArea {
+    display: inline-block;
+}
+
+.paging-button {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+}
+
+.pagingArea.active {
+    background-color: #F35F4C;
+    color: white;
+}
+
+.pagingArea button:hover:not(.active) {background-color: #ddd;}
+
+.pagingArea {
+    position: relative;
+    top: 5px;
+    left: 543px;
+}
 
 
 

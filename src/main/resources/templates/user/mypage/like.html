@@ -30,11 +30,11 @@
             <h2 class="sr-only">찜한 목록</h2>
             <div class="item-cards">
               <th:block th:unless="${!list.isEmpty()} or ${list.size()} > 0 ">
-                <p class="no-list">  없습니다. </p>
+                <p class="no-list"> 없습니다. </p>
               </th:block>
               <div class="item" th:each="funding : ${list}">
-                <a href="" class="card" >
-                  <div class="thumb"></div>
+                <a th:href="@{/funding/{id}(id=${funding.fundingCode})}" class="card" >
+                  <div class="thumb" th:style="'background-image: url('+@{/fundingImg/}+${funding.filePath}+')'" ></div>
                   <article>
                     <h1 th:text="${funding.fundingTitle}">item1</h1>
                     <p th:text="${funding.fundingSummary}">설명</p>

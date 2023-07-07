@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.won.dourbest.seller.dao.ReviewMapper">
+
+    <resultMap id="selectReviewResultMap" type="ReviewDTO">
+        <result property="memberId" column="MEMBER_ID"/>
+        <result property="reviewTitle" column="REVIEW_TITLE"/>
+        <result property="reviewContent" column="REVIEW_CONTENT"/>
+        <result property="creationDate" column="CREATION_DATE"/>
+    </resultMap>
+
+
+    <select id="selectReview" resultMap="selectReviewResultMap">
+        SELECT
+             A.MEMBER_ID
+          ,  B.REVIEW_TITLE
+          ,  B.REVIEW_CONTENT
+          ,  TO_CHAR(B.CREATION_DATE, 'YYYY/MM/DD') AS CREATION_DATE
+          FROM TBL_REVIEW B
+          JOIN TBL_MEMBER A ON (B.MEMBER_CODE = A.MEMBER_CODE)
+    </select>
+
+</mapper>
+
+

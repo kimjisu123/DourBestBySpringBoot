@@ -43,6 +43,13 @@
         JOIN    TBL_FUNDING_REPORT E ON (E.REPORT_CODE = A.REPORT_CODE)
         JOIN    TBL_REPORT_RESPONSE F ON (E.REPORT_CODE = F.REPORT_CODE)
         WHERE   ANSWERS_STATUS = 'N'
+        <where>
+            <if test="searchId != null and searchId != ''">
+                WHERE   MEMBER_ID = #{ searchId }
+            </if>
+        </where>
+        ORDER BY ADMIN_CODE ASC
+        OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
     </select>
 
     <select id="selectAnswerReport" resultMap="selectAnswerReportResultMap">
@@ -61,6 +68,23 @@
                     JOIN    TBL_FUNDING_REPORT E ON (E.REPORT_CODE = A.REPORT_CODE)
                     JOIN    TBL_REPORT_RESPONSE F ON (E.REPORT_CODE = F.REPORT_CODE)
         WHERE   ANSWERS_STATUS = 'Y'
+        <where>
+            <if test="searchId != null and searchId != ''">
+                WHERE   MEMBER_ID = #{ searchId }
+            </if>
+        </where>
+        ORDER BY ADMIN_CODE ASC
+        OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
     </select>
-    
+
+    <!--  총 페이지 갯수  -->
+    <select id="selectTotalPage">
+        SELECT
+        count(*)
+        FROM    TBL_MEMBER A
+        <if test="searchId != null and searchId != ''">
+            WHERE   MEMBER_ID = #{ searchId }
+        </if>
+    </select>
+
 </mapper>

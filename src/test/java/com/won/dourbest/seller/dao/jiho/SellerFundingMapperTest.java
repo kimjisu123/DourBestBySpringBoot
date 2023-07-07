@@ -7,10 +7,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 @Transactional
-class SellerMapperTest {
+class SellerFundingMapperTest {
 
     @Autowired
-    private SellerFundingMapper sellerMapper;
+    private SellerFundingMapper sellerFundingMapper;
 
     @Test
     void allPlan() {

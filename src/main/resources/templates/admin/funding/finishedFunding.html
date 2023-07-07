@@ -111,6 +111,47 @@
                         <div th:text="${#dates.format(finishedFunding.getStartDate(), 'yyyy/MM/dd')}" id="adminFund4"></div>
                         <div th:text="${#dates.format(finishedFunding.getEndDate(), 'yyyy/MM/dd')}" id="adminFund5"></div>
                     </div>
+
+                    <!-- 페이지 처리 -->
+                    <div class="board_page" align="center">
+                        <!-- 맨 앞으로 이동 버튼 th:disabled로 인해 현재 페이지가 1페이지인 경우 비활성화 한다.-->
+                        <a class="bt first"
+                           th:onclick="'location.href=\'/admin/finished?currentPage='+ @{${selectCriteria.startPage}} + '\''"
+                           th:disabled="${selectCriteria.pageNo == 1}"
+                        >
+                            <<
+                        </a>
+                        <!-- 이전 페이지 버튼 th:disabled로 인해 현재 페이지가 1페이지인 경우 비활성화 한다.-->
+                        <a  class="bt prev"
+                            th:onclick="'location.href=\'/admin/finished?currentPage='+ @{${selectCriteria.pageNo - 1}} + '\''"
+                            th:disabled="${selectCriteria.pageNo == 1}"
+                        >
+                            <
+                        </a>
+                        <!-- 숫자 버튼 th:disabled로 인해 현재페이지랑 같은 숫자의 버튼을 비활성화 한다. -->
+                        <th:block th:each="page : ${#numbers.sequence(selectCriteria.startPage, selectCriteria.endPage)}">
+                            <button class="num"
+                                    th:text="${ page }"
+                                    th:onclick="'location.href=\'/admin/finished?currentPage='+ @{${page}} + '\''"
+                                    th:disabled="${ selectCriteria.pageNo eq page }">
+                            </button>
+                        </th:block>
+
+                        <!-- 다음 페이지 버튼 th:disabled로 인해 현재 페이지가 마지막 페이지인 경우 비활성화 한다-->
+                        <a class="bt next"
+                           th:onclick="'location.href=\'/admin/finished?currentPage='+ @{${selectCriteria.pageNo + 1}} + '\''"
+                           th:disabled="${selectCriteria.pageNo == selectCriteria.maxPage}"
+                        >
+                            >
+                        </a>
+                        <!-- 마지막 페이지로 이동 버튼 th:disabled로 인해 현재  페이지가 마지막 페이지인 경우 비활성화 한다. -->
+                        <a class="bt last"
+                           th:onclick="'location.href=\'/admin/finished?currentPage='+ @{${selectCriteria.maxPage}} + '\''"
+                           th:disabled="${selectCriteria.pageNo == selectCriteria.maxPage}"
+                        >
+                            >>
+                        </a>
+                    </div>
                 </div>
             </div>
         </section>
