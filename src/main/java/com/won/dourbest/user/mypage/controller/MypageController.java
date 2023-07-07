@@ -41,6 +41,8 @@ public class MypageController {
 
     private final MemberService memberService;
 
+    private final PasswordEncoder passwordEncoder;
+
     @GetMapping
     public String mypage(Model model, @AuthenticationPrincipal MemberImpl member) {
 

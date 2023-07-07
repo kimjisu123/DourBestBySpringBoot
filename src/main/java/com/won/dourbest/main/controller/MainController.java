@@ -5,6 +5,7 @@ import com.won.dourbest.common.dto.Pagination;
 import com.won.dourbest.common.dto.SearchCriteria;
 import com.won.dourbest.main.model.dto.CategoryFundingDTO;
 import com.won.dourbest.main.model.service.MainService;
+import com.won.dourbest.user.dto.LikeFundingDTO;
 import com.won.dourbest.user.mypage.service.MypageCommonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
