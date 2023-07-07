@@ -30,11 +30,9 @@
             A.ADMIN_CODE,
             ROWNUM
         FROM TBL_NOTICE A
-        <where>
-            <if test="searchValue != null and searchValue != ''">
-                WHERE   MEMBER_ID = #{ searchValue }
-            </if>
-        </where>
+        <if test="searchValue != null and searchValue != ''">
+            WHERE A.NOTICE_TITLE LIKE '%' || #{ searchValue } || '%'
+        </if>
         ORDER BY REGI_DATE ASC
         OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
 
@@ -57,11 +55,9 @@
             FROM    TBL_EVENT )
         WHERE START_DATE &lt; SYSDATE
         AND   END_DATE &gt; SYSDATE
-        <where>
-            <if test="searchValue != null and searchValue != ''">
-                WHERE   MEMBER_ID = #{ searchValue }
-            </if>
-        </where>
+        <if test="searchValue != null and searchValue != ''">
+            AND EVENT_TITLE LIKE '%' || #{ searchValue } || '%'
+        </if>
         ORDER BY START_DATE ASC
         OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
     </select>
@@ -84,11 +80,9 @@
                 ROWNUM
             FROM    TBL_EVENT )
         WHERE END_DATE &lt; SYSDATE
-        <where>
-            <if test="searchValue != null and searchValue != ''">
-                WHERE   MEMBER_ID = #{ searchValue }
-            </if>
-        </where>
+        <if test="searchValue != null and searchValue != ''">
+            AND EVENT_TITLE LIKE '%' || #{ searchValue } || '%'
+        </if>
         ORDER BY START_DATE ASC
         OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
     </select>

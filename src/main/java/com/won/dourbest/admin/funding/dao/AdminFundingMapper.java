@@ -33,4 +33,13 @@ public interface AdminFundingMapper {
 
     // 총 게시물의 개수
     int selectTotalPage(Map<String, String> searchMap);
+
+    // memberId로 memberCode을 찾음
+    String selectMemberCode(String memberId);
+
+    // 판매자 등록
+    int insertSellerRegist(String memberCode);
+
+    // 상태값 변경
+    int updateSellerRegist(String memberCode);
 }

@@ -34,11 +34,9 @@
         FROM    TBL_COUPONLIST A
         JOIN    TBL_COUPON B ON (A.COUPON_CODE = B.COUPON_CODE)
         JOIN    TBL_MEMBER C ON (A.MEMBER_CODE = C.MEMBER_CODE)
-        <where>
-            <if test="searchValue != null and searchValue != ''">
-                WHERE   MEMBER_ID = #{ searchValue }
-            </if>
-        </where>
+        <if test="searchValue != null and searchValue != ''">
+            WHERE COUPON_CONTENT LIKE '%' || #{ searchValue } || '%'
+        </if>
         OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
 
     </select>
@@ -53,13 +51,11 @@
             B.COUPON_DISCOUNT,
             A.REGI_DATE
         FROM    TBL_COUPONLIST A
-                    JOIN    TBL_COUPON B ON (A.COUPON_CODE = B.COUPON_CODE)
-                    JOIN    TBL_MEMBER C ON (A.MEMBER_CODE = C.MEMBER_CODE)
-        <where>
-            <if test="searchValue != null and searchValue != ''">
-                WHERE   MEMBER_ID = #{ searchValue }
-            </if>
-        </where>
+        JOIN    TBL_COUPON B ON (A.COUPON_CODE = B.COUPON_CODE)
+        JOIN    TBL_MEMBER C ON (A.MEMBER_CODE = C.MEMBER_CODE)
+        <if test="searchValue != null and searchValue != ''">
+            WHERE C.MEMBER_ID LIKE '%' || #{ searchValue } || '%'
+        </if>
         OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
 
     </select>

@@ -75,12 +75,12 @@
                     <div id="memberID" class="memberIDButton">
                         제목
                     </div>
-                    <input type="text" placeholder="검색하실 펀딩의 제목을 입력해주세요" id="inputID" class="memberIDButton">
+                    <input type="hidden" name="currentPage" value="1">
 
-                    </input>
-                    <div id="searchButton" class="memberIDButton">
-                        검색
-                    </div>
+                    <form method="get", action="/admin/willopen">
+                        <input type="search" placeholder="검색하실 펀딩의 이름을 입력해주세요" id="inputID" class="memberIDButton" name="searchValue">
+                        <input type="submit"  id="searchButton" class="memberIDButton" value="검색"/>
+                    </form>
                 </div>
 
 

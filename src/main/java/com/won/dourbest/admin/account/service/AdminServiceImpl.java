@@ -155,8 +155,6 @@ public class AdminServiceImpl implements AdminService {
 
         adminImpl.setDetail(admin);
 
-        log.info("adminImpl={}", adminImpl);
-
         return adminImpl;
     }
 }

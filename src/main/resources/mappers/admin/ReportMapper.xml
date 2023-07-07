@@ -43,11 +43,9 @@
         JOIN    TBL_FUNDING_REPORT E ON (E.REPORT_CODE = A.REPORT_CODE)
         JOIN    TBL_REPORT_RESPONSE F ON (E.REPORT_CODE = F.REPORT_CODE)
         WHERE   ANSWERS_STATUS = 'N'
-        <where>
-            <if test="searchValue != null and searchValue != ''">
-                WHERE   MEMBER_ID = #{ searchValue }
-            </if>
-        </where>
+        <if test="searchValue != null and searchValue != ''">
+            AND   MEMBER_ID LIKE '%' || #{ searchValue } || '%'
+        </if>
         ORDER BY ADMIN_CODE ASC
         OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
     </select>
@@ -68,11 +66,9 @@
                     JOIN    TBL_FUNDING_REPORT E ON (E.REPORT_CODE = A.REPORT_CODE)
                     JOIN    TBL_REPORT_RESPONSE F ON (E.REPORT_CODE = F.REPORT_CODE)
         WHERE   ANSWERS_STATUS = 'Y'
-        <where>
-            <if test="searchValue != null and searchValue != ''">
-                WHERE   MEMBER_ID = #{ searchValue }
-            </if>
-        </where>
+        <if test="searchValue != null and searchValue != ''">
+            AND   MEMBER_ID LIKE '%' || #{ searchValue } || '%'
+        </if>
         ORDER BY ADMIN_CODE ASC
         OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
     </select>
