@@ -32,10 +32,10 @@ public class ReportController {
     }
 
     @GetMapping("reportDetails")
-    public ModelAndView reportDetails(ModelAndView mv, @RequestParam(required = false) String searchId, @RequestParam(defaultValue = "1", value="currentPage") int pageNO){
+    public ModelAndView reportDetails(ModelAndView mv, @RequestParam(required = false) String searchValue, @RequestParam(defaultValue = "1", value="currentPage") int pageNO){
 
         Map<String, String> searchMap = new HashMap<>();
-        searchMap.put("searchId", searchId);
+        searchMap.put("searchValue", searchValue);
 
         // 조건이 있을시에 보여지는 페이지의 갯수
         int totalPage = reportServiceImpl.selectTotalPage(searchMap);
@@ -48,8 +48,8 @@ public class ReportController {
 
         SelectCriteria selectCriteria = null;
 
-        if(searchId != "" && searchId != null){
-            selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button,searchId);  // 조건이 있을 경우
+        if(searchValue != "" && searchValue != null){
+            selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button,searchValue);  // 조건이 있을 경우
         } else {
             selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button);           // 조건이 없을 경우
         }
@@ -64,10 +64,10 @@ public class ReportController {
     }
 
     @GetMapping("answerReport")
-    public ModelAndView blackList(ModelAndView mv, @RequestParam(required = false) String searchId, @RequestParam(defaultValue = "1", value="currentPage") int pageNO){
+    public ModelAndView blackList(ModelAndView mv, @RequestParam(required = false) String searchValue, @RequestParam(defaultValue = "1", value="currentPage") int pageNO){
 
         Map<String, String> searchMap = new HashMap<>();
-        searchMap.put("searchId", searchId);
+        searchMap.put("searchValue", searchValue);
 
         // 조건이 있을시에 보여지는 페이지의 갯수
         int totalPage = reportServiceImpl.selectTotalPage(searchMap);
@@ -80,8 +80,8 @@ public class ReportController {
 
         SelectCriteria selectCriteria = null;
 
-        if(searchId != "" && searchId != null){
-            selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button,searchId);  // 조건이 있을 경우
+        if(searchValue != "" && searchValue != null){
+            selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button,searchValue);  // 조건이 있을 경우
         } else {
             selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button);           // 조건이 없을 경우
         }

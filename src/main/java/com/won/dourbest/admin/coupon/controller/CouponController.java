@@ -26,10 +26,10 @@ public class CouponController {
 
     // 쿠폰 발급 내역
     @GetMapping("/Issuance")
-    public ModelAndView Issuance(ModelAndView mv, @RequestParam(required = false) String searchId, @RequestParam(defaultValue = "1", value="currentPage") int pageNO){
+    public ModelAndView Issuance(ModelAndView mv, @RequestParam(required = false) String searchValue, @RequestParam(defaultValue = "1", value="currentPage") int pageNO){
 
         Map<String, String> searchMap = new HashMap<>();
-        searchMap.put("searchId", searchId);
+        searchMap.put("searchValue", searchValue);
 
         // 조건이 있을시에 보여지는 페이지의 갯수
         int totalPage = couponServiceImpl.selectTotalPage(searchMap);
@@ -42,8 +42,8 @@ public class CouponController {
 
         SelectCriteria selectCriteria = null;
 
-        if(searchId != "" && searchId != null){
-            selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button,searchId);  // 조건이 있을 경우
+        if(searchValue != "" && searchValue != null){
+            selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button,searchValue);  // 조건이 있을 경우
         } else {
             selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button);           // 조건이 없을 경우
         }
@@ -59,10 +59,10 @@ public class CouponController {
 
     // 쿠폰 사용 내역
     @GetMapping("/UseCoupon")
-    public ModelAndView useCoupon(ModelAndView mv, @RequestParam(required = false) String searchId, @RequestParam(defaultValue = "1", value="currentPage") int pageNO){
+    public ModelAndView useCoupon(ModelAndView mv, @RequestParam(required = false) String searchValue, @RequestParam(defaultValue = "1", value="currentPage") int pageNO){
 
         Map<String, String> searchMap = new HashMap<>();
-        searchMap.put("searchId", searchId);
+        searchMap.put("searchValue", searchValue);
 
         // 조건이 있을시에 보여지는 페이지의 갯수
         int totalPage = couponServiceImpl.selectTotalPage(searchMap);
@@ -75,8 +75,8 @@ public class CouponController {
 
         SelectCriteria selectCriteria = null;
 
-        if(searchId != "" && searchId != null){
-            selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button,searchId);  // 조건이 있을 경우
+        if(searchValue != "" && searchValue != null){
+            selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button,searchValue);  // 조건이 있을 경우
         } else {
             selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button);           // 조건이 없을 경우
         }

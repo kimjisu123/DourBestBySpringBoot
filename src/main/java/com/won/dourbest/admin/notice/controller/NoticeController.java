@@ -30,10 +30,10 @@ public class NoticeController {
 
     // 공지사항 조회
     @GetMapping("/notice")
-    public ModelAndView notice(ModelAndView mv, @RequestParam(required = false) String searchId, @RequestParam(defaultValue = "1", value="currentPage") int pageNO){
+    public ModelAndView notice(ModelAndView mv, @RequestParam(required = false) String searchValue, @RequestParam(defaultValue = "1", value="currentPage") int pageNO){
 
         Map<String, String> searchMap = new HashMap<>();
-        searchMap.put("searchId", searchId);
+        searchMap.put("searchValue", searchValue);
 
         // 조건이 있을시에 보여지는 페이지의 갯수
         int totalPage = noticeServiceImpl.selectTotalPage(searchMap);
@@ -46,8 +46,8 @@ public class NoticeController {
 
         SelectCriteria selectCriteria = null;
 
-        if(searchId != "" && searchId != null){
-            selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button,searchId);  // 조건이 있을 경우
+        if(searchValue != "" && searchValue != null){
+            selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button,searchValue);  // 조건이 있을 경우
         } else {
             selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button);           // 조건이 없을 경우
         }
@@ -65,11 +65,11 @@ public class NoticeController {
     }
 
     @GetMapping("/ongoingEvent")
-    public ModelAndView ongoingEvent(ModelAndView mv, @RequestParam(required = false) String searchId, @RequestParam(defaultValue = "1", value="currentPage") int pageNO){
+    public ModelAndView ongoingEvent(ModelAndView mv, @RequestParam(required = false) String searchValue, @RequestParam(defaultValue = "1", value="currentPage") int pageNO){
 
 
         Map<String, String> searchMap = new HashMap<>();
-        searchMap.put("searchId", searchId);
+        searchMap.put("searchValue", searchValue);
 
         // 조건이 있을시에 보여지는 페이지의 갯수
         int totalPage = noticeServiceImpl.selectTotalPage(searchMap);
@@ -82,8 +82,8 @@ public class NoticeController {
 
         SelectCriteria selectCriteria = null;
 
-        if(searchId != "" && searchId != null){
-            selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button,searchId);  // 조건이 있을 경우
+        if(searchValue != "" && searchValue != null){
+            selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button,searchValue);  // 조건이 있을 경우
         } else {
             selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button);           // 조건이 없을 경우
         }
@@ -100,10 +100,10 @@ public class NoticeController {
     }
 
     @GetMapping("/finshedEvent")
-    public ModelAndView finshedEvent(ModelAndView mv, @RequestParam(required = false) String searchId, @RequestParam(defaultValue = "1", value="currentPage") int pageNO){
+    public ModelAndView finshedEvent(ModelAndView mv, @RequestParam(required = false) String searchValue, @RequestParam(defaultValue = "1", value="currentPage") int pageNO){
 
         Map<String, String> searchMap = new HashMap<>();
-        searchMap.put("searchId", searchId);
+        searchMap.put("searchValue", searchValue);
 
         // 조건이 있을시에 보여지는 페이지의 갯수
         int totalPage = noticeServiceImpl.selectTotalPage(searchMap);
@@ -116,8 +116,8 @@ public class NoticeController {
 
         SelectCriteria selectCriteria = null;
 
-        if(searchId != "" && searchId != null){
-            selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button,searchId);  // 조건이 있을 경우
+        if(searchValue != "" && searchValue != null){
+            selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button,searchValue);  // 조건이 있을 경우
         } else {
             selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button);           // 조건이 없을 경우
         }

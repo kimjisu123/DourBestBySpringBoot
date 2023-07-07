@@ -31,8 +31,8 @@
             ROWNUM
         FROM TBL_NOTICE A
         <where>
-            <if test="searchId != null and searchId != ''">
-                WHERE   MEMBER_ID = #{ searchId }
+            <if test="searchValue != null and searchValue != ''">
+                WHERE   MEMBER_ID = #{ searchValue }
             </if>
         </where>
         ORDER BY REGI_DATE ASC
@@ -58,8 +58,8 @@
         WHERE START_DATE &lt; SYSDATE
         AND   END_DATE &gt; SYSDATE
         <where>
-            <if test="searchId != null and searchId != ''">
-                WHERE   MEMBER_ID = #{ searchId }
+            <if test="searchValue != null and searchValue != ''">
+                WHERE   MEMBER_ID = #{ searchValue }
             </if>
         </where>
         ORDER BY START_DATE ASC
@@ -85,8 +85,8 @@
             FROM    TBL_EVENT )
         WHERE END_DATE &lt; SYSDATE
         <where>
-            <if test="searchId != null and searchId != ''">
-                WHERE   MEMBER_ID = #{ searchId }
+            <if test="searchValue != null and searchValue != ''">
+                WHERE   MEMBER_ID = #{ searchValue }
             </if>
         </where>
         ORDER BY START_DATE ASC
@@ -100,8 +100,8 @@
         SELECT
         count(*)
         FROM    TBL_MEMBER A
-        <if test="searchId != null and searchId != ''">
-            WHERE   MEMBER_ID = #{ searchId }
+        <if test="searchValue != null and searchValue != ''">
+            WHERE   MEMBER_ID = #{ searchValue }
         </if>
     </select>
 

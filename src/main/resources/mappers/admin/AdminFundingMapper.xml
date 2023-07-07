@@ -34,8 +34,8 @@
         JOIN TBL_MEMBER C ON (B.MEMBER_CODE = C.MEMBER_CODE)
         WHERE A.START_DATE &gt; SYSDATE
         <where>
-            <if test="searchId != null and searchId != ''">
-                WHERE   FUNDING_TITLE = #{ searchId }
+            <if test="searchValue != null and searchValue != ''">
+                WHERE   FUNDING_TITLE = #{ searchValue }
             </if>
         </where>
         ORDER BY START_DATE ASC
@@ -57,8 +57,8 @@
         WHERE A.START_DATE &lt;= SYSDATE
         AND A.END_DATE &gt; SYSDATE
         <where>
-            <if test="searchId != null and searchId != ''">
-                WHERE   FUNDING_TITLE = #{ searchId }
+            <if test="searchValue != null and searchValue != ''">
+                WHERE   FUNDING_TITLE = #{ searchValue }
             </if>
         </where>
         ORDER BY START_DATE ASC
@@ -79,8 +79,8 @@
                  JOIN TBL_MEMBER C ON (B.MEMBER_CODE = C.MEMBER_CODE)
         WHERE A.END_DATE &lt; SYSDATE
         <where>
-            <if test="searchId != null and searchId != ''">
-                WHERE   FUNDING_TITLE = #{ searchId }
+            <if test="searchValue != null and searchValue != ''">
+                WHERE   FUNDING_TITLE = #{ searchValue }
             </if>
         </where>
         ORDER BY END_DATE ASC
@@ -104,8 +104,8 @@
                  JOIN TBL_MEMBER E ON (D.MEMBER_CODE = E.MEMBER_CODE)
         WHERE C.FUNDING_STATUS_NAME = '승인완료'
         <where>
-            <if test="searchId != null and searchId != ''">
-                WHERE   FUNDING_TITLE = #{ searchId }
+            <if test="searchValue != null and searchValue != ''">
+                WHERE   FUNDING_TITLE = #{ searchValue }
             </if>
         </where>
         ORDER BY CHANGE_DATE DESC
@@ -128,8 +128,8 @@
                  JOIN TBL_MEMBER E ON (D.MEMBER_CODE = E.MEMBER_CODE)
         WHERE C.FUNDING_STATUS_NAME = '승인대기'
         <where>
-            <if test="searchId != null and searchId != ''">
-                WHERE   FUNDING_TITLE = #{ searchId }
+            <if test="searchValue != null and searchValue != ''">
+                WHERE   FUNDING_TITLE = #{ searchValue }
             </if>
         </where>
         ORDER BY CHANGE_DATE DESC
@@ -161,8 +161,8 @@
         SELECT
         count(*)
         FROM    TBL_MEMBER A
-        <if test="searchId != null and searchId != ''">
-            WHERE   MEMBER_ID = #{ searchId }
+        <if test="searchValue != null and searchValue != ''">
+            WHERE   MEMBER_ID = #{ searchValue }
         </if>
     </select>
 

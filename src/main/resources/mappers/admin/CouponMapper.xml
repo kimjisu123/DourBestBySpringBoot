@@ -35,8 +35,8 @@
         JOIN    TBL_COUPON B ON (A.COUPON_CODE = B.COUPON_CODE)
         JOIN    TBL_MEMBER C ON (A.MEMBER_CODE = C.MEMBER_CODE)
         <where>
-            <if test="searchId != null and searchId != ''">
-                WHERE   MEMBER_ID = #{ searchId }
+            <if test="searchValue != null and searchValue != ''">
+                WHERE   MEMBER_ID = #{ searchValue }
             </if>
         </where>
         OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
@@ -56,8 +56,8 @@
                     JOIN    TBL_COUPON B ON (A.COUPON_CODE = B.COUPON_CODE)
                     JOIN    TBL_MEMBER C ON (A.MEMBER_CODE = C.MEMBER_CODE)
         <where>
-            <if test="searchId != null and searchId != ''">
-                WHERE   MEMBER_ID = #{ searchId }
+            <if test="searchValue != null and searchValue != ''">
+                WHERE   MEMBER_ID = #{ searchValue }
             </if>
         </where>
         OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
@@ -69,8 +69,8 @@
         SELECT
         count(*)
         FROM    TBL_MEMBER A
-        <if test="searchId != null and searchId != ''">
-            WHERE   MEMBER_ID = #{ searchId }
+        <if test="searchValue != null and searchValue != ''">
+            WHERE   MEMBER_ID = #{ searchValue }
         </if>
     </select>
 

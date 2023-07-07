@@ -29,10 +29,10 @@ public class FundController {
 
     // 오픈 예정 펀딩 목록
     @GetMapping("willopen")
-    public ModelAndView willopenFunding(ModelAndView mv, @RequestParam(required = false) String searchId, @RequestParam(defaultValue = "1", value="currentPage") int pageNO){
+    public ModelAndView willopenFunding(ModelAndView mv, @RequestParam(required = false) String searchValue, @RequestParam(defaultValue = "1", value="currentPage") int pageNO){
 
         Map<String, String> searchMap = new HashMap<>();
-        searchMap.put("searchId", searchId);
+        searchMap.put("searchValue", searchValue);
 
         // 조건이 있을시에 보여지는 페이지의 갯수
         int totalPage = fundingListService.selectTotalPage(searchMap);
@@ -45,8 +45,8 @@ public class FundController {
 
         SelectCriteria selectCriteria = null;
 
-        if(searchId != "" && searchId != null){
-            selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button,searchId);  // 조건이 있을 경우
+        if(searchValue != "" && searchValue != null){
+            selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button,searchValue);  // 조건이 있을 경우
         } else {
             selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button);           // 조건이 없을 경우
         }
@@ -63,10 +63,10 @@ public class FundController {
 
     // 진행중인 펀딩 목록
     @GetMapping("ongoing")
-    public ModelAndView ongoingFunding(ModelAndView mv, @RequestParam(required = false) String searchId, @RequestParam(defaultValue = "1", value="currentPage") int pageNO){
+    public ModelAndView ongoingFunding(ModelAndView mv, @RequestParam(required = false) String searchValue, @RequestParam(defaultValue = "1", value="currentPage") int pageNO){
 
         Map<String, String> searchMap = new HashMap<>();
-        searchMap.put("searchId", searchId);
+        searchMap.put("searchValue", searchValue);
 
         // 조건이 있을시에 보여지는 페이지의 갯수
         int totalPage = fundingListService.selectTotalPage(searchMap);
@@ -79,8 +79,8 @@ public class FundController {
 
         SelectCriteria selectCriteria = null;
 
-        if(searchId != "" && searchId != null){
-            selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button,searchId);  // 조건이 있을 경우
+        if(searchValue != "" && searchValue != null){
+            selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button,searchValue);  // 조건이 있을 경우
         } else {
             selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button);           // 조건이 없을 경우
         }
@@ -96,10 +96,10 @@ public class FundController {
 
     // 완료된 펀딩 목록
     @GetMapping("finished")
-    public ModelAndView finishedFunding(ModelAndView mv, @RequestParam(required = false) String searchId, @RequestParam(defaultValue = "1", value="currentPage") int pageNO){
+    public ModelAndView finishedFunding(ModelAndView mv, @RequestParam(required = false) String searchValue, @RequestParam(defaultValue = "1", value="currentPage") int pageNO){
 
         Map<String, String> searchMap = new HashMap<>();
-        searchMap.put("searchId", searchId);
+        searchMap.put("searchValue", searchValue);
 
         // 조건이 있을시에 보여지는 페이지의 갯수
         int totalPage = fundingListService.selectTotalPage(searchMap);
@@ -112,8 +112,8 @@ public class FundController {
 
         SelectCriteria selectCriteria = null;
 
-        if(searchId != "" && searchId != null){
-            selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button,searchId);  // 조건이 있을 경우
+        if(searchValue != "" && searchValue != null){
+            selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button,searchValue);  // 조건이 있을 경우
         } else {
             selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button);           // 조건이 없을 경우
         }
@@ -129,10 +129,10 @@ public class FundController {
 
     // 승인된 펀딩 목록
     @GetMapping("approved")
-    public ModelAndView approvedFunding(ModelAndView mv, @RequestParam(required = false) String searchId, @RequestParam(defaultValue = "1", value="currentPage") int pageNO){
+    public ModelAndView approvedFunding(ModelAndView mv, @RequestParam(required = false) String searchValue, @RequestParam(defaultValue = "1", value="currentPage") int pageNO){
 
         Map<String, String> searchMap = new HashMap<>();
-        searchMap.put("searchId", searchId);
+        searchMap.put("searchValue", searchValue);
 
         // 조건이 있을시에 보여지는 페이지의 갯수
         int totalPage = fundingListService.selectTotalPage(searchMap);
@@ -145,8 +145,8 @@ public class FundController {
 
         SelectCriteria selectCriteria = null;
 
-        if(searchId != "" && searchId != null){
-            selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button,searchId);  // 조건이 있을 경우
+        if(searchValue != "" && searchValue != null){
+            selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button,searchValue);  // 조건이 있을 경우
         } else {
             selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button);           // 조건이 없을 경우
         }
@@ -163,11 +163,11 @@ public class FundController {
 
     // 신청한 펀딩 목록
     @GetMapping("applied")
-    public ModelAndView fundingApplied(ModelAndView mv, @RequestParam(required = false) String searchId, @RequestParam(defaultValue = "1", value="currentPage") int pageNO){
+    public ModelAndView fundingApplied(ModelAndView mv, @RequestParam(required = false) String searchValue, @RequestParam(defaultValue = "1", value="currentPage") int pageNO){
 
 
         Map<String, String> searchMap = new HashMap<>();
-        searchMap.put("searchId", searchId);
+        searchMap.put("searchValue", searchValue);
 
         // 조건이 있을시에 보여지는 페이지의 갯수
         int totalPage = fundingListService.selectTotalPage(searchMap);
@@ -180,8 +180,8 @@ public class FundController {
 
         SelectCriteria selectCriteria = null;
 
-        if(searchId != "" && searchId != null){
-            selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button,searchId);  // 조건이 있을 경우
+        if(searchValue != "" && searchValue != null){
+            selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button,searchValue);  // 조건이 있을 경우
         } else {
             selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button);           // 조건이 없을 경우
         }
@@ -196,10 +196,10 @@ public class FundController {
     // 판매자 등록 신청 목록
 
     @GetMapping("sellerRegi")
-    public ModelAndView sellerRegistration(ModelAndView mv, @RequestParam(required = false) String searchId, @RequestParam(defaultValue = "1", value="currentPage") int pageNO){
+    public ModelAndView sellerRegistration(ModelAndView mv, @RequestParam(required = false) String searchValue, @RequestParam(defaultValue = "1", value="currentPage") int pageNO){
 
         Map<String, String> searchMap = new HashMap<>();
-        searchMap.put("searchId", searchId);
+        searchMap.put("searchValue", searchValue);
 
         // 조건이 있을시에 보여지는 페이지의 갯수
         int totalPage = fundingListService.selectTotalPage(searchMap);
@@ -212,8 +212,8 @@ public class FundController {
 
         SelectCriteria selectCriteria = null;
 
-        if(searchId != "" && searchId != null){
-            selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button,searchId);  // 조건이 있을 경우
+        if(searchValue != "" && searchValue != null){
+            selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button,searchValue);  // 조건이 있을 경우
         } else {
             selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button);           // 조건이 없을 경우
         }

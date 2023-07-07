@@ -79,8 +79,8 @@
             B.SELLER_CODE
         FROM TBL_MEMBER A
         LEFT JOIN TBL_SELLER B ON A.MEMBER_CODE = B.MEMBER_CODE
-        <if test="searchId != null and searchId != ''">
-            WHERE   MEMBER_ID = #{ searchId }
+        <if test="searchValue != null and searchValue != ''">
+            WHERE   MEMBER_ID = #{ searchValue }
         </if>
         ORDER BY A.MEMBER_CODE ASC
         OFFSET #{startRow} -1 ROWS       FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
@@ -100,8 +100,8 @@
         LEFT JOIN    TBL_SELLER B ON (A.MEMBER_CODE = B.MEMBER_CODE)
         WHERE WITHDRAWAL_STATUS IN 'Y'
         <where>
-            <if test="searchId != null and searchId != ''">
-                WHERE   MEMBER_ID = #{ searchId }
+            <if test="searchValue != null and searchValue != ''">
+                WHERE   MEMBER_ID = #{ searchValue }
             </if>
         </where>
         ORDER BY A.MEMBER_CODE ASC
@@ -122,8 +122,8 @@
         JOIN TBL_CREDIT C ON (B.ORDER_CODE = C.ORDER_CODE)
         JOIN TBL_FUNDING_CREDITLIST D ON (C.PAYMENT_CODE = D.PAYMENT_CODE)
         <where>
-            <if test="searchId != null and searchId != ''">
-                WHERE   MEMBER_ID = #{ searchId }
+            <if test="searchValue != null and searchValue != ''">
+                WHERE   MEMBER_ID = #{ searchValue }
             </if>
         </where>
         ORDER BY A.MEMBER_CODE ASC
@@ -143,8 +143,8 @@
         JOIN TBL_MEMBERSHIP_CREDIT B ON (A.MEMBER_CODE = B.MEMBER_CODE)
         JOIN TBL_MEMBERSHIP_CREDITLIST C ON (B.MEMBERSHIP_CREDIT_CODE = C.MEMBERSHIP_CREDIT_CODE)
         <where>
-            <if test="searchId != null and searchId != ''">
-                WHERE   MEMBER_ID = #{ searchId }
+            <if test="searchValue != null and searchValue != ''">
+                WHERE   MEMBER_ID = #{ searchValue }
             </if>
         </where>
         ORDER BY A.MEMBER_CODE ASC
@@ -163,8 +163,8 @@
         FROM TBL_BLACKLIST_LIST A
         JOIN TBL_MEMBER B ON (B.MEMBER_CODE = A.MEMBER_CODE)
         <where>
-            <if test="searchId != null and searchId != ''">
-                WHERE   MEMBER_ID = #{ searchId }
+            <if test="searchValue != null and searchValue != ''">
+                WHERE   MEMBER_ID = #{ searchValue }
             </if>
         </where>
         ORDER BY B.MEMBER_CODE ASC
@@ -181,8 +181,8 @@
             REGI_DATE
         FROM TBL_ADMIN
 <!--        <where>-->
-<!--            <if test="searchId != null and searchId != ''">-->
-<!--                WHERE   ADMIN_CODE = #{ searchId }-->
+<!--            <if test="searchValue != null and searchValue != ''">-->
+<!--                WHERE   ADMIN_CODE = #{ searchValue }-->
 <!--            </if>-->
 <!--        </where>-->
         ORDER BY ADMIN_CODE ASC
@@ -194,8 +194,8 @@
         SELECT
             count(*)
         FROM    TBL_MEMBER A
-        <if test="searchId != null and searchId != ''">
-            WHERE   MEMBER_ID = #{ searchId }
+        <if test="searchValue != null and searchValue != ''">
+            WHERE   MEMBER_ID = #{ searchValue }
         </if>
     </select>
 

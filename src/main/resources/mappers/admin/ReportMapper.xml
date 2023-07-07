@@ -44,8 +44,8 @@
         JOIN    TBL_REPORT_RESPONSE F ON (E.REPORT_CODE = F.REPORT_CODE)
         WHERE   ANSWERS_STATUS = 'N'
         <where>
-            <if test="searchId != null and searchId != ''">
-                WHERE   MEMBER_ID = #{ searchId }
+            <if test="searchValue != null and searchValue != ''">
+                WHERE   MEMBER_ID = #{ searchValue }
             </if>
         </where>
         ORDER BY ADMIN_CODE ASC
@@ -69,8 +69,8 @@
                     JOIN    TBL_REPORT_RESPONSE F ON (E.REPORT_CODE = F.REPORT_CODE)
         WHERE   ANSWERS_STATUS = 'Y'
         <where>
-            <if test="searchId != null and searchId != ''">
-                WHERE   MEMBER_ID = #{ searchId }
+            <if test="searchValue != null and searchValue != ''">
+                WHERE   MEMBER_ID = #{ searchValue }
             </if>
         </where>
         ORDER BY ADMIN_CODE ASC
@@ -82,8 +82,8 @@
         SELECT
         count(*)
         FROM    TBL_MEMBER A
-        <if test="searchId != null and searchId != ''">
-            WHERE   MEMBER_ID = #{ searchId }
+        <if test="searchValue != null and searchValue != ''">
+            WHERE   MEMBER_ID = #{ searchValue }
         </if>
     </select>
 
