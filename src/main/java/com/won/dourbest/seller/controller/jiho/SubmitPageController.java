@@ -164,6 +164,7 @@ public class SubmitPageController {
         model.addAttribute("originFileName", originFileName);
         model.addAttribute("savedFileName", savedName);
         model.addAttribute("categoryCode", categoryCode);
+        model.addAttribute("tagList", searchTag);
 
         return "/seller/funding/submitmoreinfo";
     }
@@ -175,7 +176,7 @@ public class SubmitPageController {
             , @RequestParam String fundContent, @RequestParam(required = false) String videoUrl
             , @RequestParam(required = false)MultipartFile topImg, @RequestParam String originFileName
             , @RequestParam String savedFileName, @RequestParam String oriName
-            , @RequestParam String saveName, HttpServletRequest request) throws ParseException {
+            , @RequestParam String saveName, @RequestParam String tagList, HttpServletRequest request) throws ParseException {
 
         System.out.println("originFileName = " + originFileName);
         System.out.println("savedFileName = " + savedFileName);
@@ -232,6 +233,7 @@ public class SubmitPageController {
         tossMap.put("mainPhotoSaved", savedFileName);
         tossMap.put("fundContentPhotoOrigin", oriName); // 펀딩 본문사진
         tossMap.put("fundContentPhotoSaved", saveName);
+        tossMap.put("tagList", tagList);
 
         Map<String, Integer> result = submitService.insertAboutFunding(tossMap);
         if((Integer) result.get("result") == 1) {

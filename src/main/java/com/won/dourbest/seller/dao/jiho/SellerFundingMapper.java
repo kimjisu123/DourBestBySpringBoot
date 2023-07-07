@@ -14,7 +14,7 @@ public interface SellerFundingMapper {
     List<PlanDTO> allPlan();
 
     // 태그 select
-    int selectTag(String tag);
+    Integer selectTag(String tag);
 
     // 태그 insert
     int insertTag(String tag);
@@ -45,4 +45,9 @@ public interface SellerFundingMapper {
 
     // 펀딩 업데이트
     int updateFunding(Map<String, Object> map);
+
+    // 태그 리스트
+    Integer insertTagList(int num);
+
+
 }

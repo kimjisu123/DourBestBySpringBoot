@@ -3,6 +3,8 @@ package com.won.dourbest.admin.common;
 
 import lombok.*;
 
+@Getter
+@Setter
 public class SelectCriteria {
     private int pageNo;
     private int totalCount;
@@ -34,86 +36,6 @@ public class SelectCriteria {
         this.searchId = searchId;
     }
 
-
-    public int getPageNo() {
-        return pageNo;
-    }
-
-    public void setPageNo(int pageNo) {
-        this.pageNo = pageNo;
-    }
-
-    public int getTotalCount() {
-        return totalCount;
-    }
-
-    public void setTotalCount(int totalCount) {
-        this.totalCount = totalCount;
-    }
-
-    public int getLimit() {
-        return limit;
-    }
-
-    public void setLimit(int limit) {
-        this.limit = limit;
-    }
-
-    public int getButtonAmount() {
-        return buttonAmount;
-    }
-
-    public void setButtonAmount(int buttonAmount) {
-        this.buttonAmount = buttonAmount;
-    }
-
-    public int getMaxPage() {
-        return maxPage;
-    }
-
-    public void setMaxPage(int maxPage) {
-        this.maxPage = maxPage;
-    }
-
-    public int getStartPage() {
-        return startPage;
-    }
-
-    public void setStartPage(int startPage) {
-        this.startPage = startPage;
-    }
-
-    public int getEndPage() {
-        return endPage;
-    }
-
-    public void setEndPage(int endPage) {
-        this.endPage = endPage;
-    }
-
-    public int getStartRow() {
-        return startRow;
-    }
-
-    public void setStartRow(int startRow) {
-        this.startRow = startRow;
-    }
-
-    public int getEndRow() {
-        return endRow;
-    }
-
-    public void setEndRow(int endRow) {
-        this.endRow = endRow;
-    }
-
-    public String getSearchId() {
-        return searchId;
-    }
-
-    public void setSearchId(String searchId) {
-        this.searchId = searchId;
-    }
     @Override
     public String toString() {
         return "SelectCriteria{" +
@@ -126,7 +48,7 @@ public class SelectCriteria {
                 ", endPage=" + endPage +
                 ", startRow=" + startRow +
                 ", endRow=" + endRow +
-                ", searchId='" + searchId + '\'' +
+                ", searchId='" + searchId + "\'" +
                 '}';
     }
 }

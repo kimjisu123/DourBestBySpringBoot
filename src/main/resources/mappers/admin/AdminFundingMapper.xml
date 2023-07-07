@@ -12,6 +12,15 @@
         <result property="endDate" column="END_DATE"/>
     </resultMap>
 
+    <resultMap id="sellerRegistResultMap" type="com.won.dourbest.admin.funding.dto.AdminSellerRegistDTO">
+        <result property="memberId" column="MEMBER_ID"/>
+        <result property="memberName" column="MEMBER_NAME"/>
+        <result property="memberPhone" column="MEMBER_PHONE"/>
+        <result property="memberEmail" column="MEMBER_EMAIL"/>
+        <result property="businessLicense" column="BUSINESS_LICENSE"/>
+        <result property="sellerDate" column="SELLER_DATE"/>
+    </resultMap>
+
     <!-- 오픈 예정 펀딩 -->
     <select id="selectAllWillopen" resultMap="fundingResultMap">
         SELECT
@@ -24,6 +33,15 @@
         JOIN TBL_SELLER B ON (A.SELLER_CODE = B.SELLER_CODE)
         JOIN TBL_MEMBER C ON (B.MEMBER_CODE = C.MEMBER_CODE)
         WHERE A.START_DATE &gt; SYSDATE
+        <where>
+            <if test="searchId != null and searchId != ''">
+                WHERE   FUNDING_TITLE = #{ searchId }
+            </if>
+        </where>
+        ORDER BY START_DATE ASC
+        OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
+
+
     </select>
     <!-- 진행중인 펀딩 목록 -->
     <select id="selectAllOngoing" resultMap="fundingResultMap">
@@ -38,6 +56,14 @@
         JOIN TBL_MEMBER C ON (B.MEMBER_CODE = C.MEMBER_CODE)
         WHERE A.START_DATE &lt;= SYSDATE
         AND A.END_DATE &gt; SYSDATE
+        <where>
+            <if test="searchId != null and searchId != ''">
+                WHERE   FUNDING_TITLE = #{ searchId }
+            </if>
+        </where>
+        ORDER BY START_DATE ASC
+        OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
+
     </select>
 
     <!-- 완료된 펀딩 목록 -->
@@ -52,6 +78,14 @@
                  JOIN TBL_SELLER B ON (A.SELLER_CODE = B.SELLER_CODE)
                  JOIN TBL_MEMBER C ON (B.MEMBER_CODE = C.MEMBER_CODE)
         WHERE A.END_DATE &lt; SYSDATE
+        <where>
+            <if test="searchId != null and searchId != ''">
+                WHERE   FUNDING_TITLE = #{ searchId }
+            </if>
+        </where>
+        ORDER BY END_DATE ASC
+        OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
+
     </select>
 
     <!-- 승인된 펀딩 목록 -->
@@ -69,6 +103,14 @@
                  JOIN TBL_SELLER D ON (A.SELLER_CODE = D.SELLER_CODE)
                  JOIN TBL_MEMBER E ON (D.MEMBER_CODE = E.MEMBER_CODE)
         WHERE C.FUNDING_STATUS_NAME = '승인완료'
+        <where>
+            <if test="searchId != null and searchId != ''">
+                WHERE   FUNDING_TITLE = #{ searchId }
+            </if>
+        </where>
+        ORDER BY CHANGE_DATE DESC
+        OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
+
     </select>
     <!-- 신청한 펀딩 목록 -->
     <select id="selectAllApplied" resultMap="fundingResultMap">
@@ -85,24 +127,43 @@
                  JOIN TBL_SELLER D ON (A.SELLER_CODE = D.SELLER_CODE)
                  JOIN TBL_MEMBER E ON (D.MEMBER_CODE = E.MEMBER_CODE)
         WHERE C.FUNDING_STATUS_NAME = '승인대기'
+        <where>
+            <if test="searchId != null and searchId != ''">
+                WHERE   FUNDING_TITLE = #{ searchId }
+            </if>
+        </where>
+        ORDER BY CHANGE_DATE DESC
+        OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
 
 
     </select>
 
     <!-- 판매자 신청 목록 -->
-    <select id="selectAllSellerRegiList" resultMap="fundingResultMap">
+    <select id="selectAllSellerRegiList" resultMap="sellerRegistResultMap">
         SELECT
-            B.FUNDING_TITLE,
-            B.START_DATE,
-            B.END_DATE,
-            C.MEMBER_EMAIL,
             C.MEMBER_ID,
-            A.SELLER_APPROVAL
+            C.MEMBER_NAME,
+            C.MEMBER_PHONE,
+            C.MEMBER_EMAIL,
+            A.BUSINESS_LICENSE,
+            A.SELLER_DATE
         FROM TBL_SELLER A
-                 JOIN TBL_FUNDING B ON (A.SELLER_CODE = B.SELLER_CODE)
-                 JOIN TBL_MEMBER C ON (A.MEMBER_CODE = C.MEMBER_CODE)
+        JOIN TBL_MEMBER C ON (A.MEMBER_CODE = C.MEMBER_CODE)
         WHERE A.SELLER_APPROVAL IN '승인대기'
+        GROUP BY (C.MEMBER_ID, C.MEMBER_NAME, C.MEMBER_PHONE, C.MEMBER_EMAIL, A.BUSINESS_LICENSE, A.SELLER_DATE)
+        ORDER BY A.SELLER_DATE ASC
+        OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
+
     </select>
 
+
+    <select id="selectTotalPage">
+        SELECT
+        count(*)
+        FROM    TBL_MEMBER A
+        <if test="searchId != null and searchId != ''">
+            WHERE   MEMBER_ID = #{ searchId }
+        </if>
+    </select>
 
 </mapper>
