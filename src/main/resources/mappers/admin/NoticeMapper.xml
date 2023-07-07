@@ -30,7 +30,13 @@
             A.ADMIN_CODE,
             ROWNUM
         FROM TBL_NOTICE A
+        <where>
+            <if test="searchId != null and searchId != ''">
+                WHERE   MEMBER_ID = #{ searchId }
+            </if>
+        </where>
         ORDER BY REGI_DATE ASC
+        OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
 
     </select>
 
@@ -51,7 +57,13 @@
             FROM    TBL_EVENT )
         WHERE START_DATE &lt; SYSDATE
         AND   END_DATE &gt; SYSDATE
+        <where>
+            <if test="searchId != null and searchId != ''">
+                WHERE   MEMBER_ID = #{ searchId }
+            </if>
+        </where>
         ORDER BY START_DATE ASC
+        OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
     </select>
 
     <select id="selectFinshedEventList" resultMap="selectEventListResultMap">
@@ -72,9 +84,25 @@
                 ROWNUM
             FROM    TBL_EVENT )
         WHERE END_DATE &lt; SYSDATE
+        <where>
+            <if test="searchId != null and searchId != ''">
+                WHERE   MEMBER_ID = #{ searchId }
+            </if>
+        </where>
         ORDER BY START_DATE ASC
+        OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
     </select>
 
 
+
+    <!--  총 페이지 갯수  -->
+    <select id="selectTotalPage">
+        SELECT
+        count(*)
+        FROM    TBL_MEMBER A
+        <if test="searchId != null and searchId != ''">
+            WHERE   MEMBER_ID = #{ searchId }
+        </if>
+    </select>
 
 </mapper>

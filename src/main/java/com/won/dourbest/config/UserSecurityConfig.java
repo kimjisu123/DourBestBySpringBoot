@@ -1,13 +1,10 @@
 package com.won.dourbest.config;
 
-import com.won.dourbest.admin.account.service.AdminService;
 import com.won.dourbest.user.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -34,7 +31,6 @@ public class UserSecurityConfig {
         provider.setUserDetailsService(memberService);
         return provider;
     }
-
 
     @Bean
     public SecurityFilterChain userFilterChain(HttpSecurity http) throws Exception {

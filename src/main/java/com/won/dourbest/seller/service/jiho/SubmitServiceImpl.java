@@ -30,16 +30,16 @@ public class SubmitServiceImpl implements SubmitService{
     @Transactional
     public int insertTag(String[] sarr) {
 
-            int count = 0;
+        int count = 0;
 
         for(int i = 0; i < sarr.length; i++) {
             String tag = sarr[i].trim();
             System.out.println(tag);
-            int result = sellerFundingMapper.selectTag(tag);
+            Integer result = sellerFundingMapper.selectTag(tag);
             System.out.println(result);
 
 
-            if(result == 0) {
+            if(result == null) {
                 int num = sellerFundingMapper.insertTag(tag);
                 count += num;
             } else {
@@ -57,6 +57,7 @@ public class SubmitServiceImpl implements SubmitService{
     }
 
     @Override
+    @Transactional
     public Map<String, Integer> insertAboutFunding(Map<String, Object> tossMap) {
 
         int result = sellerFundingMapper.insertFunding(tossMap);
@@ -66,6 +67,16 @@ public class SubmitServiceImpl implements SubmitService{
         int result2 = sellerFundingMapper.insertTopFile(tossMap);
 
         int result3 = sellerFundingMapper.insertContentFile(tossMap);
+
+        Integer result4 = 0;
+        String tagList = (String) tossMap.get("tagList");
+        String[] sarr = tagList.split(",");
+        for(int i = 0; i < sarr.length; i++) {
+            String tag = sarr[i].trim();
+            Integer num = sellerFundingMapper.selectTag(tag);
+            System.out.println("num = " + num);
+            result4 = sellerFundingMapper.insertTagList(num);
+        }
 
         int num = 0;
 
