@@ -4,13 +4,52 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <link rel="stylesheet" th:href="@{/css/common/page.css}">
+    <link rel="stylesheet" th:href="@{/css/user/mypage/membership.css}">
     <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 </head>
-<main>
-
-    <button th:onclick="requestPay()">결제</button>
-
-
+<main style="height: 650px">
+    <div class="blur">
+    </div>
+    <div class="main" id="main">
+        <div class="flex-wrapper">
+            <h1 class="membership-title">DOURBEST의 프리미엄회원 <br>
+                혜택을 만나보세요!</h1>
+            <div>
+                <ul>
+                    <li class="membership">
+                        <div class="membership-list">
+                            <div class="benefit">
+                                <span>01</span>
+                                <strong>주문하는 펀딩은 <br>
+                                    전부 무료배송
+                                </strong>
+                            </div>
+                            <div>
+                                <img src="/free-animated-icon-truck-6416387.png" alt="" >
+                            </div>
+                        </div>
+                    </li>
+                    <li class="membership">
+                        <div class="membership-list">
+                            <div class="benefit">
+                                <span>02</span>
+                                <strong>매월 <br>
+                                    5%, 10% 할인쿠폰 제공
+                                </strong>
+                            </div>
+                            <div>
+                                <img src="/free-icon-coupon-6737610.png" alt="" >
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <div class="regist-button">
+                    <button th:onclick="requestPay()" class="regist" >VIP 멤버십 가입</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="particles" id="particles"></div>
 </main>
 <script th:inline="javascript">
     function requestPay() {
@@ -85,8 +124,8 @@
                 console.log(data);
             }
         });
-
     }
 </script>
+<script th:src="@{/js/user/member/membership.js}"></script>
 
 </html>
