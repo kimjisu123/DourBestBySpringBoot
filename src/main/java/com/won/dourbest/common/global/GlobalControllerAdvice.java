@@ -1,6 +1,7 @@
 package com.won.dourbest.common.global;
 
 import com.won.dourbest.common.dto.CommonResponse;
+import com.won.dourbest.common.exception.member.NoLoginException;
 import com.won.dourbest.common.exception.user.CouponNotFoundException;
 import com.won.dourbest.common.exception.user.ExistenceCreditException;
 import org.springframework.http.HttpStatus;
@@ -33,6 +34,11 @@ public class GlobalControllerAdvice {
                                             .isSuccess(false).build();
 
         return new ResponseEntity<>(commonResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(NoLoginException.class)
+    public String pleaseLogin(NoLoginException N) {
+        return "user/login";
     }
 
 }

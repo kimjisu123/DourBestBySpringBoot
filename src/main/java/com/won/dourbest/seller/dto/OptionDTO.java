@@ -12,6 +12,7 @@ import java.util.Date;
 public class OptionDTO {
     private String optionName;
     private String optionContents;
+    private int optionCode;
     private int optionPrice;
     private int limitQuantity;
     private String optionColor;

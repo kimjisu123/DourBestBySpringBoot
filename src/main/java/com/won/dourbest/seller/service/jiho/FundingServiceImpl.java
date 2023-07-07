@@ -75,7 +75,26 @@ public class FundingServiceImpl implements FundingService{
         List<MainImgDTO> mainImg = fundingMapper.topFive(code, categoryCode);
         map.put("mainImg", mainImg);
 
+        String sellerName = fundingMapper.selectId(code);
+        map.put("sellerId", sellerName);
+
 
         return map;
+    }
+
+    @Override
+    public int addLikes(int fundingCode, int memberCode) {
+
+        int result = fundingMapper.addLikes(fundingCode, memberCode);
+
+        return result > 0? 1 : 0;
+    }
+
+    @Override
+    public int deleteLikes(int fundingCode, int memberCode) {
+
+        int result = fundingMapper.deleteLikes(fundingCode, memberCode);
+
+        return result > 0? 1 : 0;
     }
 }

@@ -22,5 +22,11 @@ public interface FundingMapper {
 
     int categoryCode(int code);
 
+    String selectId(int code);
+
+    int addLikes(int fundingCode, int memberCode);
+
+    int deleteLikes(int fundingCode, int memberCode);
+
 //    int findCode(String name);
 }

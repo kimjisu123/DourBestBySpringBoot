@@ -1,13 +1,15 @@
 package com.won.dourbest.seller.controller.jiho;
 
+import com.won.dourbest.common.exception.member.NoLoginException;
 import com.won.dourbest.seller.service.jiho.FundingService;
+import com.won.dourbest.user.dto.MemberImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -30,8 +32,77 @@ public class FundingController {
 
         System.out.println("map = " + map);
         model.addAttribute("tossMap", map);
+        System.out.println("code = " + code);
+        model.addAttribute("fundingCode", code);
 
         return "seller/funding/funding";
     }
 
+    @GetMapping("/buy/{optionCode}")
+    public String buyOption(Model model, @PathVariable int optionCode, @AuthenticationPrincipal MemberImpl member) {
+
+
+
+        if(member == null) {
+            throw new NoLoginException("로그인이 안되어있음");
+        }
+
+        System.out.println("컨트롤러 진입함");
+        System.out.println("optionCode = " + optionCode);
+
+        model.addAttribute("optionCode",optionCode);
+
+        return "/seller/giwon_seller/payment_page";
+    }
+
+    @PostMapping("/likes")
+    @ResponseBody
+    public String likes(@RequestParam int fundingCode, @AuthenticationPrincipal MemberImpl member) {
+
+        System.out.println("member = " + member);
+        int num = 0;
+        String result = "";
+        if(member == null) {
+            throw new NoLoginException("로그인이 안되어있음");
+        } else {
+            int memberCode = member.getMemberCode();
+            num = fundingService.addLikes(fundingCode, memberCode);
+        }
+
+        if(num == 1) {
+            result = "success";
+        } else {
+            result = "fail";
+        }
+        return result;
+    }
+
+    @PostMapping("/noLikes")
+    @ResponseBody
+    public String noLikes(@RequestParam int fundingCode, @AuthenticationPrincipal MemberImpl member) {
+
+        System.out.println("member = " + member);
+        int num = 0;
+        String result = "";
+        if(member == null) {
+            throw new NoLoginException("로그인이 안되어있음");
+
+        } else {
+            int memberCode = member.getMemberCode();
+            num = fundingService.deleteLikes(fundingCode, memberCode);
+        }
+
+        if(num == 1) {
+            result = "success";
+        } else {
+            result = "fail";
+        }
+        return result;
+    }
+
+    @GetMapping("/user/login")    //이동할 페이지
+    public String login(){
+
+        return "user/login";
+    }
 }
