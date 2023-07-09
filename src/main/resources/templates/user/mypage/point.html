@@ -15,17 +15,17 @@
             <div class="filter-wrapper">
                 <ul>
                     <li>
-                        <a th:href="|@{/mypage/seller-inquire}|">
+                        <a th:href="|@{/mypage/point}|">
                             전체
                         </a>
                     </li>
                     <li>
-                        <a th:href="|@{/mypage/seller-inquire(status='Y')}|">
+                        <a th:href="|@{/mypage/point(searchType='적립')}|">
                             적립
                         </a>
                     </li>
                     <li>
-                        <a th:href="|@{/mypage/seller-inquire(status='N')}|">
+                        <a th:href="|@{/mypage/point(searchType='사용')}|">
                             사용
                         </a>
                     </li>
@@ -44,21 +44,21 @@
                         <div class="board_list_wrap">
                             <div class="board_list">
                                 <div class="top board-content">
-                                    <div class="num">주문날짜</div>
+                                    <div class="num">번호</div>
                                     <div class="count">적립금</div>
-                                    <div class="title">주문번호</div>
-                                    <div class="date">내용</div>
+                                    <div class="title">내용</div>
+                                    <div class="date">적립날짜</div>
                                 </div>
-                                <div th:each="inquire : ${list}" class="board-content">
-                                    <div class="num" th:text="${inquire.rowNum}">0</div>
-                                    <div class="count" th:text="${inquire.getCategoryName()}">카테고리</div>
+                                <div th:each="point : ${list}" class="board-content">
+                                    <div class="num" th:text="${point.rowNum}">1</div>
+                                    <div class="count" th:text="${point.pointAmount}">적립금</div>
                                     <div class="title">
-                                        <a th:text="${inquire.sellerInqTitle}" th:href="|@{/seller-inquire/{id}(id = ${inquire.sellerInqCode})}|">
+                                        <a th:text="${point.fundingTitle}">
                                             제목
                                         </a>
                                     </div>
                                     <div class="date"
-                                         th:text="${#dates.format(inquire.getSellerInqDate(), 'yyyy/MM/dd HH:mm')}">
+                                         th:text="${#dates.format(point.pointDate, 'yyyy/MM/dd HH:mm')}">
                                         2021.1.15
                                     </div>
                                 </div>
@@ -66,26 +66,26 @@
 
                             <div class="board_page">
                                 <th:block th:if="${pagination.prev}">
-                                    <a th:href="|@{/mypage/seller-inquire}${cri.makeQuery(pagination.startPage)}|"
+                                    <a th:href="|@{/mypage/point}${cri.makeQuery(pagination.startPage)}|"
                                        class="bt first"><<</a>
                                 </th:block>
                                 <th:block th:if="${pagination.getCriteria().page > pagination.startPage}">
-                                    <a th:href="|@{/mypage/seller-inquire}${cri.makeQuery(cri.getPage()-1)}|"
+                                    <a th:href="|@{/mypage/point}${cri.makeQuery(cri.getPage()-1)}|"
                                        class="bt prev"><</a>
                                 </th:block>
 
                                 <th:block th:each="page : ${#numbers.sequence(pagination.startPage, pagination.endPage)}">
                                     <a class="num" th:classappend="${page == pagination.getCriteria().page} ? 'on'"
                                        th:text="${page}"
-                                       th:href="|@{/mypage/seller-inquire}${cri.makeQuery(page)}|">
+                                       th:href="|@{/mypage/point}${cri.makeQuery(page)}|">
                                     </a>
                                 </th:block>
 
                                 <a th:if="${pagination.getCriteria().page < pagination.endPage}"
-                                   th:href="|@{/mypage/seller-inquire}${cri.makeQuery(cri.getPage()+1)}|"
+                                   th:href="|@{/mypage/point}${cri.makeQuery(cri.getPage()+1)}|"
                                    class="bt next">></a>
                                 <a th:if="${pagination.next}"
-                                   th:href="|@{/mypage/seller-inquire}${cri.makeQuery(pagination.endPage)}|"
+                                   th:href="|@{/mypage/point}${cri.makeQuery(pagination.endPage)}|"
                                    class="bt last">>></a>
                             </div>
                         </div>

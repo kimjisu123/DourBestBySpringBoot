@@ -20,6 +20,7 @@ public interface MypageService {
     public List<MemberReportListDTO> reportList(SearchCriteria searchCriteria, String userId);
 
     public List<PurchasedFundingListDTO> purchaseList(SearchCriteria searchCriteria, String userId);
+    public List<MemberPointDTO> pointList(SearchCriteria searchCriteria, String userId);
 
     List<LikeFundingDTO> likeFundingList(SearchCriteria searchCriteria, String userId);
 
@@ -29,4 +30,5 @@ public interface MypageService {
 
     public Map<String,Object> OrderAndCreditInfo(String userId, int orderCode);
 
+    public int changeProfile(ProfileDTO profile);
 }

@@ -60,6 +60,11 @@ public class MypageServiceImple implements MypageService{
     }
 
     @Override
+    public List<MemberPointDTO> pointList(SearchCriteria searchCriteria, String userId) {
+        return mypageMapper.findByPoint(searchCriteria,userId);
+    }
+
+    @Override
     public List<LikeFundingDTO> likeFundingList(SearchCriteria searchCriteria, String userId) {
         return mypageMapper.findLikeFundingById(searchCriteria,userId);
     }
@@ -93,6 +98,11 @@ public class MypageServiceImple implements MypageService{
         info.put("contactCategory", category);
 
         return info;
+    }
+
+    @Override
+    public int changeProfile(ProfileDTO profile) {
+        return mypageMapper.updateProfile(profile);
     }
 
 

@@ -52,6 +52,7 @@ public class MainController {
 
         List<CategoryFundingDTO> list = mainService.categoryList(criteria);
 
+        System.out.println("list = " + list);
         List<CategoryDTO> category = commonService.fundingCategory();
 
         model.addAttribute("category",category);

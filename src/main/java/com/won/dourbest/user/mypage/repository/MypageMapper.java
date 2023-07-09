@@ -40,4 +40,8 @@ public interface MypageMapper {
 
     List<CategoryDTO> contactCategory();
 
+    List<MemberPointDTO> findByPoint(@Param("cri") SearchCriteria searchCriteria, @Param("userId") String userId);
+
+    int updateProfile(ProfileDTO profiles);
+
 }

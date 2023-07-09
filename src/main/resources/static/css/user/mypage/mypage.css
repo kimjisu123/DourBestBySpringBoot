@@ -13,6 +13,9 @@ th, td {
     text-align: center;
 }
 
+#my-input{
+    visibility: hidden;
+}
 
 .profile-wrap{
     background-color: #f35f4c;

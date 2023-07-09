@@ -28,6 +28,14 @@ public class SearchCriteria extends Criteria{
                 .toUriString();
     }
 
+    public String makeQuery(String status){
+        return UriComponentsBuilder.newInstance()
+                .queryParamIfPresent("searchType", Optional.ofNullable(searchType))
+                .queryParamIfPresent("status", Optional.ofNullable(status))
+                .encode()
+                .build()
+                .toUriString();
+    }
     public String makeQuery(){
         return UriComponentsBuilder.newInstance()
                 .queryParamIfPresent("searchType", Optional.ofNullable(searchType))

@@ -22,6 +22,6 @@ public class CategoryFundingDTO {
   private int fundingGoalMoney;
   private int categoryCode;
   private String categoryName;
-  private String filPath;
+  private String filePath;
 
 }

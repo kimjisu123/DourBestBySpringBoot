@@ -15,7 +15,7 @@
         <result property="fundingGoalMoney" column="FUNDING_GOAL_MONEY"/>
         <result property="categoryCode" column="FUNDING_GOAL_MONEY"/>
         <result property="categoryName" column="CATEGORY_NAME"/>
-        <result property="filPath" column="FILE_MODIFICATION_NAME"/>
+        <result property="filePath" column="FILE_MODIFICATION_NAME"/>
     </resultMap>
 
     <!--    <resultMap id="SlideFileMap" type="fundingDTO">-->
@@ -310,13 +310,49 @@
     <select id="listCount">
         SELECT
             COUNT(*)
-        FROM TBL_FUNDING TF
-                 JOIN TBL_CATEGORY TC on TF.CATEGORY_CODE = TC.CATEGORY_CODE
-                 JOIN TBL_FUNDING_FILE TFF on TF.FUNDING_CODE = TFF.FUNDING_CODE
-        WHERE TFF.FILE_TYPE = '메인'
+        FROM(
+            SELECT
+                TF.FUNDING_CODE,
+                TF.FUNDING_TITLE,
+                TF.FUNDING_SUMMARY,
+                TF.APPLICATION_DATE,
+                TF.START_DATE,
+                TF.FUNDING_GOAL_MONEY,
+                TF.END_DATE,
+                TF.LIKES,
+                TF.VIEWS,
+                TC.CATEGORY_CODE,
+                TC.CATEGORY_NAME,
+                TFF.FILE_MODIFICATION_NAME,
+                T.FUNDING_STATUS_NAME,
+                TFS.CHANGE_DATE,
+                RANK() over (partition by TF.FUNDING_CODE order by CHANGE_DATE desc) RECENT
+            FROM TBL_FUNDING TF
+                LEFT JOIN TBL_CATEGORY TC on TF.CATEGORY_CODE = TC.CATEGORY_CODE
+                LEFT JOIN TBL_FUNDING_FILE TFF on TF.FUNDING_CODE = TFF.FUNDING_CODE
+                LEFT JOIN TBL_FUNDING_STATUSLIST TFS on TF.FUNDING_CODE = TFS.FUNDING_CODE
+                LEFT JOIN TBL_FUNDING_STATUS T on TFS.FUNDING_STATUS_CODE = T.FUNDING_STATUS_CODE
+            WHERE TFF.FILE_TYPE = '메인'
         <if test="cri.searchType != null">
             AND TC.CATEGORY_NAME = #{cri.searchType}
         </if>
+        <choose>
+            <when test="'view'.equals(cri.status)">
+                ORDER BY TF.VIEWS DESC
+            </when>
+            <when test="'like'.equals(cri.status)">
+                ORDER BY TF.LIKES DESC
+            </when>
+            <otherwise>
+                ORDER BY TF.START_DATE DESC
+            </otherwise>
+        </choose>
+        ) A
+        WHERE A.RECENT = 1
+        <![CDATA[
+                 AND ROWNUM <= #{ cri.rowEnd }
+            ]]>
+        AND A.FUNDING_STATUS_NAME='승인완료'
     </select>
 
 </mapper>

@@ -12,18 +12,18 @@ const contactmodal = document.querySelector(".contactmodal");
     }
 
 
-    function contactreadURL(obj) {
+    function contactreadURL(obj,index) {
             
         let reader = new FileReader();
-        if(!obj.files.length) {
-            return;
-        }
-        reader.readAsDataURL(obj.files[0]);
+
+        reader.readAsDataURL(obj);
         reader.onload = function (e) {
             let $div = $('<div>');
             $($div).css('width','120px');
             $($div).css('height','120px');
             $($div).css('padding','10px 10px 0px 0px');
+            $($div).attr('id','imgId-' + index);
+            $($div).attr('onclick','deleteImg(' + index + ')');
 
             $('.contact-imgdiv').append($div);
 
@@ -71,18 +71,18 @@ const contact = document.querySelector(".contactmodal");
     }
 
 
-    function ReviewreadURL(obj) {
-                
-        let reader = new FileReader();
-        if(!obj.files.length) {
-            return;
-        }
-        reader.readAsDataURL(obj.files[0]);
-        reader.onload = function (e) {
+    function ReviewreadURL(obj,index) {
+
+        let readers = new FileReader();
+
+        readers.readAsDataURL(obj);
+        readers.onload = function (e) {
             let $div = $('<div>');
             $($div).css('width','120px');
             $($div).css('height','120px');
             $($div).css('padding','10px 10px 0px 0px');
+            $($div).attr('id','reviewimgId-' + index);
+            $($div).attr('onclick','reviewImgDel(' + index + ')');
 
             $('.reviewDiv').append($div);
 
@@ -93,5 +93,7 @@ const contact = document.querySelector(".contactmodal");
             $($div).append(img);
         }
     }
+    function imgRemove(obj){
 
+    }
 

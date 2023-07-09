@@ -20,14 +20,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.File;
+import java.io.IOException;
 import java.security.Principal;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 @Slf4j
 @Controller
@@ -53,7 +53,7 @@ public class MypageController {
         Map<String, Object> mypageInfo = mypageService.myPageinfo(userId);
 
 
-        model.addAttribute("mypageInfo", mypageInfo.get("mypageMain"));
+        model.addAttribute("mypageInfo",(MypageMainDTO) mypageInfo.get("mypageMain"));
         model.addAttribute("delivery", mypageInfo.get("delivery"));
 
         return "user/mypage/mypage";
@@ -167,8 +167,22 @@ public class MypageController {
         return "user/mypage/purchase";
     }
 
+    @GetMapping("/point")
+    public String pointList(@AuthenticationPrincipal MemberImpl member, @ModelAttribute("cri") SearchCriteria criteria, Model model) {
 
+        //세션으로부터 받자
+        String userId = member.getUsername();
 
+        Pagination pagination = new Pagination(criteria, mypageService.listTotalCount(criteria, userId, "point"));
+
+        List<MemberPointDTO> list = mypageService.pointList(criteria, userId);
+        log.info("list={}", list);
+
+        model.addAttribute("list", list);
+        model.addAttribute("pagination", pagination);
+
+        return "user/mypage/point";
+    }
 
     @PostMapping(value = "/coupon/regist", produces = "application/json")
     @ResponseBody
@@ -285,8 +299,6 @@ public class MypageController {
     }
 
 
-
-
     @PostMapping ("/changePwd")    //이동할 페이지
     public String changePwd(@AuthenticationPrincipal MemberImpl member, @RequestParam String pwd, @RequestParam String pwdCheck){
 
@@ -303,8 +315,39 @@ public class MypageController {
 
         }
 
-
         return "user/mypage/changePwd";
     }
+
+    @PostMapping("/profile")
+    @ResponseBody
+    public void uploadProfile(MultipartFile profile, @AuthenticationPrincipal MemberImpl member){
+        String root = "C:\\dev\\fundingImg\\";
+        String profilePath = root + "profile";
+
+        System.out.println("id = " + member.getUsername());
+        System.out.println("profile = " + profile.getOriginalFilename());
+
+        File mkdir = new File(profilePath);
+        if(!mkdir.exists()) {
+            mkdir.mkdirs();
+        }
+
+        String originFileName = profile.getOriginalFilename();
+        String ext = originFileName.substring(originFileName.lastIndexOf("."));
+        String savedName = UUID.randomUUID().toString().replace("-","") + ext;
+
+        try {
+            profile.transferTo(new File(profilePath + "\\" + savedName));
+
+            mypageService.changeProfile(new ProfileDTO(member.getUsername(),savedName));
+
+        } catch (IOException e) {
+            new File(profilePath + "\\" + savedName).delete();
+        }
+
+    }
+
+
+
 
 }
