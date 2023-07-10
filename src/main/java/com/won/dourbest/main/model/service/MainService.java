@@ -10,8 +10,9 @@ public interface MainService {
 
   public List<CategoryFundingDTO> categoryList(SearchCriteria searchCriteria);
 
+  public List<CategoryFundingDTO> openFundingList(SearchCriteria searchCriteria);
 
-  public int totalCount(SearchCriteria searchCriteria);
+  public int totalCount(SearchCriteria searchCriteria, String name);
 
   List<LikeFundingDTO> getSlideImages();
 

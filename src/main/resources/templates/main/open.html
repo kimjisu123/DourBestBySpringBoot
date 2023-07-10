@@ -70,7 +70,7 @@
     <div class="submenu-container">
       <ul class="flex-wrapper">
         <li>
-          <a th:href="|@{/category}|">
+          <a th:href="|@{/open}|">
             <div class="cate-img">
               <i class="fa-solid fa-table-cells-large fa-2x" style="color: #f35f4c;"></i>
             </div>
@@ -80,7 +80,7 @@
           </a>
         </li>
         <li th:each="cate : ${category}">
-          <a th:href="|@{/category(searchType=${cate.categoryName})}|">
+          <a th:href="|@{/open(searchType=${cate.categoryName})}|">
             <div class="cate-img" th:utext="${cate.categoryIcon}">
               <i class="fa-solid fa-table-cells-large fa-2x" style="color: #f35f4c;"></i>
             </div>
@@ -100,9 +100,9 @@
       <span  th:unless="${param.searchType == null}" th:text="${param.searchType}">전체</span>
       <div>
         <ul class="order flex-wrapper">
-            <li><a th:href="|@{/category}${cri.makeQuery()}|">최신순</a></li>
-          <li><a th:href="|@{/category}${cri.makeQuery('view')}|">조회수 높은 순</a></li>
-          <li><a th:href="|@{/category}${cri.makeQuery('like')}|">좋아요 많은 순</a></li>
+            <li><a th:href="|@{/open}${cri.makeQuery()}|">최신순</a></li>
+          <li><a th:href="|@{/open}${cri.makeQuery('view')}|">조회수 높은 순</a></li>
+          <li><a th:href="|@{/open}${cri.makeQuery('like')}|">좋아요 많은 순</a></li>
         </ul>
       </div>
     </div>
@@ -129,30 +129,29 @@
       <!-- 페이징 -->
       <div class="pagination">
         <th:block th:if="${pagination.prev}">
-          <a th:href="|@{/category}${cri.makeQuery(pagination.startPage)}|"
+          <a th:href="|@{/open}${cri.makeQuery(pagination.startPage)}|"
              class="bt first"><<</a>
         </th:block>
         <th:block th:if="${pagination.getCriteria().page > pagination.startPage}">
-          <a th:href="|@{/category}${cri.makeQuery(cri.getPage()-1)}|"
+          <a th:href="|@{/open}${cri.makeQuery(cri.getPage()-1)}|"
              class="bt prev"><</a>
         </th:block>
 
         <th:block th:each="page : ${#numbers.sequence(pagination.startPage, pagination.endPage)}">
           <a class="num" th:classappend="${page == pagination.getCriteria().page} ? 'active'"
              th:text="${page}"
-             th:href="|@{/category}${cri.makeQuery(page)}|">
+             th:href="|@{/open}${cri.makeQuery(page)}|">
           </a>
         </th:block>
 
         <a th:if="${pagination.getCriteria().page < pagination.endPage}"
-           th:href="|@{/category}${cri.makeQuery(cri.getPage()+1)}|"
+           th:href="|@{/open}${cri.makeQuery(cri.getPage()+1)}|"
            class="bt next">></a>
         <a th:if="${pagination.next}"
-           th:href="|@{/category}${cri.makeQuery(pagination.endPage)}|"
+           th:href="|@{/open}${cri.makeQuery(pagination.endPage)}|"
            class="bt last">>></a>
       </div>
     </th:block>
-
 
   </section>
   <!-- Swiper JS -->

@@ -14,12 +14,12 @@
         <div class="filter-wrapper">
           <ul>
             <li>
-              <a th:href="|@{/mypage/like-funding}|">
+              <a th:href="|@{/mypage/purchase-funding}|">
                 전체
               </a>
             </li>
             <li th:each=" cate : ${category}">
-              <a th:href="|@{/mypage/like-funding(searchType=${cate.categoryName})}|" th:text="${cate.categoryName}">
+              <a th:href="|@{/mypage/purchase-funding(searchType=${cate.categoryName})}|" th:text="${cate.categoryName}">
               </a>
             </li>
           </ul>

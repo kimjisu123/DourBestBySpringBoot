@@ -11,30 +11,6 @@ const contactmodal = document.querySelector(".contactmodal");
         contactmodal.animate([{opacity: 0}, {opacity: 1}], {duration: 300, fill: "forwards"});
     }
 
-
-    function contactreadURL(obj,index) {
-            
-        let reader = new FileReader();
-
-        reader.readAsDataURL(obj);
-        reader.onload = function (e) {
-            let $div = $('<div>');
-            $($div).css('width','120px');
-            $($div).css('height','120px');
-            $($div).css('padding','10px 10px 0px 0px');
-            $($div).attr('id','imgId-' + index);
-            $($div).attr('onclick','deleteImg(' + index + ')');
-
-            $('.contact-imgdiv').append($div);
-
-            let img = $('<img />');                
-            $(img).attr('src', e.target.result);
-            $(img).css('width','100%');
-            $(img).css('height','100%');
-            $($div).append(img);
-        }
-    }
-
 const review = document.querySelector(".reviewmodal");
 const contact = document.querySelector(".contactmodal");
     const btn = document.querySelector(".reviewBtn");
@@ -63,10 +39,6 @@ const contact = document.querySelector(".contactmodal");
     function closeContactModal() {
         contactmodal.animate([{opacity: 1}, {opacity: 0}], {duration: 300, fill: "forwards"}).onfinish = function() {
             contactmodal.style.display = "none";
-            const $img = document.querySelector(".contact-imgdiv");
-            if($img.hasChildNodes()){
-                $img.replaceChildren();
-            }
         };
     }
 
@@ -93,7 +65,5 @@ const contact = document.querySelector(".contactmodal");
             $($div).append(img);
         }
     }
-    function imgRemove(obj){
 
-    }
 

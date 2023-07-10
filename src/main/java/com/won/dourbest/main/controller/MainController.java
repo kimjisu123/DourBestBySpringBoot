@@ -48,7 +48,7 @@ public class MainController {
     @GetMapping("/category")
     public String categoryList(@ModelAttribute("cri") SearchCriteria criteria, Model model){
 
-        Pagination pagination = new Pagination(criteria, mainService.totalCount(criteria));
+        Pagination pagination = new Pagination(criteria, mainService.totalCount(criteria,"pre"));
 
         List<CategoryFundingDTO> list = mainService.categoryList(criteria);
 
@@ -60,6 +60,23 @@ public class MainController {
         model.addAttribute("pagination",pagination);
 
         return "/main/category-page";
+    }
+
+    @GetMapping("/open")
+    public String openFunding(@ModelAttribute("cri") SearchCriteria criteria, Model model){
+
+        Pagination pagination = new Pagination(criteria, mainService.totalCount(criteria,"open"));
+
+        List<CategoryFundingDTO> list = mainService.openFundingList(criteria);
+
+        System.out.println("list = " + list);
+        List<CategoryDTO> category = commonService.fundingCategory();
+
+        model.addAttribute("category",category);
+        model.addAttribute("list",list);
+        model.addAttribute("pagination",pagination);
+
+        return "/main/open";
     }
 
 

@@ -44,4 +44,5 @@ public interface MypageMapper {
 
     int updateProfile(ProfileDTO profiles);
 
+    int reviewCount(@Param("userId") String userId, @Param("fundingCode") int fundingCode);
 }

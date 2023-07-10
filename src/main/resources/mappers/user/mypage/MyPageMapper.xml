@@ -94,6 +94,7 @@
         <result property="deliveryNumber" column="DELIVERY_NUMBER"/>
         <result property="memberName" column="MEMBER_NAME"/>
         <result property="memberPhone" column="MEMBER_PHONE"/>
+        <result property="memberCode" column="MEMBER_CODE"/>
         <result property="BaseAddress" column="BASE_ADDRESS"/>
         <result property="detailAddress" column="DETAIL_ADDRESS"/>
         <result property="zipCode" column="ZIP_CODE"/>
@@ -368,9 +369,18 @@
                                  AND TF.END_DATE < SYSDATE
                              ]]>
                     </if>
-                    <if test="cri.status != null">
-                        AND TR.REVIEW_CODE IS NOT NULL
-                    </if>
+
+                    <choose>
+                        <when test='"Y".equals(cri.status)'>
+                            AND TR.REVIEW_CODE IS NOT NULL
+                        </when>
+                        <when test='"N".equals(cri.status) or cri.status == null'>
+                            AND TR.REVIEW_CODE IS NULL
+                        </when>
+                        <otherwise>
+                        </otherwise>
+                    </choose>
+
                     ) A
                 <![CDATA[
                     WHERE ROWNUM <= #{ cri.rowEnd }
@@ -571,12 +581,19 @@
             AND TFF.FILE_TYPE='메인'
             <if test="cri.order != null">
                 <![CDATA[
-                                 AND TF.END_DATE < SYSDATE
-                             ]]>
+                    AND TF.END_DATE < SYSDATE
+                ]]>
             </if>
-            <if test="cri.status != null">
-                AND TR.REVIEW_CODE IS NOT NULL
-            </if>
+            <choose>
+                <when test='"Y".equals(cri.status)'>
+                    AND TR.REVIEW_CODE IS NOT NULL
+                </when>
+                <when test='"N".equals(cri.status) or cri.status == null'>
+                    AND TR.REVIEW_CODE IS NULL
+                </when>
+                <otherwise>
+                </otherwise>
+            </choose>
         </if>
         <if test="name == 'point'">
             SELECT
@@ -650,6 +667,7 @@
                A.DELIVERY_NUMBER,
                A.MEMBER_NAME,
                A.MEMBER_PHONE,
+               A.MEMBER_CODE,
                A.BASE_ADDRESS,
                A.DETAIL_ADDRESS,
                A.ZIP_CODE
@@ -670,6 +688,7 @@
                  TD.DELIVERY_NUMBER,
                  M.MEMBER_NAME,
                  M.MEMBER_PHONE,
+                 M.MEMBER_CODE,
                  TA.BASE_ADDRESS,
                  TA.DETAIL_ADDRESS,
                  TA.ZIP_CODE
@@ -742,6 +761,16 @@
         SET M.PROFILE = #{profile}
         WHERE M.MEMBER_ID = #{memberId}
     </update>
+
+    <select id="reviewCount">
+        SELECT COUNT(*)
+        FROM TBL_REVIEW
+            JOIN TBL_FUNDING TF ON TBL_REVIEW.FUNDING_CODE = TF.FUNDING_CODE
+            JOIN TBL_MEMBER M ON TBL_REVIEW.MEMBER_CODE = M.MEMBER_CODE
+        WHERE m.MEMBER_ID = #{userId}
+        AND TF.FUNDING_CODE = #{fundingCode}
+    </select>
+
 
 
 </mapper>

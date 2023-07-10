@@ -27,14 +27,14 @@ class MainMapperTest {
     System.out.println("criteria = " + criteria);
     System.out.println("criteria.getPage() = " + criteria.getPage());
     System.out.println("criteria.getPageSize() = " + criteria.getPageSize());
-    Pagination pagination = new Pagination(criteria,mainMapper.listCount(criteria));
+    Pagination pagination = new Pagination(criteria,mainMapper.listCount(criteria,"open"));
     System.out.println("criteria.getRowStart() = " + criteria.getRowStart());
     System.out.println("criteria.getRowEnd() = " + criteria.getRowEnd());
     System.out.println("criteria.gegetSearchTypetRowEnd() = " + criteria.getSearchType());
 
-    List<CategoryFundingDTO> list = mainMapper.fundingCategory(criteria);
+    List<CategoryFundingDTO> list = mainMapper.openFundingCate(criteria);
     System.out.println("list = " + list);
-    System.out.println("mainMapper.listCount(criteria) = " + mainMapper.listCount(criteria));
+    System.out.println("mainMapper.listCount(criteria) = " + mainMapper.listCount(criteria,"open"));
 
   }
 
@@ -45,7 +45,7 @@ class MainMapperTest {
     System.out.println("criteria = " + criteria);
     System.out.println("criteria.getPage() = " + criteria.getPage());
     System.out.println("criteria.getPageSize() = " + criteria.getPageSize());
-    Pagination pagination = new Pagination(criteria,mainMapper.listCount(criteria));
+    Pagination pagination = new Pagination(criteria,mainMapper.listCount(criteria,"open"));
 
     System.out.println("pagination = " + pagination);
 
@@ -53,7 +53,9 @@ class MainMapperTest {
     System.out.println("criteria.getRowEnd() = " + criteria.getRowEnd());
     System.out.println("criteria.gegetSearchTypetRowEnd() = " + criteria.getSearchType());
 
-    int i = mainService.totalCount(criteria);
+    int i = mainService.totalCount(criteria,"open");
+    List<CategoryFundingDTO> open = mainService.openFundingList(criteria);
+    System.out.println("open = " + open);
     System.out.println("i = " + i);
   }
 

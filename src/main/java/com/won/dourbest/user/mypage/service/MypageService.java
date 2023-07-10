@@ -31,4 +31,6 @@ public interface MypageService {
     public Map<String,Object> OrderAndCreditInfo(String userId, int orderCode);
 
     public int changeProfile(ProfileDTO profile);
+
+
 }

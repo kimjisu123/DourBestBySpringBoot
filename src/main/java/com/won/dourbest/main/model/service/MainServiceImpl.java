@@ -21,8 +21,13 @@ public class MainServiceImpl implements MainService{
   }
 
   @Override
-  public int totalCount(SearchCriteria searchCriteria) {
-    return mainMapper.listCount(searchCriteria);
+  public List<CategoryFundingDTO> openFundingList(SearchCriteria searchCriteria) {
+    return mainMapper.openFundingCate(searchCriteria);
+  }
+
+  @Override
+  public int totalCount(SearchCriteria searchCriteria, String name) {
+    return mainMapper.listCount(searchCriteria, name);
   }
 
   @Override

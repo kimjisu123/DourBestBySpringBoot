@@ -91,11 +91,14 @@ public class MypageServiceImple implements MypageService{
         OrderFundingDTO byOrder = mypageMapper.findByOrder(userId, orderCode);
         OrderCreditDTO byCredit = mypageMapper.findByCredit(orderCode);
         List<CategoryDTO> category = mypageMapper.contactCategory();
+        int reviewCount = mypageMapper.reviewCount(userId, byOrder.getFundingCode());
 
         Map<String,Object> info = new HashMap<>();
+
         info.put("order", byOrder);
         info.put("credit", byCredit);
         info.put("contactCategory", category);
+        info.put("reviewCount", reviewCount);
 
         return info;
     }

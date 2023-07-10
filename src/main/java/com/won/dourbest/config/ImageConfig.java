@@ -14,7 +14,8 @@ public class ImageConfig implements WebMvcConfigurer {
                 .addResourceLocations("file:///c:/dev/fundingImg/fundContentImg/")
                 .addResourceLocations("file:///c:/dev/fundingImg/mainImg/")
                 .addResourceLocations("file:///c:/dev/fundingImg/topImg/")
-                .addResourceLocations("file:///c:/dev/fundingImg/profile/");
+                .addResourceLocations("file:///c:/dev/fundingImg/profile/")
+                .addResourceLocations("file:///c:/dev/fundingImg/reviewImg/");
 
 
     }

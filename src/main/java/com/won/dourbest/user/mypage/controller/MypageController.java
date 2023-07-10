@@ -154,7 +154,7 @@ public class MypageController {
         //세션으로부터 받자
         String userId = member.getUsername();
 
-        Pagination pagination = new Pagination(criteria, mypageService.listTotalCount(criteria, userId, "like"));
+        Pagination pagination = new Pagination(criteria, mypageService.listTotalCount(criteria, userId, "purchase"));
 
         List<PurchasedFundingListDTO> list = mypageService.purchaseList(criteria, userId);
         log.info("list={}", list);
@@ -166,6 +166,24 @@ public class MypageController {
 
         return "user/mypage/purchase";
     }
+
+    @GetMapping("/review")
+    public String reviewList(@AuthenticationPrincipal MemberImpl member, @ModelAttribute("cri") SearchCriteria criteria, Model model) {
+
+        //세션으로부터 받자
+        String userId = member.getUsername();
+
+        Pagination pagination = new Pagination(criteria, mypageService.listTotalCount(criteria, userId, "purchase"));
+
+        List<PurchasedFundingListDTO> list = mypageService.purchaseList(criteria, userId);
+        log.info("list={}", list);
+
+        model.addAttribute("list", list);
+        model.addAttribute("pagination", pagination);
+
+        return "user/mypage/review";
+    }
+
 
     @GetMapping("/point")
     public String pointList(@AuthenticationPrincipal MemberImpl member, @ModelAttribute("cri") SearchCriteria criteria, Model model) {
@@ -288,6 +306,7 @@ public class MypageController {
         model.addAttribute("order",(OrderFundingDTO) result.get("order"));
         model.addAttribute("credit",(OrderCreditDTO) result.get("credit"));
         model.addAttribute("contactCategory", result.get("contactCategory"));
+        model.addAttribute("reviewCount", result.get("reviewCount"));
 
         return "user/order/funding-detail";
     }

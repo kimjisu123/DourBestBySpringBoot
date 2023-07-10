@@ -44,7 +44,7 @@
     display: inline-block;
 }
 
-.filter-wrapper ul li a:hover, .back-mypage a:hover{
+.filter-wrapper ul li a:hover, .back-mypage a:hover, .active{
     top: -2px;
     box-shadow: 0 4px 5px rgba(0,0,0,0.2);
     background-color: #f35f4c;
