@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.won.dourbest.seller.dao.WritingMapper">
+
+    <insert id="registWriting">
+        INSERT
+        INTO TBL_SELLER_INQUIRY
+        (
+            SELLER_INQUIRY_CODE
+        ,   INQUIRY_TITLE
+        ,   INQUIRY_CONTENT
+        , INQUIRY_DATE
+        , FUNDING_CODE
+        , MEMBER_CODE
+        , CATEGORY_CODE
+        )
+        VALUES
+        (
+          SEQ_SELLER_INQUIRY_CODE.nextval
+      ,  #{inquiryTitle}
+      ,  #{inquiryContent}
+      , SYSDATE
+      , 3
+      , 5
+      , #{ categoryName }
+        )
+    </insert>
+
+
+</mapper>
+

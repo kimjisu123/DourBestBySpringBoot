@@ -1,6 +1,7 @@
 package com.won.dourbest.seller.dao;
 
 import com.won.dourbest.seller.dto.FundingOptionDTO;
+import com.won.dourbest.seller.dto.ProductDTO;
 import com.won.dourbest.seller.dto.SellerDTO;
 import com.won.dourbest.user.dto.*;
 import org.apache.ibatis.annotations.Mapper;
@@ -14,13 +15,13 @@ public interface SellerMapper {
 
     FundingOptionDTO selectProductName( );
 
-    MemberDTO selectMember();
+    MemberDTO selectMember(String memberId);
 
-    AddressDTO selectAddress();
+    AddressDTO selectAddress(String memberId);
 
     List<CouponDTO> selectCouponList();
 
-    int selectProductPrice();
+    
 
     CouponDTO selectDIsCount();
 
@@ -31,4 +32,8 @@ public interface SellerMapper {
     OrderDTO selectDelivery();
 
     int deleteDelivery();
+
+    ProductDTO selectProduct(int optionCode);
+
+    int selectProductPrice();
 }

@@ -38,6 +38,7 @@
     <resultMap id="selectAddressResultMap" type="com.won.dourbest.user.dto.AddressDTO">
         <result property="baseAddress" column="BASE_ADDRESS"/>
         <result property="detailAddress" column="DETAIL_ADDRESS"/>
+        <association property="memberCode" resultMap="selectMemberResultMap"></association>
     </resultMap>
 
     <resultMap id="selectCouponListResultMap" type="com.won.dourbest.user.dto.UserCouponListDTO">
@@ -66,7 +67,13 @@
         <result property="pointTotalAmount" column="POINT_TOTAL_AMOUNT"/>
         <result property="pointCode" column="POINT_CODE"/>
         <result property="memberCode" column="MEMBER_CODE"/>
+    </resultMap>
 
+    <resultMap id="selectProductResultMap" type="ProductDTO">
+
+        <result property="optionName" column="OPTION_NAME"></result>
+        <result property="optionPrice" column="OPTION_PRICE"></result>
+        <result property="fileModificationName" column="FILE_MODIFICATION_NAME"></result>
     </resultMap>
 
 
@@ -102,8 +109,8 @@
          ,0
         )
 
-
     </insert>
+
 
     <select id="selectProductName" resultMap="selectFundingOption">
         SELECT
@@ -120,15 +127,16 @@
                MEMBER_PHONE,
                MEMBER_EMAIL
         FROM TBL_MEMBER
-        WHERE MEMBER_CODE = 5
+        WHERE MEMBER_ID = #{ memberId }
     </select>
 
     <select id="selectAddress" resultMap="selectAddressResultMap">
         SELECT
             BASE_ADDRESS
           , DETAIL_ADDRESS
-          FROM TBL_ADDRESS
-        WHERE MEMBER_CODE = 5
+          FROM TBL_ADDRESS A
+          JOIN TBL_MEMBER B on (B.MEMBER_CODE = A.MEMBER_CODE)
+        WHERE MEMBER_ID = #{ memberId }
     </select>
 
 
@@ -184,6 +192,17 @@
           FROM TBL_ORDER
          WHERE ORDER_CODE = 1
     </delete>
+
+    <select id="selectProduct" resultMap="selectProductResultMap">
+        SELECT
+            OPTION_NAME
+          , OPTION_PRICE
+          , FILE_MODIFICATION_NAME
+          FROM TBL_FUNDING_OPTIONS A
+          JOIN TBL_FUNDING_FILE B on (B.FUNDING_CODE = A.FUNDING_CODE)
+         WHERE A.FUNDING_OPTION_CODE = ${ optionCode }
+          AND  B.FILE_TYPE = '메인'
+    </select>
 
 
 

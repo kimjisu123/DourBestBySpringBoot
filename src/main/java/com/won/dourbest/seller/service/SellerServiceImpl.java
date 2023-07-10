@@ -2,6 +2,7 @@ package com.won.dourbest.seller.service;
 
 import com.won.dourbest.seller.dao.SellerMapper;
 import com.won.dourbest.seller.dto.FundingOptionDTO;
+import com.won.dourbest.seller.dto.ProductDTO;
 import com.won.dourbest.seller.dto.SellerDTO;
 import com.won.dourbest.user.dto.*;
 import org.springframework.stereotype.Service;
@@ -54,20 +55,18 @@ public class SellerServiceImpl implements SellerService {
 
     // 주문자 정보 조회
     @Override
-    public MemberDTO selectMember() {
+    public MemberDTO selectMember(String memberId) {
 
-        MemberDTO member = mapper.selectMember();
-
-
+        MemberDTO member = mapper.selectMember(memberId);
 
 
         return member;
     }
 
     @Override
-    public AddressDTO selectAddress() {
+    public AddressDTO selectAddress(String memberId) {
 
-        AddressDTO address = mapper.selectAddress();
+        AddressDTO address = mapper.selectAddress(memberId);
 
         return address;
     }
@@ -106,30 +105,42 @@ public class SellerServiceImpl implements SellerService {
 
 
     @Override
-    public int registCoupon(String choiceCoupon) {
+    public ProductDTO registCoupon(String choiceCoupon, int optionCode) {
         int result = 0;
         int totalPrice = 0;
-        int productPrice = mapper.selectProductPrice();
+        ProductDTO productPrice = mapper.selectProduct(optionCode);
         for (int i = 0; i < choiceCoupon.length(); i++) {
             if (choiceCoupon.equals("10%할인")) {
-                result = (int)(productPrice*0.1);
-                totalPrice = productPrice - result;
+                result = (int)(productPrice.getOptionPrice()*0.1);
+                totalPrice = productPrice.getOptionPrice() - result;
             } else if(choiceCoupon.equals("5%할인")) {
-                result = (int)(productPrice*0.05);
-                totalPrice = productPrice - result;
+                result = (int)(productPrice.getOptionPrice()*0.05);
+                totalPrice = productPrice.getOptionPrice() - result;
             } else if(choiceCoupon.equals("무료배송")) {
                 result = mapper.deleteDelivery();
                 if (result == 1) {
-                    totalPrice = productPrice;
+                    totalPrice = productPrice.getOptionPrice();
                 }
             }
-            
         }
+        productPrice.setDisCount(result);
+        productPrice.setTotalPrice(totalPrice);
 
-        return totalPrice;
+        return productPrice;
     }
 
+    @Override
+    public void selectMemberCode(int memberCode) {
 
+    }
+
+    @Override
+    public ProductDTO selectProduct(int optionCode) {
+
+        ProductDTO product = mapper.selectProduct(optionCode);
+
+        return product;
+    }
 
 
 }

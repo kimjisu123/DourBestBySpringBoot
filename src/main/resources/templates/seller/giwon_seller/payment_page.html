@@ -3,6 +3,7 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
   <link rel="stylesheet" th:href="@{/css/seller/giwon_seller/payment_page.css}">
+  <script src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 </head>
   <main>
 
@@ -15,7 +16,7 @@
         <div class="main-container5">
           <div class="final-payment text1">최종 결제금액</div>
           <ul>
-            <li class="text2 final-detaile">상품가격 : <p class="product-price" th:text="${product.getOptionPrice()}" ></p></li>
+            <li class="text2 final-detaile">상품가격 : <p id="product-price"  ></p></li>
             <li class="text2 final-detaile">쿠폰할인</li>
             <li class="text2 final-detaile">포인트사용</li>
             <li class="text2 final-detaile">배송비 : <p class="delivery" th:text="${delivery.getDeliveryCharge()}"></p></li>
@@ -29,7 +30,8 @@
             <div class="payment-tetails text1">주문 상품 정보 </div>
             <div class="product-img"><img src="/images/seller/adminlogo.png" alt=""></div>
           </div>
-          <div class="product-name text2"><p th:text="${product.getOptionName()}"></p></div>
+          <input type="hidden" name="optionCode" id="optionCode" th:value="${ 112 }">
+          <div class="product-name text2"><p id="product-name"></p></div>
         </div>
 
         <div class="main-container6">
@@ -43,8 +45,6 @@
 
           </input>
 
-
-          </form>
           <div class="card-choice1 form-select">
             <select >
               <option disabled="disabled" selected="select-box">카드를 선택해주세요</option>
@@ -81,22 +81,22 @@
           <label for="checkbox3" class="ok">개인정보 제3자 제공 동의</label> <br>
           <input type="checkbox" class="consent" id="checkbox4">
           <label for="checkbox4" class="ok">구매조건 확인 및 결제진행에 동의</label>
-            <button class="button-payment" id="payment">결제하기</button>
+            <button class="button-payment" id="payment" onclick="requestPay()">결제하기</button>
         </div>
 
 
         <div class="main-container2">
           <div class="payment-tetails text1">주문자 정보</div>
           <ul class="information text2">
-            <li><p th:text="${ member.getMemberName()}"></p></li>
-            <li><p th:text="${ member.getMemberPhone()}"></p></li>
-            <li><p th:text="${ member.getMemberEmail()}"></p></li>
+            <li><p id="memberName" th:text="${ member.getMemberName()}"></p></li>
+            <li><p id="memberPhone" th:text="${ member.getMemberPhone()}"></p></li>
+            <li><p id="memberEmail" th:text="${ member.getMemberEmail()}"></p></li>
           </ul>
         </div>
 
         <div class="main-container3">
           <div class="address text1">배송지 정보</div>
-          <div class="address-text text2"><p th:text="${ address.getBaseAddress() }"></p></div>
+          <div class="address-text text2"><p id="memberAddress" th:text="${ address.getBaseAddress() }"></p></div>
           <div class="address-text text2"><p th:text="${ address.getDetailAddress()}"></p></div>
           <div class="address text1">배송메모 <br>
             <div class="message-select form-select">
@@ -125,7 +125,7 @@
               </div>
             </div>
             <div class="hold-point text3">보유 포인트 : <p id="pointAmount" th:text="${ point.getPointTotalAmount() }"></p> </div>
-            <div class="point-application" id="totalPointPrice"></div>
+              <textarea class="point-application" id="use-point" placeholder="사용할 포인트를 입력해주세요." maxlength="10" th:text="{}"></textarea>
             <div class="hold-point2">5,000 포인트 이상 보유 및 10,000원 이상 구매시 사용 가능</div>
           </div>
         </div>
@@ -147,7 +147,7 @@
                 <input type="file" id="contact-imgInput" onchange="contactreadURL(this)">
                 <div class="contact-imgdiv"></div>
               </div>
-              <button class="" type="submit" id="send" onclick="closeContactModal()">제출</button>
+              <button class="" type="button" id="send" onclick="closeContactModal()">제출</button>
             </div>
           </div>
         </div>
@@ -156,25 +156,6 @@
     </section>
   </main>
 
-<script>
-
-  $("#send").click(function (){
-
-    const totalCouponPrice = $(".totalCouponPrice").val();
-    $.ajax({
-      url: "/seller/payment",
-      type : "GET",
-      data : {totalCouponPrice : totalCouponPrice},
-      success : function(data) {
-          console.log(data)
-      },
-      error : function (error) {
-        alert(error);
-      }
-    });
-  });
-
-</script>
 
 <script>
 
@@ -183,13 +164,14 @@ $("#send").click(function(){
   $(".userCouponCheck").each(function(){
     if(this.checked == true) {
       const choiceCoupon =  this.nextElementSibling.children[0].innerText;
+      const optionCode = $("#optionCode").val();
 
       $.ajax({
-        url: "/seller/payment",
+        url: "/seller/coupon",
         type : "POST",
-        data : {choiceCoupon : choiceCoupon},
+        data : {choiceCoupon : choiceCoupon, optionCode : optionCode},
         success : function(data) {
-            $(".coupon-application").text(data)
+            $(".coupon-application").text(data.coupon)
         },
         error : function (error) {
           alert(error);
@@ -198,6 +180,17 @@ $("#send").click(function(){
     }
   })
 })
+</script>
+
+<script>
+  $(".buttonPoint").click(function() {
+    const point = $("#pointAmount").text();
+    const totalPointPrice = $('#totalPointPrice');
+    console.log(point);
+    console.log(totalPointPrice);
+    totalPointPrice.value(totalPointPrice);
+  });
+
 
 
 </script>
@@ -251,25 +244,11 @@ $("#send").click(function(){
   }
 </script>
 
-<script>
-  $(".buttonPoint").click(function() {
-    const point = $("#pointAmount").text()
-    $.ajax({
-      url: "/seller/payment",
-      type : "POST",
-      data : {point : point},
-      success : function(data) {
-          $("#totalPointPrice").text(data);
-      },
-      error : function (error) {
-        alert(error);
-      }
-    });
-  });
-</script>
+
 
 <script>
-  let box = $("#payment");
+  let box = $("#payment")
+  box.prop("disabled", true);
 
   let check = $("input:checkbox[class='consent']");
 
@@ -281,15 +260,60 @@ $("#send").click(function(){
         }
         if(idx == 4){
           box.css('background-color', '#f35f4c')
+          box.prop("disabled", false);
 
         }
         if($(this).prop("checked") == false) {
           idx--;
           box.css('background-color', 'rgba(155,155,155,0.5)')
+          box.prop("disabled", true);
         }
     });
     });
 
+</script>
+
+<script>
+  const optionCode = $("#optionCode").val();
+  $.ajax({
+    url: "/seller/option",
+    type: "post",
+    data: {optionCode : optionCode},
+    success : function(data) {
+      $("#product-price").text(data.optionPrice)
+      $("#product-name").text(data.optionName)
+    },
+    error : function(error) {
+
+    }
+  })
+</script>
+
+<script>
+  var IMP = window.IMP;
+  IMP.init("imp35545546"); // 예: imp00000000
+
+  function requestPay() {
+
+    IMP.request_pay({ // param
+      pg: "kakaopay",
+      pay_method: "card",
+      merchant_uid: "merchant_" + new Date().getTime(),
+      name: "아직몰라",
+      amount: 123,
+      buyer_email: $("#memberEmail").val(),
+      buyer_name: $("#memberName").val(),
+      buyer_tel: $("#memberPhone").val(),
+      buyer_addr: $("#memberAddress").val(),
+      buyer_postcode: "01181"
+    }, function (rsp) { // callback
+      if (rsp.success) {
+
+      } else {
+
+      }
+    });
+  }
 </script>
 
 

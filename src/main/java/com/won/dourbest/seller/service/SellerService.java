@@ -1,6 +1,7 @@
 package com.won.dourbest.seller.service;
 
 import com.won.dourbest.seller.dto.FundingOptionDTO;
+import com.won.dourbest.seller.dto.ProductDTO;
 import com.won.dourbest.seller.dto.SellerDTO;
 import com.won.dourbest.user.dto.*;
 
@@ -13,9 +14,9 @@ public interface SellerService {
 
     FundingOptionDTO selectProductName();
 
-    MemberDTO selectMember();
+    MemberDTO selectMember(String memberId);
 
-    AddressDTO selectAddress();
+    AddressDTO selectAddress(String memberId);
 
     List<CouponDTO> selectCouponList();
 
@@ -27,9 +28,11 @@ public interface SellerService {
 
     OrderDTO selectDelivery();
 
-    int registCoupon(String map);
+    ProductDTO registCoupon(String choiceCoupon, int optionCode);
 
+    void selectMemberCode(int memberCode);
 
+    ProductDTO selectProduct(int optionCode);
 
 
 //    CouponDTO selectTotalPrice();

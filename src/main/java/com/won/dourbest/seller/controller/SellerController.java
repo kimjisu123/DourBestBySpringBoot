@@ -1,6 +1,11 @@
 package com.won.dourbest.seller.controller;
 
+import com.siot.IamportRestClient.IamportClient;
+import com.siot.IamportRestClient.exception.IamportResponseException;
+import com.siot.IamportRestClient.response.IamportResponse;
+import com.siot.IamportRestClient.response.Payment;
 import com.won.dourbest.seller.dto.FundingOptionDTO;
+import com.won.dourbest.seller.dto.ProductDTO;
 import com.won.dourbest.seller.dto.SellerDTO;
 import com.won.dourbest.seller.service.SellerService;
 import com.won.dourbest.seller.service.SellerServiceImpl;
@@ -9,6 +14,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.tomcat.util.json.JSONParser;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.stereotype.Service;
@@ -16,8 +22,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -28,10 +37,12 @@ public class SellerController {
 
 
     private final SellerServiceImpl service;
+    private IamportClient api;
 
 
-    public SellerController (SellerServiceImpl service) {
+    public SellerController (SellerServiceImpl service, IamportClient api) {
         this.service = service;
+        this.api = new IamportClient("5775185238551285","nOLrNJUiWs7mVQRrPVP3I7N44OZAk6VIDJ5SplkOKo6fWHK8gz2hgLf0pfY9v3mtPfPJkVLgnXnTG4lV");
     }
 
 
@@ -78,7 +89,7 @@ public class SellerController {
 
     // 상품명 조회
     @GetMapping("/payment")
-    public String payment(Model model, HttpServletRequest request ) {
+    public String payment(Model model, HttpServletRequest request , @AuthenticationPrincipal MemberImpl id ) {
 
         FundingOptionDTO product = service.selectProductName();
 
@@ -86,12 +97,13 @@ public class SellerController {
         model.addAttribute("product", product);
 
         // 주문자 정보 조회
-        MemberDTO member = service.selectMember();
+        MemberDTO member = service.selectMember(id.getMemberId());
+
 
         model.addAttribute("member", member);
 
         // 배송지 조회
-        AddressDTO address = service.selectAddress();
+        AddressDTO address = service.selectAddress(id.getMemberId());
 
         model.addAttribute("address", address);
 
@@ -114,27 +126,61 @@ public class SellerController {
 
         model.addAttribute("delivery" , delivery );
 
+        System.out.println("memberId : " + id);
+
+
         return "seller/giwon_seller/payment_page";
     }
 
-    @PostMapping("/payment")
+    @PostMapping("/coupon")
     @ResponseBody
-    public int payment(@RequestParam("choiceCoupon") String choiceCoupon ) {
+    public Map<String, String> payment(@RequestParam("choiceCoupon") String choiceCoupon ,@RequestParam int optionCode) {
 
-
+        Map<String, String> map = new HashMap<>();
         System.out.println("choiceCoupon = " + choiceCoupon);
         // 쿠폰 사용
-        int couponApply = service.registCoupon(choiceCoupon);
+        ProductDTO couponApply = service.registCoupon(choiceCoupon,optionCode);
+        System.out.println("couponApply = " + couponApply);
+        map.put("coupon" , String.valueOf(couponApply.getTotalPrice()));
 
 
+        return map;
+    }
 
-        return couponApply;
+    @PostMapping("/option")
+    @ResponseBody
+    public ProductDTO option(@RequestParam int optionCode) {
+
+        ProductDTO product = service.selectProduct(optionCode);
+
+        return product;
     }
 
 
 
 
 
+
+
+
+
+
+
+
+
+//    @PostMapping("/credit")
+//    @ResponseBody
+//    public void memberCode(@RequestParam int memberCode){
+//        service.selectMemberCode(memberCode);
+//    }
+//
+//
+//    @PostMapping("/verifyIamport/{imp_uid}")
+//    @ResponseBody
+//    public IamportResponse<Payment> Import(Model model, Locale locale, HttpSession session, @PathVariable(value = "imp_uid") String imp_uid) throws IamportResponseException, IOException {
+//
+//        return api.paymentByImpUid(imp_uid);
+//    }
 
 
 
