@@ -113,5 +113,11 @@ public class MypageServiceImple implements MypageService{
         return mypageMapper.QnaSellerInquire(memberCode,id);
     }
 
+    @Override
+    @Transactional
+    public MemberReportListDTO NotifyInquire(int memberCode, int id) {
+        return mypageMapper.NotifyInquire(memberCode,id);
+    }
+
 
 }

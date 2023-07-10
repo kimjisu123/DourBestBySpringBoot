@@ -46,4 +46,6 @@ public interface MypageMapper {
 
     SellerInquiryDTO QnaSellerInquire(int memberCode , int id);
 
+    MemberReportListDTO NotifyInquire(int memberCode , int id);
+
 }

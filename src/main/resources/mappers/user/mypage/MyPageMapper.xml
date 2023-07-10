@@ -41,6 +41,7 @@
     <resultMap id="QnaSellerResult" type="com.won.dourbest.seller.dto.SellerInquiryDTO">
         <id property="sellerInquiryCode" column="SELLER_INQUIRY_CODE"/>
         <result property="rowNum" column="RNUM"/>
+        <result property="fundingTitle" column="FUNDING_TITLE"/>
         <result property="inquiryTitle" column="INQUIRY_TITLE"/>
         <result property="inquiryContent" column="INQUIRY_CONTENT"/>
         <result property="inquiryDate" column="INQUIRY_DATE"/>
@@ -49,6 +50,19 @@
         <result property="answerDate" column="INQUIRY_ANSWER_DATE"/>
         <result property="fundingCode" column="FUNDING_CODE"/>
         <result property="memberCode" column="MEMBER_CODE"/>
+    </resultMap>
+
+<!--신고 답변-->
+
+    <resultMap id="QnaNotifyResult" type="com.won.dourbest.user.dto.MemberReportListDTO">
+        <id property="reportCode" column="REPORT_CODE"/>
+<!--        <result property="rowNum" column="RNUM"/>-->
+        <result property="fundingTitle" column="REPORT_TITLE"/>
+        <result property="reportContent" column="REPORT_CONTENT"/>
+        <result property="reportDate" column="REPORT_DATE"/>
+        <result property="categoryName" column="CATEGORY_NAME"/>
+        <result property="reportAnswer" column="ANSWERS_CONTENT"/>
+        <result property="reportAnswerDate" column="ANSWER_DATE"/>
     </resultMap>
 
 
@@ -731,6 +745,7 @@
     <!-- 판매자 문의사항 쿼리문 -->
     <select id="QnaSellerInquire" resultMap="QnaSellerResult">
         SELECT
+            F.FUNDING_TITLE,
             SI.INQUIRY_TITLE,
             SI.INQUIRY_CONTENT,
             SI.INQUIRY_DATE,
@@ -742,10 +757,27 @@
                  LEFT JOIN TBL_MEMBER M on SI.MEMBER_CODE = M.MEMBER_CODE
                  LEFT JOIN TBL_INQUIRY_ANSWER SA on SI.SELLER_INQUIRY_CODE = SA.SELLER_INQUIRY_CODE
                  LEFT JOIN TBL_CATEGORY TC on SI.CATEGORY_CODE = TC.CATEGORY_CODE
+                 LEFT JOIN TBL_FUNDING f on F.FUNDING_CODE = SI.FUNDING_CODE
         WHERE SI.MEMBER_CODE= #{ memberCode }
           AND SI.SELLER_INQUIRY_CODE = #{ id }
     </select>
 
+<!--신고 문의 -->
+    <select id="NotifyInquire" resultMap="QnaNotifyResult">
+        SELECT
+            FR.REPORT_TITLE,
+            FR.REPORT_CONTENT,
+            FR.REPORT_DATE,
+            TC.CATEGORY_NAME,
+            PP.ANSWERS_CONTENT,
+            PP.ANSWER_DATE
+        FROM TBL_FUNDING_REPORT FR
+                 LEFT JOIN TBL_MEMBER M on FR.MEMBER_CODE = M.MEMBER_CODE
+                 LEFT JOIN TBL_REPORT_RESPONSE PP on FR.REPORT_CODE = PP.REPORT_CODE
+                 LEFT JOIN TBL_CATEGORY TC on FR.CATEGORY_CODE = TC.CATEGORY_CODE
+        WHERE FR.MEMBER_CODE= #{ memberCode }
+          AND FR.REPORT_CODE = #{ id }
+    </select>
 
 
 </mapper>

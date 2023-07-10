@@ -35,4 +35,6 @@ public interface MypageService {
 
     public SellerInquiryDTO QnaSellerInquire(int memberCode ,int id);
 
+    public MemberReportListDTO NotifyInquire(int memberCode , int id);
+
 }

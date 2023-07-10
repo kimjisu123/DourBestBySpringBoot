@@ -29,7 +29,7 @@
 }
 
 .new2 input {
-
+    z-index: 1;
     width: 400px;
     margin: 0px auto;
     height: 46px;
@@ -403,7 +403,7 @@
 
 
 .new2 {
-
+    z-index: 2;
     flex-direction: column;
 }
 

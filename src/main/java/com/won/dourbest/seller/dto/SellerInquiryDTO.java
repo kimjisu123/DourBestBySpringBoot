@@ -24,4 +24,6 @@ public class SellerInquiryDTO {
     private String answerContent;
     private Date answerDate;
 
+    private String fundingTitle;
+
 }

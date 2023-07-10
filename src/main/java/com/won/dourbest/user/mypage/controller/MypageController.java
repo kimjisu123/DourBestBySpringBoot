@@ -304,6 +304,7 @@ public class MypageController {
 
             member1.setMemberPwd(passwordEncoder.encode(pwd));  // 비밀번호 암호화 안되면 로그인 안됨.
             memberService.changePwd(member1);
+            return "redirect:/mypage";
         }
         return "user/mypage/changePwd";
     }
@@ -337,33 +338,6 @@ public class MypageController {
     }
 
 
-
-    @GetMapping("/notify-inquire/{id}")    //이동할 페이지
-    public String inquireNotify(@AuthenticationPrincipal MemberImpl user ,@PathVariable("id") int id, Model model){
-//        System.out.println("id  ============================ " + id);
-        MemberDTO findMember = memberService.findUser(user.getMemberId()).orElseThrow();
-        AdminInquiriesDTO inquir = mypageService.QnaInqurireAnwser(findMember.getMemberCode(), id);
-
-        if( inquir.getAnswerContent() != null) {
-
-            model.addAttribute("member",findMember);
-            model.addAttribute("inquir" ,inquir);
-            model.addAttribute("showAnswer", true);
-//        System.out.println("membercode ============================ " + findMember.getMemberCode());
-//        System.out.println("inquir ============================ " + inquir);
-
-
-        } else {
-            model.addAttribute("member",findMember);
-            model.addAttribute("inquir" ,inquir);
-            model.addAttribute("showAnswer", false);
-
-        }
-
-        return "user/mypage/inquireNotify";
-    }
-
-
     @GetMapping("/seller-inquire/{id}")    //이동할 페이지
     public String QnaSellerInquire(@AuthenticationPrincipal MemberImpl user ,@PathVariable("id") int id, Model model){
         System.out.println("id  ============================ " + id);
@@ -390,6 +364,31 @@ public class MypageController {
     }
 
 
+    @GetMapping("/modifiy-inquire/{id}")    //이동할 페이지
+    public String NotifyInquire(@AuthenticationPrincipal MemberImpl user ,@PathVariable("id") int id, Model model){
+        System.out.println("id  ============================ " + id);
+        MemberDTO findMember = memberService.findUser(user.getMemberId()).orElseThrow();
+        MemberReportListDTO inquir = mypageService.NotifyInquire(findMember.getMemberCode(), id);
+
+        if( inquir.getReportAnswer() != null) {
+
+            model.addAttribute("member",findMember);
+            model.addAttribute("inquir" ,inquir);
+            model.addAttribute("showAnswer", true);
+            System.out.println("membercode ============================ " + findMember);
+            System.out.println("inquir ============================ " + inquir);
+
+
+        } else {
+
+            model.addAttribute("member",findMember);
+            model.addAttribute("inquir" ,inquir);
+            model.addAttribute("showAnswer", false);
+
+        }
+
+        return "user/mypage/inquireNotify";
+    }
 
 
 }
