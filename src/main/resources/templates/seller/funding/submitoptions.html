@@ -138,7 +138,7 @@
               <span class="bar"></span>
             </div>
               <input type="hidden" name="currentKey" id="currentKey" th:value="${ currentKey }">
-            <div class="option-title">
+            <div class="deDate">
               배송 시작 일자
             </div>
             <div class="datepick group">
@@ -297,7 +297,8 @@
           $('#optionSize').val('');
           $('#optionColor').val('');
           $('#optionAmount').val('');
-          $('#deliverDate').val('');
+          $('#deliverDate').css('display', 'none');
+          $('.deDate').css('display', 'none');
           $('#optionName').focus();
 
           console.log('성공');

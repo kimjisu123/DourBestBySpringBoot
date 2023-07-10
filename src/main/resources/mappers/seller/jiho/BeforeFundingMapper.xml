@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.won.dourbest.seller.dao.jiho.BeforeFundingMapper">
+
+    <resultMap id="resultMap" type="MainImgDTO">
+        <id property="fileModificationName" column="FILE_MODIFICATION_NAME"/>
+        <result property="fundingCode" column="FUNDING_CODE"/>
+    </resultMap>
+
+    <select id="getImgName" resultMap="resultMap">
+        SELECT
+               B.FILE_MODIFICATION_NAME
+             , B.FUNDING_CODE
+        FROM (SELECT
+               ROWNUM
+             , A.FILE_MODIFICATION_NAME
+             , A.FUNDING_CODE
+        FROM (SELECT
+               FILE_MODIFICATION_NAME
+             , FF.FUNDING_CODE
+          FROM TBL_FUNDING_FILE FF
+          JOIN TBL_FUNDING F ON(FF.FUNDING_CODE = F.FUNDING_CODE)
+         WHERE FF.FILE_TYPE = '메인'
+         ORDER BY F.LIKES DESC) A) B
+         <![CDATA[WHERE ROWNUM <= 5]]>
+    </select>
+
+    <select id="getAmount">
+        SELECT
+               MAX(FUNDING_CODE)
+          FROM TBL_FUNDING
+    </select>
+</mapper>

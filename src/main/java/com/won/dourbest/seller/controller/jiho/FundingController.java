@@ -26,10 +26,20 @@ public class FundingController {
     }
 
     @GetMapping("/{code}")
-    public String funding(Model model, @PathVariable int code) {
+    public String funding(Model model, @PathVariable int code, @AuthenticationPrincipal MemberImpl member) {
 
         Map<String, Object> map = fundingService.fundingPage(code);
 
+        int result= 0;
+
+        if(member == null) {
+            result = -1;
+        } else {
+            int memberCode = member.getMemberCode();
+            result = fundingService.selectLikes(code, memberCode);
+        }
+
+        model.addAttribute("result", result);
         System.out.println("map = " + map);
         model.addAttribute("tossMap", map);
         System.out.println("code = " + code);
@@ -104,5 +114,29 @@ public class FundingController {
     public String login(){
 
         return "user/login";
+    }
+
+    @GetMapping("/notice/{code}")
+    public String notice(Model model, @PathVariable int code) {
+
+        model.addAttribute("fundingCode", code);
+
+        return "/seller/giwon_seller/notice";
+    }
+
+    @GetMapping("/question/{code}")
+    public String question(Model model, @PathVariable int code) {
+
+        model.addAttribute("fundingCode", code);
+
+        return "/seller/giwon_seller/question";
+    }
+
+    @GetMapping("/review/{code}")
+    public String review(Model model, @PathVariable int code) {
+
+        model.addAttribute("fundingCode", code);
+
+        return "/seller/giwon_seller/review";
     }
 }

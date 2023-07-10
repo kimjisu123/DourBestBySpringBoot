@@ -5,6 +5,8 @@
   <link rel="stylesheet" th:href="@{/css/seller/jiho/submitpage.css}">
   <link rel="stylesheet" th:href="@{/css/seller/jiho/submitmoney.css}">
   <link rel="stylesheet" th:href="@{/css/seller/jiho/sellerbutton.css}">
+  <link rel="stylesheet" th:href="@{/css/seller/jiho/noti.css}">
+
 </head>
   <!-- 메인 -->
   <main>
@@ -68,32 +70,65 @@
             <div class="right-bar"></div>
           </div>
         </div>
-        <div class="headtext">
-          목표금액 선택
+        <div class="side">
+          <div>
+            <div class="headtext">
+              목표금액 선택
+            </div>
+            <div class="subtext">
+              목표금액을 입력해주세요.
+            </div>
+            <form action="/submit/fundinfo" method="post" onsubmit="return check()">
+              <div class="group">
+                <input type="text" id="inputmoney" name="inputMoney" required onkeyup="this.value=this.value.replace(/[^-0-9]/g,'')">
+                <input type="hidden" name="planCode" th:value="${planCode}">
+                <input type="hidden" name="categoryCode" th:value="${categoryCode}">
+                <span class="highlight"></span>
+                <span class="bar"></span>
+                <label>목표 금액을 입력해주세요.</label>
+              </div>
+              <div class="moneytext">
+                최소 50만원에서 최대 5,000만원까지 가능해요.
+              </div>
+              <div class="button5">
+                <button class="redbutton" id="button5">
+                  <span>
+                    저장 및 다음단계
+                  </span>
+                </button>
+              </div>
+            </form>
+          </div>
+          <div class="sidebar">
+            <div class="question" th:onclick="|location.href='@{/dourbest/question}'|">
+              <div class="left">
+                <div class="small">다워베스트의 고객센터에요!</div>
+                <div class="bold">고객 센터</div>
+              </div>
+              <div class="right">
+                <i class="fa-regular fa-phone"></i>
+              </div>
+            </div>
+            <div class="notice" th:onclick="|location.href='@{/dourbest/notice}'|">
+              <div class="left">
+                <div class="small">다워베스트의 공지사항 목록</div>
+                <div class="bold">공지사항</div>
+              </div>
+              <div class="right">
+                <i class="fa-regular fa-thumbtack"></i>
+              </div>
+            </div>
+            <div class="event" th:onclick="|location.href='@{/dourbest/event}'|">
+              <div class="left">
+                <div class="small">다워베스트의 이벤트 목록</div>
+                <div class="bold">이벤트</div>
+              </div>
+              <div class="right">
+                <i class="fa-regular fa-paper-plane"></i>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="subtext">
-          목표금액을 입력해주세요.
-        </div>
-        <form action="/submit/fundinfo" method="post" onsubmit="return check()">
-          <div class="group">
-            <input type="text" id="inputmoney" name="inputMoney" required onkeyup="this.value=this.value.replace(/[^-0-9]/g,'')">
-            <input type="hidden" name="planCode" th:value="${planCode}">
-            <input type="hidden" name="categoryCode" th:value="${categoryCode}">
-            <span class="highlight"></span>
-            <span class="bar"></span>
-            <label>목표 금액을 입력해주세요.</label>
-          </div>
-          <div class="moneytext">
-            최소 50만원에서 최대 5,000만원까지 가능해요.
-          </div>
-          <div class="button5">
-            <button class="redbutton" id="button5">
-              <span>
-                저장 및 다음단계
-              </span>
-            </button>
-          </div>
-        </form>
       </div>
     </section>
   </main>

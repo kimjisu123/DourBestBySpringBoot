@@ -145,4 +145,12 @@
          WHERE FUNDING_CODE = #{ fundingCode }
            AND MEMBER_CODE = #{ memberCode }
     </delete>
+    
+    <select id="selectLikes" parameterType="_int">
+        SELECT
+               COUNT(*)
+          FROM TBL_LIKE_FUNDING_LIST
+         WHERE FUNDING_CODE = #{ code }
+           AND MEMBER_CODE = #{ memberCode }
+    </select>
 </mapper>

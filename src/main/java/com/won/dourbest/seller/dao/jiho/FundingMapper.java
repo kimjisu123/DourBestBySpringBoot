@@ -28,5 +28,7 @@ public interface FundingMapper {
 
     int deleteLikes(int fundingCode, int memberCode);
 
+    int selectLikes(int code, int memberCode);
+
 //    int findCode(String name);
 }

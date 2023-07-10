@@ -97,4 +97,20 @@ public class FundingServiceImpl implements FundingService{
 
         return result > 0? 1 : 0;
     }
+
+    @Override
+    public int selectLikes(int code, int memberCode) {
+
+        int returnCode = 0;
+
+        int result = fundingMapper.selectLikes(code, memberCode);
+
+        if(result == 1) {
+            returnCode = 1;
+        } else if(result == 0) {
+            returnCode = -1;
+        }
+
+        return returnCode;
+    }
 }

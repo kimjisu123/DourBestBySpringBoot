@@ -5,6 +5,7 @@
   <link rel="stylesheet" th:href="@{/css/seller/jiho/submitpage.css}">
   <link rel="stylesheet" th:href="@{/css/seller/jiho/submitplan.css}">
   <link rel="stylesheet" th:href="@{/css/seller/jiho/sellerbutton.css}">
+  <link rel="stylesheet" th:href="@{/css/seller/jiho/noti.css}">
 </head>
   <main>
     <section>
@@ -75,54 +76,85 @@
         </div>
         <input type="hidden" name="categoryCode" th:value="${categoryCode}">
         <div class="bodywrap">
-          <div th:each="plan, stat: ${ planList }">
-            <div th:class="|basicfare${stat.index}|">
-              <div class="fare">
-                <h1 th:text="${ plan.planName }"></h1>
-                <p th:text="${ plan.koPlanName}"></p>
-                <div class="fee">
-                  <span>수수료</span>
-                  <strong th:text="|${ plan.fee } %|"></strong>
+          <div class="siding">
+            <div th:each="plan, stat: ${ planList }">
+              <div th:class="|basicfare${stat.index}|">
+                <div class="fare">
+                  <h1 th:text="${ plan.planName }"></h1>
+                  <p th:text="${ plan.koPlanName}"></p>
+                  <div class="fee">
+                    <span>수수료</span>
+                    <strong th:text="|${ plan.fee } %|"></strong>
+                  </div>
+                </div>
+                <div class="fare-info">
+                  <div class="intro">
+                    <p th:text="${ plan.topText }"></p>
+                    <br><br>
+                    <th:block th:each="map: ${pmap[stat.index]}">
+                      <li th:text="${map}"></li>
+                    </th:block>
+  <!--                  <div class="more">더 알아보기 ></div>-->
+                  </div>
+                  <div class="selectbtn" style="display: flex;">
+                    <button th:onclick="|location.href='@{money(code=${plan.planCode}, categoryCode=${categoryCode})}'|">선택하기</button>
+                  </div>
                 </div>
               </div>
-              <div class="fare-info">
-                <div class="intro">
-                  <p th:text="${ plan.topText }"></p>
-                  <br><br>
-                  <th:block th:each="map: ${pmap[stat.index]}">
-                    <li th:text="${map}"></li>
-                  </th:block>
-<!--                  <div class="more">더 알아보기 ></div>-->
-                </div>
-                <div class="selectbtn" style="display: flex;">
-                  <button th:onclick="|location.href='@{money(code=${plan.planCode}, categoryCode=${categoryCode})}'|">선택하기</button>
-                </div>
+  <!--            <div class="vipfare">-->
+  <!--              <div class="vfare">-->
+  <!--                <h1>Vip</h1>-->
+  <!--                <p>(vip)</p>-->
+  <!--                <div class="fee">-->
+  <!--                  <span>수수료</span>-->
+  <!--                  <strong>14%</strong>-->
+  <!--                </div>-->
+  <!--              </div>-->
+  <!--              <div class="fare-info">-->
+  <!--                <div class="intro">-->
+  <!--                  <p>더욱 업그레이드 된 서비스.</p>-->
+  <!--                  <li>basic 서비스 포함</li>-->
+  <!--                  <li>~~~</li>-->
+  <!--                  <li>~~~</li>-->
+  <!--                  <li>~~~</li>-->
+  <!--                  <div class="more">더 알아보기 ></div>-->
+  <!--                </div>-->
+  <!--                <div class="selectbtn" style="display: flex;">-->
+  <!--                  <button>선택하기</button>-->
+  <!--                </div>-->
+  <!--              </div>-->
+  <!--            </div>-->
+              <br><br><br>
+            </div>
+          </div>
+          <div class="sidebar">
+            <div class="question" th:onclick="|location.href='@{/dourbest/question}'|">
+              <div class="left">
+                <div class="small">다워베스트의 고객센터에요!</div>
+                <div class="bold">고객 센터</div>
+              </div>
+              <div class="right">
+                <i class="fa-regular fa-phone"></i>
               </div>
             </div>
-<!--            <div class="vipfare">-->
-<!--              <div class="vfare">-->
-<!--                <h1>Vip</h1>-->
-<!--                <p>(vip)</p>-->
-<!--                <div class="fee">-->
-<!--                  <span>수수료</span>-->
-<!--                  <strong>14%</strong>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--              <div class="fare-info">-->
-<!--                <div class="intro">-->
-<!--                  <p>더욱 업그레이드 된 서비스.</p>-->
-<!--                  <li>basic 서비스 포함</li>-->
-<!--                  <li>~~~</li>-->
-<!--                  <li>~~~</li>-->
-<!--                  <li>~~~</li>-->
-<!--                  <div class="more">더 알아보기 ></div>-->
-<!--                </div>-->
-<!--                <div class="selectbtn" style="display: flex;">-->
-<!--                  <button>선택하기</button>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </div>-->
-            <br><br><br>
+            <div class="notice" th:onclick="|location.href='@{/dourbest/notice}'|">
+              <div class="left">
+                <div class="small">다워베스트의 공지사항 목록</div>
+                <div class="bold">공지사항</div>
+              </div>
+              <div class="right">
+                <i class="fa-regular fa-thumbtack"></i>
+              </div>
+            </div>
+            <div class="event" th:onclick="|location.href='@{/dourbest/event}'|">
+              <div class="left">
+                <div class="small">다워베스트의 이벤트 목록</div>
+                <div class="bold">이벤트</div>
+              </div>
+              <div class="right">
+                <i class="fa-regular fa-paper-plane"></i>
+              </div>
+            </div>
           </div>
 <!--          <div class="button4">-->
 <!--            <button class="redbutton" id="button4" th:onclick="|location.href='@{money}'|">-->
@@ -131,8 +163,8 @@
 <!--              </span>-->
 <!--            </button>-->
 <!--          </div>-->
-          <br><br><br><br><br>
         </div>
+          <br><br><br><br><br>
       </div>
     </section>
   </main>

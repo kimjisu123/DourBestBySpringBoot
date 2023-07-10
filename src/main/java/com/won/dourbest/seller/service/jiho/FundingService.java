@@ -9,4 +9,6 @@ public interface FundingService {
     int addLikes(int fundingCode, int memberCode);
 
     int deleteLikes(int fundingCode, int memberCode);
+
+    int selectLikes(int code, int memberCode);
 }
