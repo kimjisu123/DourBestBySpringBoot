@@ -16,4 +16,5 @@ public interface CouponMapper {
     List<UseCoupon> selectUseCoupon(SelectCriteria selectCriteria);
 
     int selectTotalPage(Map<String, String> searchMap);
+    int couponIssuance();
 }

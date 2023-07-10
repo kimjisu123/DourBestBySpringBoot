@@ -100,7 +100,8 @@
                     </div>
                     <div th:if="${accountList}">
                         <div th:each="account : ${accountList}" class="table">
-                            <div th:text="${account.getMemberId()}" id="adminAccount1"></div>
+                            <input type="checkbox" class="fundcheckbox" name="my_checkbox" value="0">
+                            <div th:text="${account.getMemberId()}" id="adminAccount1" class="choiceValue"></div>
                             <div th:text="${account.getMemberName()}" id="adminAccount2"></div>
                             <div th:text="${account.getMemberEmail()}" id="adminAccount3"></div>
                             <div th:text="${account.getMemberPhone()}" id="adminAccount4"></div>
@@ -161,7 +162,25 @@
     </div>
 
     <script>
-
+        $('#accountWithdrawal').click(function() {
+            $('.fundcheckbox').each(function() {
+                if ($(this).prop('checked')) {
+                    let memberId = $(this).closest('.table').find('.choiceValue').text();
+                    $.ajax({
+                        url: "/admin/admin",
+                        data: { memberId: memberId },
+                        type: "post",
+                        success: function(data) {
+                            alert(data);
+                            window.location.reload();
+                        },
+                        error: function(error) {
+                            console.log(error);
+                        }
+                    });
+                }
+            });
+        });
     </script>
 </main>
 

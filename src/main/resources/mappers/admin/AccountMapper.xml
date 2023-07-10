@@ -255,4 +255,25 @@
         WHERE A.ADMIN_EMAIL = #{ adminId }
     </select>
 
+    <!--  판매자 확인  -->
+    <select id="selectSeller">
+        SELECT
+            B.MEMBER_CODE
+        FROM   TBL_SELLER A
+        JOIN    TBL_MEMBER B ON (A.MEMBER_CODE = B.MEMBER_CODE)
+        WHERE MEMBER_ID = #{ memberId}
+    </select>
+
+    <!--  판매자 탈퇴(트랜잭션)  -->
+    <delete id="deleteSeller">
+        DELETE TBL_MEMBER_AUTHLIST
+        WHERE MEMBER_CODE = #{memberCode}
+    </delete>
+
+    <!--  회원 탈퇴  -->
+    <delete id="deleteMember">
+        DELETE TBL_MEMBER
+        WHERE  MEMBER_ID = #{ memberId }
+    </delete>
+
 </mapper>

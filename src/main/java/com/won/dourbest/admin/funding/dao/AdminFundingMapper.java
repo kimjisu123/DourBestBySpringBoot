@@ -42,4 +42,16 @@ public interface AdminFundingMapper {
 
     // 상태값 변경
     int updateSellerRegist(String memberCode);
+
+
+    // 펀딩코드
+    String selectFundingCode(String fundingTitle);
+    // 펀딩 승인
+    int Approval(String fundingCode);
+
+    // 펀딩 반려
+    int deleteWillopen(String fundingTitle);
+
+    // 펀딩 삭제
+    int delete(String fundingCode);
 }

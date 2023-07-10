@@ -35,18 +35,17 @@
             A.REPORT_CONTENT,
             A.REPORT_DATE,
             C.NUMBER_REPORTED,
-            F.ANSWERS_STATUS
+            E.REPORT_RESP_STATUS
         FROM    TBL_FUNDING_REPORT A
         JOIN    TBL_FUNDING B ON (A.FUNDING_CODE = B.FUNDING_CODE)
         JOIN    TBL_SELLER  C ON (B.SELLER_CODE = C.SELLER_CODE)
         JOIN    TBL_MEMBER D ON (C.MEMBER_CODE = D.MEMBER_CODE)
         JOIN    TBL_FUNDING_REPORT E ON (E.REPORT_CODE = A.REPORT_CODE)
-        JOIN    TBL_REPORT_RESPONSE F ON (E.REPORT_CODE = F.REPORT_CODE)
-        WHERE   ANSWERS_STATUS = 'N'
+        WHERE   E.REPORT_RESP_STATUS = 'N'
         <if test="searchValue != null and searchValue != ''">
             AND   MEMBER_ID LIKE '%' || #{ searchValue } || '%'
         </if>
-        ORDER BY ADMIN_CODE ASC
+        ORDER BY REPORT_DATE ASC
         OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
     </select>
 
@@ -58,18 +57,18 @@
             F.ANSWERS_CONTENT,
             F.ANSWER_DATE,
             C.NUMBER_REPORTED,
-            F.ANSWERS_STATUS
+            E.REPORT_RESP_STATUS
         FROM    TBL_FUNDING_REPORT A
-                    JOIN    TBL_FUNDING B ON (A.FUNDING_CODE = B.FUNDING_CODE)
-                    JOIN    TBL_SELLER  C ON (B.SELLER_CODE = C.SELLER_CODE)
-                    JOIN    TBL_MEMBER D ON (C.MEMBER_CODE = D.MEMBER_CODE)
-                    JOIN    TBL_FUNDING_REPORT E ON (E.REPORT_CODE = A.REPORT_CODE)
-                    JOIN    TBL_REPORT_RESPONSE F ON (E.REPORT_CODE = F.REPORT_CODE)
-        WHERE   ANSWERS_STATUS = 'Y'
+        JOIN    TBL_FUNDING B ON (A.FUNDING_CODE = B.FUNDING_CODE)
+        JOIN    TBL_SELLER  C ON (B.SELLER_CODE = C.SELLER_CODE)
+        JOIN    TBL_MEMBER D ON (C.MEMBER_CODE = D.MEMBER_CODE)
+        JOIN    TBL_FUNDING_REPORT E ON (E.REPORT_CODE = A.REPORT_CODE)
+        JOIN    TBL_REPORT_RESPONSE F ON (E.REPORT_CODE = F.REPORT_CODE)
+        WHERE   E.REPORT_RESP_STATUS = 'Y'
         <if test="searchValue != null and searchValue != ''">
             AND   MEMBER_ID LIKE '%' || #{ searchValue } || '%'
         </if>
-        ORDER BY ADMIN_CODE ASC
+        ORDER BY ANSWER_DATE DESC
         OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
     </select>
 
@@ -82,5 +81,39 @@
             WHERE   MEMBER_ID = #{ searchValue }
         </if>
     </select>
+
+    <!--  펀딩 코드  -->
+    <select id="selectfundCode">
+        SELECT
+            FUNDING_CODE
+        FROM TBL_FUNDING
+        WHERE FUNDING_TITLE = #{choiceValue}
+    </select>
+    <select id="selectSellerCode">
+        SELECT
+            SELLER_CODE
+        FROM TBL_FUNDING
+        WHERE FUNDING_CODE = #{fundCode}
+    </select>
+    
+    <!--  신고 답변  -->
+    <insert id="insertAnswer">
+    INSERT INTO TBL_REPORT_RESPONSE
+    VALUES
+    (
+    SEQ_REPORT_RESPONSE_CODE.NEXTVAL,
+    #{ answerContent },
+    DEFAULT,
+    1,
+    #{ fundCode }
+    )
+    </insert>
+
+    <!--  신고 당한 멤버 상태값 업데이트  -->
+    <update id="updateSeller">
+        UPDATE TBL_SELLER
+        SET NUMBER_REPORTED = NUMBER_REPORTED+1
+        WHERE SELLER_CODE = #{sellerCode}
+    </update>
 
 </mapper>

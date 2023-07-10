@@ -70,4 +70,16 @@
         </if>
     </select>
 
+    <insert id="couponIssuance">
+        INSERT INTO TBL_COUPON
+        VALUES
+        (
+            TBL_COUPON_CODE.NEXTVAL,
+            #{ couponName },
+            #{ couponContent },
+            #{ couponDiscount },
+            #{ couponVaildDate }
+        )
+    </insert>
+
 </mapper>

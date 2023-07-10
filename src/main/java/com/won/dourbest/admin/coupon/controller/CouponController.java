@@ -1,16 +1,21 @@
 package com.won.dourbest.admin.coupon.controller;
 
+import com.won.dourbest.admin.account.dto.AdminRegistDTO;
 import com.won.dourbest.admin.common.Pagenation;
 import com.won.dourbest.admin.common.SelectCriteria;
 import com.won.dourbest.admin.coupon.dto.CouponIssuance;
+import com.won.dourbest.admin.coupon.dto.CouponRegist;
 import com.won.dourbest.admin.coupon.dto.UseCoupon;
 import com.won.dourbest.admin.coupon.service.CouponServiceImpl;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +31,7 @@ public class CouponController {
 
     // 쿠폰 발급 내역
     @GetMapping("/Issuance")
-    public ModelAndView Issuance(ModelAndView mv, @RequestParam(required = false) String searchValue, @RequestParam(defaultValue = "1", value="currentPage") int pageNO){
+    public ModelAndView IssuanceList(ModelAndView mv, @RequestParam(required = false) String searchValue, @RequestParam(defaultValue = "1", value="currentPage") int pageNO){
 
         Map<String, String> searchMap = new HashMap<>();
         searchMap.put("searchValue", searchValue);
@@ -90,4 +95,18 @@ public class CouponController {
         
         return mv;
     }
+
+//    @PostMapping(value = "Issuance")
+//    @ResponseBody
+//    public String Issuance(@RequestBody CouponRegist couponRegist){
+//
+//
+//
+//        LocalDate couponValidDate = couponRegist.getCouponVaildDate();
+//        String formattedDate = couponValidDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+//        couponRegist.setCouponValidDate(formattedDate);
+//
+//        return "";
+//    }
+
 }

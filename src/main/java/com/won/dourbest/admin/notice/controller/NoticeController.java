@@ -9,9 +9,7 @@ import com.won.dourbest.admin.notice.service.NoticeServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.HashMap;
@@ -131,5 +129,14 @@ public class NoticeController {
 
         return mv;
 
+    }
+
+    @PostMapping("registEventNotice")
+    @ResponseBody
+    public String noticeEvent(){
+
+
+
+        return
     }
 }

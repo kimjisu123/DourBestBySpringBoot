@@ -109,4 +109,67 @@ public class FundingListServiceImpl implements FundingListService {
 
     }
 
+    // 오픈 예정 펀딩 승인
+    @Override
+    public String Approval(String choiceValue) {
+
+        String message = "";
+        String fundingCode;
+        // 펀딩 코드
+        fundingCode = mapper.selectFundingCode(choiceValue);
+
+        // 반려에 대한 결과
+        int result1 = mapper.Approval(fundingCode);
+
+        if(result1 != 0){
+            message = "승인에 성공 하셨습니다.";
+        } else{
+            message = "승인에 실패 하셨습니다.";
+        }
+
+        return message;
+    }
+
+
+    // 오픈 예정 펀딩 반려
+    @Override
+    public String updateDeleteWillopen(String choiceValue) {
+
+        String message = "";
+        String fundingCode;
+        // 펀딩 코드
+        fundingCode = mapper.selectFundingCode(choiceValue);
+
+        // 승인에 대한 결과
+        int result1 = mapper.deleteWillopen(fundingCode);
+
+        if(result1 != 0){
+            message = "반려에 성공 하셨습니다.";
+        } else{
+            message = "반려에 실패 하셨습니다.";
+        }
+
+        return message;
+    }
+
+
+    @Override
+    public String delete(String choiceValue) {
+
+        String message = "";
+        String fundingCode;
+        // 펀딩 코드
+        fundingCode = mapper.selectFundingCode(choiceValue);
+
+        // 삭제에 대한 결과
+        int result1 = mapper.delete(fundingCode);
+
+        if(result1 != 0){
+            message = "삭제에 성공 하셨습니다.";
+        } else{
+            message = "삭제에 실패 하셨습니다.";
+        }
+
+        return message;
+    }
 }

@@ -237,4 +237,35 @@ public class FundController {
 
         return message;
     }
+
+    // 승인
+    @PostMapping("Approval")
+    @ResponseBody
+    public String Approval(@RequestParam String choiceValue){
+
+        String message = fundingListService.Approval(choiceValue);
+
+        return message;
+    }
+
+
+    // 반려
+    @PostMapping("companion")
+    @ResponseBody
+    public String companion(@RequestParam String choiceValue){
+
+        String message = fundingListService.updateDeleteWillopen(choiceValue);
+
+        return message;
+    }
+
+    // 삭제
+    @PostMapping("delete")
+    @ResponseBody
+    public String delete(@RequestParam String choiceValue){
+
+        String message = fundingListService.delete(choiceValue);
+
+        return message;
+    }
 }

@@ -35,4 +35,6 @@ public interface AdminService extends UserDetailsService {
     // 관리자 계정 생성
     String registAdmin(AdminRegistDTO adminRegist);
 
+    // 멤버 삭제
+    String deleteMember(String memberId);
 }

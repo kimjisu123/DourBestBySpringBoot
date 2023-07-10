@@ -2,15 +2,14 @@ package com.won.dourbest.admin.report.controller;
 
 import com.won.dourbest.admin.common.Pagenation;
 import com.won.dourbest.admin.common.SelectCriteria;
+import com.won.dourbest.admin.report.dto.AnswerRegistDTO;
 import com.won.dourbest.admin.report.dto.ReportDetailsDTO;
 import com.won.dourbest.admin.report.dto.AnswerReportDTO;
 import com.won.dourbest.admin.report.service.ReportServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.HashMap;
@@ -97,4 +96,15 @@ public class ReportController {
 
         return mv;
     }
+
+    @PostMapping("answerRegist")
+    @ResponseBody
+    public String answerRegist(@RequestBody AnswerRegistDTO answerRegist){
+
+        String message = reportServiceImpl.answerRegist(answerRegist);
+
+        return message;
+    }
+
+
 }

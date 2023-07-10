@@ -69,4 +69,20 @@ public class CouponServiceImpl implements CouponService{
 
         return result;
     }
+
+    @Override
+    public String couponIssuance() {
+
+        String message;
+
+        int result = mapper.couponIssuance();
+
+        if(result != 0){
+            message = "발급에 성공하셨습니다";
+        } else{
+            message = "발급에 실패하셨습니다";
+        }
+
+        return message;
+    }
 }

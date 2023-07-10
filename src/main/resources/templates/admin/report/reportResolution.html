@@ -87,9 +87,10 @@
 
 
                     <div th:each="reportDetails : ${reportDetailsList}" class="table">
+                        <input type="checkbox" class="fundcheckbox" name="my_checkbox" value="0">
                         <div th:text="${reportDetails.getMemberId()}" id="reportLine1"></div>
                         <div th:text="${reportDetails.getMemberEmail()}" id="reportLine2"></div>
-                        <div th:text="${reportDetails.getFundingTitle()}" id="reportLine3"></div>
+                        <div th:text="${reportDetails.getFundingTitle()}" id="reportLine3" class="choiceValue"></div>
                         <div th:text="${reportDetails.getReportContent()}" id="reportLine4"></div>
                         <div th:text="${#dates.format(reportDetails.getReport_date(), 'yyyy/MM/dd')}" id="reportLine5"></div>
                         <div th:text="${reportDetails.getNumberReported()}"  id="reportLine6"></div>
@@ -168,26 +169,55 @@
             <div class="contactmodal-content">
                 <span class="close">&times;</span>
                 <h2 class="contactmodal-title">글 작성</h2>
-                <form class="mb-3 contact" name="contact" id="contact" method="post">
-                    <label for=""></label>
+                <div class="mb-3 contact" name="contact" id="contact">
                     <select name="contactCode" id="contactCode">
                         <option value="">신고 카운트 누적</option>
                         <option value="">블랙리스트 등록</option>
                     </select>
-                    <textarea class="col-auto form-control contactContents" type="text" id="" placeholder="신고 사유를 입력해주세요." maxlength="3000"></textarea>
+                    <textarea id="answerContent" class="col-auto form-control contactContents" type="text" placeholder="신고 사유를 입력해주세요." maxlength="3000"></textarea>
                     <div class="file-container">
-                        <label for="contact-imgInput">
-                            <span><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#f35f4c}</style><path d="M149.1 64.8L138.7 96H64C28.7 96 0 124.7 0 160V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V160c0-35.3-28.7-64-64-64H373.3L362.9 64.8C356.4 45.2 338.1 32 317.4 32H194.6c-20.7 0-39 13.2-45.5 32.8zM256 192a96 96 0 1 1 0 192 96 96 0 1 1 0-192z"/></svg>사진 등록</span>
-                        </label>
                         <input type="file" id="contact-imgInput" onchange="contactreadURL(this)">
                         <div class="contact-imgdiv"></div>
                     </div>
                     <button class="" type="submit">제출</button>
-                </form>
+                </div>
             </div>
         </div>
     </div>
     <script>
+
+        $('#accountWithdrawal').click(function() {
+            $('.fundcheckbox').each(function() {
+                if ($(this).prop('checked')) {
+                    // 신고 답변
+                    let answerContent = $('#answerContent');
+                    // 선택한 유저의 아이디
+                    let choiceValue = $(this).closest('.table').find('.choiceValue').text();
+                    // 선택한 제재
+                    let  contactCode = $('#contactCode');
+
+                    let answer ={
+                        answerContent,
+                        choiceValue,
+                        contactCode
+                    }
+
+                    $.ajax({
+                        url: "/admin/answerRegist",
+                        data : JSON.stringify(answer);
+                        type: "post",
+                        success: function(data) {
+                            alert(data);
+                            window.location.reload();
+                        },
+                        error: function(error) {
+                            console.log(error);
+                        }
+                    });
+                }
+            });
+        });
+
         const contactmodal = document.querySelector(".contactmodal");
         const btn = document.querySelector(".contactBtn");
         const $span = document.querySelector(".close");
