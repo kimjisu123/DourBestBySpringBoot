@@ -93,7 +93,6 @@ public class SellerController {
 
         FundingOptionDTO product = service.selectProductName();
 
-
         model.addAttribute("product", product);
 
         // 주문자 정보 조회
@@ -113,12 +112,10 @@ public class SellerController {
 
         model.addAttribute("couponName" , couponName);
 
+        // 포인트 조회
+        ProductDTO pointAmount = service.selectPoint(id.getMemberId());
 
-        // 보유 포인트
-
-        PointListDTO point = service.selectPoint();
-
-        model.addAttribute("point" , point);
+        model.addAttribute("pointAmount", pointAmount );
 
         // 배송비
 
@@ -127,6 +124,10 @@ public class SellerController {
         model.addAttribute("delivery" , delivery );
 
         System.out.println("memberId : " + id);
+
+        // 최종 결제 금액
+
+
 
 
         return "seller/giwon_seller/payment_page";
@@ -141,10 +142,23 @@ public class SellerController {
         // 쿠폰 사용
         ProductDTO couponApply = service.registCoupon(choiceCoupon,optionCode);
         System.out.println("couponApply = " + couponApply);
-        map.put("coupon" , String.valueOf(couponApply.getTotalPrice()));
+        map.put("coupon" , String.valueOf(couponApply.getPointTotalAmount()));
+        map.put("disCount", String.valueOf(couponApply.getDisCount()));
 
 
         return map;
+    }
+
+    @PostMapping("/point")
+    @ResponseBody
+    public String point(@RequestParam String usePoint,@AuthenticationPrincipal MemberImpl id ) {
+
+        ProductDTO point = service.selectPoint(id.getMemberId());
+
+        System.out.println("usePoint : " + usePoint);
+
+
+        return usePoint;
     }
 
     @PostMapping("/option")
@@ -154,6 +168,13 @@ public class SellerController {
         ProductDTO product = service.selectProduct(optionCode);
 
         return product;
+    }
+
+    @PostMapping("/totalPrice")
+    @ResponseBody
+    public int totalPrice(@RequestParam int totalPrice) {
+
+        return totalPrice;
     }
 
 

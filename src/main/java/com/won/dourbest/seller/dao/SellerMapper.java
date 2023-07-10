@@ -20,14 +20,7 @@ public interface SellerMapper {
     AddressDTO selectAddress(String memberId);
 
     List<CouponDTO> selectCouponList();
-
     
-
-    CouponDTO selectDIsCount();
-
-    CouponDTO registCoupon(String contact);
-
-    PointListDTO selectPoint();
 
     OrderDTO selectDelivery();
 
@@ -36,4 +29,6 @@ public interface SellerMapper {
     ProductDTO selectProduct(int optionCode);
 
     int selectProductPrice();
+
+    ProductDTO selectPoint(String id);
 }

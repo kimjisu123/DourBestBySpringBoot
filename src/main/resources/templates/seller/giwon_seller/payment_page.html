@@ -17,9 +17,10 @@
           <div class="final-payment text1">최종 결제금액</div>
           <ul>
             <li class="text2 final-detaile">상품가격 : <p id="product-price"  ></p></li>
-            <li class="text2 final-detaile">쿠폰할인</li>
-            <li class="text2 final-detaile">포인트사용</li>
+            <li class="text2 final-detaile">쿠폰할인 : <p id="useCoupon"></p></li>
+            <li class="text2 final-detaile">포인트사용 : <p id="usePoint"></p></li>
             <li class="text2 final-detaile">배송비 : <p class="delivery" th:text="${delivery.getDeliveryCharge()}"></p></li>
+            <li class="text2 final-detaile">총금액 : <p id="totalPrice"></p></li>
           </ul>
         </div>
 
@@ -121,11 +122,11 @@
               </div>
               <div class="point text3">포인트</div>
               <div class="button-panel">
-                <button class="buttonPoint">전액 사용</button>
+                <button class="buttonPoint">포인트 사용</button>
               </div>
             </div>
-            <div class="hold-point text3">보유 포인트 : <p id="pointAmount" th:text="${ point.getPointTotalAmount() }"></p> </div>
-              <textarea class="point-application" id="use-point" placeholder="사용할 포인트를 입력해주세요." maxlength="10" th:text="{}"></textarea>
+            <div class="hold-point text3">보유 포인트 : <p id="pointAmount" th:text="${ pointAmount.getPointTotalAmount() }"></p> </div>
+              <textarea class="point-application" id="use-point" placeholder="사용할 포인트를 입력해주세요." maxlength="10" ></textarea>
             <div class="hold-point2">5,000 포인트 이상 보유 및 10,000원 이상 구매시 사용 가능</div>
           </div>
         </div>
@@ -165,13 +166,19 @@ $("#send").click(function(){
     if(this.checked == true) {
       const choiceCoupon =  this.nextElementSibling.children[0].innerText;
       const optionCode = $("#optionCode").val();
-
+      const productPrice = $("#product-price").text();
+      const usePoint = $("#usePoint").text();
+      const delivery = parseFloat($(".delivery").text());
       $.ajax({
         url: "/seller/coupon",
         type : "POST",
         data : {choiceCoupon : choiceCoupon, optionCode : optionCode},
         success : function(data) {
             $(".coupon-application").text(data.coupon)
+            $("#useCoupon").text(data.disCount)
+            $("#totalPrice").text(productPrice - data.disCount - usePoint + delivery);
+
+
         },
         error : function (error) {
           alert(error);
@@ -181,19 +188,43 @@ $("#send").click(function(){
   })
 })
 </script>
-
 <script>
-  $(".buttonPoint").click(function() {
-    const point = $("#pointAmount").text();
-    const totalPointPrice = $('#totalPointPrice');
-    console.log(point);
-    console.log(totalPointPrice);
-    totalPointPrice.value(totalPointPrice);
-  });
+  $(".buttonPoint").click(function(){
+    const productPrice = $("#product-price").text();
 
+    const usePoint = $("#use-point").val();
+    const useCoupon = $("#useCoupon").text();
+    const delivery = parseFloat($(".delivery").text());
+    $.ajax({
+      url : "/seller/point",
+      type : "POST",
+      data : { usePoint : usePoint},
+      success : function(data) {
+        $("#usePoint").text(data);
+        $("#totalPrice").text(productPrice - data - useCoupon + delivery);
 
+      },
+      error : function(error) {
 
+      }
+    })
+  })
 </script>
+
+
+
+<!--<script>-->
+<!--  $(".buttonPoint").click(function() {-->
+<!--    const point = $("#pointAmount").text();-->
+<!--    const totalPointPrice = $('#totalPointPrice');-->
+<!--    console.log(point);-->
+<!--    console.log(totalPointPrice);-->
+<!--    totalPointPrice.value(totalPointPrice);-->
+<!--  });-->
+
+
+
+<!--</script>-->
 
 <script>
   const contactmodal = document.querySelector(".contactmodal");
@@ -299,7 +330,7 @@ $("#send").click(function(){
       pg: "kakaopay",
       pay_method: "card",
       merchant_uid: "merchant_" + new Date().getTime(),
-      name: "아직몰라",
+      name: $("#product-name").text(),
       amount: 123,
       buyer_email: $("#memberEmail").val(),
       buyer_name: $("#memberName").val(),
@@ -315,6 +346,8 @@ $("#send").click(function(){
     });
   }
 </script>
+
+
 
 
 

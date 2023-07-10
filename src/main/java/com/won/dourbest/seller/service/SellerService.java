@@ -24,7 +24,6 @@ public interface SellerService {
 
 //    CouponDTO registCoupon(String contact);
 
-    PointListDTO selectPoint();
 
     OrderDTO selectDelivery();
 
@@ -33,6 +32,10 @@ public interface SellerService {
     void selectMemberCode(int memberCode);
 
     ProductDTO selectProduct(int optionCode);
+
+    ProductDTO selectPoint(String id);
+
+    ProductDTO totalPrice(int totalPrice);
 
 
 //    CouponDTO selectTotalPrice();

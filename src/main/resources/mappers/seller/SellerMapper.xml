@@ -59,7 +59,7 @@
         <result property="couponDiscount" column="COUPON_DISCOUNT"/>
     </resultMap>
 
-    <resultMap id="selectPointResultMap" type="com.won.dourbest.user.dto.PointListDTO">
+    <resultMap id="selectPointResultMap" type="ProductDTO">
 
         <result property="pointDate" column="POINT_DATE"/>
         <result property="pointStatus" column="POINT_STATUS"/>
@@ -71,9 +71,7 @@
 
     <resultMap id="selectProductResultMap" type="ProductDTO">
 
-        <result property="optionName" column="OPTION_NAME"></result>
-        <result property="optionPrice" column="OPTION_PRICE"></result>
-        <result property="fileModificationName" column="FILE_MODIFICATION_NAME"></result>
+        <result property="pointTotalAmount" column="POINT_TOTAL_AMOUNT"></result>
     </resultMap>
 
 
@@ -164,10 +162,11 @@
         SELECT
 
 
-         POINT_TOTAL_AMOUNT
+         A.POINT_TOTAL_AMOUNT
 
-          FROM TBL_POINTLIST
-        WHERE POINT_CODE = 3
+          FROM TBL_POINTLIST A
+          JOIN TBL_MEMBER B ON (A.MEMBER_CODE = B.MEMBER_CODE)
+         WHERE B.MEMBER_ID = #{ memberId }
 
 
     </select>

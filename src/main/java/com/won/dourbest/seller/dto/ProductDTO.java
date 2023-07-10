@@ -14,5 +14,8 @@ public class ProductDTO {
     private int optionPrice;
     private String fileModificationName;
     private int disCount;
+    private int pointTotalAmount;
+    private int point;
+    private int usePoint;
     private int totalPrice;
 }

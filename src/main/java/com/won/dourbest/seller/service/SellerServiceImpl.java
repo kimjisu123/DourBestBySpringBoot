@@ -81,16 +81,6 @@ public class SellerServiceImpl implements SellerService {
     }
 
 
-    @Override
-    public PointListDTO selectPoint() {
-
-        PointListDTO point = mapper.selectPoint();
-
-
-
-
-        return point;
-    }
 
     @Override
     public OrderDTO selectDelivery() {
@@ -124,7 +114,9 @@ public class SellerServiceImpl implements SellerService {
             }
         }
         productPrice.setDisCount(result);
-        productPrice.setTotalPrice(totalPrice);
+        productPrice.setPointTotalAmount(totalPrice);
+        productPrice.setDisCount(result);
+
 
         return productPrice;
     }
@@ -140,6 +132,24 @@ public class SellerServiceImpl implements SellerService {
         ProductDTO product = mapper.selectProduct(optionCode);
 
         return product;
+    }
+
+    @Override
+    public ProductDTO selectPoint(String id) {
+        
+        
+        ProductDTO point = mapper.selectPoint(id);
+        System.out.println("point.getPoint() = " + point.getPointTotalAmount());
+
+        return point;
+
+    }
+
+    @Override
+    public ProductDTO totalPrice(int totalPrice) {
+
+
+        return null;
     }
 
 
