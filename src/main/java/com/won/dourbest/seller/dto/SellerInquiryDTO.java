@@ -20,4 +20,8 @@ public class SellerInquiryDTO {
     private int fundingCode;
     private int memberCode;
     private int categoryCode;
+
+    private String answerContent;
+    private Date answerDate;
+
 }

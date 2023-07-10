@@ -27,4 +27,5 @@ public class MemberInquireListDTO {
 
     private AdminInquiriesDTO adminInquiriesDTO;
 
+
 }

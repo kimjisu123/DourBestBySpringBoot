@@ -9,15 +9,15 @@
     <div class="container">
         <!-- 메인 타이틀 -->
         <div class="main-title">
-            <div class="main-text">고객센터 문의내역</div>
-            <div class="sub-text">고객센터 문의내역을 확인하는 공간입니다.</div>
+            <div class="main-text">판매자 문의내역</div>
+            <div class="sub-text">판매자 문의내역을 확인하는 공간입니다.</div>
         </div>
     </div>
     <!-- 게시판 내용 -->
     <div class="content">
         <div class="contentbox">
             <div class="left">제목</div>
-            <div class="writer" th:text="${inquir.getContactSubject()}">펀딩에 대해 문의드릴꺼 있습니다.</div>
+            <div class="writer" th:text="${inquir.getInquiryTitle()}">펀딩에 대해 문의드릴꺼 있습니다.</div>
         </div>
         <div class="contentbox">
             <div class="left">작성자</div>
@@ -25,10 +25,10 @@
         </div>
         <div class="contentbox">
             <div class="left">작성일</div>
-            <div class="writer" th:text="${ #dates.format(inquir.getDateCreationInquiry(), 'yyyy-MM-dd')}">2022.2.22</div>
+            <div class="writer" th:text="${ #dates.format(inquir.getInquiryDate(), 'yyyy-MM-dd')}">2022.2.22</div>
         </div>
         <div class="contentwrite">
-            <div th:text="${inquir.getContactDetails()}">
+            <div th:text="${inquir.getInquiryContent()}">
                 <p>제가 펀딩을 신청하려고 하는데</p>
             </div>
         </div>
@@ -36,7 +36,7 @@
         <div class="answer" th:if="${showAnswer}">
             <div class="contentbox">
                 <div class="left answered" >답변완료</div>
-                <div class="writer answered" th:text="${inquir.getContactSubject()}" >문의사항 답변입니다.</div>
+                <div class="writer answered" th:text="${inquir.getAnswerContent()}" >문의사항 답변입니다.</div>
             </div>
             <div class="contentbox">
                 <div class="left" >작성자</div>
@@ -57,7 +57,7 @@
         <div class="answer" th:unless="${showAnswer}">
             <div class="contentbox">
                 <div class="left answered" >답변 대기중</div>
-                <div class="writer answered" th:text="${inquir.getContactSubject()}" >문의사항 답변입니다.</div>
+                <div class="writer answered" th:text="${inquir.getInquiryTitle()}" >문의사항 답변입니다.</div>
             </div>
             <div class="contentbox">
                 <div class="left" >작성자</div>

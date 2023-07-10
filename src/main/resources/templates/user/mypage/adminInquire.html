@@ -54,7 +54,7 @@
                     <div class="num" th:text="${inquire.rowNum}">0</div>
                     <div class="count" th:text="${inquire.getCategoryName()}">카테고리</div>
                     <div class="title">
-                      <a th:text="${inquire.contactSubject}" th:href="|@{/admin-inquire/{id}(id = ${inquire.inquiriesCode})}|">
+                      <a th:text="${inquire.contactSubject}" th:href="|@{/mypage/admin-inquire/{id}(id = ${inquire.getInquiriesCode()})}|">
                         제목
                       </a>
                     </div>

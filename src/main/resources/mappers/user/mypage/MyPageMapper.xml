@@ -20,6 +20,39 @@
 <!--        <collection property="purchasedFundingList" resultMap="PurchasedFundingResultMap"/>-->
 <!--    </resultMap>-->
 
+
+     <!--   질문 답변  -->
+    <resultMap id="QnaAnwserResult" type="com.won.dourbest.admin.dto.AdminInquiriesDTO">
+        <id property="inquiriesCode" column="INQUIRIES_CODE"/>
+        <result property="rowNum" column="RNUM"/>
+        <result property="contactSubject" column="CONTACT_SUBJECT"/>
+        <result property="contactDetails" column="CONTACT_DETAILS"/>
+        <result property="dateCreationInquiry" column="DATE_CREATION_INQUIRY"/>
+        <result property="whetherAnswer" column="WHETHER_ANSWER"/>
+        <result property="categoryCode" column="CATEGORY_CODE"/>
+        <result property="inquiriesCode" column="INQUIRIES_CODE"/>
+        <result property="answerContent" column="ANSWER_CONTENT"/>
+        <result property="answerDate" column="ANSWER_DATE"/>
+        <result property="memberCode" column="MEMBER_CODE"/>
+    </resultMap>
+
+<!--    판매자 답변-->
+
+    <resultMap id="QnaSellerResult" type="com.won.dourbest.seller.dto.SellerInquiryDTO">
+        <id property="sellerInquiryCode" column="SELLER_INQUIRY_CODE"/>
+        <result property="rowNum" column="RNUM"/>
+        <result property="inquiryTitle" column="INQUIRY_TITLE"/>
+        <result property="inquiryContent" column="INQUIRY_CONTENT"/>
+        <result property="inquiryDate" column="INQUIRY_DATE"/>
+        <result property="answerStatus" column="ANSWER_STATUS"/>
+        <result property="answerContent" column="INQUIRY_ANSWER_CONTENT"/>
+        <result property="answerDate" column="INQUIRY_ANSWER_DATE"/>
+        <result property="fundingCode" column="FUNDING_CODE"/>
+        <result property="memberCode" column="MEMBER_CODE"/>
+    </resultMap>
+
+
+
     <resultMap id="MemberShipResultMap" type="MemberShipDTO">
         <id property="membershipCode" column="MEMBERSHIP_CODE"/>
         <result property="membershipName" column="MEMBERSHIP_NAME"/>
@@ -145,6 +178,7 @@
         <id property="sellerInqCode" column="SELLER_INQUIRY_CODE"/>
         <result property="rowNum" column="RNUM"/>
         <result property="sellerInqDate" column="INQUIRY_DATE"/>
+        <result property="sellerInqTitle" column="INQUIRY_TITLE"/>
         <result property="sellerInqAnswerStatus" column="ANSWER_STATUS"/>
         <result property="categoryName" column="CATEGORY_NAME"/>
     </resultMap>
@@ -675,25 +709,41 @@
 
 
 <!-- 고객 문의사항 쿼리문 -->
-
-    <select id="QnaInqurireAndwer" resultMap="InquireResult">
-
+    <select id="QnaInqurireAnwser" resultMap="QnaAnwserResult">
         SELECT
             TAI.CONTACT_SUBJECT,
             TAI.CONTACT_DETAILS,
             TAI.DATE_CREATION_INQUIRY,
             TC.CATEGORY_NAME,
-            TAQ.ADMIN_QNA_CODE,
             TAQ.ANSWER_CONTENT,
-            TAQ.ANSWER_DATE
+            TAQ.ANSWER_DATE,
+            TAI.INQUIRIES_CODE
         FROM TBL_ADMIN_INQUIRIES TAI
                  LEFT JOIN TBL_ADMIN_QNA TAQ on TAI.INQUIRIES_CODE = TAQ.INQUIRIES_CODE
                  LEFT JOIN TBL_MEMBER M on TAI.MEMBER_CODE = M.MEMBER_CODE
                  LEFT JOIN TBL_CATEGORY TC on TAI.CATEGORY_CODE = TC.CATEGORY_CODE
-        where M.MEMBER_ID='user01'
-          and TAI.INQUIRIES_CODE = 2
+        WHERE M.MEMBER_CODE= #{ memberCode }
+          AND TAI.INQUIRIES_CODE = #{ id } AND TC.CATEGORY_KIND = '관리자문의'
+    </select>
 
 
+
+    <!-- 판매자 문의사항 쿼리문 -->
+    <select id="QnaSellerInquire" resultMap="QnaSellerResult">
+        SELECT
+            SI.INQUIRY_TITLE,
+            SI.INQUIRY_CONTENT,
+            SI.INQUIRY_DATE,
+            TC.CATEGORY_NAME,
+            SA.INQUIRY_ANSWER_CONTENT,
+            SA.INQUIRY_ANSWER_DATE,
+            SI.SELLER_INQUIRY_CODE
+        FROM TBL_SELLER_INQUIRY SI
+                 LEFT JOIN TBL_MEMBER M on SI.MEMBER_CODE = M.MEMBER_CODE
+                 LEFT JOIN TBL_INQUIRY_ANSWER SA on SI.SELLER_INQUIRY_CODE = SA.SELLER_INQUIRY_CODE
+                 LEFT JOIN TBL_CATEGORY TC on SI.CATEGORY_CODE = TC.CATEGORY_CODE
+        WHERE SI.MEMBER_CODE= #{ memberCode }
+          AND SI.SELLER_INQUIRY_CODE = #{ id }
     </select>
 
 

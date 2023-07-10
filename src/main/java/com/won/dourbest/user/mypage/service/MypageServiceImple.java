@@ -1,14 +1,17 @@
 package com.won.dourbest.user.mypage.service;
 
+import com.won.dourbest.admin.dto.AdminInquiriesDTO;
 import com.won.dourbest.common.dto.CategoryDTO;
 import com.won.dourbest.common.dto.SearchCriteria;
 import com.won.dourbest.common.exception.user.CouponNotFoundException;
+import com.won.dourbest.seller.dto.SellerInquiryDTO;
 import com.won.dourbest.user.dto.*;
 import com.won.dourbest.user.mypage.repository.MypageCommonMapper;
 import com.won.dourbest.user.mypage.repository.MypageMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 
 import java.util.HashMap;
 import java.util.List;
@@ -95,19 +98,19 @@ public class MypageServiceImple implements MypageService{
         return info;
     }
 
-    // 문의사항 세부내역
+//     문의사항 세부내역
     @Override
     @Transactional
-    public Map<String, Object> InquireAndwer(String userId, int orderCode) {
+    public AdminInquiriesDTO QnaInqurireAnwser(int memberCode ,int id) {
 
-        OrderFundingDTO byOrder = mypageMapper.findByOrder(userId, orderCode);
-        List<MemberInquireListDTO> inquires = mypageMapper.QnaInqurireAndwer();
 
-        Map<String , Object> inquireView = new HashMap<>();
-        inquireView.put("order" ,byOrder);
-        inquireView.put("inquire" ,inquires);
+        return  mypageMapper.QnaInqurireAnwser(memberCode, id);
+    }
 
-        return inquireView ;
+    @Override
+    @Transactional
+    public SellerInquiryDTO QnaSellerInquire(int memberCode, int id) {
+        return mypageMapper.QnaSellerInquire(memberCode,id);
     }
 
 
