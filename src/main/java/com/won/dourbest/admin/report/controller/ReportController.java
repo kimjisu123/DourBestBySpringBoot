@@ -97,14 +97,19 @@ public class ReportController {
         return mv;
     }
 
+
+
     @PostMapping("answerRegist")
     @ResponseBody
     public String answerRegist(@RequestBody AnswerRegistDTO answerRegist){
 
+        System.out.println("answerRegist = " + answerRegist.getAnswerContent());
         String message = reportServiceImpl.answerRegist(answerRegist);
 
         return message;
     }
+
+
 
 
 }

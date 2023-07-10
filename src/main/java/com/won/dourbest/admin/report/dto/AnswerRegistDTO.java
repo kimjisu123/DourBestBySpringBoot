@@ -1,5 +1,12 @@
 package com.won.dourbest.admin.report.dto;
 
+import lombok.*;
+
+@Getter
+@Setter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class AnswerRegistDTO {
 
     // 신고 답변

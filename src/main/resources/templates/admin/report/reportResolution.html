@@ -136,29 +136,13 @@
                         >
                             >>
                         </a>
+                        <button class="contactBtn" id="accountWithdrawal">제재</button>
                     </div>
 
                 </div>
             </div>
         </section>
     </div>
-
-    <ul class="pagination">
-        <li class="page-prev">
-            <a class="prev" href="#"><svg t="1580195949197" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4493" width="20" height="20"><path d="M906.78272 588.78976c-0.02048 8.4992-6.88128 15.36-15.38048 15.37024l-443.6992-0.01024 75.70432 191.68256c2.51904 6.42048 0.48128 13.76256-5.03808 17.90976-5.51936 4.16768-13.13792 4.1472-18.61632-0.09216l-376.5248-289.47456c-3.77856-2.89792-6.00064-7.41376-6.00064-12.16512 0-4.78208 2.22208-9.27744 6.00064-12.1856l376.5248-289.47456c2.7648-2.11968 6.06208-3.19488 9.37984-3.19488 3.23584 0 6.5024 1.03424 9.23648 3.10272 5.51936 4.1472 7.5776 11.48928 5.03808 17.90976L447.68256 419.84l443.71968-0.01024c8.4992 0.01024 15.36 6.88128 15.36 15.36L906.78272 588.78976z" p-id="4494" fill="#777777"></path></svg></a>
-        </li>
-        <li class="page-number active"><a href="#">1</a></li>
-        <li class="page-number"><a href="#">2</a></li>
-        <li class="page-number"><a href="#">3</a></li>
-        <li class="page-number"><a href="#">4</a></li>
-        <li class="page-number"><a href="#">5</a></li>
-        <li class="page-number"><a href="#">6</a></li>
-        <li class="page-next">
-            <a class="next" href="#"><svg t="1580195920917" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4995" width="20" height="20"><path d="M906.77248 512c0 4.77184-2.21184 9.2672-5.9904 12.17536l-376.5248 289.4848c-2.7648 2.11968-6.06208 3.18464-9.3696 3.18464-3.25632 0-6.5024-1.03424-9.24672-3.09248-5.50912-4.15744-7.5776-11.48928-5.03808-17.90976l75.71456-191.67232L132.58752 604.17024c-8.48896 0-15.36-6.88128-15.36-15.36l0-153.6c0-8.48896 6.87104-15.36 15.36-15.36l443.72992 0-75.71456-191.68256c-2.53952-6.42048-0.47104-13.75232 5.04832-17.90976 5.50912-4.15744 13.12768-4.13696 18.60608 0.09216l376.5248 289.4848C904.56064 502.7328 906.77248 507.22816 906.77248 512z" p-id="4996" fill="#777777"></path></svg></a>
-        </li>
-        <button class="contactBtn" id="accountWithdrawal">제재</button>
-    </ul>
-    </section>
 
 
 
@@ -168,33 +152,29 @@
         <div class="contactmodal-container">
             <div class="contactmodal-content">
                 <span class="close">&times;</span>
-                <h2 class="contactmodal-title">글 작성</h2>
+                <h2 class="contactmodal-title">신고 제재</h2>
                 <div class="mb-3 contact" name="contact" id="contact">
                     <select name="contactCode" id="contactCode">
-                        <option value="">신고 카운트 누적</option>
-                        <option value="">블랙리스트 등록</option>
+                        <option value="report">신고 카운트 누적</option>
+                        <option value="blackList">블랙리스트 등록</option>
                     </select>
                     <textarea id="answerContent" class="col-auto form-control contactContents" type="text" placeholder="신고 사유를 입력해주세요." maxlength="3000"></textarea>
-                    <div class="file-container">
-                        <input type="file" id="contact-imgInput" onchange="contactreadURL(this)">
-                        <div class="contact-imgdiv"></div>
-                    </div>
-                    <button class="" type="submit">제출</button>
+                    <button id="answer" type="submit">제출</button>
                 </div>
             </div>
         </div>
     </div>
     <script>
 
-        $('#accountWithdrawal').click(function() {
+        $('#answer').click(function() {
             $('.fundcheckbox').each(function() {
                 if ($(this).prop('checked')) {
                     // 신고 답변
-                    let answerContent = $('#answerContent');
+                    let answerContent = $('#answerContent').val();
                     // 선택한 유저의 아이디
                     let choiceValue = $(this).closest('.table').find('.choiceValue').text();
                     // 선택한 제재
-                    let  contactCode = $('#contactCode');
+                    let  contactCode = $('#contactCode').val();
 
                     let answer ={
                         answerContent,
@@ -204,8 +184,9 @@
 
                     $.ajax({
                         url: "/admin/answerRegist",
-                        data : JSON.stringify(answer);
+                        data : JSON.stringify(answer),
                         type: "post",
+                        contentType: "application/json",
                         success: function(data) {
                             alert(data);
                             window.location.reload();
@@ -224,24 +205,12 @@
 
 
         btn.addEventListener('click', openContactModal);
-        $span.addEventListener('click', closeContactModal);
 
         function openContactModal() {
             contactmodal.style.display = "block";
             contactmodal.animate([{opacity: 0}, {opacity: 1}], {duration: 300, fill: "forwards"});
         }
 
-        function closeContactModal() {
-            contactmodal.animate([{opacity: 1}, {opacity: 0}], {duration: 300, fill: "forwards"}).onfinish = function() {
-                contactmodal.style.display = "none";
-                const $img = document.querySelector(".contact-imgdiv");
-                if($img.hasChildNodes()){
-                    $img.replaceChildren();
-                }
-            };
-        }
-    </script>
-    <script>
         function contactreadURL(obj) {
 
             let reader = new FileReader();
@@ -266,19 +235,4 @@
         }
     </script>
 
-
-
-    <script>
-
-    </script>
-    </div>
 </main>
-<!-- 푸터 -->
-<footer>
-    <section></section>
-    <section></section>
-</footer>
-</div>
-<script src="./index.js"></script>
-</body>
-</html>

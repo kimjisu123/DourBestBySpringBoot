@@ -82,6 +82,13 @@
         </if>
     </select>
 
+    <select id="selectMemberCode">
+        SELECT
+            MEMBER_CODE
+        FROM TBL_SELLER
+        WHERE SELLER_CODE = #{sellerCode}
+    </select>
+    
     <!--  펀딩 코드  -->
     <select id="selectfundCode">
         SELECT
@@ -116,4 +123,32 @@
         WHERE SELLER_CODE = #{sellerCode}
     </update>
 
+
+    <!--  누적 횟수 조회용  -->
+    <select id="selectReported">
+        SELECT
+            MEMBER_CODE
+        FROM    TBL_SELLER
+        WHERE   NUMBER_REPORTED = 3
+    </select>
+
+
+    <!--  블랙리스트 등록  -->
+    <update id="insertBlackList">
+        UPDATE TBL_SELLER
+        SET NUMBER_REPORTED = NUMBER_REPORTED+1
+        WHERE SELLER_CODE = #{sellerCode}
+    </update>
+
+    <insert id="">
+        INSERT INTO TBL_BLACKLIST_LIST
+        VALUES
+        (
+         SEQ_BLACKLIST_LIST_CODE.NEXTVAL,
+         1,
+         #{memberCode},
+         DEFAULT,
+         '신고 횟수 누적 3회로 인한 블랙리스트'
+        )
+    </insert>
 </mapper>

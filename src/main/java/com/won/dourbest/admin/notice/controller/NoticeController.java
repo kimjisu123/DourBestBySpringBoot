@@ -5,6 +5,9 @@ import com.won.dourbest.admin.common.Pagenation;
 import com.won.dourbest.admin.common.SelectCriteria;
 import com.won.dourbest.admin.notice.dto.AdminNoticeDTO;
 import com.won.dourbest.admin.notice.dto.AdminEventDTO;
+
+import com.won.dourbest.admin.notice.dto.EventRegistDTO;
+import com.won.dourbest.admin.notice.dto.NoticeRegistDTO;
 import com.won.dourbest.admin.notice.service.NoticeServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +15,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -131,12 +136,32 @@ public class NoticeController {
 
     }
 
-    @PostMapping("registEventNotice")
+    @PostMapping("notice")
     @ResponseBody
-    public String noticeEvent(){
+    public String noticeRegist(@RequestBody NoticeRegistDTO notice){
 
+        String message = noticeServiceImpl.insertNotice(notice);
 
+        return "";
+    }
 
-        return
+    @PostMapping("event")
+    @ResponseBody
+    public String eventRegist(@RequestBody EventRegistDTO event){
+
+        String message = noticeServiceImpl.insertEvent(event);
+
+        return message;
+
+    }
+
+    @PostMapping("noticeDelete")
+    @ResponseBody
+    public String noticeDelete(@RequestParam String noticeTitle){
+
+        String message = noticeServiceImpl.deleteNotice(noticeTitle);
+
+        return message;
+
     }
 }
