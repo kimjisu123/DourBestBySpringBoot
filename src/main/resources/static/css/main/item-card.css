@@ -46,7 +46,7 @@
 
 .card .thumb {
     object-fit: cover;
-    /*padding-bottom: 70%;*/
+    padding-bottom: 70%;
     background-size: cover;
     background-position: center center;
 }
@@ -84,6 +84,7 @@ h1 {
 }
 .like:hover{
     top: -2px;
+    color: red;
 }
 
 

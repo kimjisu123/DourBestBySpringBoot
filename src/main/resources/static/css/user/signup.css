@@ -69,7 +69,7 @@
 }
 
 
-.personalterms{
+.new personalterms{
 
     display: flex;
 
@@ -423,3 +423,15 @@
     margin-bottom: -42px;
 
 }
+
+
+.titleIcon {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+
+
+}
+

@@ -247,11 +247,25 @@ $('#signSubmit').click(function (event){
 
 
 
-
-
-
-
-
+// 전화번호 유효성 확인
+// $('#phone').on('keyup', function () {
+//     const phone = $('#phone').val();
+//     const output = document.querySelector('#phone-error');
+//     const exptext =   /^(?=.*[0-9])[0-9]{8,11}$/;
+//
+//     if(exptext.test(phone)) {
+//
+//         console.log(pwd);
+//         $('#pwd-error').html('Matching').css('color', 'green');
+//         output.textContent = '형식이 맞습니다.'
+//
+//     } else {
+//
+//         $('#pwd-error').html('Not Matching').css('color', 'red');
+//         output.textContent ='정확하게 입력해주세요.'
+//         console.log(pwd);
+//     }
+// });
 
 
 

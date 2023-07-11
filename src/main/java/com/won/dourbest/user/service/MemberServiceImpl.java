@@ -60,7 +60,6 @@ public class MemberServiceImpl implements MemberService {
     }
 
 
-
     @Override
     public Optional<MemberDTO> findUser(String userId) {
 
@@ -121,10 +120,10 @@ public class MemberServiceImpl implements MemberService {
 
     public int quitMember(String memberId){
 
-        int result = mapper.deleteMember(memberId);
+        return mapper.deleteMember(memberId);
 
-        return result;
+        }
+
+
     }
 
-
-}

@@ -99,6 +99,7 @@ public class MemberController {
         return "redirect:/category";
     }
 
+
     @GetMapping("/modify")
     public String modifyMemvberInfo(@AuthenticationPrincipal MemberImpl member, Model model){
         MemberDTO findMember = service.findUser(member.getMemberId()).orElseThrow();
@@ -160,7 +161,21 @@ public class MemberController {
         }
     }
 
+    // 탈퇴 전 회원 확인
 
+    @PostMapping("/beforequitMember")
+    public String checkMemberDelete(@AuthenticationPrincipal MemberImpl user, @RequestParam String pwd){
+//        log.info("user = " +  user);
+//        log.info("pwd = " +  pwd);
+        boolean result = passwordEncoder.matches( pwd , user.getPassword());
+//        log.info("result = " + result);
+        if(result) {
+            return "redirect:/mypage/quitMember";
+        } else {
+//
+            return "redirect:/mypage/beforequitMember";
+        }
+    }
 
 
 
