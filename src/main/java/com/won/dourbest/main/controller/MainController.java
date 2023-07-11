@@ -52,9 +52,11 @@ public class MainController {
 
         List<CategoryFundingDTO> list = mainService.categoryList(criteria);
 
-        System.out.println("list = " + list);
+        List<LikeFundingDTO> pre = mainService.preOpenSlide();
+        System.out.println("pre = " + pre);
         List<CategoryDTO> category = commonService.fundingCategory();
 
+        model.addAttribute("pre", pre);
         model.addAttribute("category",category);
         model.addAttribute("list",list);
         model.addAttribute("pagination",pagination);
@@ -68,11 +70,13 @@ public class MainController {
         Pagination pagination = new Pagination(criteria, mainService.totalCount(criteria,"open"));
 
         List<CategoryFundingDTO> list = mainService.openFundingList(criteria);
+        List<LikeFundingDTO> open = mainService.openSlide();
 
         System.out.println("list = " + list);
         List<CategoryDTO> category = commonService.fundingCategory();
 
         model.addAttribute("category",category);
+        model.addAttribute("open",open);
         model.addAttribute("list",list);
         model.addAttribute("pagination",pagination);
 

@@ -18,8 +18,8 @@ section{
 
 .swiper-slide > a {
     position: relative;
-    /* 임시 */
-    background-color: #f35f4c;
+    background: #f2f4f6 no-repeat center/100%;
+
     display: block;
     height: 100%;
     width: 100%;
@@ -35,6 +35,7 @@ section{
 
 .swiper-slide > a > div p {
     text-align: left;
+
 }
 
 .slider-text {
@@ -56,6 +57,18 @@ section{
     height: 100%;
     object-fit: cover;
 }
+
+.summary p:nth-child(1){
+    font-size: 35px;
+    font-weight: bold;
+    color: #ffffff;
+}
+.summary p:nth-child(2){
+    font-size: 20px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
 
 /* 메인 리스트  */
 .list-container{

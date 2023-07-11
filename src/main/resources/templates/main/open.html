@@ -13,53 +13,16 @@
     <div class="main-slider">
       <div class="swiper mySwiper">
         <div class="swiper-wrapper">
-          <div class="swiper-slide">
-            <a href="">
+          <div class="swiper-slide" th:each="slide : ${open}">
+            <a th:href="@{/funding/{id}(id=${slide.fundingCode})}">
               <div>
                 <div>
-                  <p>Title 1</p>
-                  <p>subTitle 1</p>
+                  <p th:each="${slide.fundingTitle}">Title 1</p>
+                  <p th:each="${slide.fundingSummary}">subTitle 1</p>
                 </div>
               </div>
             </a>
           </div>
-          <div class="swiper-slide">
-            <a href="">
-              <div>
-                <div>
-                  <p>Title 2</p>
-                  <p>subTitle 2</p>
-                </div>
-              </div>
-            </a>
-          </div>
-          <div class="swiper-slide">
-            <a href="">
-              <div>
-                <div>
-                  <p>Title 3</p>
-                  <p>subTitle 3</p>
-                </div>
-              </div>
-            </a>
-          </div>
-          <div class="swiper-slide">
-            <div class="swiper-slide">
-              <a href="">
-                <div>
-                  <div>
-                    <p>Title 4</p>
-                    <p>subTitle 4</p>
-                  </div>
-                </div>
-              </a>
-            </div>
-          </div>
-          <div class="swiper-slide">Slide 5</div>
-          <div class="swiper-slide">Slide 6</div>
-          <div class="swiper-slide">Slide 7</div>
-          <div class="swiper-slide">Slide 8</div>
-          <div class="swiper-slide">Slide 9</div>
         </div>
         <div class="swiper-pagination"></div>
       </div>
@@ -97,7 +60,7 @@
     <!-- 검색별 조건 -->
     <div class="cate-main">
       <span th:if="${param.searchType == null}">전체</span>
-      <span  th:unless="${param.searchType == null}" th:text="${param.searchType}">전체</span>
+      <span th:unless="${param.searchType == null}" th:text="${param.searchType}">전체</span>
       <div>
         <ul class="order flex-wrapper">
             <li><a th:href="|@{/open}${cri.makeQuery()}|">최신순</a></li>

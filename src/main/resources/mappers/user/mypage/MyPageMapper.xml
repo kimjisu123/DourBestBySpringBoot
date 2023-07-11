@@ -371,11 +371,11 @@
                     </if>
 
                     <choose>
-                        <when test='"Y".equals(cri.status)'>
-                            AND TR.REVIEW_CODE IS NOT NULL
-                        </when>
-                        <when test='"N".equals(cri.status) or cri.status == null'>
+                        <when test='"N".equals(cri.status)'>
                             AND TR.REVIEW_CODE IS NULL
+                        </when>
+                        <when test='"Y".equals(cri.status) or cri.status == null'>
+                            AND TR.REVIEW_CODE IS NOT NULL
                         </when>
                         <otherwise>
                         </otherwise>
@@ -684,8 +684,7 @@
                  TFC.CREDIT_STATUS,
                  TFC.CREDIT_DATE,
                  T.DELIVERY_STATUS,
-                 T.DELIVERY_DATE,
-                 TD.DELIVERY_NUMBER,
+\                 TD.DELIVERY_NUMBER,
                  M.MEMBER_NAME,
                  M.MEMBER_PHONE,
                  M.MEMBER_CODE,
@@ -746,7 +745,6 @@
         WHERE B.RNUM >= #{ cri.rowStart }
         ORDER BY 1 ASC
     </select>
-
 
     <select id="contactCategory" resultMap="contactCategoryResult">
         SELECT

@@ -42,7 +42,6 @@ const contact = document.querySelector(".contactmodal");
         };
     }
 
-
     function ReviewreadURL(obj,index) {
 
         let readers = new FileReader();

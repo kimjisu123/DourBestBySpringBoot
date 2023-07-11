@@ -44,11 +44,15 @@
     display: inline-block;
 }
 
-.filter-wrapper ul li a:hover, .back-mypage a:hover, .active{
+.filter-wrapper ul li a:hover, .back-mypage a:hover{
     top: -2px;
     box-shadow: 0 4px 5px rgba(0,0,0,0.2);
     background-color: #f35f4c;
     color: #fff;
+}
+
+.active{
+    background-color: #f35f4c;
 }
 
 /* 쿠폰 */

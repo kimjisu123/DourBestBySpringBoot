@@ -32,8 +32,6 @@ public class MainServiceImpl implements MainService{
 
   @Override
   public List<LikeFundingDTO> getSlideImages() {
-
-
     return mainMapper.getSlideImages();
   }
 
@@ -50,6 +48,16 @@ public class MainServiceImpl implements MainService{
   @Override
   public List<LikeFundingDTO> EndFundings() {
     return mainMapper.EndFundings();
+  }
+
+  @Override
+  public List<LikeFundingDTO> preOpenSlide() {
+    return mainMapper.preOpenSlide();
+  }
+
+  @Override
+  public List<LikeFundingDTO> openSlide() {
+    return mainMapper.openSlide();
   }
 
 }

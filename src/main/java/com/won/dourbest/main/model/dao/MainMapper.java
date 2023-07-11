@@ -25,5 +25,10 @@ public interface MainMapper {
 
   List<LikeFundingDTO> EndFundings();
 
+  List<LikeFundingDTO> preOpenSlide();
+
+  List<LikeFundingDTO> openSlide();
+
+
 
 }

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html th:replace="~{/layouts/base :: layout(~{::main}, ~{::link}, ~{::script})}"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
   <link rel="stylesheet" th:href="@{/css/main/item-card.css}">
   <link rel="stylesheet" th:href="@{/css/main/submenu.css}">
@@ -13,53 +14,16 @@
     <div class="main-slider">
       <div class="swiper mySwiper">
         <div class="swiper-wrapper">
-          <div class="swiper-slide">
-            <a href="">
+          <div class="swiper-slide" th:each="slide :${pre}">
+            <a th:href="@{/funding/{id}(id=${slide.fundingCode})}" th:style="'background-image: url('+@{/fundingImg/}+${slide.filePath}+')'">
               <div>
-                <div>
-                  <p>Title 1</p>
-                  <p>subTitle 1</p>
+                <div class="summary">
+                  <p class="summary-title" th:text="${slide.fundingTitle}">Title 1</p>
+                  <p th:text="${slide.fundingSummary}">subTitle 1</p>
                 </div>
               </div>
             </a>
           </div>
-          <div class="swiper-slide">
-            <a href="">
-              <div>
-                <div>
-                  <p>Title 2</p>
-                  <p>subTitle 2</p>
-                </div>
-              </div>
-            </a>
-          </div>
-          <div class="swiper-slide">
-            <a href="">
-              <div>
-                <div>
-                  <p>Title 3</p>
-                  <p>subTitle 3</p>
-                </div>
-              </div>
-            </a>
-          </div>
-          <div class="swiper-slide">
-            <div class="swiper-slide">
-              <a href="">
-                <div>
-                  <div>
-                    <p>Title 4</p>
-                    <p>subTitle 4</p>
-                  </div>
-                </div>
-              </a>
-            </div>
-          </div>
-          <div class="swiper-slide">Slide 5</div>
-          <div class="swiper-slide">Slide 6</div>
-          <div class="swiper-slide">Slide 7</div>
-          <div class="swiper-slide">Slide 8</div>
-          <div class="swiper-slide">Slide 9</div>
         </div>
         <div class="swiper-pagination"></div>
       </div>

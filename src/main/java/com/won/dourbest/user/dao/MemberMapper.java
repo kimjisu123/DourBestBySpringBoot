@@ -4,6 +4,7 @@ import com.won.dourbest.user.dto.AddressDTO;
 import com.won.dourbest.user.dto.CheckMemberDTO;
 import com.won.dourbest.user.dto.MemberDTO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.Map;
 import java.util.Optional;
@@ -45,5 +46,7 @@ public interface MemberMapper {
     int changePwd(MemberDTO member);
 
     int deleteMember(String memberId);
+
+    int couponInsert(@Param("memberCode")int memberCode, @Param("couponCode") int couponCode);
 
 }

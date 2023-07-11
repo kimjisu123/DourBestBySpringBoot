@@ -17,4 +17,8 @@ public interface WriteService {
 
   ReviewDTO reviewList(int reviewCode);
 
+  int deleteFile(int reviewFileCode);
+
+  int reviewUpdate(ReviewDTO review);
+
 }

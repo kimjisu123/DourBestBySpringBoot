@@ -22,6 +22,9 @@ public interface MainService {
 
   List<LikeFundingDTO> EndFundings();
 
+  List<LikeFundingDTO> preOpenSlide();
+  List<LikeFundingDTO> openSlide();
+
 
 
 }

@@ -18,4 +18,8 @@ public interface WriteMapper {
   int insertSellerInquire(SellerInquiryDTO inquiry);
 
   ReviewDTO reviewList(int reviewCode);
+
+  int reviewFileDelete(int reviewFileCode);
+
+  int reviewUpdate(ReviewDTO review);
 }

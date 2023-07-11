@@ -172,12 +172,14 @@ public class MypageController {
 
         //세션으로부터 받자
         String userId = member.getUsername();
+        MemberDTO memberDTO = memberService.findUser(userId).orElseThrow();
 
         Pagination pagination = new Pagination(criteria, mypageService.listTotalCount(criteria, userId, "purchase"));
 
         List<PurchasedFundingListDTO> list = mypageService.purchaseList(criteria, userId);
         log.info("list={}", list);
 
+        model.addAttribute("memberCode", memberDTO.getMemberCode());
         model.addAttribute("list", list);
         model.addAttribute("pagination", pagination);
 

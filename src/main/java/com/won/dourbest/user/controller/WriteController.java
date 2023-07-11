@@ -80,6 +80,47 @@ public class WriteController {
 
   }
 
+  @PostMapping("/review/{code}")
+  @ResponseBody
+  public void updatereview(@PathVariable int code, @AuthenticationPrincipal MemberImpl member, @RequestParam int memberCode, @RequestParam int reviewStar , @RequestParam(required = false) List<MultipartFile> uploadFile, @RequestParam int fundingCode, @RequestParam String content){
+
+    ReviewDTO review = new ReviewDTO(code,member.getMemberName(), content.substring(0,9),content,null,"N",reviewStar,memberCode,fundingCode,null);
+
+    // 리뷰수정
+    writeService.reviewUpdate(review);
+
+    String root = "C:\\dev\\fundingImg\\";
+    String reviewFilePath = root + "reviewImg";
+    File mkdir = new File(reviewFilePath);
+
+    if(!mkdir.exists()) {
+      mkdir.mkdirs();
+    }
+
+    uploadFile.forEach((file)->{
+      String originFileName = file.getOriginalFilename();
+      String ext = originFileName.substring(originFileName.lastIndexOf("."));
+      String savedName = UUID.randomUUID().toString().replace("-","") + ext;
+
+      try {
+        file.transferTo(new File(reviewFilePath + "\\" + savedName));
+        //리뷰사진 저장
+        ReviewFileDTO reviewFile = new ReviewFileDTO(0,originFileName,savedName,null,'N',code);
+        writeService.saveReviewFile(reviewFile);
+
+      } catch (IOException e) {
+        new File(reviewFilePath + "\\" + savedName).delete();
+      }
+
+
+    });
+
+  }
+
+
+
+
+
   @GetMapping("/review/list")
   @ResponseBody
   public ReviewDTO reviewList(int reviewCode){
@@ -88,4 +129,19 @@ public class WriteController {
 
     return reviewDTO;
   }
+
+
+  @PostMapping("/review/file")
+  @ResponseBody
+  public void deleteFile(@RequestParam(value = "reviewFileCode[]",required = false) List<Integer> reviewFileCode){
+
+    System.out.println("reviewFileCode = " + reviewFileCode);
+
+    reviewFileCode.forEach((list)-> writeService.deleteFile(list));
+
+
+  }
+
+
+
 }

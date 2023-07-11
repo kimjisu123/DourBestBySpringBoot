@@ -16,7 +16,7 @@
         <div class="filter-wrapper">
           <ul>
             <li>
-              <a th:href="|@{/mypage/review}|">
+              <a th:href="|@{/mypage/review(status=N)}|">
                 작성 대기
               </a>
             </li>
@@ -56,7 +56,8 @@
                   <article>
                     <h1 th:text="${funding.fundingTitle}">item1</h1>
                     <p th:text="${funding.fundingSummary}">설명</p>
-                    <span th:onclick="|reivewList(${funding.reviewCode})|">작성한 리뷰 확인</span>
+                    <input type="hidden" id="f-code" th:value="${funding.fundingCode}">
+                    <span th:onclick="|reivewList(${funding.reviewCode})|" style="cursor:pointer">작성한 리뷰 확인</span>
                   </article>
                 </a>
               </th:block>
@@ -70,15 +71,33 @@
               <h2 class="modal-title">작성한리뷰</h2>
               <form class="mb-3 reviewform" name="reviewform" id="reviewform" method="post">
                 <fieldset>
-                  <span class="text-bold">별점 :</span>
-                  <span type="text" id="rate"></span>
+                  <fieldset>
+                    <span class="rate">별점을 선택해주세요</span>
+                    <input type="radio" name="reviewStar" value="5" id="rate1">
+                    <label for="rate1">★</label>
+                    <input type="radio" name="reviewStar" value="4" id="rate2">
+                    <label for="rate2">★</label>
+                    <input type="radio" name="reviewStar" value="3" id="rate3">
+                    <label
+                            for="rate3">★</label>
+                    <input type="radio" name="reviewStar" value="2" id="rate4"><label
+                          for="rate4">★</label>
+                    <input type="radio" name="reviewStar" value="1" id="rate5"><label
+                          for="rate5">★</label>
+                  </fieldset>
                 </fieldset>
                 <div>
                   <textarea class="reviewContents" type="text" id="" placeholder="최소10이상 작성해주세요!!" maxlength="3000"></textarea>
                 </div>
                 <div class="file-container">
+                  <label for="reviewimgInput">
+                    <span><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#f35f4c}</style><path d="M149.1 64.8L138.7 96H64C28.7 96 0 124.7 0 160V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V160c0-35.3-28.7-64-64-64H373.3L362.9 64.8C356.4 45.2 338.1 32 317.4 32H194.6c-20.7 0-39 13.2-45.5 32.8zM256 192a96 96 0 1 1 0 192 96 96 0 1 1 0-192z"/></svg> 후기 이미지</span>
+                  </label>
+                  <input type="file" id="reviewimgInput" name="uploadFile" onchange="ReviewreadURL(this)" multiple>
                   <div class="reviewDiv"></div>
                 </div>
+                <input type="hidden" id="reviewCode" >
+                <button class="review-submit" type="button" id="review-update">수정하기</button>
               </form>
             </div>
           </div>
@@ -87,13 +106,15 @@
     </section>
   </div>
 </main>
-<script>
+<script th:inline="javascript">
   const review = document.querySelector(".reviewmodal");
   const btn = document.querySelector(".reviewBtn");
   const reviewClose = document.querySelector(".review-close");
 
   reviewClose.addEventListener('click', closeReviewModal);
 
+  let reviewList = [];
+  let reviewFile = [];
   function openReviewModal() {
     review.style.display = "block";
     review.animate([{opacity: 0}, {opacity: 1}], {duration: 300, fill: "forwards"});
@@ -108,8 +129,58 @@
       }
     };
   }
-</script>
-<script>
+
+  $('#reviewimgInput').on("change", reviewImgFileSelect);
+  function reviewImgFileSelect(e){
+
+    let child = $(".reviewDiv").children('div');
+    if(child.length !== 0){
+      child.each(function (index, value){
+        let data = value.getAttribute('data-value');
+        reviewFile.push(data);
+      });
+    }
+    reviewList = [];
+    $(".reviewDiv").empty();
+
+    let files = e.target.files;
+    let filesArr = Array.prototype.slice.call(files);
+
+    console.log(files);
+    filesArr.forEach(function (file, index) {
+      if(!(file.type.match("image.*"))) {
+        alert("확장자는 이미지 확장자만 가능합니다.");
+        return;
+      }
+      reviewList.push(file);
+
+      ReviewreadURL(file,index);
+    });
+  }
+
+  function ReviewreadURL(obj,index) {
+
+    let readers = new FileReader();
+
+    readers.readAsDataURL(obj);
+    readers.onload = function (e) {
+      let $div = $('<div>');
+      $($div).css('width','120px');
+      $($div).css('height','120px');
+      $($div).css('padding','10px 10px 0px 0px');
+      $($div).attr('id','reviewimgId-' + index);
+      $($div).attr('onclick','reviewImgDel(' + index + ')');
+
+      $('.reviewDiv').append($div);
+
+      let img = $('<img />');
+      $(img).attr('src', e.target.result);
+      $(img).css('width','100%');
+      $(img).css('height','100%');
+      $($div).append(img);
+    };
+  }
+
   function reivewList(code){
     $.ajax({
       url: '/write/review/list',
@@ -119,14 +190,98 @@
       success: function (data){
         console.log(data);
         $('.reviewContents').text(data.reviewContent);
-        $('#rate').text(data.reviewStar);
+        $('.rate').text(data.reviewStar);
+        $('#reviewCode').val(data.reviewCode);
+
+        if(data.reviewFile != null || data.reviewFile !== []){
+          data.reviewFile.forEach(function (value, index){
+            let $div = $('<div>');
+            $($div).css('width','120px');
+            $($div).css('height','120px');
+            $($div).css('padding','10px 10px 0px 0px');
+            $($div).attr('class', 'review-code');
+            $($div).attr('data-value', value.reviewFileCode);
+
+            $('.reviewDiv').append($div);
+
+            let img = $('<img />');
+            $(img).attr('src', '/fundingImg/'+value.fileModificationName);
+            $(img).css('width','100%');
+            $(img).css('height','100%');
+            $($div).append(img);
+          });
+        }
+
+        $('input[name=reviewStar]').each(function (index, value){
+          if(value.value == data.reviewStar){
+            console.log(value);
+            value.checked = true;
+          }
+        });
         openReviewModal();
       },
       error: function (data){
         console.log(data);
       }
 
-    })
+    });
   }
+
+  function reviewDelete(value){
+    // reviewList.splice(index,1);
+    // console.log(reviewList);
+    // let img = "#reviewFileCode-"+index;
+    // $(img).remove();
+    // $.ajax({
+    //   url: ,
+    //   method: 'post',
+    //
+    // });
+  }
+
+  $('#review-update').click(function(){
+    let formData = new FormData();
+    const reviewStar =  $('input[name=reviewStar]:checked').val();
+    const reviewContents = $('.reviewContents').val();
+    const reviewCode = $('#reviewCode').val();
+    const fcode = $('#f-code').val();
+
+    formData.append("content", reviewContents);
+    formData.append("fundingCode", fcode);
+    formData.append("reviewStar", reviewStar);
+    formData.append("memberCode", [[${memberCode}]]);
+
+    reviewList.forEach(function (value){
+      formData.append("uploadFile",value);
+    });
+
+    $.ajax({
+      url: `/write/review/${reviewCode}`,
+      method: 'post',
+      data: formData,
+      processData: false,
+      contentType: false,
+      success: function(e){
+        $.ajax({
+          url:'/write/review/file',
+          method: 'post',
+          // dataType:'json',
+          data:{'reviewFileCode': reviewFile},
+          success: function (e) {
+            console.log(e);
+            reviewFile =[];
+          }
+        });
+        closeReviewModal();
+        // alert("리뷰작성완료!!");
+        location.reload();
+      },
+      error: function (e){
+        console.log(e);
+      }
+    });
+  });
+
+
 </script>
 </html>

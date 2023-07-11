@@ -16,9 +16,17 @@
     </resultMap>
 
     <resultMap id="ReviewResult" type="ReviewDTO">
-        <id property="reviewTitle" column="REVIEW_TITLE"/>
+        <id property="reviewCode" column="REVIEW_CODE"/>
+        <result property="reviewTitle" column="REVIEW_TITLE"/>
         <result property="reviewContent" column="REVIEW_CONTENT"/>
         <result property="reviewStar" column="RATE"/>
+        <collection property="reviewFile" resultMap="ReviewFile"/>
+    </resultMap>
+
+    <resultMap id="ReviewFile" type="ReviewFileDTO">
+        <id property="reviewFileCode" column="REVIEW_FILE_CODE"/>
+        <result property="fileModificationName" column="FILE_MODIFICATION_NAME"/>
+        <result property="deletionStatus" column="DELETION_STATUS"/>
 
     </resultMap>
 
@@ -53,12 +61,34 @@
     </insert>
 
     <select id="reviewList" resultMap="ReviewResult">
-        select
+        SELECT
+            TR.REVIEW_CODE,
             TR.REVIEW_TITLE,
             TR.REVIEW_CONTENT,
-            TR.RATE
-        from TBL_REVIEW TR
-        where TR.REVIEW_CODE = #{reviewCode}
+            TR.RATE,
+            TRF.REVIEW_FILE_CODE,
+            TRF.FILE_MODIFICATION_NAME,
+            TRF.DELETION_STATUS
+        FROM TBL_REVIEW TR
+            JOIN TBL_REVIEW_FILE TRF on TR.REVIEW_CODE = TRF.REVIEW_CODE
+        WHERE TR.REVIEW_CODE = #{reviewCode}
     </select>
+
+    <delete id="reviewFileDelete" parameterType="_int">
+        DELETE FROM TBL_REVIEW_FILE TR
+        WHERE TR.REVIEW_FILE_CODE = #{reviewFileCode}
+    </delete>
+
+    <update id="reviewUpdate" parameterType="ReviewFileDTO">
+        UPDATE TBL_REVIEW R
+        SET R.REVIEW_TITLE = #{reviewTitle},
+            R.REVIEW_CONTENT = #{reviewContent},
+            R.CREATION_DATE = SYSDATE,
+            R.FUNDING_CODE = #{fundingCode},
+            R.MEMBER_CODE = #{memberCode},
+            R.RATE = #{reviewStar}
+        WHERE R.REVIEW_CODE = #{reviewCode}
+    </update>
+
 
 </mapper>

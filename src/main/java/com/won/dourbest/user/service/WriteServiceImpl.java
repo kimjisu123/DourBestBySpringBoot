@@ -38,4 +38,14 @@ public class WriteServiceImpl implements WriteService{
   public ReviewDTO reviewList(@RequestParam int reviewCode) {
     return writeMapper.reviewList(reviewCode);
   }
+
+  @Override
+  public int deleteFile(int reviewFileCode) {
+    return writeMapper.reviewFileDelete(reviewFileCode);
+  }
+
+  @Override
+  public int reviewUpdate(ReviewDTO review) {
+    return writeMapper.reviewUpdate(review);
+  }
 }

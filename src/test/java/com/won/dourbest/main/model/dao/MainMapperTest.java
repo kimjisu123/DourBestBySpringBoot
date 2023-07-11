@@ -4,6 +4,7 @@ import com.won.dourbest.common.dto.Pagination;
 import com.won.dourbest.common.dto.SearchCriteria;
 import com.won.dourbest.main.model.dto.CategoryFundingDTO;
 import com.won.dourbest.main.model.service.MainService;
+import com.won.dourbest.user.dto.LikeFundingDTO;
 import com.won.dourbest.user.dto.MemberCouponList;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +59,19 @@ class MainMapperTest {
     System.out.println("open = " + open);
     System.out.println("i = " + i);
   }
+
+  @Test
+  void test2(){
+    List<LikeFundingDTO> funding = mainMapper.openSlide();
+    System.out.println("funding = " + funding);
+  }
+
+  @Test
+  void test3(){
+    List<LikeFundingDTO> funding = mainMapper.preOpenSlide();
+    System.out.println("funding = " + funding);
+  }
+
 
 
 }
