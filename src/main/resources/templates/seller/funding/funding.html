@@ -3,6 +3,7 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
   <link rel="stylesheet" th:href="@{/css/seller/jiho/funding.css}">
+  <link rel="stylesheet" th:href="@{/css/seller/jiho/modal.css}">
 </head>
   <main>
     <section>
@@ -26,6 +27,11 @@
             <div class="funding">
               <div class="intext" th:utext="${tossMap['funding'].fundingContents}"></div>
               <input type="checkbox" class="morebutton">
+            </div>
+            <div class="fundReport">
+              <div class="report">
+                신고하기
+              </div>
             </div>
           </div>
           <div class="fundright">
@@ -227,7 +233,8 @@
           <div class="catext">
             같은 카테고리의 인기 상품
             <input type="hidden" name="fundingCode" id="fundingCode" th:value="${ fundingCode }">
-            <input type="text" name="result" id="result" th:value="${ result }">
+            <input type="hidden" name="result" id="result" th:value="${ result }">
+            <input type="hidden" name="result1" id="result1" th:value="${ result1 }">
           </div>
           <div class="samecategory">
             <div  th:each="main, stat : ${tossMap['mainImg']}">
@@ -240,6 +247,25 @@
 <!--            <div class="adimg"><img src="../../resources/img/pexels-jane-doan-1099680.jpg" alt=""></div>-->
           </div>
         </div>
+        <div class="modal">
+          <div class="xbtn"><div class="x">X</div></div>
+          <div class="innerBox">
+            <small>신고 카테고리를 입력해주세요.</small>
+            <div class="reportCate">
+              <input type="text" class="catego" placeholder="배송관련, 환불관련, 표절, 욕설 및 범죄, 명예회손"></input>
+            </div>
+            <div class="reportTitle">
+              <input type="text" class="reportitle" placeholder="신고 제목을 입력해주세요.">
+            </div>
+            <div class="inputText">
+              <input class="reportReason" type="text" placeholder="신고 사유를 입력해주세요.">
+            </div>
+            <div class="modalbot">
+              <div class="subm">제출</div>
+              <div class="delete">취소</div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   </main>
@@ -247,6 +273,8 @@
 <script>
 
   window.onload = function() {
+
+    $('.modal').hide();
     let result = $('#result').val();
     console.log(result);
     if(result == 1) {
@@ -334,5 +362,75 @@
       });
     }
   })
+
+  $('.report').click(function() {
+    $('.modal').show();
+  })
+
+  $('.x').click(function() {
+    $('.modal').hide();
+  })
+
+  $('.delete').click(function() {
+    $('.modal').hide();
+  })
+
+  $('.subm').click(function() {
+
+      console.log($('#result1').val());
+    if($('#result1').val() == -1) {
+      alert('이미 신고한 펀딩입니다.')
+      $('.modal').hide();
+    } else {
+      // alert('들어오냐?');
+
+      let category = $('.catego').val();
+      let title = $('.reportitle').val();
+      let content = $('.reportReason').val();
+      let fundingCode = $('#fundingCode').val();
+
+      console.log(category);
+      console.log(title);
+      console.log(content);
+      console.log(fundingCode);
+
+      if ($('.catego').val().trim() !== '') {
+        if ($('.reportitle').val().trim() !== '') {
+          if ($('.reportReason').val().trim() !== '') {
+
+            $.ajax({
+              data: {category: category, title: title, content: content, fundingCode: fundingCode},
+              url: "/funding/report",
+              type: "POST",
+              success: function (data) {
+                if (data == '신고 성공') {
+                  alert('귀하의 신고가 접수되었습니다.');
+                  window.location.reload();
+                  // $('.modal').hide();
+                  // $('.catego').val('');
+                  // $('.reportitle').val('');
+                  // $('.reportReason').val('');
+                } else if (data == '신고 실패') {
+                  alert('카테고리를 잘 작성해주세요');
+                } else {
+                  window.location.href = "user/login";
+                }
+              },
+              error: function (error) {
+
+              }
+            });
+
+          }
+          $('.reportReason').focus();
+        }
+        $('.reportitle').focus();
+      }
+      $('.catego').focus();
+
+    }
+
+  });
+
 </script>
 </html>

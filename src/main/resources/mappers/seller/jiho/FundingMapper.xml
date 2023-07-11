@@ -153,4 +153,45 @@
          WHERE FUNDING_CODE = #{ code }
            AND MEMBER_CODE = #{ memberCode }
     </select>
+
+    <insert id="insertReport" parameterType="HashMap">
+        INSERT
+          INTO TBL_FUNDING_REPORT
+        (
+          REPORT_CODE
+        , REPORT_CONTENT
+        , REPORT_DATE
+        , FUNDING_CODE
+        , MEMBER_CODE
+        , CATEGORY_CODE
+        , REPORT_RESP_STATUS
+        , REPORT_TITLE
+        )
+        VALUES
+        (
+          SEQ_FUNDING_REPORT_CODE.NEXTVAL
+        , #{content}
+        , DEFAULT
+        , #{fundingCode}
+        , #{memberCode}
+        , #{categoryCode}
+        , default
+        , #{title}
+        )
+    </insert>
+
+    <select id="selectCategory" parameterType="string">
+        SELECT
+               CATEGORY_CODE
+          FROM TBL_CATEGORY
+         WHERE CATEGORY_NAME = #{ category }
+    </select>
+
+    <select id="selectReport" parameterType="_int">
+        SELECT
+               COUNT(*)
+          FROM TBL_FUNDING_REPORT
+         WHERE FUNDING_CODE = #{ code }
+           AND MEMBER_CODE = #{ memberCode }
+    </select>
 </mapper>

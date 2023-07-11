@@ -11,4 +11,8 @@ public interface FundingService {
     int deleteLikes(int fundingCode, int memberCode);
 
     int selectLikes(int code, int memberCode);
+
+    String insertReport(Map<String, Object> map);
+
+    int selectReport(int code, int memberCode);
 }

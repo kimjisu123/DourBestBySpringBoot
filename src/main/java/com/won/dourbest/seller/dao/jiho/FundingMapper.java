@@ -6,6 +6,7 @@ import com.won.dourbest.seller.dto.OptionDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface FundingMapper {
@@ -29,6 +30,12 @@ public interface FundingMapper {
     int deleteLikes(int fundingCode, int memberCode);
 
     int selectLikes(int code, int memberCode);
+
+    int insertReport(Map<String, Object> map);
+
+    Integer selectCategory(String category);
+
+    int selectReport(int code, int memberCode);
 
 //    int findCode(String name);
 }

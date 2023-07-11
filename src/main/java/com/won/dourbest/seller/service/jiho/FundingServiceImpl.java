@@ -6,6 +6,7 @@ import com.won.dourbest.seller.dto.FundingDTO;
 import com.won.dourbest.seller.dto.MainImgDTO;
 import com.won.dourbest.seller.dto.OptionDTO;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -112,5 +113,49 @@ public class FundingServiceImpl implements FundingService{
         }
 
         return returnCode;
+    }
+
+    @Override
+    @Transactional
+    public String insertReport(Map<String, Object> map) {
+
+        String category = (String) map.get("category");
+
+        Integer categoryCode = fundingMapper.selectCategory(category);
+
+            String message = "";
+
+        if (categoryCode != null) {
+
+            map.put("categoryCode", categoryCode);
+
+            int result = fundingMapper.insertReport(map);
+
+            if(result > 0) {
+                message = "신고 성공";
+            } else {
+                message = "신고 실패";
+            }
+        } else {
+            message = "신고 실패";
+        }
+
+        return message;
+    }
+
+    @Override
+    public int selectReport(int code, int memberCode) {
+
+        int result = 0;
+
+        int num = fundingMapper.selectReport(code, memberCode);
+
+        System.out.println("num = " + num);
+        if(num > 0) {
+            result = -1;
+        } else {
+            result = 1;
+        }
+        return result;
     }
 }

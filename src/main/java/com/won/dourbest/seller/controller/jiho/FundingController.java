@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Controller
@@ -31,15 +32,19 @@ public class FundingController {
         Map<String, Object> map = fundingService.fundingPage(code);
 
         int result= 0;
+        int result1 = 0;
 
         if(member == null) {
             result = -1;
         } else {
             int memberCode = member.getMemberCode();
             result = fundingService.selectLikes(code, memberCode);
+            result1 = fundingService.selectReport(code, memberCode);
         }
 
         model.addAttribute("result", result);
+        model.addAttribute("result1", result1);
+        System.out.println("result1 = " + result1);
         System.out.println("map = " + map);
         model.addAttribute("tossMap", map);
         System.out.println("code = " + code);
@@ -138,5 +143,30 @@ public class FundingController {
         model.addAttribute("fundingCode", code);
 
         return "/seller/giwon_seller/review";
+    }
+
+    @PostMapping("/report")
+    @ResponseBody
+    public String report(@RequestParam String category, @RequestParam String title
+            , @RequestParam String content, @RequestParam int fundingCode
+            , @AuthenticationPrincipal MemberImpl member) {
+
+        String message = "";
+
+        if(member != null) {
+            int memberCode = member.getMemberCode();
+            Map<String, Object> map = new HashMap<>();
+            map.put("memberCode", memberCode);
+            map.put("category", category);
+            map.put("title", title);
+            map.put("content", content);
+            map.put("fundingCode", fundingCode);
+
+            message = fundingService.insertReport(map);
+        } else {
+            throw new NoLoginException("로그인이 안되어있음");
+        }
+
+        return message;
     }
 }
