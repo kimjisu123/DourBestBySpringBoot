@@ -17,26 +17,33 @@ public interface ReportMapper {
 
     int selectTotalPage();
 
-    // 신고 답변 등록
-    int insertAnswer(String fundCode);
-
     // 유저 상태값 업데이트
     int updateSeller(String sellerCode);
 
     // 멤버 코드
     String selectMemberCode(String sellerCode);
 
-    // 펀딩 코드
-    String selectfundCode(AnswerRegistDTO answerRegist);
 
-    // 판매자 코드
-    String selectSellerCode(String fundCode);
 
     // 신고 누적 횟수 3 여부 조회
     String selectReported(String sellerCode);
 
 
     int insertBlackList(String sellerCode);
+
+
+    // 판매자 코드
+    String selectSellerCode(int fundingCode);
+
+    // 펀딩 신고 코드
+    int selectReportCode(int fundingCode);
+
+
+    // 신고 답변 등록
+    int insertAnswer(int reportCode, AnswerRegistDTO answerRegist);
+
+    // 펀딩 신고 상태값 업데이트
+    int updateReport(int reportCode);
 
 
 }

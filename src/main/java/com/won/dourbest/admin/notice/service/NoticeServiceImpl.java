@@ -54,7 +54,9 @@ public class NoticeServiceImpl implements NoticeService{
 
         for (int i = 0; i < adminNoticeList.size(); i++){
 
-            adminNoticeList.get(i).setEventTitle(adminNoticeList.get(i).getEventTitle().substring(0, 35));
+            if(adminNoticeList.get(i).getEventTitle().length() >= 35) {
+                adminNoticeList.get(i).setEventTitle(adminNoticeList.get(i).getEventTitle().substring(0, 35));
+            }
         }
 
         return adminNoticeList;
@@ -101,19 +103,6 @@ public class NoticeServiceImpl implements NoticeService{
     // 이벤트 글 등록
     @Override
     public String insertEvent(EventRegistDTO event) {
-
-        // 날짜 형식 변경을 위한 객체
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
-        // 파싱
-        try {
-            event.setEventEndDate(dateFormat.parse(String.valueOf(event.getEventEndDate())));
-
-        } catch (ParseException e) {
-
-            throw new RuntimeException(e);
-        }
-
 
 
         int result = mapper.insertEvent(event);

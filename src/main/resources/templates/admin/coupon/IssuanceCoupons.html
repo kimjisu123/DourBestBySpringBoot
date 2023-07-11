@@ -164,6 +164,36 @@
 
     <script>
 
+        $('#btnCreate').click(function(){
+
+            let couponName = $('.couponName').val();
+            let couponContent = $('.couponContent').val();
+            let couponDiscount = $('.couponDiscount').val();
+            let couponVaildDate = $('.couponVaildDate').val();
+
+            let coupon = {
+                couponName,
+                couponContent,
+                couponDiscount,
+                couponVaildDate
+            }
+
+            $.ajax({
+                url: "/admin/Issuance",
+                type:"post",
+                contentType : "application/json",
+                data : JSON.stringify(coupon),
+                success:function(data){
+                    alert(data);
+                    window.location.reload();
+                },
+                error: function (error){
+                    alert("쿠폰 발급에 실패하셨습니다.")
+                }
+            })
+
+        })
+
 
         const contactmodal = document.querySelector(".contactmodal");
         const btn = document.querySelector(".contactBtn");

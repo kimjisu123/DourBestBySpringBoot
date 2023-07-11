@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.won.dourbest.admin.coupon.dao.CouponMapper">
 
-    <resultMap id="selectIssuanceResultMap" type="com.won.dourbest.admin.coupon.dto.CouponIssuance">
+    <resultMap id="selectIssuanceResultMap" type="com.won.dourbest.admin.coupon.dto.CouponIssuanceDTO">
         <id property="memberId" column="MEMBER_ID"/>
         <result property="memberName" column="MEMBER_NAME"/>
         <result property="memberEmail" column="MEMBER_EMAIL"/>
@@ -13,7 +13,7 @@
         <result property="couponValidDate" column="COUPON_VALID_DATE"/>
     </resultMap>
 
-    <resultMap id="selectUseCouponResultMap" type="com.won.dourbest.admin.coupon.dto.UseCoupon">
+    <resultMap id="selectUseCouponResultMap" type="com.won.dourbest.admin.coupon.dto.UseCouponDTO">
         <id property="memberId" column="MEMBER_ID"/>
         <result property="memberName" column="MEMBER_NAME"/>
         <result property="memberEmail" column="MEMBER_EMAIL"/>
@@ -70,16 +70,45 @@
         </if>
     </select>
 
-    <insert id="couponIssuance">
+    <insert id="couponRegist">
         INSERT INTO TBL_COUPON
         VALUES
         (
-            TBL_COUPON_CODE.NEXTVAL,
+            SEQ_COUPON_CODE.NEXTVAL,
             #{ couponName },
             #{ couponContent },
             #{ couponDiscount },
             #{ couponVaildDate }
         )
     </insert>
+    <!--  쿠폰 코드  -->
+    <select id="couponCode">
+        SELECT
+            COUPON_CODE
+        FROM TBL_COUPON
+        WHERE COUPON_NAME = #{couponName}
+    </select>
 
+    <!--  모든 멤버 코드 조회  -->
+    <select id="selectAllMemberCodes">
+        SELECT
+            MEMBER_CODE
+        FROM TBL_MEMBER
+    </select>
+
+    <!--  쿠폰 발급  -->
+    <insert id="insertCoupon">
+        INSERT INTO TBL_COUPONLIST
+        VALUES
+            (
+                SEQ_COUPONLIST_CODE.NEXTVAL,
+                '일련번호',
+                SYSDATE,
+                #{date},
+                'Y',
+                DEFAULT,
+                SEQ_COUPON_CODE.currval,
+                #{memCode}
+            )
+    </insert>
 </mapper>

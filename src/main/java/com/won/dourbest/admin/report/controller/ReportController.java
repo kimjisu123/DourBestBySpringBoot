@@ -101,10 +101,10 @@ public class ReportController {
 
     @PostMapping("answerRegist")
     @ResponseBody
-    public String answerRegist(@RequestBody AnswerRegistDTO answerRegist){
+    public String answerRegist(@RequestBody AnswerRegistDTO answer){
 
-        System.out.println("answerRegist = " + answerRegist.getAnswerContent());
-        String message = reportServiceImpl.answerRegist(answerRegist);
+        System.out.println("answerRegist = " + answer);
+        String message = reportServiceImpl.answerRegist(answer);
 
         return message;
     }

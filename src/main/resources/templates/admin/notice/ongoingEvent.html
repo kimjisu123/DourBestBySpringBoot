@@ -141,7 +141,7 @@
         <div class="contactmodal-container">
             <div class="contactmodal-content">
                 <span class="close">&times;</span>
-                <h2 class="contactmodal-title">공지사항 작성</h2>
+                <h2 class="contactmodal-title">이벤트 글 작성</h2>
                 <div class="mb-3 contact" name="contact" id="contact">
                     <textarea class="modalHeader" type="text", id="eventTitle" placeholder="제목을 입력해주세요" maxlength="30"></textarea>
                     <textarea class="col-auto form-control contactContents" type="text" id="eventContent" placeholder="글 내용을 작성해주세요!" maxlength="3000"></textarea>
@@ -157,36 +157,34 @@
 
     <script>
 
-     $('#EventStart').click(function(){
+    $('#EventStart').click(function(){
+        let eventTitle = $('#eventTitle').val();
+        let eventContent = $('#eventContent').val();
+        let eventEndDate = $('#eventEndDate').val();
 
-         let eventTitle = $('#eventTitle').val();
-         let eventContent = $('#eventContent').val();
-         let eventEndDate = $('#eventEndDate').val();
+        let evnet = {
+            eventTitle : eventTitle,
+            eventContent : eventContent,
+            eventEndDate : eventEndDate
+        }
 
-         let evnet = {
-             eventTitle : eventTitle,
-             eventContent : eventContent,
-             eventEndDate : eventEndDate
-         }
-
-         $.ajax({
-             url: "/admin/event",
-             type: "post",
-             data: JSON.stringify(evnet),
-             contentType: "application/json",
-             success: function(data) {
-                 alert(data);
-             },
-             error: function(error) {
-                 alert("글 등록에 실패하셨습니다.");
-             }
-         });
-
-
-     })
+        $.ajax({
+            url: "/admin/event",
+            type: "post",
+            data: JSON.stringify(evnet),
+            contentType: "application/json",
+            success: function(data) {
+                alert(data);
+                window.location.reload();
+            },
+            error: function(error) {
+                alert("글 등록에 실패하셨습니다.");
+                window.location.reload();
+            }
+        });
 
 
-
+    })
 
 
 

@@ -15,4 +15,6 @@ public class AnswerRegistDTO {
     private String choiceValue;
     // 내가 선택한 제재
     private String contactCode;
+    // 내가 선택한 펀딩
+    private int fundingCode;
 }

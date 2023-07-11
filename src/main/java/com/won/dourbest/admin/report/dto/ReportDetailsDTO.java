@@ -18,4 +18,5 @@ public class ReportDetailsDTO {
     private Date report_date;
     private int numberReported;
     private String answersStatus;
+    private int fundingCode;
 }

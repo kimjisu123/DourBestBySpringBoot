@@ -95,6 +95,7 @@
                         <div th:text="${#dates.format(reportDetails.getReport_date(), 'yyyy/MM/dd')}" id="reportLine5"></div>
                         <div th:text="${reportDetails.getNumberReported()}"  id="reportLine6"></div>
                         <div th:text="${reportDetails.getAnswersStatus()}" id="reportLine7"></div>
+                        <div style="display: none" th:text="${reportDetails.getFundingCode()}" id="reportLine8"></div>
                     </div>
 
                     <!-- 페이지 처리 -->
@@ -174,12 +175,15 @@
                     // 선택한 유저의 아이디
                     let choiceValue = $(this).closest('.table').find('.choiceValue').text();
                     // 선택한 제재
-                    let  contactCode = $('#contactCode').val();
+                    let contactCode = $('#contactCode').val();
+                    // 선택한 펀딩 코드
+                    let fundingCode = $('#reportLine8').text();
 
                     let answer ={
                         answerContent,
                         choiceValue,
-                        contactCode
+                        contactCode,
+                        fundingCode
                     }
 
                     $.ajax({
@@ -205,11 +209,24 @@
 
 
         btn.addEventListener('click', openContactModal);
+        $span.addEventListener('click', closeContactModal);
 
         function openContactModal() {
             contactmodal.style.display = "block";
             contactmodal.animate([{opacity: 0}, {opacity: 1}], {duration: 300, fill: "forwards"});
         }
+
+        function closeContactModal() {
+            contactmodal.animate([{opacity: 1}, {opacity: 0}], {duration: 300, fill: "forwards"}).onfinish = function() {
+                contactmodal.style.display = "none";
+                const $img = document.querySelector(".contact-imgdiv");
+                if($img.hasChildNodes()){
+                    $img.replaceChildren();
+                }
+            };
+        }
+
+
 
         function contactreadURL(obj) {
 

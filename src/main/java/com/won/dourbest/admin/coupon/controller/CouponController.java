@@ -1,21 +1,15 @@
 package com.won.dourbest.admin.coupon.controller;
 
-import com.won.dourbest.admin.account.dto.AdminRegistDTO;
 import com.won.dourbest.admin.common.Pagenation;
 import com.won.dourbest.admin.common.SelectCriteria;
-import com.won.dourbest.admin.coupon.dto.CouponIssuance;
-import com.won.dourbest.admin.coupon.dto.CouponRegist;
-import com.won.dourbest.admin.coupon.dto.UseCoupon;
+import com.won.dourbest.admin.coupon.dto.CouponIssuanceDTO;
+import com.won.dourbest.admin.coupon.dto.CouponRegistDTO;
+import com.won.dourbest.admin.coupon.dto.UseCouponDTO;
 import com.won.dourbest.admin.coupon.service.CouponServiceImpl;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.validation.Valid;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,7 +47,7 @@ public class CouponController {
             selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button);           // 조건이 없을 경우
         }
 
-        List<CouponIssuance> couponIssuanceList = couponServiceImpl.selectIssuanceList(selectCriteria);
+        List<CouponIssuanceDTO> couponIssuanceList = couponServiceImpl.selectIssuanceList(selectCriteria);
         mv.addObject("selectCriteria", selectCriteria);
         mv.addObject("couponIssuanceList", couponIssuanceList);
         mv.setViewName("admin/coupon/IssuanceCoupons");
@@ -86,7 +80,7 @@ public class CouponController {
             selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button);           // 조건이 없을 경우
         }
 
-        List<UseCoupon> useCouponList = couponServiceImpl.selectUseCoupon(selectCriteria);
+        List<UseCouponDTO> useCouponList = couponServiceImpl.selectUseCoupon(selectCriteria);
         mv.addObject("selectCriteria", selectCriteria);
         mv.addObject("useCouponList", useCouponList);
         mv.setViewName("admin/coupon/useCoupon");
@@ -96,17 +90,13 @@ public class CouponController {
         return mv;
     }
 
-//    @PostMapping(value = "Issuance")
-//    @ResponseBody
-//    public String Issuance(@RequestBody CouponRegist couponRegist){
-//
-//
-//
-//        LocalDate couponValidDate = couponRegist.getCouponVaildDate();
-//        String formattedDate = couponValidDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-//        couponRegist.setCouponValidDate(formattedDate);
-//
-//        return "";
-//    }
+    @PostMapping("Issuance")
+    @ResponseBody
+    public String Issuance(@RequestBody CouponRegistDTO coupon){
+
+        String message = couponServiceImpl.couponRegist(coupon);
+    
+        return message;
+    }
 
 }

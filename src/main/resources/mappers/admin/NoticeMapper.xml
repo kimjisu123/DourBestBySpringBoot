@@ -102,18 +102,18 @@
 
     <!--  이벤트글 글 등록  -->
 
-<!--    <insert id="insertNotice">-->
-<!--        INSERT INTO TBL_EVENT-->
-<!--        VALUES-->
-<!--            (-->
-<!--                SEQ_EVENT_CODE.nextval,-->
-<!--                #{eventTitle},-->
-<!--                #{eventContent},-->
-<!--                SYSDATE,-->
-<!--                #{eventEndDate}-->
-<!--                1-->
-<!--            )-->
-<!--    </insert>-->
+    <insert id="insertEvent">
+        INSERT INTO TBL_EVENT
+        VALUES
+            (
+                SEQ_EVENT_CODE.nextval,
+                #{eventTitle},
+                #{eventContent},
+                SYSDATE,
+                #{eventEndDate},
+                1
+            )
+    </insert>
 
 
     <!--  공지사항 삭제  -->

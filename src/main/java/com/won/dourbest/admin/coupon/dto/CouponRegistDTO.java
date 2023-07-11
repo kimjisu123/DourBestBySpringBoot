@@ -1,8 +1,6 @@
 package com.won.dourbest.admin.coupon.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -12,7 +10,8 @@ import java.util.Date;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class CouponRegist {
+public class CouponRegistDTO {
+    private String couponCode;
     private String couponName;
     private String couponContent;
     private int couponDiscount;

@@ -12,7 +12,7 @@
         <result property="report_date" column="REPORT_DATE"/>
         <result property="numberReported" column="NUMBER_REPORTED"/>
         <result property="answersStatus" column="ANSWERS_STATUS"/>
-
+        <result property="fundingCode" column="FUNDING_CODE"/>
     </resultMap>
 
 
@@ -35,7 +35,8 @@
             A.REPORT_CONTENT,
             A.REPORT_DATE,
             C.NUMBER_REPORTED,
-            E.REPORT_RESP_STATUS
+            E.REPORT_RESP_STATUS,
+            B.FUNDING_CODE
         FROM    TBL_FUNDING_REPORT A
         JOIN    TBL_FUNDING B ON (A.FUNDING_CODE = B.FUNDING_CODE)
         JOIN    TBL_SELLER  C ON (B.SELLER_CODE = C.SELLER_CODE)
@@ -96,6 +97,15 @@
         FROM TBL_FUNDING
         WHERE FUNDING_TITLE = #{choiceValue}
     </select>
+
+    <!--  펀딩 신고 코드  -->
+    <select id="selectReportCode">
+        SELECT
+            REPORT_CODE
+        FROM TBL_FUNDING_REPORT
+        WHERE FUNDING_CODE =#{fundingCode}
+    </select>
+    <!-- 판매자 코드 -->
     <select id="selectSellerCode">
         SELECT
             SELLER_CODE
@@ -109,10 +119,10 @@
     VALUES
     (
     SEQ_REPORT_RESPONSE_CODE.NEXTVAL,
-    #{ answerContent },
+    #{ answerRegist.answerContent },
     DEFAULT,
     1,
-    #{ fundCode }
+    #{ reportCode }
     )
     </insert>
 
@@ -151,4 +161,12 @@
          '신고 횟수 누적 3회로 인한 블랙리스트'
         )
     </insert>
+
+    <update id="updateReport">
+        UPDATE TBL_FUNDING_REPORT
+        SET    REPORT_RESP_STATUS = 'Y'
+        WHERE  REPORT_CODE = #{reportCode}
+    </update>
+
+
 </mapper>
