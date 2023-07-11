@@ -1417,3 +1417,60 @@
     height: 300px;
     background: #3c763d;
 }
+
+
+
+#blackSortation1{
+    width:150px;
+    height: 20px;
+    text-align : center;
+
+}
+#blackSortation2{
+    width: 140px;
+    height: 20px;
+    text-align : center;
+}
+#blackSortation3{
+    width: 400px;
+    height: 20px;
+    text-align : center;
+}
+#blackSortation4{
+    width: 150px;
+    text-align : center;
+}
+#blackSortation5{
+    width: 320px;
+    text-align : center;
+}
+
+
+#blackList1{
+    width:150px;
+    height: 20px;
+    text-align : center;
+    line-height: 50px;
+}
+#blackList2{
+    width: 140px;
+    height: 20px;
+    text-align : center;
+    line-height: 50px;
+}
+#blackList3{
+    width: 400px;
+    height: 20px;
+    text-align : center;
+    line-height: 50px;
+}
+#blackList4{
+    width: 150px;
+    text-align : center;
+    line-height: 50px;
+}
+#blackList5{
+    width: 335px;
+    text-align: center;
+    line-height: 50px;
+}

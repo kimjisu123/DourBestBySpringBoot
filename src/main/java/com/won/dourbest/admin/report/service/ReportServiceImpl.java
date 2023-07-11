@@ -4,6 +4,7 @@ import com.won.dourbest.admin.common.SelectCriteria;
 import com.won.dourbest.admin.report.dao.ReportMapper;
 import com.won.dourbest.admin.report.dto.AnswerRegistDTO;
 import com.won.dourbest.admin.report.dto.AnswerReportDTO;
+import com.won.dourbest.admin.report.dto.CustomerInquiryDTO;
 import com.won.dourbest.admin.report.dto.ReportDetailsDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,18 +55,30 @@ public class ReportServiceImpl implements ReportService{
         int fundingCode;
         // 펀딩신고 코드
         int reportCode;
-
         // 판매자 코드
         String sellerCode;
-        // 회원 코드
-        String memberCode;
+        // 신고 제목
+        String reportTitle;
 
-        // 가져오는 코드에 대한 트랜잭션
+
+        // 회원 코드 (블랙리스트 용) 값이 있을시 블랙리스트 처리
+        String blackListMemberCode;
+
+        reportTitle = answerRegist.getChoiceValue();
+
         fundingCode = answerRegist.getFundingCode();
 
-        reportCode  = mapper.selectReportCode(fundingCode);
-
         sellerCode = mapper.selectSellerCode(fundingCode);
+
+
+
+
+
+        System.out.println("sellerCode = " + sellerCode);
+        System.out.println("fundingCode = " + fundingCode);
+
+        reportCode  = mapper.selectReportCode(fundingCode, reportTitle);
+
 
         // 신고 답변 등록
         int result;
@@ -76,16 +89,18 @@ public class ReportServiceImpl implements ReportService{
         // 신고 누적횟수가 3일 경우 블랙리스트
         int result3;
 
-        // 신고 답변 등록
+        String message;
+
+        // 신고 답변 등록 (신고코드, 입력한 값)
         result = mapper.insertAnswer(reportCode, answerRegist);
         if (result != 0) {
-            // 유저 상태값 업데이트
+            // 유저 상태값 업데이트 (판매자 코드)
             result1 = mapper.updateSeller(sellerCode);
             if (result1 != 0) {
-                // 펀딩 신고 상태값 업데이트
+                // 펀딩 신고 상태값 업데이트 (신고 코드)
                 result2 = mapper.updateReport(reportCode);
                 if (result2 != 0) {
-                    return "성공적으로 제재가 되었습니다.";
+                    message =  "성공적으로 제재가 되었습니다.";
                 }
             } else {
                 throw new RuntimeException();
@@ -95,15 +110,15 @@ public class ReportServiceImpl implements ReportService{
         }
 
         // 신고 누적 횟수 3 여부 3일 경우 MEMBER_CODE 반환
-        memberCode = mapper.selectReported(sellerCode);
+        blackListMemberCode = mapper.selectReported(sellerCode);
 
         // 신고 누적 횟수가 3인 경우
-        if (memberCode != null) {
+        if (blackListMemberCode != null) {
             // 블랙리스트 등록
-            result3 = mapper.insertBlackList(memberCode);
+            result3 = mapper.insertBlackList(blackListMemberCode);
             if (result3 != 0) {
                 // 성공시 반환
-                return "블랙리스트에 등록이 되었습니다.";
+                message = "블랙리스트에 등록이 되었습니다.";
             } else {
                 throw new RuntimeException();
             }
@@ -111,14 +126,20 @@ public class ReportServiceImpl implements ReportService{
             throw new RuntimeException();
         }
 
-        }
+
+        return message;
+    }
+
+    // 1:1 문의사항
+    @Override
+    public List<CustomerInquiryDTO> selectInquiry(SelectCriteria selectCriteria) {
 
 
+        List<CustomerInquiryDTO> customerInquiry = mapper.selectInquiry(selectCriteria);
 
 
-
-
-
+        return customerInquiry;
+    }
 
 
 }

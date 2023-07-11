@@ -16,7 +16,7 @@
                 <div th:onclick="|location.href='@{/admin/admin}'|" id="sidebutton1" class="sideMenuButton">
                     계정 관리
                 </div>
-                <div th:onclick="|location.href='@{/admin/willopen}'|" id="sidebutton2" class="sideMenuButton">
+                <div th:onclick="|location.href='@{/admin/applied}'|" id="sidebutton2" class="sideMenuButton">
                     펀딩 목록 관리
                 </div>
                 <div th:onclick="|location.href='@{/admin/allPrice}'|" id="sidebutton3" class="sideMenuButton">
@@ -26,7 +26,7 @@
                     공지사항
                 </div>
                 <div th:onclick="|location.href='@{/admin/reportDetails}'|" id="sidebuttonMain" class="sideMenuButton">
-                    신고 관리
+                    고객 문의
                 </div>
                 <div th:onclick="|location.href='@{/admin/Issuance}'|" id="sidebutton6" class="sideMenuButton">
                     쿠폰 관리
@@ -43,6 +43,9 @@
                     </div>
                     <div th:onclick="|location.href='@{/admin/answerReport}'|" id="mainMenuButton2" class="mainMenuButton">
                         신고 처리 내역
+                    </div>
+                    <div th:onclick="|location.href='@{/admin/customerInquiry}'|" id="mainMenuButton3" class="mainMenuButton">
+                        1:1 문의사항
                     </div>
                 </div>
 
@@ -90,8 +93,8 @@
                         <input type="checkbox" class="fundcheckbox" name="my_checkbox" value="0">
                         <div th:text="${reportDetails.getMemberId()}" id="reportLine1"></div>
                         <div th:text="${reportDetails.getMemberEmail()}" id="reportLine2"></div>
-                        <div th:text="${reportDetails.getFundingTitle()}" id="reportLine3" class="choiceValue"></div>
-                        <div th:text="${reportDetails.getReportContent()}" id="reportLine4"></div>
+                        <div th:text="${reportDetails.getFundingTitle()}" id="reportLine3"></div>
+                        <div th:text="${reportDetails.getReportTitle()}" id="reportLine4" class="choiceValue"></div>
                         <div th:text="${#dates.format(reportDetails.getReport_date(), 'yyyy/MM/dd')}" id="reportLine5"></div>
                         <div th:text="${reportDetails.getNumberReported()}"  id="reportLine6"></div>
                         <div th:text="${reportDetails.getAnswersStatus()}" id="reportLine7"></div>
@@ -149,6 +152,9 @@
 
 
 
+
+
+
     <div class="contactmodal">
         <div class="contactmodal-container">
             <div class="contactmodal-content">
@@ -157,7 +163,6 @@
                 <div class="mb-3 contact" name="contact" id="contact">
                     <select name="contactCode" id="contactCode">
                         <option value="report">신고 카운트 누적</option>
-                        <option value="blackList">블랙리스트 등록</option>
                     </select>
                     <textarea id="answerContent" class="col-auto form-control contactContents" type="text" placeholder="신고 사유를 입력해주세요." maxlength="3000"></textarea>
                     <button id="answer" type="submit">제출</button>
@@ -165,14 +170,25 @@
             </div>
         </div>
     </div>
-    <script>
 
+
+    <div id="modalWrap">
+        <div id="modalBody">
+
+        </div>
+        <div>
+
+        </div>
+    </div>
+
+
+    <script>
         $('#answer').click(function() {
             $('.fundcheckbox').each(function() {
                 if ($(this).prop('checked')) {
                     // 신고 답변
                     let answerContent = $('#answerContent').val();
-                    // 선택한 유저의 아이디
+                    // 신고 제목
                     let choiceValue = $(this).closest('.table').find('.choiceValue').text();
                     // 선택한 제재
                     let contactCode = $('#contactCode').val();
@@ -250,6 +266,26 @@
                 $($div).append(img);
             }
         }
+
+
+        const btn = document.getElementById('popupBtn');
+        const modal = document.getElementById('modalWrap');
+        const closeBtn = document.getElementById('closeBtn');
+
+        btn.onclick = function() {
+            modal.style.display = 'block';
+        }
+        closeBtn.onclick = function() {
+            modal.style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+
     </script>
 
 </main>

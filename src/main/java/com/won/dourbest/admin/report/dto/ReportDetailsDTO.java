@@ -14,7 +14,7 @@ public class ReportDetailsDTO {
     private String memberId;
     private String memberEmail;
     private String fundingTitle;
-    private String reportContent;
+    private String reportTitle;
     private Date report_date;
     private int numberReported;
     private String answersStatus;

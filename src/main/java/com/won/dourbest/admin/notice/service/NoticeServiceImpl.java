@@ -69,8 +69,9 @@ public class NoticeServiceImpl implements NoticeService{
         List<AdminEventDTO> finshedEventList = mapper.selectFinshedEventList(selectCriteria);
 
         for (int i = 0; i < finshedEventList.size(); i++){
-
-            finshedEventList.get(i).setEventTitle(finshedEventList.get(i).getEventTitle().substring(0, 35));
+            if(finshedEventList.get(i).getEventTitle().length() >= 35){
+                finshedEventList.get(i).setEventTitle(finshedEventList.get(i).getEventTitle().substring(0, 35));
+            }
         }
         return finshedEventList;
     }

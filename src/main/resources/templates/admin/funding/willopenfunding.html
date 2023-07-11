@@ -29,7 +29,7 @@
                     공지사항
                 </div>
                 <div th:onclick="|location.href='@{/admin/reportDetails}'|" id="sidebutton5" class="sideMenuButton">
-                    신고 관리
+                    고객 문의
                 </div>
                 <div th:onclick="|location.href='@{/admin/Issuance}'|" id="sidebutton6" class="sideMenuButton">
                     쿠폰 관리
@@ -47,27 +47,22 @@
 
                 <!-- 메인 메뉴 항목-->
                 <div id="mainMenuContainer">
-                    <div th:onclick="|location.href='@{/admin/willopen}'|" id="mainMenuContainerfirst" class="FundingMenuButton" >
-                        오픈 예정 펀딩 목록
-                    </div>
-                    <div th:onclick="|location.href='@{/admin/ongoing}'|" id="mainMenuButton2" class="FundingMenuButton">
-                        진행중인 펀딩 목록
-                    </div>
-                    <div th:onclick="|location.href='@{/admin/finished}'|" id="mainMenuButton3" class="FundingMenuButton">
-                        완료된 펀딩 목록
-                    </div>
-                    <div th:onclick="|location.href='@{/admin/approved}'|" id="mainMenuButton4" class="FundingMenuButton">
-                        승인된 펀딩 목록
-                    </div>
-                    <div th:onclick="|location.href='@{/admin/applied}'|" id="mainMenuButton5" class="FundingMenuButton">
+                    <div th:onclick="|location.href='@{/admin/applied}'|" id="mainMenuButton1" class="FundingMenuButton">
                         신청한 펀딩 목록
                     </div>
-                    <div th:onclick="|location.href='@{/admin/sellerRegi}'|" id="mainMenuButton6" class="FundingMenuButton">
+                    <div th:onclick="|location.href='@{/admin/sellerRegi}'|" id="mainMenuButton2" class="FundingMenuButton">
                         판매자 등록 신청 목록
                     </div>
-
+                    <div th:onclick="|location.href='@{/admin/willopen}'|" id="mainMenuContainernotfirst" class="FundingMenuButton" >
+                        오픈 예정 펀딩 목록
+                    </div>
+                    <div th:onclick="|location.href='@{/admin/ongoing}'|" id="mainMenuButton4" class="FundingMenuButton">
+                        진행중인 펀딩 목록
+                    </div>
+                    <div th:onclick="|location.href='@{/admin/finished}'|" id="mainMenuButton5" class="FundingMenuButton">
+                        완료된 펀딩 목록
+                    </div>
                 </div>
-
 
 
                 <!-- 펀딩 제목 검색 버튼 -->

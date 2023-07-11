@@ -3,6 +3,7 @@ package com.won.dourbest.admin.report.dao;
 import com.won.dourbest.admin.common.SelectCriteria;
 import com.won.dourbest.admin.report.dto.AnswerRegistDTO;
 import com.won.dourbest.admin.report.dto.AnswerReportDTO;
+import com.won.dourbest.admin.report.dto.CustomerInquiryDTO;
 import com.won.dourbest.admin.report.dto.ReportDetailsDTO;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -14,6 +15,8 @@ public interface ReportMapper {
     List<ReportDetailsDTO> selectReportDetails(SelectCriteria selectCriteria);
 
     List<AnswerReportDTO> selectAnswerReport(SelectCriteria selectCriteria);
+
+    List<CustomerInquiryDTO> selectInquiry(SelectCriteria selectCriteria);
 
     int selectTotalPage();
 
@@ -28,15 +31,15 @@ public interface ReportMapper {
     // 신고 누적 횟수 3 여부 조회
     String selectReported(String sellerCode);
 
-
-    int insertBlackList(String sellerCode);
+    // 블랙리스트 등록
+    int insertBlackList(String blackListMemberCode);
 
 
     // 판매자 코드
     String selectSellerCode(int fundingCode);
 
     // 펀딩 신고 코드
-    int selectReportCode(int fundingCode);
+    int selectReportCode(int fundingCode, String reportTitle);
 
 
     // 신고 답변 등록

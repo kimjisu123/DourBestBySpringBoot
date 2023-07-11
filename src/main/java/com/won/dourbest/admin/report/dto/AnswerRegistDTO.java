@@ -13,8 +13,6 @@ public class AnswerRegistDTO {
     private String answerContent;
     // 신고 당한 펀딩의 이름
     private String choiceValue;
-    // 내가 선택한 제재
-    private String contactCode;
     // 내가 선택한 펀딩
     private int fundingCode;
 }

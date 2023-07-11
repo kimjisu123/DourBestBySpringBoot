@@ -1,178 +1,178 @@
-<!DOCTYPE html>
-<html th:replace="~{/layouts/adminbase :: layout(~{::main}, ~{::link}, ~{::script})}"
-      xmlns:th="http://www.thymeleaf.org">
-<head>
-    <link rel="stylesheet" th:href="@{/css/admin/admin.css}">
-</head>
-<main>
-<!-- 메뉴 -->
-<div class="menu">
-    <!-- 사이드 메뉴-->
-    <div id="sideMenuBar">
-        <!-- 사이드 메뉴 항목 -->
-        <div id="sideMenuContainer">
-            <div th:onclick="|location.href='@{/admin/admin/admin}'|" id="sidebutton1" class="sideMenuButton">
-                계정 관리
-            </div>
-            <div th:onclick="|location.href='@{/admin/willopen}'|" id="sidebuttonMain" class="sideMenuButton">
-                펀딩 목록 관리
-            </div>
-            <div th:onclick="|location.href='@{/admin/allPrice}'|" id="sidebutton3" class="sideMenuButton">
-                결제 통계 확인
-            </div>
-            <div th:onclick="|location.href='@{/admin/notice}'|" id="sidebutton4" class="sideMenuButton">
-                공지사항
-            </div>
-            <div th:onclick="|location.href='@{/admin/reportDetails}'|" id="sidebutton5" class="sideMenuButton">
-                신고 관리
-            </div>
-            <div th:onclick="|location.href='@{/admin/Issuance}'|" id="sidebutton6" class="sideMenuButton">
-                쿠폰 관리
-            </div>
-        </div>
+<!--<!DOCTYPE html>-->
+<!--<html th:replace="~{/layouts/adminbase :: layout(~{::main}, ~{::link}, ~{::script})}"-->
+<!--      xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <link rel="stylesheet" th:href="@{/css/admin/admin.css}">-->
+<!--</head>-->
+<!--<main>-->
+<!--&lt;!&ndash; 메뉴 &ndash;&gt;-->
+<!--<div class="menu">-->
+<!--    &lt;!&ndash; 사이드 메뉴&ndash;&gt;-->
+<!--    <div id="sideMenuBar">-->
+<!--        &lt;!&ndash; 사이드 메뉴 항목 &ndash;&gt;-->
+<!--        <div id="sideMenuContainer">-->
+<!--            <div th:onclick="|location.href='@{/admin/admin/admin}'|" id="sidebutton1" class="sideMenuButton">-->
+<!--                계정 관리-->
+<!--            </div>-->
+<!--            <div th:onclick="|location.href='@{/admin/willopen}'|" id="sidebuttonMain" class="sideMenuButton">-->
+<!--                펀딩 목록 관리-->
+<!--            </div>-->
+<!--            <div th:onclick="|location.href='@{/admin/allPrice}'|" id="sidebutton3" class="sideMenuButton">-->
+<!--                결제 통계 확인-->
+<!--            </div>-->
+<!--            <div th:onclick="|location.href='@{/admin/notice}'|" id="sidebutton4" class="sideMenuButton">-->
+<!--                공지사항-->
+<!--            </div>-->
+<!--            <div th:onclick="|location.href='@{/admin/reportDetails}'|" id="sidebutton5" class="sideMenuButton">-->
+<!--                신고 관리-->
+<!--            </div>-->
+<!--            <div th:onclick="|location.href='@{/admin/Issuance}'|" id="sidebutton6" class="sideMenuButton">-->
+<!--                쿠폰 관리-->
+<!--            </div>-->
+<!--        </div>-->
 
 
 
-    </div>
-    <!-- 메인 메뉴 -->
-    <section>
-        <div id="backgroundpage">
+<!--    </div>-->
+<!--    &lt;!&ndash; 메인 메뉴 &ndash;&gt;-->
+<!--    <section>-->
+<!--        <div id="backgroundpage">-->
 
 
 
-            <!-- 메인 메뉴 항목-->
-            <div id="mainMenuContainer">
-                <div th:onclick="|location.href='@{/admin/willopen}'|" id="mainMenuButton1" class="FundingMenuButton" >
-                    오픈 예정 펀딩 목록
-                </div>
-                <div th:onclick="|location.href='@{/admin/ongoing}'|" id="mainMenuButton2" class="FundingMenuButton">
-                    진행중인 펀딩 목록
-                </div>
-                <div th:onclick="|location.href='@{/admin/finished}'|" id="mainMenuButton3" class="FundingMenuButton">
-                    완료된 펀딩 목록
-                </div>
-                <div th:onclick="|location.href='@{/admin/approved}'|" id="mainMenuContainernotfirst" class="FundingMenuButton">
-                    승인된 펀딩 목록
-                </div>
-                <div th:onclick="|location.href='@{/admin/applied}'|" id="mainMenuButton5" class="FundingMenuButton">
-                    신청한 펀딩 목록
-                </div>
-                <div th:onclick="|location.href='@{/admin/sellerRegi}'|" id="mainMenuButton6" class="FundingMenuButton">
-                    판매자 등록 신청 목록
-                </div>
+<!--            &lt;!&ndash; 메인 메뉴 항목&ndash;&gt;-->
+<!--            <div id="mainMenuContainer">-->
+<!--                <div th:onclick="|location.href='@{/admin/willopen}'|" id="mainMenuButton1" class="FundingMenuButton" >-->
+<!--                    오픈 예정 펀딩 목록-->
+<!--                </div>-->
+<!--                <div th:onclick="|location.href='@{/admin/ongoing}'|" id="mainMenuButton2" class="FundingMenuButton">-->
+<!--                    진행중인 펀딩 목록-->
+<!--                </div>-->
+<!--                <div th:onclick="|location.href='@{/admin/finished}'|" id="mainMenuButton3" class="FundingMenuButton">-->
+<!--                    완료된 펀딩 목록-->
+<!--                </div>-->
+<!--                <div th:onclick="|location.href='@{/admin/approved}'|" id="mainMenuContainernotfirst" class="FundingMenuButton">-->
+<!--                    승인된 펀딩 목록-->
+<!--                </div>-->
+<!--                <div th:onclick="|location.href='@{/admin/applied}'|" id="mainMenuButton5" class="FundingMenuButton">-->
+<!--                     펀딩 목록-->
+<!--                </div>-->
+<!--                <div th:onclick="|location.href='@{/admin/sellerRegi}'|" id="mainMenuButton6" class="FundingMenuButton">-->
+<!--                    판매자 등록 신청 목록-->
+<!--                </div>-->
 
-            </div>
-
-
-
-            <!-- 펀딩 제목 검색 버튼 -->
-            <div class="memberIDSearchContainer">
-                <div id="memberID" class="memberIDButton">
-                    제목
-                </div>
-
-                <input type="hidden" name="currentPage" value="1">
-
-                <form method="get", action="/admin/approved">
-                    <input type="search" placeholder="검색하실 펀딩의 이름을 입력해주세요" id="inputID" class="memberIDButton" name="searchValue">
-                    <input type="submit"  id="searchButton" class="memberIDButton" value="검색"/>
-                </form>
-            </div>
-
-
-            <!-- 조회 결과 페이지 -->
-            <div class="listPage">
-                <div class="SortationContainer">
-                    <div id="SortationFund1" class="SortationList">
-                        아이디
-                    </div>
-                    <div id="SortationFund2" class="SortationList">
-                        이메일
-                    </div>
-                    <div id="SortationFund3" class="SortationList">
-                        펀딩 제목
-                    </div>
-                    <div id="SortationFund4" class="SortationList">
-                        오픈 예정일
-                    </div>
-                    <div id="SortationFund5" class="SortationList">
-                        종료 날짜
-                    </div>
-                    <div id="SortationFund6" class="SortationList">
-                        상태 값
-                    </div>
-                </div>
+<!--            </div>-->
 
 
 
-                <div th:each="approvedFunding : ${approvedFundingList}" class="table">
-                    <input type="checkbox" class="fundcheckbox" name="my_checkbox" value="1">
-                    <div th:text="${approvedFunding.getMemberId()}" id="adminAccountFund1"></div>
-                    <div th:text="${approvedFunding.getMemberEmail()}" id="adminAccountFund2"></div>
-                    <div th:text="${approvedFunding.getFundingTitle()}" id="adminAccountFund3"></div>
-                    <div th:text="${#dates.format(approvedFunding.getStartDate(), 'yyyy/MM/dd')}" id="adminAccountFund4"></div>
-                    <div th:text="${#dates.format(approvedFunding.getEndDate(), 'yyyy/MM/dd')}" id="adminAccountFund5"></div>
-                    <div id="adminAccountFund6"> 상태값 </div>
-                </div>
+<!--            &lt;!&ndash; 펀딩 제목 검색 버튼 &ndash;&gt;-->
+<!--            <div class="memberIDSearchContainer">-->
+<!--                <div id="memberID" class="memberIDButton">-->
+<!--                    제목-->
+<!--                </div>-->
 
-                <!-- 페이지 처리 -->
-                <div class="board_page" align="center">
-                    <!-- 맨 앞으로 이동 버튼 th:disabled로 인해 현재 페이지가 1페이지인 경우 비활성화 한다.-->
-                    <a class="bt first"
-                       th:onclick="'location.href=\'/admin/approved?currentPage='+ @{${selectCriteria.startPage}} + '\''"
-                       th:disabled="${selectCriteria.pageNo == 1}"
-                    >
-                        <<
-                    </a>
-                    <!-- 이전 페이지 버튼 th:disabled로 인해 현재 페이지가 1페이지인 경우 비활성화 한다.-->
-                    <a  class="bt prev"
-                        th:onclick="'location.href=\'/admin/approved?currentPage='+ @{${selectCriteria.pageNo - 1}} + '\''"
-                        th:disabled="${selectCriteria.pageNo == 1}"
-                    >
-                        <
-                    </a>
-                    <!-- 숫자 버튼 th:disabled로 인해 현재페이지랑 같은 숫자의 버튼을 비활성화 한다. -->
-                    <th:block th:each="page : ${#numbers.sequence(selectCriteria.startPage, selectCriteria.endPage)}">
-                        <button class="num"
-                                th:text="${ page }"
-                                th:onclick="'location.href=\'/admin/approved?currentPage='+ @{${page}} + '\''"
-                                th:disabled="${ selectCriteria.pageNo eq page }">
-                        </button>
-                    </th:block>
+<!--                <input type="hidden" name="currentPage" value="1">-->
 
-                    <!-- 다음 페이지 버튼 th:disabled로 인해 현재 페이지가 마지막 페이지인 경우 비활성화 한다-->
-                    <a class="bt next"
-                       th:onclick="'location.href=\'/admin/approved?currentPage='+ @{${selectCriteria.pageNo + 1}} + '\''"
-                       th:disabled="${selectCriteria.pageNo == selectCriteria.maxPage}"
-                    >
-                        >
-                    </a>
-                    <!-- 마지막 페이지로 이동 버튼 th:disabled로 인해 현재  페이지가 마지막 페이지인 경우 비활성화 한다. -->
-                    <a class="bt last"
-                       th:onclick="'location.href=\'/admin/approved?currentPage='+ @{${selectCriteria.maxPage}} + '\''"
-                       th:disabled="${selectCriteria.pageNo == selectCriteria.maxPage}"
-                    >
-                        >>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-</div>
+<!--                <form method="get", action="/admin/approved">-->
+<!--                    <input type="search" placeholder="검색하실 펀딩의 이름을 입력해주세요" id="inputID" class="memberIDButton" name="searchValue">-->
+<!--                    <input type="submit"  id="searchButton" class="memberIDButton" value="검색"/>-->
+<!--                </form>-->
+<!--            </div>-->
+
+
+<!--            &lt;!&ndash; 조회 결과 페이지 &ndash;&gt;-->
+<!--            <div class="listPage">-->
+<!--                <div class="SortationContainer">-->
+<!--                    <div id="SortationFund1" class="SortationList">-->
+<!--                        아이디-->
+<!--                    </div>-->
+<!--                    <div id="SortationFund2" class="SortationList">-->
+<!--                        이메일-->
+<!--                    </div>-->
+<!--                    <div id="SortationFund3" class="SortationList">-->
+<!--                        펀딩 제목-->
+<!--                    </div>-->
+<!--                    <div id="SortationFund4" class="SortationList">-->
+<!--                        오픈 예정일-->
+<!--                    </div>-->
+<!--                    <div id="SortationFund5" class="SortationList">-->
+<!--                        종료 날짜-->
+<!--                    </div>-->
+<!--                    <div id="SortationFund6" class="SortationList">-->
+<!--                        상태 값-->
+<!--                    </div>-->
+<!--                </div>-->
 
 
 
+<!--                <div th:each="approvedFunding : ${approvedFundingList}" class="table">-->
+<!--                    <input type="checkbox" class="fundcheckbox" name="my_checkbox" value="1">-->
+<!--                    <div th:text="${approvedFunding.getMemberId()}" id="adminAccountFund1"></div>-->
+<!--                    <div th:text="${approvedFunding.getMemberEmail()}" id="adminAccountFund2"></div>-->
+<!--                    <div th:text="${approvedFunding.getFundingTitle()}" id="adminAccountFund3"></div>-->
+<!--                    <div th:text="${#dates.format(approvedFunding.getStartDate(), 'yyyy/MM/dd')}" id="adminAccountFund4"></div>-->
+<!--                    <div th:text="${#dates.format(approvedFunding.getEndDate(), 'yyyy/MM/dd')}" id="adminAccountFund5"></div>-->
+<!--                    <div id="adminAccountFund6"> 상태값 </div>-->
+<!--                </div>-->
 
+<!--                &lt;!&ndash; 페이지 처리 &ndash;&gt;-->
+<!--                <div class="board_page" align="center">-->
+<!--                    &lt;!&ndash; 맨 앞으로 이동 버튼 th:disabled로 인해 현재 페이지가 1페이지인 경우 비활성화 한다.&ndash;&gt;-->
+<!--                    <a class="bt first"-->
+<!--                       th:onclick="'location.href=\'/admin/approved?currentPage='+ @{${selectCriteria.startPage}} + '\''"-->
+<!--                       th:disabled="${selectCriteria.pageNo == 1}"-->
+<!--                    >-->
+<!--                        <<-->
+<!--                    </a>-->
+<!--                    &lt;!&ndash; 이전 페이지 버튼 th:disabled로 인해 현재 페이지가 1페이지인 경우 비활성화 한다.&ndash;&gt;-->
+<!--                    <a  class="bt prev"-->
+<!--                        th:onclick="'location.href=\'/admin/approved?currentPage='+ @{${selectCriteria.pageNo - 1}} + '\''"-->
+<!--                        th:disabled="${selectCriteria.pageNo == 1}"-->
+<!--                    >-->
+<!--                        <-->
+<!--                    </a>-->
+<!--                    &lt;!&ndash; 숫자 버튼 th:disabled로 인해 현재페이지랑 같은 숫자의 버튼을 비활성화 한다. &ndash;&gt;-->
+<!--                    <th:block th:each="page : ${#numbers.sequence(selectCriteria.startPage, selectCriteria.endPage)}">-->
+<!--                        <button class="num"-->
+<!--                                th:text="${ page }"-->
+<!--                                th:onclick="'location.href=\'/admin/approved?currentPage='+ @{${page}} + '\''"-->
+<!--                                th:disabled="${ selectCriteria.pageNo eq page }">-->
+<!--                        </button>-->
+<!--                    </th:block>-->
 
-
-</section>
-
-<script>
+<!--                    &lt;!&ndash; 다음 페이지 버튼 th:disabled로 인해 현재 페이지가 마지막 페이지인 경우 비활성화 한다&ndash;&gt;-->
+<!--                    <a class="bt next"-->
+<!--                       th:onclick="'location.href=\'/admin/approved?currentPage='+ @{${selectCriteria.pageNo + 1}} + '\''"-->
+<!--                       th:disabled="${selectCriteria.pageNo == selectCriteria.maxPage}"-->
+<!--                    >-->
+<!--                        >-->
+<!--                    </a>-->
+<!--                    &lt;!&ndash; 마지막 페이지로 이동 버튼 th:disabled로 인해 현재  페이지가 마지막 페이지인 경우 비활성화 한다. &ndash;&gt;-->
+<!--                    <a class="bt last"-->
+<!--                       th:onclick="'location.href=\'/admin/approved?currentPage='+ @{${selectCriteria.maxPage}} + '\''"-->
+<!--                       th:disabled="${selectCriteria.pageNo == selectCriteria.maxPage}"-->
+<!--                    >-->
+<!--                        >>-->
+<!--                    </a>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </section>-->
+<!--</div>-->
 
 
 
 
-</script>
-</div>
-</main>
-</html>
+
+
+<!--</section>-->
+
+<!--<script>-->
+
+
+
+
+<!--</script>-->
+<!--</div>-->
+<!--</main>-->
+<!--</html>-->

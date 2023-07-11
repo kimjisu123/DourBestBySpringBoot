@@ -8,7 +8,7 @@
         <id property="memberId" column="MEMBER_ID"/>
         <result property="memberEmail" column="MEMBER_EMAIL"/>
         <result property="fundingTitle" column="FUNDING_TITLE"/>
-        <result property="reportContent" column="REPORT_CONTENT"/>
+        <result property="reportTitle" column="REPORT_TITLE"/>
         <result property="report_date" column="REPORT_DATE"/>
         <result property="numberReported" column="NUMBER_REPORTED"/>
         <result property="answersStatus" column="ANSWERS_STATUS"/>
@@ -27,12 +27,20 @@
 
     </resultMap>
 
+    <resultMap id="selectInquiresResultMap" type="com.won.dourbest.admin.report.dto.CustomerInquiryDTO">
+        <id property="contactSubject" column="CONTACT_SUBJECT"/>
+        <result property="contactDetails" column="CONTACT_DETAILS"/>
+        <result property="dateCreationInquiry" column="DATE_CREATION_INQUIRY"/>
+        <result property="answerDate" column="ANSWER_DATE"/>
+    </resultMap>
+
+
     <select id="selectReportDetails" resultMap="selectReportDetailsResultMap">
         SELECT
             D.MEMBER_ID,
             D.MEMBER_EMAIL,
             B.FUNDING_TITLE,
-            A.REPORT_CONTENT,
+            A.REPORT_TITLE,
             A.REPORT_DATE,
             C.NUMBER_REPORTED,
             E.REPORT_RESP_STATUS,
@@ -73,6 +81,21 @@
         OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
     </select>
 
+    <select id="selectInquiry" resultMap="selectInquiresResultMap">
+    SELECT
+        B.CONTACT_SUBJECT,
+        B.CONTACT_DETAILS,
+        B.DATE_CREATION_INQUIRY,
+        A.ANSWER_DATE
+    FROM TBL_ADMIN_QNA A
+    RIGHT JOIN TBL_ADMIN_INQUIRIES B ON (A.INQUIRIES_CODE = B.INQUIRIES_CODE)
+        <if test="searchValue != null and searchValue != ''">
+            WHERE   MEMBER_ID LIKE '%' || #{ searchValue } || '%'
+        </if>
+    ORDER BY DATE_CREATION_INQUIRY
+
+    </select>
+
     <!--  총 페이지 갯수  -->
     <select id="selectTotalPage">
         SELECT
@@ -103,7 +126,8 @@
         SELECT
             REPORT_CODE
         FROM TBL_FUNDING_REPORT
-        WHERE FUNDING_CODE =#{fundingCode}
+        WHERE FUNDING_CODE = #{fundingCode}
+        AND   REPORT_TITLE = #{reportTitle}
     </select>
     <!-- 판매자 코드 -->
     <select id="selectSellerCode">
@@ -144,11 +168,18 @@
 
 
     <!--  블랙리스트 등록  -->
-    <update id="insertBlackList">
-        UPDATE TBL_SELLER
-        SET NUMBER_REPORTED = NUMBER_REPORTED+1
-        WHERE SELLER_CODE = #{sellerCode}
-    </update>
+    <insert id="insertBlackList">
+        INSERT INTO TBL_BLACKLIST_LIST
+        VALUES
+        (
+         SEQ_BLACKLIST_LIST_CODE.nextval,
+         1,
+         #{blackListMemberCode},
+         DEFAULT,
+         '신고 누적 3회로 인한 블랙리스트 추가'
+        )
+
+    </insert>
 
     <insert id="">
         INSERT INTO TBL_BLACKLIST_LIST
