@@ -25,46 +25,55 @@
 
     <select id="selectNoticeList" resultMap="selectNoticeResultMap">
         SELECT
-            A.NOTICE_CODE,
-            A.NOTICE_TITLE,
-            A.NOTICE_CONTENT,
-            A.REGI_DATE,
-            A.ADMIN_CODE,
+            NOTICE_CODE,
+            NOTICE_TITLE,
+            NOTICE_CONTENT,
+            REGI_DATE,
+            ADMIN_CODE,
             ROWNUM
-        FROM TBL_NOTICE A
+        FROM (SELECT
+                A.NOTICE_CODE,
+                A.NOTICE_TITLE,
+                A.NOTICE_CONTENT,
+                A.REGI_DATE,
+                A.ADMIN_CODE,
+                ROWNUM
+            FROM TBL_NOTICE A
+            ORDER BY REGI_DATE ASC)
         <if test="searchValue != null and searchValue != ''">
             WHERE A.NOTICE_TITLE LIKE '%' || #{ searchValue } || '%'
         </if>
-        ORDER BY REGI_DATE ASC
+        ORDER BY ROWNUM ASC
         OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
 
     </select>
 
     <select id="selectOngoingEventList" resultMap="selectEventListResultMap">
         SELECT
-            EVENT_CODE,
-            EVENT_TITLE,
-            EVENT_CONTENT,
-            START_DATE,
-            END_DATE,
-            ADMIN_CODE,
-            ROWNUM
+        EVENT_CODE,
+        EVENT_TITLE,
+        EVENT_CONTENT,
+        START_DATE,
+        END_DATE,
+        ADMIN_CODE,
+        ROWNUM
         FROM(
-            SELECT
-                EVENT_CODE,
-                EVENT_TITLE,
-                EVENT_CONTENT,
-                START_DATE,
-                END_DATE,
-                ADMIN_CODE,
-                ROWNUM
-            FROM    TBL_EVENT )
+        SELECT
+        EVENT_CODE,
+        EVENT_TITLE,
+        EVENT_CONTENT,
+        START_DATE,
+        END_DATE,
+        ADMIN_CODE,
+        ROWNUM
+        FROM    TBL_EVENT
+        ORDER BY START_DATE ASC)
         WHERE START_DATE &lt; SYSDATE
         AND   END_DATE &gt; SYSDATE
         <if test="searchValue != null and searchValue != ''">
             AND EVENT_TITLE LIKE '%' || #{ searchValue } || '%'
         </if>
-        ORDER BY START_DATE ASC
+        ORDER BY ROWNUM ASC
         OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
     </select>
 
@@ -86,12 +95,13 @@
                 END_DATE,
                 ADMIN_CODE,
                 ROWNUM
-            FROM    TBL_EVENT )
+            FROM    TBL_EVENT
+            ORDER BY START_DATE ASC)
         WHERE END_DATE &lt; SYSDATE
         <if test="searchValue != null and searchValue != ''">
             AND EVENT_TITLE LIKE '%' || #{ searchValue } || '%'
         </if>
-        ORDER BY START_DATE ASC
+        ORDER BY ROWNUM ASC
         OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
     </select>
 
@@ -101,8 +111,8 @@
         VALUES
         (
          SEQ_NOTICE_CODE.nextval,
-         #{noticeTitle},
-         #{noticeContent},
+         #{ noticeTitle},
+         #{ noticeContent},
          DEFAULT,
          5
         )

@@ -143,9 +143,11 @@ public class ReportController {
     // 1:1 문의 답변
     @PostMapping("customerInquiry")
     @ResponseBody
-    public String userAnswerRegist(@RequestBody UserAnswerRegistDTO userAnswer){
+    public String userAnswerRegist(@RequestBody UserAnswerRegistDTO inquiry){
 
-        String message = reportServiceImpl.userAnswerRegist(userAnswer);
+        System.out.println("inquiry = " + inquiry);
+        
+        String message = reportServiceImpl.userAnswerRegist(inquiry);
 
         return message;
     }

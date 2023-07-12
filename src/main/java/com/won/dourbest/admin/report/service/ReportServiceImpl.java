@@ -148,7 +148,7 @@ public class ReportServiceImpl implements ReportService{
         // 1:1 문의사항 코드
         int inquriesCode;
 
-        inquriesCode = userAnswer.getChoiceValue();
+        inquriesCode = userAnswer.getInquiriesCode();
 
 
         result = mapper.insertQNARegist(userAnswer);

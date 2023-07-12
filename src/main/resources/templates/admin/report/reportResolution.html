@@ -76,14 +76,11 @@
                         <div id="reportSort4" class="SortationList">
                             신고 제목
                         </div>
-                        <div id="reportSort5" class="SortationList">
+                        <div id="reportSort50" class="SortationList">
                             신고 날짜
                         </div>
                         <div id="reportSort6" class="SortationList">
                             신고 제재 횟수
-                        </div>
-                        <div id="reportSort7" class="SortationList">
-                            답변 여부
                         </div>
                     </div>
 
@@ -97,7 +94,7 @@
                         <div th:text="${reportDetails.getReportTitle()}" id="reportLine4" class="choiceValue"></div>
                         <div th:text="${#dates.format(reportDetails.getReport_date(), 'yyyy/MM/dd')}" id="reportLine5"></div>
                         <div th:text="${reportDetails.getNumberReported()}"  id="reportLine6"></div>
-                        <div th:text="${reportDetails.getAnswersStatus()}" id="reportLine7"></div>
+<!--                        <div th:text="${reportDetails.getAnswersStatus()}" id="reportLine7"></div>-->
                         <div style="display: none" th:text="${reportDetails.getFundingCode()}" id="reportLine8"></div>
                         <div style="display: none" th:text="${reportDetails.getReportContent()}" id="reportLine9"></div>
                     </div>

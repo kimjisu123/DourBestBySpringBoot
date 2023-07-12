@@ -193,6 +193,7 @@
         WHERE  REPORT_CODE = #{reportCode}
     </update>
 
+    <!--  문의사항 답변  -->
     <insert id="insertQNARegist">
         INSERT INTO TBL_ADMIN_QNA
         VALUES
@@ -201,12 +202,16 @@
          #{answerContent},
          DEFAULT,
          1,
-         #{choiceValue}
+         #{InquiriesCode}
         )
     </insert>
+
+
     <update id="updateInquiries">
         UPDATE TBL_ADMIN_INQUIRIES
         SET WHETHER_ANSWER = 'Y'
         WHERE INQUIRIES_CODE = #{inquriesCode}
     </update>
+
+
 </mapper>

@@ -10,16 +10,13 @@
     <div class="menu">
 
         <!-- 사이드 메뉴-->
-
-
-
         <div id="sideMenuBar">
             <!-- 사이드 메뉴 항목 -->
             <div id="sideMenuContainer">
                 <div th:onclick="|location.href='@{/admin/admin}'|" id="sidebutton1" class="sideMenuButton">
                     계정 관리
                 </div>
-                <div th:onclick="|location.href='@{/admin/willopen}'|" id="sidebuttonMain" class="sideMenuButton">
+                <div th:onclick="|location.href='@{/admin/applied}'|" id="sidebuttonMain" class="sideMenuButton">
                     펀딩 목록 관리
                 </div>
                 <div th:onclick="|location.href='@{/admin/allPrice}'|" id="sidebutton3" class="sideMenuButton">
@@ -35,16 +32,10 @@
                     쿠폰 관리
                 </div>
             </div>
-
-
-
         </div>
         <!-- 메인 메뉴 -->
         <section>
             <div id="backgroundpage">
-
-
-
                 <!-- 메인 메뉴 항목-->
                 <div id="mainMenuContainer">
                     <div th:onclick="|location.href='@{/admin/applied}'|" id="mainMenuButton1" class="FundingMenuButton">
@@ -64,62 +55,63 @@
                     </div>
                 </div>
 
-
-
-                <!-- 펀딩 제목 검색 버튼 -->
+                <!-- 아이디 검색 버튼 -->
                 <div class="memberIDSearchContainer">
                     <div id="memberID" class="memberIDButton">
                         제목
                     </div>
                     <input type="hidden" name="currentPage" value="1">
 
-                    <form method="get", action="/admin/finished">
-                        <input type="search" placeholder="검색하실 펀딩의 이름을 입력해주세요" id="inputID" class="memberIDButton" name="searchValue">
+                    <form method="get", action="/admin/finshedEvent">
+                        <input type="search" placeholder="검색하실 이벤트의 제목을 입력해주세요" id="inputID" class="memberIDButton" name="searchValue">
                         <input type="submit"  id="searchButton" class="memberIDButton" value="검색"/>
                     </form>
                 </div>
-
-
                 <!-- 조회 결과 페이지 -->
                 <div class="listPage">
+
                     <div class="SortationContainer">
-                        <div id="SorFund1" class="SortationList">
-                            아이디
+                        <div id="eventSortation1" class="SortationList">
+                            구분
                         </div>
-                        <div id="SorFund2" class="SortationList">
-                            이메일
+                        <div id="eventSortation2" class="SortationList">
+                            제목
                         </div>
-                        <div id="SorFund3" class="SortationList">
-                            펀딩 제목
+                        <div id="eventSortation3" class="SortationList">
+                            시작 일자
                         </div>
-                        <div id="SorFund4" class="SortationList">
-                            오픈 예정일
+                        <div id="eventSortation4" class="SortationList">
+                            종료 일자
                         </div>
-                        <div id="SorFund5" class="SortationList">
-                            종료 날짜
+                        <div id="eventSortation5" class="SortationList">
+                            작성한 관리자 코드
                         </div>
-                    </div>
-                    <div th:each="finishedFunding : ${finishedFundingList}" class="table">
-                        <input type="checkbox" class="fundcheckbox" name="my_checkbox" value="1">
-                        <div th:text="${finishedFunding.getMemberId()}" id="adminFund1"></div>
-                        <div th:text="${finishedFunding.getMemberEmail()}" id="adminFund2"></div>
-                        <div th:text="${finishedFunding.getFundingTitle()}" id="adminFund3"></div>
-                        <div th:text="${#dates.format(finishedFunding.getStartDate(), 'yyyy/MM/dd')}" id="adminFund4"></div>
-                        <div th:text="${#dates.format(finishedFunding.getEndDate(), 'yyyy/MM/dd')}" id="adminFund5"></div>
                     </div>
 
+
+
+
+                    <div th:each="finshedEvent : ${finshedEventList}" class="table">
+                        <input type="checkbox" class="fundcheckbox" name="my_checkbox" value="1">
+                        <div th:text="${finshedEvent.getRowNum()}" id="eventLine1"></div>
+                        <div th:text="${finshedEvent.getEventTitle()}" id="eventLine2" class="clickTitle"></div>
+                        <div th:text="${#dates.format(finshedEvent.getStartDate(), 'yyyy/MM/dd')}" id="eventLine3"></div>
+                        <div th:text="${#dates.format(finshedEvent.getEndDate(), 'yyyy/MM/dd')}" id="eventLine4"></div>
+                        <div th:text="${finshedEvent.getAdminCode()}" id="eventLine5"></div>
+                        <div style="display: none" th:text="${finshedEvent.getEventContent()}" id="eventLine6"></div>
+                    </div>
                     <!-- 페이지 처리 -->
                     <div class="board_page" align="center">
                         <!-- 맨 앞으로 이동 버튼 th:disabled로 인해 현재 페이지가 1페이지인 경우 비활성화 한다.-->
                         <a class="bt first"
-                           th:onclick="'location.href=\'/admin/finished?currentPage='+ @{${selectCriteria.startPage}} + '\''"
+                           th:onclick="'location.href=\'/admin/finshedEvent?currentPage='+ @{${selectCriteria.startPage}} + '\''"
                            th:disabled="${selectCriteria.pageNo == 1}"
                         >
                             <<
                         </a>
                         <!-- 이전 페이지 버튼 th:disabled로 인해 현재 페이지가 1페이지인 경우 비활성화 한다.-->
                         <a  class="bt prev"
-                            th:onclick="'location.href=\'/admin/finished?currentPage='+ @{${selectCriteria.pageNo - 1}} + '\''"
+                            th:onclick="'location.href=\'/admin/finshedEvent?currentPage='+ @{${selectCriteria.pageNo - 1}} + '\''"
                             th:disabled="${selectCriteria.pageNo == 1}"
                         >
                             <
@@ -128,113 +120,81 @@
                         <th:block th:each="page : ${#numbers.sequence(selectCriteria.startPage, selectCriteria.endPage)}">
                             <a class="num"
                                     th:text="${ page }"
-                                    th:onclick="'location.href=\'/admin/finished?currentPage='+ @{${page}} + '\''"
+                                    th:onclick="'location.href=\'/admin/finshedEvent?currentPage='+ @{${page}} + '\''"
                                     th:disabled="${ selectCriteria.pageNo eq page }">
                             </a>
                         </th:block>
 
                         <!-- 다음 페이지 버튼 th:disabled로 인해 현재 페이지가 마지막 페이지인 경우 비활성화 한다-->
                         <a class="bt next"
-                           th:onclick="'location.href=\'/admin/finished?currentPage='+ @{${selectCriteria.pageNo + 1}} + '\''"
+                           th:onclick="'location.href=\'/admin/finshedEvent?currentPage='+ @{${selectCriteria.pageNo + 1}} + '\''"
                            th:disabled="${selectCriteria.pageNo == selectCriteria.maxPage}"
                         >
                             >
                         </a>
                         <!-- 마지막 페이지로 이동 버튼 th:disabled로 인해 현재  페이지가 마지막 페이지인 경우 비활성화 한다. -->
                         <a class="bt last"
-                           th:onclick="'location.href=\'/admin/finished?currentPage='+ @{${selectCriteria.maxPage}} + '\''"
+                           th:onclick="'location.href=\'/admin/finshedEvent?currentPage='+ @{${selectCriteria.maxPage}} + '\''"
                            th:disabled="${selectCriteria.pageNo == selectCriteria.maxPage}"
                         >
                             >>
                         </a>
                     </div>
+
                 </div>
             </div>
         </section>
     </div>
-    </div>
 
 
-
-
-
-
-    </section>
-
-
-    <div class="contactmodal">
-        <div class="contactmodal-container">
-            <div class="contactmodal-content">
-                <span class="close">&times;</span>
-                <h2 class="contactmodal-title">글 작성</h2>
-                <form class="mb-3 contact" name="contact" id="contact" method="post">
-                    <label for=""></label>
-                    <select name="contactCode" id="contactCode">
-                        <option value="">펀딩 반려</option>
-                    </select>
-                    <textarea class="col-auto form-control contactContents" type="text" id="" placeholder="펀딩 반려 사유를 입력해주세요." maxlength="3000"></textarea>
-                    <div class="file-container">
-                        <label for="contact-imgInput">
-                            <span><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#f35f4c}</style><path d="M149.1 64.8L138.7 96H64C28.7 96 0 124.7 0 160V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V160c0-35.3-28.7-64-64-64H373.3L362.9 64.8C356.4 45.2 338.1 32 317.4 32H194.6c-20.7 0-39 13.2-45.5 32.8zM256 192a96 96 0 1 1 0 192 96 96 0 1 1 0-192z"/></svg>사진 등록</span>
-                        </label>
-                        <input type="file" id="contact-imgInput" onchange="contactreadURL(this)">
-                        <div class="contact-imgdiv"></div>
-                    </div>
-                    <button class="" type="submit">제출</button>
-                </form>
+    <div class="modal">
+        <div class="xbtn"><div class="x">X</div></div>
+        <div class="innerBox">
+            <h1>이벤트 제목</h1>
+            <div class="reportTitle">
+                <div class="reportitle"></div>
+            </div>
+            <h3>이벤트 내용</h3>
+            <div class="inputText">
+                <div class="reportReason"></div>
+            </div>
+            <div class="modalbot">
             </div>
         </div>
     </div>
+
+
     <script>
-        const contactmodal = document.querySelector(".contactmodal");
-        const btn = document.querySelector(".contactBtn");
-        const $span = document.querySelector(".close");
+
+        $(".clickTitle").click(function(e) {
+            var $tableRow = $(this).closest('.table');
+            var title = $tableRow.find('#eventLine2').text();
+            var content = $tableRow.find('#eventLine6').text();
+
+            $('.reportitle').text(title);
+            $('.reportReason').text(content);
+
+            $('.modal').show();
+        });
 
 
-        btn.addEventListener('click', openContactModal);
-        $span.addEventListener('click', closeContactModal);
 
-        function openContactModal() {
-            contactmodal.style.display = "block";
-            contactmodal.animate([{opacity: 0}, {opacity: 1}], {duration: 300, fill: "forwards"});
+        window.onload = function() {
+
+            $('.modal').hide();
         }
 
-        function closeContactModal() {
-            contactmodal.animate([{opacity: 1}, {opacity: 0}], {duration: 300, fill: "forwards"}).onfinish = function() {
-                contactmodal.style.display = "none";
-                const $img = document.querySelector(".contact-imgdiv");
-                if($img.hasChildNodes()){
-                    $img.replaceChildren();
-                }
-            };
-        }
-    </script>
-    <script>
-        function contactreadURL(obj) {
+        $('.report').click(function() {
+            $('.modal').show();
+        })
 
-            let reader = new FileReader();
-            if(!obj.files.length) {
-                return;
-            }
-            reader.readAsDataURL(obj.files[0]);
-            reader.onload = function (e) {
-                let $div = $('<div>');
-                $($div).css('width','120px');
-                $($div).css('height','120px');
-                $($div).css('padding','10px 10px 0px 0px');
+        $('.x').click(function() {
+            $('.modal').hide();
+        })
 
-                $('.contact-imgdiv').append($div);
-
-                let img = $('<img />');
-                $(img).attr('src', e.target.result);
-                $(img).css('width','100%');
-                $(img).css('height','100%');
-                $($div).append(img);
-            }
-        }
+        $('.delete').click(function() {
+            $('.modal').hide();
+        })
     </script>
 
-
-    </div>
 </main>
-</html>

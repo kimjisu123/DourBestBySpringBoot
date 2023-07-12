@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <header th:fragment="adminHeader">
 <div class="wrapper">
   <!-- 헤더 -->
@@ -9,14 +9,14 @@
       <!-- 헤더 상단 메뉴 -->
       <div class="header-top">
         <div>
-          <img class="logo" th:src="@{/images/common/logo.jpeg}" alt="DourBest로고">
+          <img th:onclick="|location.href='@{/}'|" class="logo" th:src="@{/images/common/logo.jpeg}" alt="DourBest로고">
         </div>
         <div>
           <div>
             <img class="adminlogo" th:src="@{/images/admin/adminlogo.png}" alt="admin로고">
           </div>
           <div class="adminName">
-            관리자 님 환영합니다!
+            <div sec:authentication="principal.username"></div>
           </div>
         </div>
       </div>

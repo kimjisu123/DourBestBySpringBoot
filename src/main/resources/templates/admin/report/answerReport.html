@@ -82,9 +82,6 @@
                     <div id="reportSort6" class="SortationList">
                         신고 제재 횟수
                     </div>
-                    <div id="reportSort7" class="SortationList">
-                        답변 여부
-                    </div>
                 </div>
 
 
@@ -96,7 +93,7 @@
                     <div th:text="${response.getAnswerContent()}" id="reportLine4"></div>
                     <div th:text="${#dates.format(response.getAnswerDate(), 'yyyy/MM/dd')}" id="reportLine5"></div>
                     <div th:text="${response.getNumberReported()}"  id="reportLine6"></div>
-                    <div th:text="${response.getAnswersStatus()}" id="reportLine7" ></div>
+<!--                    <div th:text="${response.getAnswersStatus()}" id="reportLine7" ></div>-->
                 </div>
 
 

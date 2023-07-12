@@ -1029,6 +1029,13 @@
     text-align: center;
 
 }
+#reportSort50{
+    width:160px;
+    height: 20px;
+    text-align: center;
+
+}
+
 #reportSort6{
     width:130px;
     height: 20px;
@@ -1444,13 +1451,14 @@ small {
     width: 100px;
     height: 45px;
     margin-left: 25px;
-    margin-top: -25px;
+    margin-top: -5px;
     background-color: white;
     border: 1px solid black;
     border-radius: 5px;
     font-size: 14px;
     cursor: pointer;
     font-weight: bold;
+    float: right;
 }
 #fnishButton:hover{
     background-color: #E54945;
@@ -1458,4 +1466,67 @@ small {
     border: #E54945;
     font-weight: bold;
     border-radius: 5px;
+}
+
+#createCoupon{
+    width: 100px;
+    height: 45px;
+    margin-top: -5px;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    font-weight: bold;
+    float: right;
+}
+
+
+
+
+
+#inquirySoratation1{
+    width:195px;
+    height: 20px;
+    text-align: center;
+}
+#inquirySoratation2{
+    width:650px;
+    height: 20px;
+    text-align: center;
+}
+#inquirySoratation3{
+    width:200px;
+    height: 20px;
+    text-align: center;
+}
+#inquirySoratation4{
+    width:200px;
+    height: 20px;
+    text-align: center;
+}
+
+#inquiryLine1{
+    width:150px;
+    height: 20px;
+    text-align: center;
+    line-height: 50px;
+}
+#inquiryLine2{
+    width:650px;
+    height: 20px;
+    text-align: center;
+    line-height: 50px;
+}
+#inquiryLine3{
+    width:200px;
+    height: 20px;
+    text-align: center;
+    line-height: 50px;
+}
+#inquiryLine4{
+    width:200px;
+    height: 20px;
+    text-align: center;
+    line-height: 50px;
 }

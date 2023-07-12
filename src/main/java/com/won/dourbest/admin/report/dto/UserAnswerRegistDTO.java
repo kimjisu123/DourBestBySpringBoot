@@ -10,5 +10,5 @@ import lombok.*;
 public class UserAnswerRegistDTO {
 
     private String answerContent;
-    private int choiceValue;
+    private int InquiriesCode;
 }
