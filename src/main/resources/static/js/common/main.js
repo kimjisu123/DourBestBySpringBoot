@@ -12,5 +12,7 @@ list.forEach((item) => {
     });
 });
 
+
+
 // const likebt = document.querySelector('.like svg');
 // console.log(likebt);
