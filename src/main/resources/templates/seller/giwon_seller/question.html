@@ -35,10 +35,13 @@
             <div class="list1-3 text2" th:text="${ question.getMemberName()}">작성자</div>
             <div class="list1-4 text2" th:text="${ question.getInquiryDate()}">작성일</div>
         </div>
+        <div class="answer-container">
         <p class="answer" th:text="${ question.getInquiryContent()}">답변하는 내용</p>
+        </div>
         <div class="horizon"></div>
             </th:block>
     </div>
+
 
 
     </div>
@@ -86,6 +89,9 @@
 
         </button>
 
+        <div class="button">
+        <input type="button" id="writing" value="글쓰기">
+        </div>
 
 
 
@@ -139,10 +145,10 @@
 </section>
 <script>
 
-    window.onload($('.answer').hide(),
+    window.onload($('.answer-container').hide(),
         $('.list1').click(function () {
             // $('.answer').slideUp();
-            $(this).next('p').slideToggle();
+            $(this).next("div").slideToggle();
             // $('.answer').slideUp();
             // $(this).next('p').slideDown();
             // if((!this).next('p').click(function() {

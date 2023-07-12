@@ -27,5 +27,12 @@ public interface FundingListService {
 
     int selectTotalPage(Map<String, String> searchMap);
 
-
+    // 판매자 권한 등록
+    String insertSellerRegist(String memberId);
+    // 승인
+    String updateDeleteWillopen(String choiceValue);
+    // 반려
+    String Approval(String choiceValue);
+    // 삭제
+    String delete(String choiceValue);
 }

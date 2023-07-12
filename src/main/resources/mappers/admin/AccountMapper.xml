@@ -79,11 +79,11 @@
             B.SELLER_CODE
         FROM TBL_MEMBER A
         LEFT JOIN TBL_SELLER B ON A.MEMBER_CODE = B.MEMBER_CODE
-        <if test="searchId != null and searchId != ''">
-            WHERE   MEMBER_ID = #{ searchId }
+        <if test="searchValue != null and searchValue != ''">
+            WHERE   MEMBER_ID LIKE '%' || #{ searchValue } || '%'
         </if>
         ORDER BY A.MEMBER_CODE ASC
-        OFFSET #{startRow} -1 ROWS       FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
+        OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
 
     </select>
 
@@ -99,11 +99,9 @@
         FROM    TBL_MEMBER A
         LEFT JOIN    TBL_SELLER B ON (A.MEMBER_CODE = B.MEMBER_CODE)
         WHERE WITHDRAWAL_STATUS IN 'Y'
-        <where>
-            <if test="searchId != null and searchId != ''">
-                WHERE   MEMBER_ID = #{ searchId }
-            </if>
-        </where>
+        <if test="searchValue != null and searchValue != ''">
+            AND MEMBER_ID LIKE '%' || #{ searchValue } || '%'
+        </if>
         ORDER BY A.MEMBER_CODE ASC
         OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
     </select>
@@ -121,11 +119,9 @@
         JOIN TBL_ORDER B ON (A.MEMBER_CODE = B.MEMBER_CODE)
         JOIN TBL_CREDIT C ON (B.ORDER_CODE = C.ORDER_CODE)
         JOIN TBL_FUNDING_CREDITLIST D ON (C.PAYMENT_CODE = D.PAYMENT_CODE)
-        <where>
-            <if test="searchId != null and searchId != ''">
-                WHERE   MEMBER_ID = #{ searchId }
-            </if>
-        </where>
+        <if test="searchValue != null and searchValue != ''">
+            WHERE   MEMBER_ID LIKE '%' || #{ searchValue } || '%'
+        </if>
         ORDER BY A.MEMBER_CODE ASC
         OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
     </select>
@@ -142,11 +138,9 @@
         FROM TBL_MEMBER A
         JOIN TBL_MEMBERSHIP_CREDIT B ON (A.MEMBER_CODE = B.MEMBER_CODE)
         JOIN TBL_MEMBERSHIP_CREDITLIST C ON (B.MEMBERSHIP_CREDIT_CODE = C.MEMBERSHIP_CREDIT_CODE)
-        <where>
-            <if test="searchId != null and searchId != ''">
-                WHERE   MEMBER_ID = #{ searchId }
-            </if>
-        </where>
+        <if test="searchValue != null and searchValue != ''">
+            WHERE   MEMBER_ID LIKE '%' || #{ searchValue } || '%'
+        </if>
         ORDER BY A.MEMBER_CODE ASC
         OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
     </select>
@@ -162,11 +156,9 @@
             A.ADDITIONAL_DATE
         FROM TBL_BLACKLIST_LIST A
         JOIN TBL_MEMBER B ON (B.MEMBER_CODE = A.MEMBER_CODE)
-        <where>
-            <if test="searchId != null and searchId != ''">
-                WHERE   MEMBER_ID = #{ searchId }
-            </if>
-        </where>
+        <if test="searchValue != null and searchValue != ''">
+            WHERE   MEMBER_ID LIKE '%' || #{ searchValue } || '%'
+        </if>
         ORDER BY B.MEMBER_CODE ASC
         OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
     </select>
@@ -180,11 +172,9 @@
             ADMIN_PHONE,
             REGI_DATE
         FROM TBL_ADMIN
-<!--        <where>-->
-<!--            <if test="searchId != null and searchId != ''">-->
-<!--                WHERE   ADMIN_CODE = #{ searchId }-->
-<!--            </if>-->
-<!--        </where>-->
+        <if test="searchValue != null and searchValue != ''">
+            WHERE   ADMIN_NAME LIKE '%' || #{ searchValue } || '%'
+        </if>
         ORDER BY ADMIN_CODE ASC
         OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
     </select>
@@ -194,8 +184,8 @@
         SELECT
             count(*)
         FROM    TBL_MEMBER A
-        <if test="searchId != null and searchId != ''">
-            WHERE   MEMBER_ID = #{ searchId }
+        <if test="searchValue != null and searchValue != ''">
+            WHERE   MEMBER_ID = #{ searchValue }
         </if>
     </select>
 
@@ -264,5 +254,26 @@
                  LEFT JOIN TBL_ADMINAUTH TA ON TAA.ADMIN_AUTH_NAME = TA.ADMIN_AUTH_NAME
         WHERE A.ADMIN_EMAIL = #{ adminId }
     </select>
+
+    <!--  판매자 확인  -->
+    <select id="selectSeller">
+        SELECT
+            B.MEMBER_CODE
+        FROM   TBL_SELLER A
+        JOIN    TBL_MEMBER B ON (A.MEMBER_CODE = B.MEMBER_CODE)
+        WHERE MEMBER_ID = #{ memberId}
+    </select>
+
+    <!--  판매자 탈퇴(트랜잭션)  -->
+    <delete id="deleteSeller">
+        DELETE TBL_MEMBER_AUTHLIST
+        WHERE MEMBER_CODE = #{memberCode}
+    </delete>
+
+    <!--  회원 탈퇴  -->
+    <delete id="deleteMember">
+        DELETE TBL_MEMBER
+        WHERE  MEMBER_ID = #{ memberId }
+    </delete>
 
 </mapper>

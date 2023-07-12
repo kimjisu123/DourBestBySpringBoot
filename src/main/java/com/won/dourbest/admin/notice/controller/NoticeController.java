@@ -5,15 +5,18 @@ import com.won.dourbest.admin.common.Pagenation;
 import com.won.dourbest.admin.common.SelectCriteria;
 import com.won.dourbest.admin.notice.dto.AdminNoticeDTO;
 import com.won.dourbest.admin.notice.dto.AdminEventDTO;
+
+import com.won.dourbest.admin.notice.dto.EventRegistDTO;
+import com.won.dourbest.admin.notice.dto.NoticeRegistDTO;
 import com.won.dourbest.admin.notice.service.NoticeServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,10 +33,10 @@ public class NoticeController {
 
     // 공지사항 조회
     @GetMapping("/notice")
-    public ModelAndView notice(ModelAndView mv, @RequestParam(required = false) String searchId, @RequestParam(defaultValue = "1", value="currentPage") int pageNO){
+    public ModelAndView notice(ModelAndView mv, @RequestParam(required = false) String searchValue, @RequestParam(defaultValue = "1", value="currentPage") int pageNO){
 
         Map<String, String> searchMap = new HashMap<>();
-        searchMap.put("searchId", searchId);
+        searchMap.put("searchValue", searchValue);
 
         // 조건이 있을시에 보여지는 페이지의 갯수
         int totalPage = noticeServiceImpl.selectTotalPage(searchMap);
@@ -46,8 +49,8 @@ public class NoticeController {
 
         SelectCriteria selectCriteria = null;
 
-        if(searchId != "" && searchId != null){
-            selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button,searchId);  // 조건이 있을 경우
+        if(searchValue != "" && searchValue != null){
+            selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button,searchValue);  // 조건이 있을 경우
         } else {
             selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button);           // 조건이 없을 경우
         }
@@ -65,11 +68,11 @@ public class NoticeController {
     }
 
     @GetMapping("/ongoingEvent")
-    public ModelAndView ongoingEvent(ModelAndView mv, @RequestParam(required = false) String searchId, @RequestParam(defaultValue = "1", value="currentPage") int pageNO){
+    public ModelAndView ongoingEvent(ModelAndView mv, @RequestParam(required = false) String searchValue, @RequestParam(defaultValue = "1", value="currentPage") int pageNO){
 
 
         Map<String, String> searchMap = new HashMap<>();
-        searchMap.put("searchId", searchId);
+        searchMap.put("searchValue", searchValue);
 
         // 조건이 있을시에 보여지는 페이지의 갯수
         int totalPage = noticeServiceImpl.selectTotalPage(searchMap);
@@ -82,8 +85,8 @@ public class NoticeController {
 
         SelectCriteria selectCriteria = null;
 
-        if(searchId != "" && searchId != null){
-            selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button,searchId);  // 조건이 있을 경우
+        if(searchValue != "" && searchValue != null){
+            selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button,searchValue);  // 조건이 있을 경우
         } else {
             selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button);           // 조건이 없을 경우
         }
@@ -100,10 +103,10 @@ public class NoticeController {
     }
 
     @GetMapping("/finshedEvent")
-    public ModelAndView finshedEvent(ModelAndView mv, @RequestParam(required = false) String searchId, @RequestParam(defaultValue = "1", value="currentPage") int pageNO){
+    public ModelAndView finshedEvent(ModelAndView mv, @RequestParam(required = false) String searchValue, @RequestParam(defaultValue = "1", value="currentPage") int pageNO){
 
         Map<String, String> searchMap = new HashMap<>();
-        searchMap.put("searchId", searchId);
+        searchMap.put("searchValue", searchValue);
 
         // 조건이 있을시에 보여지는 페이지의 갯수
         int totalPage = noticeServiceImpl.selectTotalPage(searchMap);
@@ -116,8 +119,8 @@ public class NoticeController {
 
         SelectCriteria selectCriteria = null;
 
-        if(searchId != "" && searchId != null){
-            selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button,searchId);  // 조건이 있을 경우
+        if(searchValue != "" && searchValue != null){
+            selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button,searchValue);  // 조건이 있을 경우
         } else {
             selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button);           // 조건이 없을 경우
         }
@@ -130,6 +133,35 @@ public class NoticeController {
         mv.setViewName("admin/notice/finishedEvent");
 
         return mv;
+
+    }
+
+    @PostMapping("notice")
+    @ResponseBody
+    public String noticeRegist(@RequestBody NoticeRegistDTO notice){
+
+        String message = noticeServiceImpl.insertNotice(notice);
+
+        return "";
+    }
+
+    @PostMapping("event")
+    @ResponseBody
+    public String eventRegist(@RequestBody EventRegistDTO event){
+
+        String message = noticeServiceImpl.insertEvent(event);
+
+        return message;
+
+    }
+
+    @PostMapping("noticeDelete")
+    @ResponseBody
+    public String noticeDelete(@RequestParam String noticeTitle){
+
+        String message = noticeServiceImpl.deleteNotice(noticeTitle);
+
+        return message;
 
     }
 }

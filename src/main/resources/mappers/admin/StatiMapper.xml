@@ -25,11 +25,9 @@
                 JOIN TBL_SELLER B ON A.MEMBER_CODE = B.MEMBER_CODE
                 JOIN TBL_FUNDING C ON B.SELLER_CODE = C.SELLER_CODE
                 JOIN TBL_ORDER D ON C.FUNDING_CODE = D.FUNDING_CODE
-        <where>
-            <if test="searchId != null and searchId != ''">
-                WHERE   MEMBER_ID = #{ searchId }
-            </if>
-        </where>
+        <if test="searchValue != null and searchValue != ''">
+            WHERE  FUNDING_TITLE LIKE '%' || #{ searchValue } || '%'
+        </if>
         GROUP BY
             A.MEMBER_ID,
             A.MEMBER_EMAIL,
@@ -54,11 +52,9 @@
                  JOIN TBL_SELLER B ON A.MEMBER_CODE = B.MEMBER_CODE
                  JOIN TBL_FUNDING C ON B.SELLER_CODE = C.SELLER_CODE
                  JOIN TBL_ORDER D ON C.FUNDING_CODE = D.FUNDING_CODE
-        <where>
-            <if test="searchId != null and searchId != ''">
-                WHERE   MEMBER_ID = #{ searchId }
-            </if>
-        </where>
+        <if test="searchValue != null and searchValue != ''">
+            WHERE  FUNDING_TITLE LIKE '%' || #{ searchValue } || '%'
+        </if>
         GROUP BY
             A.MEMBER_ID,
             A.MEMBER_EMAIL,
@@ -80,11 +76,9 @@
                  JOIN TBL_SELLER B ON A.MEMBER_CODE = B.MEMBER_CODE
                  JOIN TBL_FUNDING C ON B.SELLER_CODE = C.SELLER_CODE
                  JOIN TBL_ORDER D ON C.FUNDING_CODE = D.FUNDING_CODE
-        <where>
-            <if test="searchId != null and searchId != ''">
-                WHERE   MEMBER_ID = #{ searchId }
-            </if>
-        </where>
+        <if test="searchValue != null and searchValue != ''">
+            WHERE  FUNDING_TITLE LIKE '%' || #{ searchValue } || '%'
+        </if>
         GROUP BY
             A.MEMBER_ID,
             A.MEMBER_EMAIL,
@@ -108,11 +102,9 @@
                  JOIN TBL_FUNDING C ON B.SELLER_CODE = C.SELLER_CODE
                  JOIN TBL_ORDER D ON C.FUNDING_CODE = D.FUNDING_CODE
         WHERE SUBSTR(D.ORDER_DATE, 1, 7) = SUBSTR(SYSDATE, 1, 7) -- 이번 달 기준으로 필터링
-        <where>
-            <if test="searchId != null and searchId != ''">
-                WHERE   MEMBER_ID = #{ searchId }
-            </if>
-        </where>
+        <if test="searchValue != null and searchValue != ''">
+            AND  FUNDING_TITLE LIKE '%' || #{ searchValue } || '%'
+        </if>
         GROUP BY
             A.MEMBER_ID,
             A.MEMBER_EMAIL,
@@ -137,11 +129,9 @@
                  JOIN TBL_FUNDING C ON B.SELLER_CODE = C.SELLER_CODE
                  JOIN TBL_ORDER D ON C.FUNDING_CODE = D.FUNDING_CODE
         WHERE SUBSTR(D.ORDER_DATE, 1, 7) = SUBSTR(SYSDATE, 1, 7) -- 이번 달 기준으로 필터링
-        <where>
-            <if test="searchId != null and searchId != ''">
-                WHERE   MEMBER_ID = #{ searchId }
-            </if>
-        </where>
+        <if test="searchValue != null and searchValue != ''">
+            AND  FUNDING_TITLE LIKE '%' || #{ searchValue } || '%'
+        </if>
         GROUP BY
             A.MEMBER_ID,
             A.MEMBER_EMAIL,
@@ -165,11 +155,9 @@
                  JOIN TBL_FUNDING C ON B.SELLER_CODE = C.SELLER_CODE
                  JOIN TBL_ORDER D ON C.FUNDING_CODE = D.FUNDING_CODE
         WHERE SUBSTR(D.ORDER_DATE, 1, 7) = SUBSTR(SYSDATE, 1, 7) -- 이번 달 기준으로 필터링
-        <where>
-            <if test="searchId != null and searchId != ''">
-                WHERE   MEMBER_ID = #{ searchId }
-            </if>
-        </where>
+        <if test="searchValue != null and searchValue != ''">
+            AND  FUNDING_TITLE LIKE '%' || #{ searchValue } || '%'
+        </if>
         GROUP BY
             A.MEMBER_ID,
             A.MEMBER_EMAIL,
@@ -185,8 +173,8 @@
         SELECT
         count(*)
         FROM    TBL_MEMBER A
-        <if test="searchId != null and searchId != ''">
-            WHERE   MEMBER_ID = #{ searchId }
+        <if test="searchValue != null and searchValue != ''">
+            WHERE   MEMBER_ID = #{ searchValue }
         </if>
     </select>
 

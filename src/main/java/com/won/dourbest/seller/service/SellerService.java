@@ -1,8 +1,11 @@
 package com.won.dourbest.seller.service;
 
+import com.won.dourbest.seller.dto.FundingCreditDTO;
 import com.won.dourbest.seller.dto.FundingOptionDTO;
+import com.won.dourbest.seller.dto.ProductDTO;
 import com.won.dourbest.seller.dto.SellerDTO;
 import com.won.dourbest.user.dto.*;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 import java.util.List;
 
@@ -13,25 +16,22 @@ public interface SellerService {
 
     FundingOptionDTO selectProductName();
 
-    MemberDTO selectMember();
+    MemberDTO selectMember(String memberId);
 
-    AddressDTO selectAddress();
+    AddressDTO selectAddress(String memberId);
 
     List<CouponDTO> selectCouponList();
 
-//    CouponDTO selectTotalCouponDC();
-
-//    CouponDTO registCoupon(String contact);
-
-    PointListDTO selectPoint();
-
     OrderDTO selectDelivery();
 
-    int registCoupon(String map);
+    ProductDTO registCoupon(String choiceCoupon, int optionCode);
+
+    ProductDTO selectProduct(int optionCode);
+
+    ProductDTO selectPoint(String id);
+
+    ProductDTO totalPrice(int totalPrice);
 
 
-
-
-//    CouponDTO selectTotalPrice();
-
+    OrderDTO insertOrder(OrderDTO order, String memberId);
 }

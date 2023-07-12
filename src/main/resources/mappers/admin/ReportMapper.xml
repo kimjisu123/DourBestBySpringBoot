@@ -8,11 +8,11 @@
         <id property="memberId" column="MEMBER_ID"/>
         <result property="memberEmail" column="MEMBER_EMAIL"/>
         <result property="fundingTitle" column="FUNDING_TITLE"/>
-        <result property="reportContent" column="REPORT_CONTENT"/>
+        <result property="reportTitle" column="REPORT_TITLE"/>
         <result property="report_date" column="REPORT_DATE"/>
         <result property="numberReported" column="NUMBER_REPORTED"/>
         <result property="answersStatus" column="ANSWERS_STATUS"/>
-
+        <result property="fundingCode" column="FUNDING_CODE"/>
     </resultMap>
 
 
@@ -27,28 +27,34 @@
 
     </resultMap>
 
+    <resultMap id="selectInquiresResultMap" type="com.won.dourbest.admin.report.dto.CustomerInquiryDTO">
+        <id property="contactSubject" column="CONTACT_SUBJECT"/>
+        <result property="contactDetails" column="CONTACT_DETAILS"/>
+        <result property="dateCreationInquiry" column="DATE_CREATION_INQUIRY"/>
+        <result property="answerDate" column="ANSWER_DATE"/>
+    </resultMap>
+
+
     <select id="selectReportDetails" resultMap="selectReportDetailsResultMap">
         SELECT
             D.MEMBER_ID,
             D.MEMBER_EMAIL,
             B.FUNDING_TITLE,
-            A.REPORT_CONTENT,
+            A.REPORT_TITLE,
             A.REPORT_DATE,
             C.NUMBER_REPORTED,
-            F.ANSWERS_STATUS
+            E.REPORT_RESP_STATUS,
+            B.FUNDING_CODE
         FROM    TBL_FUNDING_REPORT A
         JOIN    TBL_FUNDING B ON (A.FUNDING_CODE = B.FUNDING_CODE)
         JOIN    TBL_SELLER  C ON (B.SELLER_CODE = C.SELLER_CODE)
         JOIN    TBL_MEMBER D ON (C.MEMBER_CODE = D.MEMBER_CODE)
         JOIN    TBL_FUNDING_REPORT E ON (E.REPORT_CODE = A.REPORT_CODE)
-        JOIN    TBL_REPORT_RESPONSE F ON (E.REPORT_CODE = F.REPORT_CODE)
-        WHERE   ANSWERS_STATUS = 'N'
-        <where>
-            <if test="searchId != null and searchId != ''">
-                WHERE   MEMBER_ID = #{ searchId }
-            </if>
-        </where>
-        ORDER BY ADMIN_CODE ASC
+        WHERE   E.REPORT_RESP_STATUS = 'N'
+        <if test="searchValue != null and searchValue != ''">
+            AND   MEMBER_ID LIKE '%' || #{ searchValue } || '%'
+        </if>
+        ORDER BY REPORT_DATE ASC
         OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
     </select>
 
@@ -60,21 +66,34 @@
             F.ANSWERS_CONTENT,
             F.ANSWER_DATE,
             C.NUMBER_REPORTED,
-            F.ANSWERS_STATUS
+            E.REPORT_RESP_STATUS
         FROM    TBL_FUNDING_REPORT A
-                    JOIN    TBL_FUNDING B ON (A.FUNDING_CODE = B.FUNDING_CODE)
-                    JOIN    TBL_SELLER  C ON (B.SELLER_CODE = C.SELLER_CODE)
-                    JOIN    TBL_MEMBER D ON (C.MEMBER_CODE = D.MEMBER_CODE)
-                    JOIN    TBL_FUNDING_REPORT E ON (E.REPORT_CODE = A.REPORT_CODE)
-                    JOIN    TBL_REPORT_RESPONSE F ON (E.REPORT_CODE = F.REPORT_CODE)
-        WHERE   ANSWERS_STATUS = 'Y'
-        <where>
-            <if test="searchId != null and searchId != ''">
-                WHERE   MEMBER_ID = #{ searchId }
-            </if>
-        </where>
-        ORDER BY ADMIN_CODE ASC
+        JOIN    TBL_FUNDING B ON (A.FUNDING_CODE = B.FUNDING_CODE)
+        JOIN    TBL_SELLER  C ON (B.SELLER_CODE = C.SELLER_CODE)
+        JOIN    TBL_MEMBER D ON (C.MEMBER_CODE = D.MEMBER_CODE)
+        JOIN    TBL_FUNDING_REPORT E ON (E.REPORT_CODE = A.REPORT_CODE)
+        JOIN    TBL_REPORT_RESPONSE F ON (E.REPORT_CODE = F.REPORT_CODE)
+        WHERE   E.REPORT_RESP_STATUS = 'Y'
+        <if test="searchValue != null and searchValue != ''">
+            AND   MEMBER_ID LIKE '%' || #{ searchValue } || '%'
+        </if>
+        ORDER BY ANSWER_DATE DESC
         OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
+    </select>
+
+    <select id="selectInquiry" resultMap="selectInquiresResultMap">
+    SELECT
+        B.CONTACT_SUBJECT,
+        B.CONTACT_DETAILS,
+        B.DATE_CREATION_INQUIRY,
+        A.ANSWER_DATE
+    FROM TBL_ADMIN_QNA A
+    RIGHT JOIN TBL_ADMIN_INQUIRIES B ON (A.INQUIRIES_CODE = B.INQUIRIES_CODE)
+        <if test="searchValue != null and searchValue != ''">
+            WHERE   MEMBER_ID LIKE '%' || #{ searchValue } || '%'
+        </if>
+    ORDER BY DATE_CREATION_INQUIRY
+
     </select>
 
     <!--  총 페이지 갯수  -->
@@ -82,9 +101,103 @@
         SELECT
         count(*)
         FROM    TBL_MEMBER A
-        <if test="searchId != null and searchId != ''">
-            WHERE   MEMBER_ID = #{ searchId }
+        <if test="searchValue != null and searchValue != ''">
+            WHERE   MEMBER_ID = #{ searchValue }
         </if>
     </select>
+
+    <select id="selectMemberCode">
+        SELECT
+            MEMBER_CODE
+        FROM TBL_SELLER
+        WHERE SELLER_CODE = #{sellerCode}
+    </select>
+    
+    <!--  펀딩 코드  -->
+    <select id="selectfundCode">
+        SELECT
+            FUNDING_CODE
+        FROM TBL_FUNDING
+        WHERE FUNDING_TITLE = #{choiceValue}
+    </select>
+
+    <!--  펀딩 신고 코드  -->
+    <select id="selectReportCode">
+        SELECT
+            REPORT_CODE
+        FROM TBL_FUNDING_REPORT
+        WHERE FUNDING_CODE = #{fundingCode}
+        AND   REPORT_TITLE = #{reportTitle}
+    </select>
+    <!-- 판매자 코드 -->
+    <select id="selectSellerCode">
+        SELECT
+            SELLER_CODE
+        FROM TBL_FUNDING
+        WHERE FUNDING_CODE = #{fundCode}
+    </select>
+    
+    <!--  신고 답변  -->
+    <insert id="insertAnswer">
+    INSERT INTO TBL_REPORT_RESPONSE
+    VALUES
+    (
+    SEQ_REPORT_RESPONSE_CODE.NEXTVAL,
+    #{ answerRegist.answerContent },
+    DEFAULT,
+    1,
+    #{ reportCode }
+    )
+    </insert>
+
+    <!--  신고 당한 멤버 상태값 업데이트  -->
+    <update id="updateSeller">
+        UPDATE TBL_SELLER
+        SET NUMBER_REPORTED = NUMBER_REPORTED+1
+        WHERE SELLER_CODE = #{sellerCode}
+    </update>
+
+
+    <!--  누적 횟수 조회용  -->
+    <select id="selectReported">
+        SELECT
+            MEMBER_CODE
+        FROM    TBL_SELLER
+        WHERE   NUMBER_REPORTED = 3
+    </select>
+
+
+    <!--  블랙리스트 등록  -->
+    <insert id="insertBlackList">
+        INSERT INTO TBL_BLACKLIST_LIST
+        VALUES
+        (
+         SEQ_BLACKLIST_LIST_CODE.nextval,
+         1,
+         #{blackListMemberCode},
+         DEFAULT,
+         '신고 누적 3회로 인한 블랙리스트 추가'
+        )
+
+    </insert>
+
+    <insert id="">
+        INSERT INTO TBL_BLACKLIST_LIST
+        VALUES
+        (
+         SEQ_BLACKLIST_LIST_CODE.NEXTVAL,
+         1,
+         #{memberCode},
+         DEFAULT,
+         '신고 횟수 누적 3회로 인한 블랙리스트'
+        )
+    </insert>
+
+    <update id="updateReport">
+        UPDATE TBL_FUNDING_REPORT
+        SET    REPORT_RESP_STATUS = 'Y'
+        WHERE  REPORT_CODE = #{reportCode}
+    </update>
+
 
 </mapper>

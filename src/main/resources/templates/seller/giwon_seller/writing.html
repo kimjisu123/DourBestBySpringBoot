@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html th:replace="~{/layouts/base :: layout(~{::main}, ~{::link}, ~{::script})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link rel="stylesheet" th:href="@{/css/seller/giwon_seller/writing.css}">
+
+</head>
+<main>
+  <div class="main-container">
+    <div class="question-writing">
+      <h1 class="text1">상품Q&A작성하기</h1>
+    </div>
+
+    <div >
+    <div class="writing">
+      <textarea class="text2" id="writing-title" placeholder="제목을 입력해주세요" maxlength="1000"></textarea>
+      <select class="select-box">
+        <option disabled="disabled" selected="select-box">요청사항을 선택해주세요</option>
+        <option >배송관련문의</option>
+        <option >상품관련문의</option>
+      </select>
+      <textarea class="text2" id="writing-text" placeholder="문의하실 내용을 입력하세요" maxlength="1000" ></textarea>
+    </div>
+    <div class="text3">문의하신 내용에 대한 답변은 해당 상품의 상세페이지 또는 <span>'상품Q&A'</span>에서 확인하실수 있습니다.</div>
+
+    <div class="regist">
+      <button class="regist-button" onclick="location.href='/seller/question'">등록
+      </button>
+    </div>
+     </div>
+
+    <div class="text-box">
+      <h1 class="text2">상품 Q&A 작성 유의사항</h1>
+      <p class="text3">상품 Q&A는 상품 및 상품 구매 과정(배송, 반품/취소, 교환/변경)에 대해 판매자에게 문의하는 게시판입니다. <br>
+        상품 및 상품 구매 과정과 관련 없는 비방/욕설/명예훼손성 게시글 및 상품과 관련 없는 광고글 등 부적절한 게시글 등록 시 <br>글쓰기 제한 및 게시글이 삭제 조치 될 수 있습니다.
+        전화번호, 이메일 등 개인 정보가 포함된 글 작성이 <br> 필요한 경우 판매자만 볼 수 있도록 비밀글로 문의해 주시기 바랍니다.
+        상품에 대한 이용 후기는 리뷰에 남겨 주세요.</p>
+    </div>
+
+
+  </div>
+
+</main>
+
+<script>
+
+  $(".regist-button").click(function() {
+    const title = $("#writing-title").val();
+    const text = $("#writing-text").val();
+    const selectBox = $(".select-box").val()
+
+    $.ajax({
+      url: "/seller/writing",
+      type : "post",
+      data : { title : title , text : text , selectBox : selectBox},
+      success : function(data) {
+        alert("등록 완료")
+      },
+      error : function (error) {
+        alert(error);
+      }
+    });
+  });
+
+</script>
+
+<script>
+
+</script>
+
+</html>

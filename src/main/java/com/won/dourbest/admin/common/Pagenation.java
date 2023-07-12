@@ -8,7 +8,7 @@ public class Pagenation {
 
     }
 
-    public static SelectCriteria getSelectCriteria(int pageNo, int totalCount, int limit, int buttonAmount, String searchId){
+    public static SelectCriteria getSelectCriteria(int pageNo, int totalCount, int limit, int buttonAmount, String searchValue){
 
         /* pageNo와 totalCount가 넘어온 상태이기 때문에
          * 페이징처리에 필요한 나머지 변수만 선언을 한다.
@@ -47,7 +47,7 @@ public class Pagenation {
         System.out.println("startRow : " + startRow);
         System.out.println("endRow : " + endRow);
 
-        SelectCriteria selectCriteria = new SelectCriteria(pageNo, totalCount, limit, buttonAmount ,maxPage, startPage, endPage, startRow, endRow, searchId);
+        SelectCriteria selectCriteria = new SelectCriteria(pageNo, totalCount, limit, buttonAmount ,maxPage, startPage, endPage, startRow, endRow, searchValue);
 
         return selectCriteria;
     }

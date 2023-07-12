@@ -1,6 +1,81 @@
 <!DOCTYPE html>
-<html th:replace="~{/layouts/adminbase :: layout(~{::main}, ~{::link}, ~{::script})}"
+<html th:replace="~{/layouts/serviceCategoryBase :: layout(~{::main}, ~{::link}, ~{::script})}"
       xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link rel="stylesheet" th:href="@{/css/admin/admin.css}">
+    <link rel="stylesheet" th:href="@{/css/admin/serviceCategoryBase.css}">
 </head>
+<main>
+    <!-- 배너 -->
+    <div class="paymentBanner">
+
+        <div class="categoryName">
+            DourBest 고객센터
+        </div>
+
+        <input class="searchpayment" type="text" placeholder="결제의 궁금한 점을 검색해보세요.">
+
+    </div>
+
+
+
+
+    <!-- 메인 컨테이너 -->
+<div class="maincontainer">
+    <div>
+        <div class="categoryName2">
+            결제
+        </div>
+        <!-- 자주묻는 질문 컨테이너-->
+        <div>
+            <div th:each="payment : ${paymentList}">
+                <div id="Title1" class="menufirst"> <div th:text="${payment.getContactName()}"></div> </div>
+                <p id ="content1" class="content" th:text="${payment.getContactDetails()}"></p>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 사이드 바 -->
+    <div class="sidebar">
+        <div id="sidebarName">
+            카테고리
+        </div>
+        <div th:onclick="|location.href='@{/customerService/member}'|" id="sidebar1" class="sidebartag">
+            회원정보
+        </div>
+        <div th:onclick="|location.href='@{/customerService/payment}'|" id="sidebar2" class="sidebartag">
+            결제
+        </div>
+        <div th:onclick="|location.href='@{/customerService/coupon}'|" id="sidebar3" class="sidebartag">
+            쿠폰·포인트
+        </div>
+        <div th:onclick="|location.href='@{/customerService/delivery}'|" id="sidebar4" class="sidebartag">
+            상품/배송
+        </div>
+        <div th:onclick="|location.href='@{/customerService/membership}'|" id="sidebar5" class="sidebartag">
+            멤버십
+        </div>
+        <div th:onclick="|location.href='@{/customerService/exchange}'|" id="sidebar6" class="sidebartag">
+            교환·AS
+        </div>
+        <div th:onclick="|location.href='@{/customerService/refund}'|" id="sidebar7" class="sidebartag">
+            취소·환불·반품
+        </div>
+        <div th:onclick="|location.href='@{/customerService/useService}'|" id="sidebar8" class="sidebartag">
+            서비스 이용 문의
+        </div>
+    </div>
+
+</div>
+
+
+
+
+<script>
+
+
+</script>
+
+    </body>
+</main>
+</html>

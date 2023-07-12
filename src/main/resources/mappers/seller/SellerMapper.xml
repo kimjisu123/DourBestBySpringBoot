@@ -38,6 +38,7 @@
     <resultMap id="selectAddressResultMap" type="com.won.dourbest.user.dto.AddressDTO">
         <result property="baseAddress" column="BASE_ADDRESS"/>
         <result property="detailAddress" column="DETAIL_ADDRESS"/>
+        <association property="memberCode" resultMap="selectMemberResultMap"></association>
     </resultMap>
 
     <resultMap id="selectCouponListResultMap" type="com.won.dourbest.user.dto.UserCouponListDTO">
@@ -58,7 +59,7 @@
         <result property="couponDiscount" column="COUPON_DISCOUNT"/>
     </resultMap>
 
-    <resultMap id="selectPointResultMap" type="com.won.dourbest.user.dto.PointListDTO">
+    <resultMap id="selectPointResultMap" type="ProductDTO">
 
         <result property="pointDate" column="POINT_DATE"/>
         <result property="pointStatus" column="POINT_STATUS"/>
@@ -66,8 +67,35 @@
         <result property="pointTotalAmount" column="POINT_TOTAL_AMOUNT"/>
         <result property="pointCode" column="POINT_CODE"/>
         <result property="memberCode" column="MEMBER_CODE"/>
-
     </resultMap>
+
+    <resultMap id="selectProductResultMap" type="ProductDTO">
+
+        <result property="pointTotalAmount" column="POINT_TOTAL_AMOUNT"></result>
+    </resultMap>
+
+    <resultMap id="selectFundingResultMap" type="FundingDTO">
+
+        <result property="fundingCode" column="FUNDING_CODE"></result>
+    </resultMap>
+
+    <resultMap id="selectCouponCodeResultMap" type="CouponListDTO">
+        <result property="couponCode" column="COUPON_CODE"></result>
+    </resultMap>
+
+
+<!--    <resultMap id="selectOrderResultMap" type="OrderDTO">-->
+<!--        <result property="orderCode" column="ORDER_CODE"></result>-->
+<!--        <result property="orderCount" column="ORDER_COUNT"></result>-->
+<!--        <result property="orderPrice" column="ORDER_PRICE"></result>-->
+<!--        <result property="fundingCode" column="FUNDING_CODE"></result>-->
+<!--        <result property="memberCode" column="MEMBER_CODE"></result>-->
+<!--        <result property="orderRequest" column="ORDER_REQUEST"></result>-->
+<!--        <result property="orderDate" column="ORDER_DATE"></result>-->
+<!--        <result property="fundingOptionCode" column="FUNDING_OPTION_CODE"></result>-->
+<!--        <result property="deliveryCharge" column="DELIVERY_CHARGE"></result>-->
+<!--        <result property="couponlistCode" column="COUPONLIST_CODE"></result>-->
+<!--    </resultMap>-->
 
 
 
@@ -102,8 +130,8 @@
          ,0
         )
 
-
     </insert>
+
 
     <select id="selectProductName" resultMap="selectFundingOption">
         SELECT
@@ -118,17 +146,19 @@
 
         SELECT MEMBER_NAME,
                MEMBER_PHONE,
-               MEMBER_EMAIL
-        FROM TBL_MEMBER
-        WHERE MEMBER_CODE = 5
+               MEMBER_EMAIL,
+               MEMBER_CODE
+          FROM  TBL_MEMBER
+        WHERE MEMBER_ID = #{ memberId }
     </select>
 
     <select id="selectAddress" resultMap="selectAddressResultMap">
         SELECT
             BASE_ADDRESS
           , DETAIL_ADDRESS
-          FROM TBL_ADDRESS
-        WHERE MEMBER_CODE = 5
+          FROM TBL_ADDRESS A
+          JOIN TBL_MEMBER B on (B.MEMBER_CODE = A.MEMBER_CODE)
+        WHERE MEMBER_ID = #{ memberId }
     </select>
 
 
@@ -156,10 +186,11 @@
         SELECT
 
 
-         POINT_TOTAL_AMOUNT
+         A.POINT_TOTAL_AMOUNT
 
-          FROM TBL_POINTLIST
-        WHERE POINT_CODE = 3
+          FROM TBL_POINTLIST A
+          JOIN TBL_MEMBER B ON (A.MEMBER_CODE = B.MEMBER_CODE)
+         WHERE B.MEMBER_ID = #{ memberId }
 
 
     </select>
@@ -184,6 +215,76 @@
           FROM TBL_ORDER
          WHERE ORDER_CODE = 1
     </delete>
+
+    <select id="selectProduct" resultMap="selectProductResultMap">
+        SELECT
+            OPTION_NAME
+          , OPTION_PRICE
+          , FILE_MODIFICATION_NAME
+          FROM TBL_FUNDING_OPTIONS A
+          JOIN TBL_FUNDING_FILE B on (B.FUNDING_CODE = A.FUNDING_CODE)
+         WHERE A.FUNDING_OPTION_CODE = ${ optionCode }
+          AND  B.FILE_TYPE = '메인'
+    </select>
+
+
+
+
+
+    <select id="selectfundingCode" resultMap="selectFundingResultMap">
+        SELECT
+            FUNDING_CODE
+          FROM TBL_FUNDING_OPTIONS
+         WHERE FUNDING_OPTION_CODE = #{ fundingOptionCode }
+    </select>
+
+    <select id="selectCouponCode" resultMap="selectCouponCodeResultMap">
+        SELECT
+            COUPONLIST_CODE
+         FROM TBL_COUPONLIST
+        WHERE MEMBER_CODE = #{ memberCode }
+    </select>
+
+    <insert id="insertOrder">
+        INSERT
+        INTO TBL_ORDER
+        (
+         ORDER_CODE
+         , ORDER_COUNT
+         , ORDER_PRICE
+         , FUNDING_CODE
+         , MEMBER_CODE
+         , ORDER_REQUEST
+         , ORDER_DATE
+         , FUNDING_OPTION_CODE
+         , DELIVERY_CHARGE
+         , COUPONLIST_CODE
+        )
+        VALUES
+        (
+           SEQ_ORDER_CODE.nextval
+         , 1
+         , #{ orderPrice}
+         , #{ fundingCode }
+         , #{ memberCode }
+         , #{ orderRequest}
+         , DEFAULT
+         , #{ fundingOptionCode }
+         , #{ deliveryCharge }
+         , #{ couponlistCode }
+        )
+        <selectKey keyProperty="orderCode" resultType="_int" order="AFTER">
+            SELECT
+                SEQ_ORDER_CODE.currval
+              FROM DUAL
+        </selectKey>
+    </insert>
+
+
+
+<!--    <select id="selectfundingCode" resultMap="selectFundingResultMap">-->
+
+<!--    </select>-->
 
 
 
