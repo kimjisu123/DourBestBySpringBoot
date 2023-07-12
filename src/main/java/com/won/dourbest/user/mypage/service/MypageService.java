@@ -1,6 +1,8 @@
 package com.won.dourbest.user.mypage.service;
 
+import com.won.dourbest.admin.dto.AdminInquiriesDTO;
 import com.won.dourbest.common.dto.SearchCriteria;
+import com.won.dourbest.seller.dto.SellerInquiryDTO;
 import com.won.dourbest.user.dto.*;
 
 import java.util.List;
@@ -20,6 +22,7 @@ public interface MypageService {
     public List<MemberReportListDTO> reportList(SearchCriteria searchCriteria, String userId);
 
     public List<PurchasedFundingListDTO> purchaseList(SearchCriteria searchCriteria, String userId);
+
     public List<MemberPointDTO> pointList(SearchCriteria searchCriteria, String userId);
 
     List<LikeFundingDTO> likeFundingList(SearchCriteria searchCriteria, String userId);
@@ -34,5 +37,10 @@ public interface MypageService {
 
     public int changeProfile(ProfileDTO profile);
 
+    public AdminInquiriesDTO QnaInqurireAnwser(int memberCode , int id);
+
+    public SellerInquiryDTO QnaSellerInquire(int memberCode , int id);
+
+    public MemberReportListDTO NotifyInquire(int memberCode , int id);
 
 }

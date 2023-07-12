@@ -13,18 +13,17 @@
     <div class="main-slider">
       <div class="swiper mySwiper">
         <div class="swiper-wrapper">
-          <div class="swiper-slide" th:each="slideImage , i : ${ slideImages }">
-            <img th:src="@{/fundingImg/} + ${ slideImage.getFilePath() }" >
-            <a href="">
-              <div>
-                <div class="slider-text">
-                  <p th:text="${ slideImage.getFundingTitle() }"></p>
-                  <p th:text="${ slideImage.getFundingSummary() }"></p>
+            <div class="swiper-slide" th:each=" slideImage  : ${ slideImages }">
+              <a th:href="|@{/funding/} + ${ slideImage.getFundingCode() }">
+              <img th:src="@{/fundingImg/} + ${ slideImage.getFilePath() }" >
+                <div>
+                  <div class="summary">
+                    <p  class="summary-title" th:text="${ slideImage.getFundingTitle() }"></p>
+                    <p th:text="${ slideImage.getFundingSummary() }"></p>
+                  </div>
                 </div>
-              </div>
-            </a>
-          </div>
-
+              </a>
+            </div>
         </div>
         <div class="swiper-pagination"></div>
       </div>
@@ -35,26 +34,16 @@
     <div class="list-container">
       <div class="list-wrpper">
         <h2>TOP 펀딩</h2>
-        <div class="item-cards">
-          <div class="item item-1">
-            <img th:src="@{/fundingImg/} + ${ topLikeFunding.get(0).getFilePath() }">
-            <a href="" class="card">
-              <div class="thumb" ></div>
+        <div class="item-cards"th:each="topLike , count : ${ topLikeFunding }">
+          <div class="item" th:classappend="${ count.first } == 1 ? 'item-1'">
+            <a th:href="|@{/funding/} + ${ topLike.getFundingCode() }|">
+              <div class="thumb" th:style="'background-image: url('+@{/fundingImg/} + ${ topLike.getFilePath() }+')'">
+<!--                <img th:src="@{/fundingImg/} + ${ topLikeFunding.get(0).getFilePath() }">-->
+              </div>
               <article>
-                <h1 th:text="${topLikeFunding.get(0).getFundingTitle()}"></h1>
-                <p th:text="${topLikeFunding.get(0).getFundingSummary()}"></p>
-              </article>
-            </a>
-
-          </div>
-          <div class="item" th:each=" topLike, stat : ${ topLikeFunding }">
-            <img th:src="@{/fundingImg/} + ${ topLike.getFilePath() }">
-            <a href="" class="card">
-              <div class="thumb"></div>
-              <article>
-                <h1 th:text="${ topLike.getFundingTitle() }"></h1>
-                <p th:text="${ topLike.getFundingSummary() }"></p>
-                <span>content2</span>
+                <h1 th:text="${topLike.fundingTitle}"></h1>
+                <p th:text="${topLike.fundingSummary}"></p>
+                <!--                <span>content1</span>-->
               </article>
             </a>
 
@@ -68,25 +57,28 @@
       <h2>배너 영역</h2>
       <div class="banner-inner">
         <h3 class="title">VIP 가입</h3>
-        <div class="desc">
-          <p>
-            VIP가입으로 무료배송의 혜택을 받으세요!
-          </p>
-          <a href="/" title="">VIP 가입하기</a>
-          <span class="small"></span>
-        </div>
+          <div class="desc">
+            <p>
+              VIP가입으로 무료배송의 혜택을 받으세요!
+            </p>
+            </p>
+            <a th:href="|@{/membership}|" title="">VIP 가입하기</a>
+            <span class="small"></span>
+          </div>
+
       </div>
     </div>
   </section>
   <section>
     <div class="funding">
-      <h2>OPEN 펀딩</h2>
+      <h2>오픈예정 펀딩</h2>
       <div class="swiper swiper2">
         <div class="swiper-wrapper">
           <div class="swiper-slide" th:each=" open : ${ openFundings }">
             <div class="item-wrapper" >
-              <a href="" class="item">
-                <div class="item-thumb"><img th:src="@{/fundingImg/} + ${ open.getFilePath() }" ></div>
+              <a th:href="|@{/funding/} + ${ open.getFundingCode() }" class="item">
+                <div class="item-thumb" th:style="'background-image: url('+@{/fundingImg/} + ${ open.getFilePath() }+')'">
+                </div>
                 <article>
                   <h1 th:text="${ open.getFundingTitle() }"></h1>
                   <p th:text="${ open.getFundingSummary() }"></p>
@@ -95,7 +87,6 @@
               </a>
             </div>
           </div>
-
         </div>
         <div class="swiper-button-prev"></div>
         <div class="swiper-button-next"></div>
@@ -115,13 +106,15 @@
   </section>
   <section>
     <div class="funding">
+      <h2>마감예정 펀딩</h2>
       <div class="swiper swiper2">
         <div class="swiper-wrapper">
           <div class="swiper-slide" th:each=" end : ${ endFundings }">
-
-            <div class="item">
-              <a href="" class="card">
-                <div class="item-thumb" ><img th:src="@{/fundingImg/} + ${ end.getFilePath() }" ></div>
+            <div class="item" >
+              <a th:href="|@{/funding/} + ${ end.getFundingCode() }" class="card">
+                <div class="item-thumb" th:style="'background-image: url('+@{/fundingImg/} + ${ end.getFilePath() }+')'">
+<!--                <img th:src="@{/fundingImg/} + ${ end.getFilePath() }" >-->
+            </div>
                 <article>
                   <h1 th:text="${ end.getFundingTitle() }"></h1>
                   <p th:text="${ end.getFundingSummary() }"></p>

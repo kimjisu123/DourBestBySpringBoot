@@ -1,8 +1,10 @@
 package com.won.dourbest.user.mypage.service;
 
+import com.won.dourbest.admin.dto.AdminInquiriesDTO;
 import com.won.dourbest.common.dto.CategoryDTO;
 import com.won.dourbest.common.dto.SearchCriteria;
 import com.won.dourbest.common.exception.user.CouponNotFoundException;
+import com.won.dourbest.seller.dto.SellerInquiryDTO;
 import com.won.dourbest.user.dto.*;
 import com.won.dourbest.user.mypage.repository.MypageCommonMapper;
 import com.won.dourbest.user.mypage.repository.MypageMapper;
@@ -111,6 +113,27 @@ public class MypageServiceImple implements MypageService{
     @Override
     public int changeProfile(ProfileDTO profile) {
         return mypageMapper.updateProfile(profile);
+    }
+
+//     문의사항 세부내역
+    @Override
+    @Transactional
+    public AdminInquiriesDTO QnaInqurireAnwser(int memberCode , int id) {
+
+
+        return  mypageMapper.QnaInqurireAnwser(memberCode, id);
+    }
+
+    @Override
+    @Transactional
+    public SellerInquiryDTO QnaSellerInquire(int memberCode, int id) {
+        return mypageMapper.QnaSellerInquire(memberCode,id);
+    }
+
+    @Override
+    @Transactional
+    public MemberReportListDTO NotifyInquire(int memberCode, int id) {
+        return mypageMapper.NotifyInquire(memberCode,id);
     }
 
 

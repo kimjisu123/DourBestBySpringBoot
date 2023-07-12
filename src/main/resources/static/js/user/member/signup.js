@@ -32,7 +32,7 @@ function sample6_execDaumPostcode() {
          function idCheck(){
 
             var memberId = $("#memberId").val(); // 변수 넣기
-            var idRegExp = /^[a-zA-Z0-9_-]{5,20}$/;   // 영어 대소문자 및 숫자 4~12자리를 입력한 아이디만 가능
+            var idRegExp = /^[a-zA-Z0-9_-]{6,20}$/;   // 영어 대소문자 및 숫자 4~12자리를 입력한 아이디만 가능
             const output = document.querySelector('#id-error');
             console.log(memberId);
 
@@ -154,7 +154,7 @@ function sample6_execDaumPostcode() {
         });
 
 
-   //
+   //이메일 체크
 
 function emailCheck(){
 
@@ -204,15 +204,68 @@ function emailCheck(){
 
 }
 
+// 최종 유효성 검사 한번 더 할 때
+
+//
+// $('#signSubmit').click(function (event){
+//     let pwdform = $('#changePwdForm');
+//     let pwd = $('#newPwd').val();
+//     let checkPw = $('#pwdCheck').val();
+//     let check_pwd =   /^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$/;
+//
+//
+//
+//
+//     // 비밀번호 공백 확인
+//     if ( pwd == "" || pwd == null) {
+//         alert ('비밀번호를 입력해주세요.');
+//         $('#newPwd').focus();
+//         event.preventDefault();
+//
+//     }
+//
+//     // 비밀번호 유효성 체크
+//     if (!check_pwd.test(pwd)) {
+//         alert ('영문 및 숫자, 특수문자를 포함한 비밀번호를 입력해주세요.');
+//         $('#newPwd').val("");
+//         $('#newPwd').focus();
+//         event.preventDefault();
+//
+//     }
+//
+//     // 비밀번호 일치성 체크
+//     if (pwd != checkPw) {
+//         alert('비밀번호가 일치하지 않습니다. 다시 입력해주세요.');
+//         $('#pwd').val("");
+//         $('#pwdCheck').val("");
+//         $('#pwd').focus();
+//         event.preventDefault();
+//
+//     }
+//
+// });
+//
 
 
-
-
-
-
-
-
-
+// 전화번호 유효성 확인
+// $('#phone').on('keyup', function () {
+//     const phone = $('#phone').val();
+//     const output = document.querySelector('#phone-error');
+//     const exptext =   /^(?=.*[0-9])[0-9]{8,11}$/;
+//
+//     if(exptext.test(phone)) {
+//
+//         console.log(pwd);
+//         $('#pwd-error').html('Matching').css('color', 'green');
+//         output.textContent = '형식이 맞습니다.'
+//
+//     } else {
+//
+//         $('#pwd-error').html('Not Matching').css('color', 'red');
+//         output.textContent ='정확하게 입력해주세요.'
+//         console.log(pwd);
+//     }
+// });
 
 
 

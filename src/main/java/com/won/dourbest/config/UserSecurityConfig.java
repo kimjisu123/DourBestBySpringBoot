@@ -49,7 +49,7 @@ public class UserSecurityConfig {
                 .loginProcessingUrl("/user/login")
                 //  .defaultSuccessUrl("/")
                 .successForwardUrl("/")
-                //  .failureForwardUrl("/")
+                  .failureForwardUrl("/user/login/error")
                 .and()
                 .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))

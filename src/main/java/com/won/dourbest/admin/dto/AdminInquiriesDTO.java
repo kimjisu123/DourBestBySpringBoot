@@ -1,6 +1,7 @@
 package com.won.dourbest.admin.dto;
 
 import com.won.dourbest.common.dto.CategoryDTO;
+import com.won.dourbest.user.dto.MemberDTO;
 import lombok.*;
 
 import java.util.Date;
@@ -12,6 +13,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AdminInquiriesDTO {
+
     private int inquiriesCode;
     private String contactSubject;
     private String contactDetails;
@@ -19,5 +21,7 @@ public class AdminInquiriesDTO {
     private char whetherAnswer;
     private int categoryCode;
 
-    private CategoryDTO categoryDTO;
+    private int memberCode;
+    private String answerContent;
+    private Date answerDate;
 }

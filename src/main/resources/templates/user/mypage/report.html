@@ -55,7 +55,7 @@
                     <div class="num" th:text="${report.rowNum}">0</div>
                     <div class="count" th:text="${report.categoryName}">카테고리</div>
                     <div class="title">
-                      <a th:text="${report.fundingTitle}" th:href="|@{/report/{id}(id = ${report.reportCode})}|">
+                      <a th:text="${report.fundingTitle}" th:href="|@{/mypage/modifiy-inquire/{id}(id = ${report.getReportCode()})}|">
                         제목
                       </a>
                     </div>

@@ -31,7 +31,7 @@ public interface MemberService extends UserDetailsService {
     int updateMember(Map<String, Object> map);
 
     //회원 탈퇴용 메소드
-    int quitMember(String memberId) ;
+    int quitMember(String memberId);
 
     int changePwd(MemberDTO member);
 
