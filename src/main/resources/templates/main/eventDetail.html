@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html th:replace="~{/layouts/noticeBase :: layout(~{::main}, ~{::link}, ~{::script})}"
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+  <link rel="stylesheet" th:href="@{/css/main/noticeDetail.css}">
+  <link rel="stylesheet" th:href="@{/css/main/noticeEvent.css}">
+  <!--  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>-->
+  <!--  <script src="../../resources/jquery-ui-1.13.2.custom/jquery-ui.min.js"></script>-->
+  <!--  <script src="../../resources/jquery-ui-1.13.2.custom/jquery-ui.min.css"></script>-->
+</head>
+<body>
+<div class="wrapper">
+  <main>
+    <section>
+      <div class="topbody">
+        <div class="box1"></div>
+        <div class="box2"></div>
+      </div>
+      <div>
+        <span class="notice">공지사항</span>
+        <span class="subnotice">다워베스트의 업데이트 정보 등 다양한 소식을 알려드려요.</span>
+      </div>
+      <div class="mainbody">
+        <div class="detailTitle" th:text="${event.eventTitle}"></div>
+        <div class="detailDate" th:text="|${#dates.format(event.startDate, 'yyyy/MM/dd')} ~ ${#dates.format(event.endDate, 'yyyy/MM/dd')}"></div>
+        <div class="horizon"></div>
+        <pre class="detailContent" th:text="${event.eventContent}"></pre>
+        <div class="horizon"></div>
+        <a href="/dourbest/announcement" class="list">목록으로</a>
+      </div>
+      <br><br><br><br><br><br>
+    </section>
+  </main>
+</div>
+<script src=""></script>
+
+</body>
+</html>

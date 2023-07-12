@@ -22,6 +22,7 @@
     <resultMap id="optionResultMap" type="OptionDTO">
         <id property="optionName" column="OPTION_NAME"/>
         <result property="optionContents" column="OPTION_CONTENTS"/>
+        <result property="optionCode" column="FUNDING_OPTION_CODE"/>
         <result property="optionPrice" column="OPTION_PRICE"/>
         <result property="limitQuantity" column="LIMIT_QUANTITY"/>
         <result property="optionColor" column="OPTION_COLOR"/>
@@ -61,6 +62,7 @@
         SELECT
                OPTION_NAME
              , OPTION_CONTENTS
+             , FUNDING_OPTION_CODE
              , OPTION_PRICE
              , LIMIT_QUANTITY
              , OPTION_COLOR
@@ -112,5 +114,84 @@
                CATEGORY_CODE
           FROM TBL_FUNDING
          WHERE FUNDING_CODE = #{ code }
+    </select>
+
+    <select id="selectId" parameterType="_int">
+        SELECT
+               MEMBER_ID
+          FROM TBL_MEMBER M
+          JOIN TBL_SELLER S ON(M.MEMBER_CODE = S.MEMBER_CODE)
+          JOIN TBL_FUNDING F ON(S.SELLER_CODE = F.SELLER_CODE)
+         WHERE F.FUNDING_CODE = #{ code }
+    </select>
+
+    <insert id="addLikes" parameterType="_int">
+        INSERT
+          INTO TBL_LIKE_FUNDING_LIST
+        (
+          FUNDING_CODE
+        , MEMBER_CODE
+        )
+        VALUES
+        (
+          #{ fundingCode }
+        , #{ memberCode }
+        )
+    </insert>
+
+    <delete id="deleteLikes" parameterType="_int">
+        DELETE
+          FROM TBL_LIKE_FUNDING_LIST
+         WHERE FUNDING_CODE = #{ fundingCode }
+           AND MEMBER_CODE = #{ memberCode }
+    </delete>
+    
+    <select id="selectLikes" parameterType="_int">
+        SELECT
+               COUNT(*)
+          FROM TBL_LIKE_FUNDING_LIST
+         WHERE FUNDING_CODE = #{ code }
+           AND MEMBER_CODE = #{ memberCode }
+    </select>
+
+    <insert id="insertReport" parameterType="HashMap">
+        INSERT
+          INTO TBL_FUNDING_REPORT
+        (
+          REPORT_CODE
+        , REPORT_CONTENT
+        , REPORT_DATE
+        , FUNDING_CODE
+        , MEMBER_CODE
+        , CATEGORY_CODE
+        , REPORT_RESP_STATUS
+        , REPORT_TITLE
+        )
+        VALUES
+        (
+          SEQ_FUNDING_REPORT_CODE.NEXTVAL
+        , #{content}
+        , DEFAULT
+        , #{fundingCode}
+        , #{memberCode}
+        , #{categoryCode}
+        , default
+        , #{title}
+        )
+    </insert>
+
+    <select id="selectCategory" parameterType="string">
+        SELECT
+               CATEGORY_CODE
+          FROM TBL_CATEGORY
+         WHERE CATEGORY_NAME = #{ category }
+    </select>
+
+    <select id="selectReport" parameterType="_int">
+        SELECT
+               COUNT(*)
+          FROM TBL_FUNDING_REPORT
+         WHERE FUNDING_CODE = #{ code }
+           AND MEMBER_CODE = #{ memberCode }
     </select>
 </mapper>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html th:replace="~{/layouts/base :: layout(~{::main}, ~{::link}, ~{::script})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link rel="stylesheet" th:href="@{/css/main/item-card.css}">
+  <link rel="stylesheet" th:href="@{/css/main/submenu.css}">
+  <link rel="stylesheet" th:href="@{/css/main/main.css}"/>
+</head>
+<main>
+  <!-- 슬라이드 부분 -->
+  <section>
+    <!-- Swiper -->
+    <div class="main-slider">
+      <div class="swiper mySwiper">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide" th:each="slide : ${open}">
+            <a th:href="@{/funding/{id}(id=${slide.fundingCode})}">
+              <div>
+                <div>
+                  <p th:each="${slide.fundingTitle}">Title 1</p>
+                  <p th:each="${slide.fundingSummary}">subTitle 1</p>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div class="swiper-pagination"></div>
+      </div>
+    </div>
+  </section>
+  <!-- 카테고리 (뷰티, 식품, 가전/기구, 도서, 패션, 온라인클래스)-->
+  <section>
+    <div class="submenu-container">
+      <ul class="flex-wrapper">
+        <li>
+          <a th:href="|@{/open}|">
+            <div class="cate-img">
+              <i class="fa-solid fa-table-cells-large fa-2x" style="color: #f35f4c;"></i>
+            </div>
+            <div class="cate-title">
+              <p>전체</p>
+            </div>
+          </a>
+        </li>
+        <li th:each="cate : ${category}">
+          <a th:href="|@{/open(searchType=${cate.categoryName})}|">
+            <div class="cate-img" th:utext="${cate.categoryIcon}">
+              <i class="fa-solid fa-table-cells-large fa-2x" style="color: #f35f4c;"></i>
+            </div>
+            <div class="cate-title">
+              <p th:text="${cate.categoryName}">전체</p>
+            </div>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </section>
+  <!-- 카테고리별 펀딩 리스트 -->
+  <section>
+    <!-- 검색별 조건 -->
+    <div class="cate-main">
+      <span th:if="${param.searchType == null}">전체</span>
+      <span th:unless="${param.searchType == null}" th:text="${param.searchType}">전체</span>
+      <div>
+        <ul class="order flex-wrapper">
+            <li><a th:href="|@{/open}${cri.makeQuery()}|">최신순</a></li>
+          <li><a th:href="|@{/open}${cri.makeQuery('view')}|">조회수 높은 순</a></li>
+          <li><a th:href="|@{/open}${cri.makeQuery('like')}|">좋아요 많은 순</a></li>
+        </ul>
+      </div>
+    </div>
+    <!-- 카테고리리스트 - 그리드 -->
+    <th:block th:unless="${!list.isEmpty()} or ${list.size()} > 0 ">
+
+      <p class="no-list"> 펀딩 내역이 없습니다. </p>
+
+    </th:block>
+
+    <th:block th:if="${!list.isEmpty()} or ${list.size()} > 0 ">
+      <div class="item-cards">
+        <div class="item" th:each="item :${list}">
+          <a th:href="@{/funding/{id}(id=${item.fundingCode})}" class="card">
+            <div class="thumb" th:style="'background-image: url('+@{/fundingImg/}+${item.filePath}+')'"></div>
+            <article>
+              <h1 th:text="${item.fundingTitle}">item1</h1>
+              <p th:text="${item.fundingSummary}">설명</p>
+              <span></span>
+            </article>
+          </a>
+        </div>
+      </div>
+      <!-- 페이징 -->
+      <div class="pagination">
+        <th:block th:if="${pagination.prev}">
+          <a th:href="|@{/open}${cri.makeQuery(pagination.startPage)}|"
+             class="bt first"><<</a>
+        </th:block>
+        <th:block th:if="${pagination.getCriteria().page > pagination.startPage}">
+          <a th:href="|@{/open}${cri.makeQuery(cri.getPage()-1)}|"
+             class="bt prev"><</a>
+        </th:block>
+
+        <th:block th:each="page : ${#numbers.sequence(pagination.startPage, pagination.endPage)}">
+          <a class="num" th:classappend="${page == pagination.getCriteria().page} ? 'active'"
+             th:text="${page}"
+             th:href="|@{/open}${cri.makeQuery(page)}|">
+          </a>
+        </th:block>
+
+        <a th:if="${pagination.getCriteria().page < pagination.endPage}"
+           th:href="|@{/open}${cri.makeQuery(cri.getPage()+1)}|"
+           class="bt next">></a>
+        <a th:if="${pagination.next}"
+           th:href="|@{/open}${cri.makeQuery(pagination.endPage)}|"
+           class="bt last">>></a>
+      </div>
+    </th:block>
+
+  </section>
+  <!-- Swiper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+  <!-- Initialize Swiper -->
+  <script th:src="@{/js/common/swiper.js}"></script>
+</main>
+</html>

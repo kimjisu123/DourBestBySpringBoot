@@ -27,6 +27,7 @@ public class OrderCreditDTO {
     private int deliveryNumber;
     private String memberName;
     private int memberPhone;
+    private int memberCode;
     private String BaseAddress;
     private String detailAddress;
     private int zipCode;

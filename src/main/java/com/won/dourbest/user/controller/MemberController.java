@@ -93,7 +93,6 @@ public class MemberController {
         map.put("address", address);
         service.registMember(map);
 
-
         // 회원가입이 성공하면 -> 회원에게 쿠폰을 insert 로 담아줘야한다.
 
         return "redirect:/category";

@@ -21,14 +21,17 @@ public class MainServiceImpl implements MainService{
   }
 
   @Override
-  public int totalCount(SearchCriteria searchCriteria) {
-    return mainMapper.listCount(searchCriteria);
+  public List<CategoryFundingDTO> openFundingList(SearchCriteria searchCriteria) {
+    return mainMapper.openFundingCate(searchCriteria);
+  }
+
+  @Override
+  public int totalCount(SearchCriteria searchCriteria, String name) {
+    return mainMapper.listCount(searchCriteria, name);
   }
 
   @Override
   public List<LikeFundingDTO> getSlideImages() {
-
-
     return mainMapper.getSlideImages();
   }
 
@@ -45,6 +48,16 @@ public class MainServiceImpl implements MainService{
   @Override
   public List<LikeFundingDTO> EndFundings() {
     return mainMapper.EndFundings();
+  }
+
+  @Override
+  public List<LikeFundingDTO> preOpenSlide() {
+    return mainMapper.preOpenSlide();
+  }
+
+  @Override
+  public List<LikeFundingDTO> openSlide() {
+    return mainMapper.openSlide();
   }
 
 }

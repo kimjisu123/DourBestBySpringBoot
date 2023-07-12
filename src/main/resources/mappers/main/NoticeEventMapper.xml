@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.won.dourbest.main.model.dao.NoticeEventMapper">
+
+    <resultMap id="noticeResultMap" type="com.won.dourbest.admin.dto.NoticeDTO">
+        <id property="noticeCode" column="NOTICE_CODE"/>
+        <result property="noticeTitle" column="NOTICE_TITLE"/>
+        <result property="noticeContent" column="NOTICE_CONTENT"/>
+        <result property="regiDate" column="REGI_DATE"/>
+        <result property="adminCode" column="ADMIN_CODE"/>
+    </resultMap>
+
+    <resultMap id="eventResultMap" type="com.won.dourbest.admin.dto.EventDTO">
+        <id property="eventCode" column="EVENT_CODE"/>
+        <result property="eventTitle" column="EVENT_TITLE"/>
+        <result property="eventContent" column="EVENT_CONTENT"/>
+        <result property="startDate" column="START_DATE"/>
+        <result property="endDate" column="END_DATE"/>
+        <result property="adminCode" column="ADMIN_CODE"/>
+    </resultMap>
+
+    <select id="selectNotice" resultMap="noticeResultMap">
+        SELECT
+               *
+          FROM TBL_NOTICE
+         ORDER BY REGI_DATE DESC
+    </select>
+
+    <select id="detailNotice" resultMap="noticeResultMap">
+        SELECT
+               *
+          FROM TBL_NOTICE
+         WHERE NOTICE_CODE = #{ code }
+    </select>
+
+    <select id="selectEvent" resultMap="eventResultMap">
+        SELECT * FROM TBL_EVENT <![CDATA[WHERE (SYSDATE - END_DATE) <= 0]]>
+    </select>
+
+    <select id="endEvent" resultMap="eventResultMap">
+        SELECT * FROM TBL_EVENT <![CDATA[WHERE (SYSDATE - END_DATE) > 0]]>
+    </select>
+
+    <select id="detailEvent" resultMap="eventResultMap">
+        SELECT
+            *
+        FROM TBL_EVENT
+        WHERE EVENT_CODE = #{ code }
+    </select>
+
+</mapper>

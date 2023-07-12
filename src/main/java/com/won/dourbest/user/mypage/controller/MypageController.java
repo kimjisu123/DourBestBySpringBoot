@@ -20,14 +20,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.File;
+import java.io.IOException;
 import java.security.Principal;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 @Slf4j
 @Controller
@@ -53,7 +53,7 @@ public class MypageController {
         Map<String, Object> mypageInfo = mypageService.myPageinfo(userId);
 
 
-        model.addAttribute("mypageInfo", mypageInfo.get("mypageMain"));
+        model.addAttribute("mypageInfo",(MypageMainDTO) mypageInfo.get("mypageMain"));
         model.addAttribute("delivery", mypageInfo.get("delivery"));
 
         return "user/mypage/mypage";
@@ -154,7 +154,7 @@ public class MypageController {
         //세션으로부터 받자
         String userId = member.getUsername();
 
-        Pagination pagination = new Pagination(criteria, mypageService.listTotalCount(criteria, userId, "like"));
+        Pagination pagination = new Pagination(criteria, mypageService.listTotalCount(criteria, userId, "purchase"));
 
         List<PurchasedFundingListDTO> list = mypageService.purchaseList(criteria, userId);
         log.info("list={}", list);
@@ -167,8 +167,42 @@ public class MypageController {
         return "user/mypage/purchase";
     }
 
+    @GetMapping("/review")
+    public String reviewList(@AuthenticationPrincipal MemberImpl member, @ModelAttribute("cri") SearchCriteria criteria, Model model) {
+
+        //세션으로부터 받자
+        String userId = member.getUsername();
+        MemberDTO memberDTO = memberService.findUser(userId).orElseThrow();
+
+        Pagination pagination = new Pagination(criteria, mypageService.listTotalCount(criteria, userId, "purchase"));
+
+        List<PurchasedFundingListDTO> list = mypageService.purchaseList(criteria, userId);
+        log.info("list={}", list);
+
+        model.addAttribute("memberCode", memberDTO.getMemberCode());
+        model.addAttribute("list", list);
+        model.addAttribute("pagination", pagination);
+
+        return "user/mypage/review";
+    }
 
 
+    @GetMapping("/point")
+    public String pointList(@AuthenticationPrincipal MemberImpl member, @ModelAttribute("cri") SearchCriteria criteria, Model model) {
+
+        //세션으로부터 받자
+        String userId = member.getUsername();
+
+        Pagination pagination = new Pagination(criteria, mypageService.listTotalCount(criteria, userId, "point"));
+
+        List<MemberPointDTO> list = mypageService.pointList(criteria, userId);
+        log.info("list={}", list);
+
+        model.addAttribute("list", list);
+        model.addAttribute("pagination", pagination);
+
+        return "user/mypage/point";
+    }
 
     @PostMapping(value = "/coupon/regist", produces = "application/json")
     @ResponseBody
@@ -199,7 +233,6 @@ public class MypageController {
 
         model.addAttribute("user", user);
 
-
         return "/user/mypage/checkMember";
 
     }
@@ -210,11 +243,9 @@ public class MypageController {
 
         model.addAttribute("user", user);
 
-
         return "/user/mypage/checkMemberPw";
 
     }
-
 
     @GetMapping("changeInfo")
     public String changeInfo(@AuthenticationPrincipal MemberImpl member, Model model) {
@@ -242,7 +273,6 @@ public class MypageController {
 //        log.info("MemberDTO : ",member.toString());
 //        log.info("AddressDTO : ",address.toString());
         memberService.updateMember(map);  //객체 담은 후 서비스로 전송
-
 
         return "redirect:/mypage";
 
@@ -275,10 +305,10 @@ public class MypageController {
 
         Map<String, Object> result = mypageService.OrderAndCreditInfo(user.getUsername(), id);
 
-
         model.addAttribute("order",(OrderFundingDTO) result.get("order"));
         model.addAttribute("credit",(OrderCreditDTO) result.get("credit"));
         model.addAttribute("contactCategory", result.get("contactCategory"));
+        model.addAttribute("reviewCount", result.get("reviewCount"));
 
         return "user/order/funding-detail";
     }
@@ -290,14 +320,13 @@ public class MypageController {
     }
 
 
-
-
     @PostMapping ("/changePwd")    //이동할 페이지
     public String changePwd(@AuthenticationPrincipal MemberImpl member, @RequestParam String pwd, @RequestParam String pwdCheck){
 
         MemberDTO member1 = new MemberDTO();
         MemberDTO findMember = memberService.findUser(member.getMemberId()).orElseThrow();
         member1.setMemberId(findMember.getMemberId());  // 기존 회원 id 불러오기 쿼리문필요
+
 
         // 두가지가 트루인걸 확인!
         if(pwd.equals(pwdCheck)){
@@ -307,8 +336,39 @@ public class MypageController {
 
         }
 
-
         return "user/mypage/changePwd";
     }
+
+    @PostMapping("/profile")
+    @ResponseBody
+    public void uploadProfile(MultipartFile profile, @AuthenticationPrincipal MemberImpl member){
+        String root = "C:\\dev\\fundingImg\\";
+        String profilePath = root + "profile";
+
+        System.out.println("id = " + member.getUsername());
+        System.out.println("profile = " + profile.getOriginalFilename());
+
+        File mkdir = new File(profilePath);
+        if(!mkdir.exists()) {
+            mkdir.mkdirs();
+        }
+
+        String originFileName = profile.getOriginalFilename();
+        String ext = originFileName.substring(originFileName.lastIndexOf("."));
+        String savedName = UUID.randomUUID().toString().replace("-","") + ext;
+
+        try {
+            profile.transferTo(new File(profilePath + "\\" + savedName));
+
+            mypageService.changeProfile(new ProfileDTO(member.getUsername(),savedName));
+
+        } catch (IOException e) {
+            new File(profilePath + "\\" + savedName).delete();
+        }
+
+    }
+
+
+
 
 }

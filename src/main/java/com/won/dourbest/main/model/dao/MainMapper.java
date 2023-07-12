@@ -13,7 +13,9 @@ public interface MainMapper {
 
   List<CategoryFundingDTO> fundingCategory(@Param("cri") SearchCriteria searchCriteria);
 
-  int listCount(@Param("cri") SearchCriteria searchCriteria);
+  List<CategoryFundingDTO> openFundingCate(@Param("cri") SearchCriteria searchCriteria);
+
+  int listCount(@Param("cri") SearchCriteria searchCriteria, @Param("name") String name);
 
   List<LikeFundingDTO> getSlideImages();
 
@@ -22,6 +24,11 @@ public interface MainMapper {
   List<LikeFundingDTO> OpenFundings();
 
   List<LikeFundingDTO> EndFundings();
+
+  List<LikeFundingDTO> preOpenSlide();
+
+  List<LikeFundingDTO> openSlide();
+
 
 
 }

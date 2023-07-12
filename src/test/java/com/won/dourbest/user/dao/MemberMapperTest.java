@@ -5,7 +5,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.xml.crypto.Data;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -25,7 +29,6 @@ class MemberMapperTest {
 
         Optional<MemberDTO> byMember = mapper.findByMember(userId);
         System.out.println("byMember = " + byMember);
-
     }
 
     @Test
@@ -45,6 +48,25 @@ class MemberMapperTest {
 
 
         System.out.println("byMember = " + byMember);
+
+    }
+
+    @Test
+    @Transactional
+    void fff() {
+
+        MemberDTO member = new MemberDTO();
+        member.setMemberId("asdfdfeef");
+        member.setMemberPwd("asdfasdf!!");
+        member.setMemberPhone("01010101010");
+        member.setMemberName("dndkdkdkdk");
+        member.setMemberEmail("dsfddd@dd.com");
+        Map<String, Object> map = new HashMap<>();
+        map.put("member",member);
+
+        mapper.registMember(map);
+
+        System.out.println("member.getMemberCode() = " + member.getMemberCode());
 
     }
 

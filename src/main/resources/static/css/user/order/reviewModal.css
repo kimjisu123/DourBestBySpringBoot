@@ -126,7 +126,7 @@
     top:-2px;
 }
 
-.reviewform button[type=submit], .contact button[type=submit]{
+.reviewform button[type=button], .contact button[type=button]{
     position: relative;
     top: 0;
     display: block;
@@ -144,11 +144,11 @@
     transition: all .15s ease-in;
 }
 
-.reviewform button[type=submit]:hover, .contact button[type=submit]:hover{
+.reviewform button[type=button]:hover, .contact button[type=button]:hover{
     top: -2px;
 }
 
-.contact select{
+.contact select, .contact-title{
     border: solid 1.5px #b4b4b4;
     border-radius: 5px;
     padding: 5px 10px;

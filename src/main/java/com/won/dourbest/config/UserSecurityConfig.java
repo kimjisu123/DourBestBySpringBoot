@@ -34,31 +34,31 @@ public class UserSecurityConfig {
         return provider;
     }
 
-//    @Bean
-//    public SecurityFilterChain userFilterChain(HttpSecurity http) throws Exception {
-//        return http.csrf().disable()
-//                .authenticationProvider(userAuthenticationProvider())
-//                .authorizeRequests()
-//                .antMatchers("/mypage/**").hasRole("USER")
-//                .antMatchers("/admin/**").hasRole("ADMIN")
+    @Bean
+    public SecurityFilterChain userFilterChain(HttpSecurity http) throws Exception {
+        return http.csrf().disable()
+                .authenticationProvider(userAuthenticationProvider())
+                .authorizeRequests()
+                .antMatchers("/mypage/**").hasRole("USER")
+                .antMatchers("/admin/**").hasRole("ADMIN")
 //                .antMatchers("/submit/**").hasRole("SELLER")
-//                .anyRequest().permitAll()
-//                .and()
-//                .formLogin()
-//                .loginPage("/user/login")
-//                .loginProcessingUrl("/user/login")
-//                //  .defaultSuccessUrl("/")
-//                .successForwardUrl("/")
-//                //  .failureForwardUrl("/")
-//                .and()
-//                .logout()
-//                .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
-//                .deleteCookies("JSESSIONID")  // 쿠키 제거
-//                .invalidateHttpSession(true)
-//                .logoutSuccessUrl("/")
-//                .and().build();
-//
-//    }
+                .anyRequest().permitAll()
+                .and()
+                .formLogin()
+                .loginPage("/user/login")
+                .loginProcessingUrl("/user/login")
+                //  .defaultSuccessUrl("/")
+                .successForwardUrl("/")
+                //  .failureForwardUrl("/")
+                .and()
+                .logout()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
+                .deleteCookies("JSESSIONID")  // 쿠키 제거
+                .invalidateHttpSession(true)
+                .logoutSuccessUrl("/")
+                .and().build();
+
+    }
 //
 //    //사용자 인증
 //    @Bean
