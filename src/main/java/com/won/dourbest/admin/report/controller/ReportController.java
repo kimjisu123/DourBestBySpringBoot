@@ -126,7 +126,6 @@ public class ReportController {
         mv.addObject("selectCriteria", selectCriteria);
         mv.addObject("customerInquiry", customerInquiry);
 
-        log.info("customerInquiry : " + customerInquiry);
 
         mv.setViewName("admin/report/customerInquiry");
 
@@ -139,7 +138,6 @@ public class ReportController {
     @ResponseBody
     public String answerRegist(@RequestBody AnswerRegistDTO answer){
 
-        System.out.println("answerRegist = " + answer);
         String message = reportServiceImpl.answerRegist(answer);
 
         return message;
