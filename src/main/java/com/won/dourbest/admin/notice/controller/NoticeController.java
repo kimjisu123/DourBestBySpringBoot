@@ -164,4 +164,23 @@ public class NoticeController {
         return message;
 
     }
+
+    @PostMapping("ongoingEventDelete")
+    @ResponseBody
+    public String ongoingEventDelete(@RequestParam String eventCode){
+
+        String message = noticeServiceImpl.ongoingEventDelete(eventCode);
+
+        return message;
+    }
+
+
+    @PostMapping("finishedEventDelete")
+    @ResponseBody
+    public String finishedEventDelete(@RequestParam String eventCode){
+
+        String message = noticeServiceImpl.finishedEventDelete(eventCode);
+
+        return message;
+    }
 }

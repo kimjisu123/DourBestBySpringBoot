@@ -263,9 +263,9 @@ public class FundController {
     // 삭제
     @PostMapping("delete")
     @ResponseBody
-    public String delete(@RequestParam String choiceValue){
+    public String delete(@RequestParam String fundingCode){
 
-        String message = fundingListService.delete(choiceValue);
+        String message = fundingListService.delete(fundingCode);
 
         return message;
     }
@@ -278,5 +278,26 @@ public class FundController {
         String message = fundingListService.insertFunding(apporved);
 
         return message;
+    }
+
+    @PostMapping("drop")
+    @ResponseBody
+    public String drop(@RequestBody ApprovedDTO approved){
+
+        String message = fundingListService.dropFunding(approved);
+
+        return message;
+
+    }
+
+    // 신청한 판매자 등록 반려
+    @PostMapping("sellerDrop")
+    @ResponseBody
+    public String sellerDrop(@RequestParam String memberId){
+
+        String message =  fundingListService.sellerDrop(memberId);
+
+        return message;
+
     }
 }

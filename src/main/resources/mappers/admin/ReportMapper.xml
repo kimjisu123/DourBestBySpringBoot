@@ -54,6 +54,7 @@
         JOIN    TBL_MEMBER D ON (C.MEMBER_CODE = D.MEMBER_CODE)
         JOIN    TBL_FUNDING_REPORT E ON (E.REPORT_CODE = A.REPORT_CODE)
         WHERE   E.REPORT_RESP_STATUS = 'N'
+        AND     C.NUMBER_REPORTED &lt; 3
         <if test="searchValue != null and searchValue != ''">
             AND   MEMBER_ID LIKE '%' || #{ searchValue } || '%'
         </if>

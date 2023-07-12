@@ -33,4 +33,11 @@ public interface NoticeMapper {
 
     // 공지사항 삭제
     int deleteNotice(String noticeTitle);
+
+
+    // 진행중인 이벤트 삭제
+    int ongoingEventDelete(String eventCode);
+
+    // 종료된 이벤트 글 삭제
+    int finishedEventDelete(String eventCode);
 }

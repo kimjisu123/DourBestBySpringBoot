@@ -39,4 +39,9 @@ public interface FundingListService {
 
 
     String insertFunding(ApprovedDTO approved);
+
+    // 펀딩 삭제
+    String dropFunding(ApprovedDTO appored);
+
+    String sellerDrop(String memberId);
 }

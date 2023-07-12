@@ -57,4 +57,11 @@ public interface AdminFundingMapper {
 
     // 펀딩 상태 리스트 추가
     int insertFunding(String fundingCode);
+
+
+    // 펀딩 상태 리스트 추가( 반려 )
+    int dropFunding(int fundingCode);
+
+    // 판매자 신청 반려
+    int sellerDrop(String memberCode);
 }

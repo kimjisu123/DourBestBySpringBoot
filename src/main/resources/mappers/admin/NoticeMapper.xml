@@ -42,6 +42,7 @@
 
     <select id="selectOngoingEventList" resultMap="selectEventListResultMap">
         SELECT
+            EVENT_CODE,
             EVENT_TITLE,
             EVENT_CONTENT,
             START_DATE,
@@ -50,8 +51,9 @@
             ROWNUM
         FROM(
             SELECT
+                EVENT_CODE,
                 EVENT_TITLE,
-            EVENT_CONTENT,
+                EVENT_CONTENT,
                 START_DATE,
                 END_DATE,
                 ADMIN_CODE,
@@ -139,4 +141,17 @@
         </if>
     </select>
 
+
+    <!-- 진행중인 이벤트 삭제  -->
+    <delete id="ongoingEventDelete">
+        DELETE TBL_EVENT
+        WHERE EVENT_CODE = #{eventCode}
+    </delete>
+
+
+    <!-- 종료된 이벤트 삭제  -->
+    <delete id="finishedEventDelete">
+        DELETE TBL_EVENT
+        WHERE EVENT_CODE = #{eventCode}
+    </delete>
 </mapper>

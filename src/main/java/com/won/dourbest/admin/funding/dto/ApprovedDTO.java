@@ -11,4 +11,5 @@ public class ApprovedDTO {
 
     private String memberId;
     private String fundingTitle;
+    private int fundingCode;
 }

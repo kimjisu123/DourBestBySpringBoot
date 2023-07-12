@@ -93,6 +93,7 @@
                         <div th:text="${#dates.format(finshedEvent.getEndDate(), 'yyyy/MM/dd')}" id="eventLine4"></div>
                         <div th:text="${finshedEvent.getAdminCode()}" id="eventLine5"></div>
                         <div style="display: none" th:text="${finshedEvent.getEventContent()}" id="eventLine6"></div>
+                        <div style="display: none" th:text="${finshedEvent.getEventCode()}" id="eventLine7" class="eventCode"></div>
                     </div>
                     <!-- 페이지 처리 -->
                     <div class="board_page" align="center">
@@ -112,11 +113,11 @@
                         </a>
                         <!-- 숫자 버튼 th:disabled로 인해 현재페이지랑 같은 숫자의 버튼을 비활성화 한다. -->
                         <th:block th:each="page : ${#numbers.sequence(selectCriteria.startPage, selectCriteria.endPage)}">
-                            <button class="num"
+                            <a class="num"
                                     th:text="${ page }"
                                     th:onclick="'location.href=\'/admin/finshedEvent?currentPage='+ @{${page}} + '\''"
                                     th:disabled="${ selectCriteria.pageNo eq page }">
-                            </button>
+                            </a>
                         </th:block>
 
                         <!-- 다음 페이지 버튼 th:disabled로 인해 현재 페이지가 마지막 페이지인 경우 비활성화 한다-->
@@ -133,6 +134,7 @@
                         >
                             >>
                         </a>
+                        <button type="button" id="fnishButton">삭제</button>
                     </div>
 
                 </div>
@@ -157,38 +159,60 @@
         </div>
     </div>
 
-
-    <script>
-
-        $(".clickTitle").click(function(e) {
-            var $tableRow = $(this).closest('.table');
-            var title = $tableRow.find('#eventLine2').text();
-            var content = $tableRow.find('#eventLine6').text();
-
-            $('.reportitle').text(title);
-            $('.reportReason').text(content);
-
-            $('.modal').show();
-        });
-
-
-
-        window.onload = function() {
-
-            $('.modal').hide();
-        }
-
-        $('.report').click(function() {
-            $('.modal').show();
-        })
-
-        $('.x').click(function() {
-            $('.modal').hide();
-        })
-
-        $('.delete').click(function() {
-            $('.modal').hide();
-        })
-    </script>
-
 </main>
+
+<script>
+
+
+    $('#fnishButton').click(function() {
+        $('.fundcheckbox').each(function () {
+            if ($(this).prop('checked')) {
+                let eventCode = $(this).closest('.table').find('.eventCode').text();
+                $.ajax({
+                    url: "/admin/finishedEventDelete",
+                    data: { eventCode: eventCode },
+                    type: "post",
+                    success: function (data) {
+                        alert(data);
+                        window.location.reload();
+                    },
+                    error: function (error) {
+                        alert("실패하셨습니다")
+                    }
+                });
+            }
+        });
+    });
+
+
+
+    $(".clickTitle").click(function(e) {
+        var $tableRow = $(this).closest('.table');
+        var title = $tableRow.find('#eventLine2').text();
+        var content = $tableRow.find('#eventLine6').text();
+
+        $('.reportitle').text(title);
+        $('.reportReason').text(content);
+
+        $('.modal').show();
+    });
+
+
+
+    window.onload = function() {
+
+        $('.modal').hide();
+    }
+
+    $('.report').click(function() {
+        $('.modal').show();
+    })
+
+    $('.x').click(function() {
+        $('.modal').hide();
+    })
+
+    $('.delete').click(function() {
+        $('.modal').hide();
+    })
+</script>

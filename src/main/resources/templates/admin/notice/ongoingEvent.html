@@ -91,6 +91,7 @@
                         <div th:text="${#dates.format(ongoingEvent.getEndDate(), 'yyyy/MM/dd')}" id="eventLine4"></div>
                         <div th:text="${ongoingEvent.getAdminCode()}" id="eventLine5"></div>
                         <div style="display: none" th:text="${ongoingEvent.getEventContent()}" id="eventLine6"></div>
+                        <div style="display: none" th:text="${ongoingEvent.getEventCode()}" id="eventLine7" class="eventCode"></div>
                     </div>
                     <!-- 페이지 처리 -->
                     <div class="board_page" align="center">
@@ -110,11 +111,11 @@
                         </a>
                         <!-- 숫자 버튼 th:disabled로 인해 현재페이지랑 같은 숫자의 버튼을 비활성화 한다. -->
                         <th:block th:each="page : ${#numbers.sequence(selectCriteria.startPage, selectCriteria.endPage)}">
-                            <button class="num"
+                            <a class="num"
                                     th:text="${ page }"
                                     th:onclick="'location.href=\'/admin/ongoingEvent?currentPage='+ @{${page}} + '\''"
                                     th:disabled="${ selectCriteria.pageNo eq page }">
-                            </button>
+                            </a>
                         </th:block>
 
                         <!-- 다음 페이지 버튼 th:disabled로 인해 현재 페이지가 마지막 페이지인 경우 비활성화 한다-->
@@ -132,6 +133,8 @@
                             >>
                         </a>
                         <button class="contactBtn" id="createadminAccount">등록</button>
+                        <button type="button" id="Withdrawal">삭제</button>
+
                     </div>
 
                 </div>
@@ -179,16 +182,19 @@
 
     <script>
 
-        $(".clickTitle").click(function(e) {
-            var $tableRow = $(this).closest('.table');
-            var title = $tableRow.find('#eventLine2').text();
-            var content = $tableRow.find('#eventLine6').text();
+    $(".clickTitle").click(function(e) {
+        var $tableRow = $(this).closest('.table');
+        var title = $tableRow.find('#eventLine2').text();
+        var content = $tableRow.find('#eventLine6').text();
 
-            $('.reportitle').text(title);
-            $('.reportReason').text(content);
+        $('.reportitle').text(title);
+        $('.reportReason').text(content);
 
-            $('.modal').show();
-        });
+        $('.modal').show();
+    });
+
+
+
 
     $('#EventStart').click(function(){
         let eventTitle = $('#eventTitle').val();
@@ -218,6 +224,27 @@
 
 
     })
+
+
+    $('#Withdrawal').click(function() {
+        $('.fundcheckbox').each(function () {
+            if ($(this).prop('checked')) {
+                let eventCode = $(this).closest('.table').find('.eventCode').text();
+                $.ajax({
+                    url: "/admin/ongoingEventDelete",
+                    data: { eventCode: eventCode },
+                    type: "post",
+                    success: function (data) {
+                        alert(data);
+                        window.location.reload();
+                    },
+                    error: function (error) {
+                        alert("실패하셨습니다")
+                    }
+                });
+            }
+        });
+    });
 
 
 

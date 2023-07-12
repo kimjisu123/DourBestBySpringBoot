@@ -1,180 +1,4 @@
 
-
-.board_write .title dl {
-    font-size: 0;
-}
-
-.board_write .info dl {
-    display: inline-block;
-    width: 50%;
-    vertical-align: middle;
-}
-
-.board_write .title dt,
-.board_write .title dd,
-.board_write .info dt,
-.board_write .info dd {
-    display: inline-block;
-    vertical-align: middle;
-    font-size: 1.4rem;
-}
-
-.board_write .title dt,
-.board_write .info dt {
-    width: 100px;
-}
-
-.board_write .title dd {
-    width: calc(100% - 100px);
-}
-
-.board_write .title input[type="text"],
-.board_write .info input[type="text"],
-.board_write .info input[type="password"] {
-    padding: 10px;
-    box-sizing: border-box;
-}
-
-.board_write .title input[type="text"] {
-    width: 80%;
-}
-
-.board_write .cont {
-    border-bottom: 1px solid #000;
-}
-
-.board_write .cont textarea {
-    display: block;
-    width: 100%;
-    height: 300px;
-    padding: 15px;
-    box-sizing: border-box;
-    border: 0;
-    resize: vertical;
-}
-
-
-
-@media (max-width: 1000px) {
-    .board_wrap {
-        width: 100%;
-        min-width: 320px;
-        padding: 0 30px;
-        box-sizing: border-box;
-    }
-
-    .board_list .num,
-    .board_list .writer,
-    .board_list .count {
-        display: none;
-    }
-
-    .board_list .date {
-        width: 40%;
-    }
-
-    .board_list .title {
-        text-indent: 10px;
-    }
-
-    .board_list .top .title {
-        text-indent: 0;
-    }
-
-    .board_page a {
-        width: 26px;
-        height: 26px;
-    }
-
-    .board_page a.bt {
-        padding-top: 7px;
-    }
-
-    .board_page a.num {
-        padding-top: 6px;
-    }
-
-    .board_view .info dl {
-        width: 50%;
-        padding: 0;
-    }
-
-    .board_view .info dl:nth-child(-n+2) {
-        margin-bottom: 5px;
-    }
-
-    .board_view .info dl::before {
-        display: none;
-    }
-
-    .board_view .info dl dt,
-    .board_view .info dl dd {
-        font-size: 1.2rem;
-    }
-
-    .board_write .info dl {
-        width: 49%;
-    }
-
-    .board_write .info dl:first-child {
-        margin-right: 2%;
-    }
-
-    .board_write .title dt,
-    .board_write .info dt {
-        display: none;
-    }
-
-    .board_write .title dd,
-    .board_write .info dd {
-        width: 100%;
-    }
-
-    .board_write .title input[type="text"],
-    .board_write .info input[type="text"],
-    .board_write .info input[type="password"] {
-        width: 100%;
-    }
-}
-
-
-.board_page {
-    margin-top: 30px;
-    text-align: center;
-    font-size: 0;
-}
-
-.board_page a {
-    display: inline-block;
-    width: 32px;
-    height: 32px;
-    box-sizing: border-box;
-    vertical-align: middle;
-    border: 1px solid #ddd;
-    border-left: 0;
-    line-height: 100%;
-}
-
-.board_page a.bt {
-    padding-top: 10px;
-    font-size: 1.2rem;
-    letter-spacing: -1px;
-}
-
-.board_page a.num {
-    padding-top: 9px;
-    font-size: 1.4rem;
-}
-
-.board_page a.num.on {
-    border-color: #000;
-    background: #000;
-    color: #fff;
-}
-
-.board_page a:first-child {
-    border-left: 1px solid #ddd;
-}
 .header-container{
     display: flex;
     justify-content: left;
@@ -481,7 +305,6 @@
 #createadminAccount{
     width: 100px;
     height: 45px;
-    margin-left: 177px;
     margin-top: -30px;
     background-color: white;
     border: 1px solid black;
@@ -505,14 +328,15 @@
 #accountWithdrawal{
     width: 100px;
     height: 45px;
-    margin-left: 302px;
-    margin-top: -30px;
+    margin-left: 0;
+    margin-top: -5px;
     background-color: white;
     border: 1px solid black;
     border-radius: 5px;
     font-size: 14px;
     cursor: pointer;
     font-weight: bold;
+    float: right;
 }
 #Withdrawal:hover{
     background-color: #E54945;
@@ -1040,90 +864,6 @@
 }
 
 
-
-.board_list_wrap{
-    margin-bottom: 30px;
-}
-
-.board_list {
-    width: 100%;
-    border-top: 2px solid #000;
-}
-
-.board_list > div {
-    border-bottom: 1px solid #ddd;
-    font-size: 0;
-}
-
-.board_list > div.top {
-    border-bottom: 1px solid #999;
-}
-
-.board_list > div:last-child {
-    border-bottom: 1px solid #000;
-}
-
-
-.board_list > div.top > div {
-    font-weight: 600;
-    font-size: 1.4rem ;
-}
-
-.board_list .num {
-    width: 5%;
-    text-align: center;
-    font-size: 1.4rem ;
-}
-
-.board_list .title {
-    width: 50%;
-    text-align: left;
-    font-size: 1.4rem ;
-}
-
-.title> a{
-    font-size: 1.4rem ;
-}
-
-
-.board_list .top .title {
-    text-align: center;
-}
-
-.board_list .date {
-    width: 30%;
-    font-size: 1.4rem ;
-
-}
-
-.board_list .count {
-    width: 15%;
-    font-size: 1rem ;
-}
-
-.board-content{
-    display: flex;
-    align-items: center;
-}
-
-.board-content > div{
-    text-align: center;
-    padding: 10px 0px;
-}
-
-
-
-
-@media (max-width: 880px) {
-
-    .board_list .num{
-        width: 10%;
-    }
-    .board_list .title{
-        width: 45%;
-    }
-}
-
 #noticeLine1{
     width:150px;
     height: 20px;
@@ -1567,4 +1307,155 @@ small {
     width: 600px;
     height: 80px;
     font-size: 25px;
+}
+
+
+
+
+
+
+.board_list_wrap{
+    margin-bottom: 30px;
+}
+
+.board_list {
+    width: 100%;
+    border-top: 2px solid #000;
+}
+
+.board_list > div {
+    border-bottom: 1px solid #ddd;
+    font-size: 0;
+}
+
+.board_list > div.top {
+    border-bottom: 1px solid #999;
+}
+
+.board_list > div:last-child {
+    border-bottom: 1px solid #000;
+}
+
+
+.board_list > div.top > div {
+    font-weight: 600;
+    font-size: 1.4rem ;
+}
+
+.board_list .num {
+    width: 5%;
+    text-align: center;
+    font-size: 1.4rem ;
+}
+
+.board_list .title {
+    width: 50%;
+    text-align: left;
+    font-size: 1.4rem ;
+}
+
+.title> a{
+    font-size: 1.4rem ;
+}
+
+
+.board_list .top .title {
+    text-align: center;
+}
+
+.board_list .date {
+    width: 30%;
+    font-size: 1.4rem ;
+
+}
+
+.board_list .count {
+    width: 15%;
+    font-size: 1rem ;
+}
+
+.board-content{
+    display: flex;
+    align-items: center;
+}
+
+.board-content > div{
+    text-align: center;
+    padding: 10px 0px;
+}
+
+
+
+
+.board_page {
+    margin-top: 30px;
+    text-align: center;
+    font-size: 0;
+}
+
+.board_page a {
+    display: inline-block;
+    padding: 10px;
+    box-sizing: border-box;
+    vertical-align: middle;
+    border: 1px solid #ddd;
+    border-left: 0;
+    line-height: 100%;
+}
+
+.board_page a.bt {
+    padding-top: 10px;
+    font-size: 1.2rem;
+    letter-spacing: -1px;
+}
+
+.board_page a.num {
+    padding-top: 9px;
+    font-size: 1.4rem;
+}
+
+.board_page a.num.on {
+    border-color: #000;
+    background: #000;
+    color: #fff;
+}
+
+.board_page a:first-child {
+    border-left: 1px solid #ddd;
+}
+
+
+@media (max-width: 880px) {
+
+    .board_list .num{
+        width: 10%;
+    }
+    .board_list .title{
+        width: 45%;
+    }
+}
+
+.buttonSet{
+    float: right;
+    margin-top: 25px;
+}
+
+#fnishButton{
+    width: 100px;
+    height: 45px;
+    margin-left: 25px;
+    margin-top: -25px;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    font-weight: bold;
+}
+#fnishButton:hover{
+    background-color: #E54945;
+    color: #FFD2C4;
+    border: #E54945;
+    font-weight: bold;
+    border-radius: 5px;
 }
