@@ -319,7 +319,7 @@
     transition: all .15s ease-in;
 }
 
-.contact button[type=submit]:hover{
+.contact button[type=button]:hover{
     top: -2px;
 }
 .contact select{
