@@ -94,7 +94,7 @@
                         <div>어떤점이 불편하셨나요?</div>
                         <pre class="underselect">DourBest를 이용하면서 불편했던점을 말씀해주시면 서비스 개선에 참고하도록 하겠습니다.</pre>
                     </div>
-                    <div class="selectbox">
+                    <div class="selectbox" name="selectbox">
                         <select>
                             <option value="basic" selected disabled hidden>탈퇴사유는 무엇인가요?</option>
                             <option value="beauti">재가입을 위해</option>
@@ -132,8 +132,9 @@
                         <h1>상기 탈퇴시 유의사항을 확인하였습니다.</h1>
                     </div>
                     <div class="button2">
-                        <form action="/mypage/quitMember" method="post">
-                            <button class="withdrawButton"  type="submit" id="button2">
+<!--                        <form action="/mypage/quitMember" method="post">-->
+                            <form action="/mypage/quitMember" method="post" onsubmit="return">
+                            <button class="withdrawButton"  type="button" id="button2">
                                     <span>
                                         탈퇴하기
                                     </span>
@@ -146,10 +147,29 @@
     </main>
     <script th:src="@{/js/user/member/check.js}"></script>
     <script>
-        if(!document.getElementById("delectCheck").checked()){
+        $(document).ready(function(){
+            $('#button2').click(function() {
 
-            alert("탈퇴하기에 체크해주세요.")
-        }
+                if(!delectCheck.checked){
+
+                    alert("동의에 체크를 해주세요.")
+
+                } else{
+
+                    var result = confirm('정말로 탈퇴하시겠습니까?');
+
+                    if(result) {
+                        //yes
+                        location.replace('/mypage/quitMemberS');
+
+                    } else {
+                        //no
+                        location.replace('/mypage/');
+                    }
+                }
+
+            });
+        });
     </script>
 </div>
 </html>

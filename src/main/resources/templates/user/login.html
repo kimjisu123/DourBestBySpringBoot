@@ -26,6 +26,9 @@
                                            autocomplete="off" value>
                                 </div>
                             </div>
+                            <!--로그인 오류시 나오는 메세지-->
+                            <p th:if="${loginErrorMsg}" class="error" th:text="${loginErrorMsg}"></p>
+                            <br>
                             <div class="finding">
                                 <a href="/user/html/findId.html">아이디찾기</a>
                                 <span class="line">│</span>
@@ -44,7 +47,7 @@
                 </div>
                 <div id="tab02" class="content">
                     <div class="pagetitle"><h1>관리자 로그인</h1></div>
-                    <form id="adminForm" action="/admin/login" method="post">
+                        <form id="adminForm" action="/admin/login" method="post">
                         <div class="inputboxs">
                             <div class="inputMargin">
                                 <div>
@@ -56,11 +59,6 @@
                                            autocomplete="off" value>
                                 </div>
                             </div>
-                            <!--                                <div class="finding">-->
-                            <!--                                    <a href="/user/html/findId.html">아이디찾기</a>-->
-                            <!--                                    <span class="line">│</span>-->
-                            <!--                                    <a href="/user/html/findpw.html">비밀번호찾기</a>-->
-                            <!--                                </div>-->
                         </div>
                         <div class="buttons">
                             <div>

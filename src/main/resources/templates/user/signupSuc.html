@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html th:replace="~{/layouts/base :: layout(~{::main}, ~{::link}, ~{::script})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link rel="stylesheet" th:href="@{/css/user/mypage/mypage.css}">
+  <link rel="stylesheet" th:href="@{/css/user/login.css}">
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script> <!-- 주소 검색 스크립트 주소   -->
+</head>
+<div class="wrapper">
+  <!-- 메인 -->
+  <main>
+    <!-- 회원 탈퇴 성공페이지  -->
+    <section>
+      <div class="login">
+        <div class="pagetitle">
+          <h1>회원가입 완료</h1>
+        </div>
+        <div class="inputboxs">
+          <div class="findIdresult" style="text-align: center">
+                            <span>
+                                <br><br>
+                                <h1 style="font-size: 30px ; text-align: center" >회원가입이 완료 되었습니다.</h1>
+                                <br>
+                                <br> DourBest를 통해 당신의 건강을 찾아보세요.
+                            </span>
+          </div>
+          <div class="buttons">
+            <div>
+              <a th:href="@{/user/login}">
+                <button class="signupButton" type="button">로그인하러 가기
+                </button>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<script th:src="@{/js/user/member/check.js}"></script>
+</div>
+</html>

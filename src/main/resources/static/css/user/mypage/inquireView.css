@@ -113,6 +113,14 @@
 
 }
 
+.answer  > :first-child:after {
+
+
+
+    color: #ececeb;
+
+}
+
 .left  > :first-child {
 
     background-color: #f35f4c;

@@ -62,6 +62,13 @@ public class MemberController {
         return "user/login";
     }
 
+    @PostMapping("/login/error")    //이동할 페이지
+    public String loginError(Model model){
+        model.addAttribute("loginErrorMsg","아이디 또는 비밀번호를 확인해주세요");
+        return "user/login";
+    }
+
+
     // 중복아이디 체크
     @PostMapping("checkId")
     @ResponseBody  //
@@ -177,9 +184,17 @@ public class MemberController {
         }
     }
 
+    // 회원탈퇴 성공
+    @GetMapping("/quitMember-success")    //이동할 페이지
+    public String quitMemberSuccess() {
+
+//        System.out.println("user = " + user);
+//        MemberDTO mypageInfo = service.findUser(user.getMemberId()).orElseThrow();
+//        model.addAttribute("mypageInfo", mypageInfo);  //멤버 배송지 모두 담겨있음.
 
 
-
+        return "user/mypage/quitMemberSuc";
+    }
 
 
 }

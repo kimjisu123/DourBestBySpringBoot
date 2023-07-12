@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
@@ -281,7 +282,7 @@ public class MypageController {
 
 
 //     회원 탈퇴  =====================================================================================================
-    @PostMapping("/quitMember")
+    @GetMapping("/quitMemberS")
     public String quitMember(@AuthenticationPrincipal MemberImpl user) {
 
         System.out.println("user ======================== " + user);
@@ -290,10 +291,26 @@ public class MypageController {
         int success = memberService.quitMember(mypageInfo.getMemberId());
         System.out.println(" success ======================== " + success );
 
-        return "redirect:/" ;
+        if(success == 1) {
+
+        }
+
+        SecurityContextHolder.clearContext();
+        return "redirect:/user/quitMember-success" ;
 
     }
 
+//    // 회원탈퇴 성공
+//    @GetMapping("/quitMember-success")    //이동할 페이지
+//    public String quitMemberSuccess(@AuthenticationPrincipal MemberImpl user, Model model) {
+//
+//        System.out.println("user = " + user);
+//        MemberDTO mypageInfo = memberService.findUser(user.getMemberId()).orElseThrow();
+//        model.addAttribute("mypageInfo", mypageInfo);  //멤버 배송지 모두 담겨있음.
+//
+//
+//        return "/user/mypage/quitMemberSuc";
+//    }
 
 
     @GetMapping("/purchase-funding/{id}")

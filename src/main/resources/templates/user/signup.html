@@ -135,6 +135,7 @@
                                     <h2>이용약관동의</h2>
                                 </div>
                                 <div class="focus">
+                                    <input type="checkbox" id="checkAll">
                                     <h1 class="focusment2">전체 동의합니다. <input type="checkbox" id="TremsArryAll">
                                     </h1>
                                     <div class="reason">
@@ -284,4 +285,15 @@
     </section>
 </main>
 <script src=""></script>
+<script>
+$(".personalterms").on("click", "#checkAll", function () {
+var checked = $(this).is(":checked");
+
+if(checked){
+$(this).siblings('input').prop("checked", true);
+} else {
+$(this).siblings('input').prop("checked", false);
+}
+});
+</script>
 </html>
