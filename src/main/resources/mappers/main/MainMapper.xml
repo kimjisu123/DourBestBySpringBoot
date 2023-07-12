@@ -98,7 +98,7 @@
                                JOIN TBL_FUNDING_FILE TFF ON F.FUNDING_CODE = TFF.FUNDING_CODE
                                JOIN TBL_FUNDING_STATUSLIST FSL ON F.FUNDING_CODE = FSL.FUNDING_CODE
                                JOIN TBL_FUNDING_STATUS FSS ON FSS.FUNDING_STATUS_CODE = FSL.FUNDING_STATUS_CODE
-                      WHERE  TFF.FILE_TYPE='메인' AND FSS.FUNDING_STATUS_NAME = '승인완료'
+                      WHERE  TFF.FILE_TYPE='메인' AND FSS.FUNDING_STATUS_NAME = '승인대기'
                       ORDER BY F.LIKES DESC
                   )A WHERE RECENT = 1)B
         <![CDATA[

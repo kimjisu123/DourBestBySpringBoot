@@ -94,6 +94,7 @@ section{
 .main-banner{
     /* 임시 */
     background-color: #b4b4b4;
+
 }
 
 .main-banner > h2 {
@@ -107,28 +108,16 @@ section{
 
 .banner-inner{
 
-     background-image: url(/resources/img/pexels-shvets-production-7203694.jpg);
+
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
     text-align: center;
     padding: 20px;
     color: #fff;
-
-    /*width: 100%;*/
-    /*height: 300px;*/
-    /*overflow: hidden;*/
-    /*margin: 0px auto;*/
-    /*position: relative;*/
-
-}
-video{
-    /*width: 100%;*/
-
 }
 
 .banner-inner .title {
-    position: absolute;
     font-size: 40px;
     line-height: 1;
     font-weight: 300;
@@ -169,7 +158,8 @@ video{
 }
 
 .item-thumb{
-    /*background-image: url("/resources/img/pexels-jane-doan-1099680.jpg");*/
+
+    /*background-image: url("/resources/img/common/rest-person.jpeg");*/
     background-size: cover;
     padding-bottom: 70%;
     border-top-left-radius: 15px;
