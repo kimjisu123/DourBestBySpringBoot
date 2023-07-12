@@ -155,60 +155,42 @@
                         >
                             >>
                         </a>
+                        <input type="button" class="contactBtn" id="Withdrawal" value="반려">
                     </div>
-
-
                 </div>
+            </div>
         </section>
     </div>
-
-
-
-
-
-    </section>
-
-    <script>
-        $('#Withdrawal').click(function() {
-            $('.fundcheckbox').each(function() {
-                if ($(this).prop('checked')) {
-                    let choiceValue = $(this).closest('.table').find('.choiceValue').text();
-                    $.ajax({
-                        url: "/admin/companion",
-                        data: { choiceValue: choiceValue },
-                        type: "post",
-                        success: function(data) {
-                            alert(data);
-                            window.location.reload();
-                        },
-                        error: function(error) {
-                            console.log(error);
-                        }
-                    });
-                }
-            });
-        });
-
-        $('#createadminAccount').click(function() {
-            $('.fundcheckbox').each(function() {
-                if ($(this).prop('checked')) {
-                    let choiceValue = $(this).closest('.table').find('.choiceValue').text();
-                    $.ajax({
-                        url: "/admin/Approval",
-                        data: { choiceValue: choiceValue },
-                        type: "post",
-                        success: function(data) {
-                            alert(data);
-                            window.location.reload();
-                        },
-                        error: function(error) {
-                            console.log(error);
-                        }
-                    });
-                }
-            });
-        });
-    </script>
     </div>
 </main>
+<script>
+    $('#Withdrawal').click(function(){
+        $('.fundcheckbox').each(function() {
+            if ($(this).prop('checked')) {
+                let memberId = $(this).closest('.table').find('#adminAccountFund1').text();
+                let fundingTitle = $(this).closest('.table').find('.choiceValue').text();
+
+                let apporved = {
+                    memberId,
+                    fundingTitle
+                }
+
+                $.ajax({
+                    contentType: "application/json",
+                    type :"POST",
+                    url:"/admin/approved",
+                    data : JSON.stringify(apporved),
+                    success: function(data) {
+                        alert(data);
+                        window.location.reload();
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+            }
+        });
+    })
+
+</script>
 </html>

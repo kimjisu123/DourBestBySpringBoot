@@ -12,6 +12,7 @@ import java.util.Date;
 public class AdminEventDTO {
     private int eventCode;
     private String eventTitle;
+    private String eventContent;
     private Date startDate;
     private Date endDate;
     private int adminCode;

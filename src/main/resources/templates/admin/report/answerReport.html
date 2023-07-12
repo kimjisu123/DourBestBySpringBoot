@@ -74,7 +74,7 @@
                         펀딩 제목
                     </div>
                     <div id="reportSort4" class="SortationList">
-                        답변 제목
+                        답변 내용
                     </div>
                     <div id="reportSort5" class="SortationList">
                         답변 날짜
@@ -140,14 +140,34 @@
                         >>
                     </a>
                 </div>
-
             </div>
         </div>
+
+
+
     </section>
 </div>
 
     <script>
 
+
+
+        window.onload = function() {
+
+            $('.modal').hide();
+        }
+
+        $('.report').click(function() {
+            $('.modal').show();
+        })
+
+        $('.x').click(function() {
+            $('.modal').hide();
+        })
+
+        $('.delete').click(function() {
+            $('.modal').hide();
+        })
     </script>
 
 </main>

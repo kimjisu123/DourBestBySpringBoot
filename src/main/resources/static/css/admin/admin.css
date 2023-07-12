@@ -1474,3 +1474,97 @@
     text-align: center;
     line-height: 50px;
 }
+
+
+
+.reportCate {
+    display: flex;
+    justify-content: space-between;
+}
+
+.modalbot {
+    display: flex;
+    justify-content: space-between;
+    width: 600px;
+}
+
+.modal {
+    border: 1px solid black;
+    width: 660px;
+    height: 600px;
+    padding-left: 50px;
+    border-radius: 5px;
+    position: fixed;
+    top: 23%;
+    left: 32%;
+    background: white;
+}
+
+.reportReason {
+    width: 600px;
+    height: 300px;
+    border: 1px solid black;
+    border-radius: 10px;
+    font-size: 1.2em;
+    border-radius: 5px;
+    line-height: 40px;
+    padding-left: 10px;
+}
+
+.xbtn {
+    display: flex;
+    justify-content: right;
+    padding-right: 5px;
+    margin-bottom: 20px;
+}
+
+.inputText {
+    /* margin-top: 20px; */
+    margin-bottom: 20px;
+}
+
+
+.delete, .subm {
+    font-size: 1.3em;
+    width: 70px;
+    border-radius: 5px;
+    box-shadow:  0 2px 4px 0 rgb(214, 214, 214);
+    text-align: center;
+    cursor: pointer;
+}
+
+.delete {
+    background-color: rgb(211, 211, 211);
+}
+
+.subm {
+    margin-left: 430px;
+    background: #f35f4c;
+    color: snow;
+}
+
+.modal input {
+    border: 1px solid gray;
+}
+
+small {
+    color: rgb(179, 179, 179);
+}
+
+.catego {
+    margin-bottom: 20px;
+    cursor: pointer;
+    width: 600px;
+    height: 30px;
+    margin-top: 10px;
+}
+
+.x {
+    cursor: pointer;
+}
+
+.reportitle {
+    width: 600px;
+    height: 80px;
+    font-size: 25px;
+}

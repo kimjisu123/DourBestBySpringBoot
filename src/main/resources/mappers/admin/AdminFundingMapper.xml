@@ -218,4 +218,16 @@
         DELETE TBL_FUNDING
         WHERE FUNDING_CODE = #{fundingCode}
     </delete>
+    
+    <!--  펀딩 상태값 업데이트  -->
+    <insert id="insertFunding">
+        INSERT INTO TBL_FUNDING_STATUSLIST
+        VALUES
+        (
+            SEQ_FUNDING_STATUSLIST_CODE.nextval,
+            SYSDATE,
+            2,
+            #{fundingCode}
+        )
+    </insert>
 </mapper>

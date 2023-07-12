@@ -7,6 +7,7 @@
     <resultMap id="selectNoticeResultMap" type="com.won.dourbest.admin.notice.dto.AdminNoticeDTO">
         <result property="noticeCode" column="NOTICE_CODE"/>
         <result property="noticeTitle" column="NOTICE_TITLE"/>
+        <result property="noticeContent" column="NOTICE_CONTENT"/>
         <result property="regiDate" column="REGI_DATE"/>
         <result property="adminCode" column="ADMIN_CODE"/>
         <result property="rowNum" column="ROWNUM"/>
@@ -26,6 +27,7 @@
         SELECT
             A.NOTICE_CODE,
             A.NOTICE_TITLE,
+            A.NOTICE_CONTENT,
             A.REGI_DATE,
             A.ADMIN_CODE,
             ROWNUM
@@ -41,6 +43,7 @@
     <select id="selectOngoingEventList" resultMap="selectEventListResultMap">
         SELECT
             EVENT_TITLE,
+            EVENT_CONTENT,
             START_DATE,
             END_DATE,
             ADMIN_CODE,
@@ -48,6 +51,7 @@
         FROM(
             SELECT
                 EVENT_TITLE,
+            EVENT_CONTENT,
                 START_DATE,
                 END_DATE,
                 ADMIN_CODE,
@@ -66,6 +70,7 @@
         SELECT
             EVENT_CODE,
             EVENT_TITLE,
+            EVENT_CONTENT,
             START_DATE,
             END_DATE,
             ADMIN_CODE,
@@ -74,6 +79,7 @@
             SELECT
                 EVENT_CODE,
                 EVENT_TITLE,
+                EVENT_CONTENT,
                 START_DATE,
                 END_DATE,
                 ADMIN_CODE,

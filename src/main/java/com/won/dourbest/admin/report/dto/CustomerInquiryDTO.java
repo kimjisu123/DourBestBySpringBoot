@@ -10,7 +10,7 @@ import java.util.Date;
 @NoArgsConstructor
 
 public class CustomerInquiryDTO {
-
+    private int inquiriesCode;
     private String contactSubject;
     private String contactDetails;
     private Date dateCreationInquiry;

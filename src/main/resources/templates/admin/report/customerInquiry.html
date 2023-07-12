@@ -92,9 +92,11 @@
                     <div th:each="customer:${customerInquiry}" class="table">
                         <input type="checkbox" class="fundcheckbox" name="my_checkbox" value="0">
                         <div th:text="${customer.getContactSubject()}" id="reportLine1"></div>
-                        <div th:text="${customer.getContactDetails()}" id="reportLine2"></div>
+                        <div th:text="${customer.getContactDetails()}" id="reportLine2" class="clickTitle"></div>
                         <div th:text="${#dates.format(customer.getDateCreationInquiry(), 'yyyy-MM-dd')}" id="reportLine3"></div>
                         <div th:text="${#dates.format(customer.getAnswerDate(), 'yyyy-MM-dd')}" id="reportLine4"></div>
+                        <div style="display: none" th:text="${customer.getInquiriesCode()}" id="reportLine5" class="choiceValue"></div>
+                        <div style="display: none" th:text="${customer.getInquiriesCode()}" id="reportLine6" class="choiceValue"></div>
                     </div>
 
                     <!-- 페이지 처리 -->
@@ -167,28 +169,37 @@
         </div>
     </div>
 
+
     <script>
 
         $('#adminQNA').click(function() {
-
-            let answerContent = $('#answerContent').val();
-
-            $.ajax({
-                url: "/admin/customerInquiry",
-                type: "post",
-                data: {answerContent : answerContent},
-                contentType: "application/json",
-                success: function(data) {
-                    alert("답변 등록에 성공하셨습니다.");
-                    $('.contactmodal').css('display', 'none')
-                    window.location.reload()
-                },
-                error: function(error) {
-                    alert("답변 등록에 실패하셨습니다.");
+            $('.fundcheckbox').each(function () {
+                if ($(this).prop('checked')) {
+                    let answerContent = $('#answerContent').val();
+                    // 선택한 질문 코드
+                    let choiceValue = $(this).closest('.table').find('.choiceValue').text();
+                    let inquiry = {
+                        answerContent,
+                        choiceValue
+                    }
+                    $.ajax({
+                        url: "/admin/customerInquiry",
+                        type: "post",
+                        data: JSON.stringify(inquiry),
+                        contentType: "application/json",
+                        success: function (data) {
+                            alert(data);
+                            $('.contactmodal').css('display', 'none')
+                            window.location.reload()
+                        },
+                        error: function (error) {
+                            alert("답변 등록에 실패하셨습니다.");
+                        }
+                    });
                 }
+                ;
             });
         });
-
 
 
 
@@ -240,6 +251,23 @@
             }
         }
 
+
+        window.onload = function() {
+
+            $('.modal').hide();
+        }
+
+        $('.report').click(function() {
+            $('.modal').show();
+        })
+
+        $('.x').click(function() {
+            $('.modal').hide();
+        })
+
+        $('.delete').click(function() {
+            $('.modal').hide();
+        })
     </script>
 
 </main>

@@ -5,6 +5,7 @@ import com.won.dourbest.admin.common.Pagenation;
 import com.won.dourbest.admin.common.SelectCriteria;
 import com.won.dourbest.admin.funding.dto.AdminFundingDTO;
 import com.won.dourbest.admin.funding.dto.AdminSellerRegistDTO;
+import com.won.dourbest.admin.funding.dto.ApprovedDTO;
 import com.won.dourbest.admin.funding.service.FundingListServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -265,6 +266,16 @@ public class FundController {
     public String delete(@RequestParam String choiceValue){
 
         String message = fundingListService.delete(choiceValue);
+
+        return message;
+    }
+
+    // 신청한 펀딩 승인
+    @PostMapping("approved")
+    @ResponseBody
+    public String approved(@RequestBody ApprovedDTO apporved){
+
+        String message = fundingListService.insertFunding(apporved);
 
         return message;
     }

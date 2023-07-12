@@ -4,6 +4,7 @@ import com.won.dourbest.admin.common.SelectCriteria;
 import com.won.dourbest.admin.funding.dao.AdminFundingMapper;
 import com.won.dourbest.admin.funding.dto.AdminFundingDTO;
 import com.won.dourbest.admin.funding.dto.AdminSellerRegistDTO;
+import com.won.dourbest.admin.funding.dto.ApprovedDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -168,6 +169,35 @@ public class FundingListServiceImpl implements FundingListService {
             message = "삭제에 성공 하셨습니다.";
         } else{
             message = "삭제에 실패 하셨습니다.";
+        }
+
+        return message;
+    }
+
+
+
+    // 신청한 펀딩 승인
+    @Override
+    public String insertFunding(ApprovedDTO approved) {
+
+        String fundingTitle;
+        String fundingCode;
+        int result;
+        String message = "";
+
+
+        fundingTitle = approved.getFundingTitle();
+
+        // 펀딩 코드
+        fundingCode = mapper.selectFundingCode(fundingTitle);
+
+        // 상태 리스트 추가
+        result = mapper.insertFunding(fundingCode);
+
+        System.out.println("result = " + result);
+
+        if(result != 0){
+            message = "승인에 성공하셨습니다";
         }
 
         return message;

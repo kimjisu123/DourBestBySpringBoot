@@ -86,10 +86,11 @@
                     <div th:each="ongoingEvent : ${ongoingEventList}" class="table">
                         <input type="checkbox" class="fundcheckbox" name="my_checkbox" value="1">
                         <div th:text="${ongoingEvent.getRowNum()}" id="eventLine1"></div>
-                        <div th:text="${ongoingEvent.getEventTitle()}" id="eventLine2"></div>
+                        <div th:text="${ongoingEvent.getEventTitle()}" id="eventLine2" class="clickTitle"></div>
                         <div th:text="${#dates.format(ongoingEvent.getStartDate(), 'yyyy/MM/dd')}" id="eventLine3"></div>
                         <div th:text="${#dates.format(ongoingEvent.getEndDate(), 'yyyy/MM/dd')}" id="eventLine4"></div>
                         <div th:text="${ongoingEvent.getAdminCode()}" id="eventLine5"></div>
+                        <div style="display: none" th:text="${ongoingEvent.getEventContent()}" id="eventLine6"></div>
                     </div>
                     <!-- 페이지 처리 -->
                     <div class="board_page" align="center">
@@ -137,6 +138,8 @@
             </div>
         </section>
     </div>
+
+
     <div class="contactmodal">
         <div class="contactmodal-container">
             <div class="contactmodal-content">
@@ -155,7 +158,37 @@
         </div>
     </div>
 
+    <div class="modal">
+        <div class="xbtn"><div class="x">X</div></div>
+        <div class="innerBox">
+            <h1>이벤트 제목</h1>
+            <div class="reportTitle">
+                <div class="reportitle"></div>
+            </div>
+            <h3>이벤트 내용</h3>
+            <div class="inputText">
+                <div class="reportReason"></div>
+            </div>
+            <div class="modalbot">
+            </div>
+        </div>
+    </div>
+
+
+
+
     <script>
+
+        $(".clickTitle").click(function(e) {
+            var $tableRow = $(this).closest('.table');
+            var title = $tableRow.find('#eventLine2').text();
+            var content = $tableRow.find('#eventLine6').text();
+
+            $('.reportitle').text(title);
+            $('.reportReason').text(content);
+
+            $('.modal').show();
+        });
 
     $('#EventStart').click(function(){
         let eventTitle = $('#eventTitle').val();
@@ -235,5 +268,23 @@
             $($div).append(img);
         }
     }
+
+
+    window.onload = function() {
+
+        $('.modal').hide();
+    }
+
+    $('.report').click(function() {
+        $('.modal').show();
+    })
+
+    $('.x').click(function() {
+        $('.modal').hide();
+    })
+
+    $('.delete').click(function() {
+        $('.modal').hide();
+    })
     </script>
 </main>

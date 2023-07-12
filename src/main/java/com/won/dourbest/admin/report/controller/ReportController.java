@@ -2,10 +2,7 @@ package com.won.dourbest.admin.report.controller;
 
 import com.won.dourbest.admin.common.Pagenation;
 import com.won.dourbest.admin.common.SelectCriteria;
-import com.won.dourbest.admin.report.dto.AnswerRegistDTO;
-import com.won.dourbest.admin.report.dto.CustomerInquiryDTO;
-import com.won.dourbest.admin.report.dto.ReportDetailsDTO;
-import com.won.dourbest.admin.report.dto.AnswerReportDTO;
+import com.won.dourbest.admin.report.dto.*;
 import com.won.dourbest.admin.report.service.ReportServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -133,12 +130,22 @@ public class ReportController {
     }
 
 
-
+    // 제재 답변
     @PostMapping("answerRegist")
     @ResponseBody
     public String answerRegist(@RequestBody AnswerRegistDTO answer){
 
         String message = reportServiceImpl.answerRegist(answer);
+
+        return message;
+    }
+
+    // 1:1 문의 답변
+    @PostMapping("customerInquiry")
+    @ResponseBody
+    public String userAnswerRegist(@RequestBody UserAnswerRegistDTO userAnswer){
+
+        String message = reportServiceImpl.userAnswerRegist(userAnswer);
 
         return message;
     }

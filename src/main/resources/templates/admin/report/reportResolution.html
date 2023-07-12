@@ -99,6 +99,7 @@
                         <div th:text="${reportDetails.getNumberReported()}"  id="reportLine6"></div>
                         <div th:text="${reportDetails.getAnswersStatus()}" id="reportLine7"></div>
                         <div style="display: none" th:text="${reportDetails.getFundingCode()}" id="reportLine8"></div>
+                        <div style="display: none" th:text="${reportDetails.getReportContent()}" id="reportLine9"></div>
                     </div>
 
                     <!-- 페이지 처리 -->
@@ -149,12 +150,6 @@
     </div>
 
 
-
-
-
-
-
-
     <div class="contactmodal">
         <div class="contactmodal-container">
             <div class="contactmodal-content">
@@ -172,14 +167,23 @@
     </div>
 
 
-    <div id="modalWrap">
-        <div id="modalBody">
 
-        </div>
-        <div>
-
+    <div class="modal">
+        <div class="xbtn"><div class="x">X</div></div>
+        <div class="innerBox">
+            <h1>신고 제목</h1>
+            <div class="reportTitle">
+                <div class="reportitle"></div>
+            </div>
+            <h3>신고 내용</h3>
+            <div class="inputText">
+                <div class="reportReason"></div>
+            </div>
+            <div class="modalbot">
+            </div>
         </div>
     </div>
+
 
 
     <script>
@@ -201,22 +205,21 @@
                         contactCode,
                         fundingCode
                     }
-
-                    $.ajax({
-                        url: "/admin/answerRegist",
-                        data : JSON.stringify(answer),
-                        type: "post",
-                        contentType: "application/json",
-                        success: function(data) {
-                            alert(data);
-                            window.location.reload();
-                        },
-                        error: function(error) {
-                            console.log(error);
-                        }
-                    });
                 }
             });
+        });
+
+
+
+        $(".choiceValue").click(function(e) {
+            var $tableRow = $(this).closest('.table');
+            var title = $tableRow.find('#reportLine4').text();
+            var content = $tableRow.find('#reportLine9').text();
+
+            $('.reportitle').text(title);
+            $('.reportReason').text(content);
+
+            $('.modal').show();
         });
 
         const contactmodal = document.querySelector(".contactmodal");
@@ -268,24 +271,22 @@
         }
 
 
-        const btn = document.getElementById('popupBtn');
-        const modal = document.getElementById('modalWrap');
-        const closeBtn = document.getElementById('closeBtn');
+        window.onload = function() {
 
-        btn.onclick = function() {
-            modal.style.display = 'block';
-        }
-        closeBtn.onclick = function() {
-            modal.style.display = 'none';
+            $('.modal').hide();
         }
 
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
+        $('.report').click(function() {
+            $('.modal').show();
+        })
 
+        $('.x').click(function() {
+            $('.modal').hide();
+        })
 
+        $('.delete').click(function() {
+            $('.modal').hide();
+        })
     </script>
 
 </main>

@@ -3,6 +3,7 @@ package com.won.dourbest.admin.funding.service;
 import com.won.dourbest.admin.common.SelectCriteria;
 import com.won.dourbest.admin.funding.dto.AdminFundingDTO;
 import com.won.dourbest.admin.funding.dto.AdminSellerRegistDTO;
+import com.won.dourbest.admin.funding.dto.ApprovedDTO;
 
 import java.util.List;
 import java.util.Map;
@@ -35,4 +36,7 @@ public interface FundingListService {
     String Approval(String choiceValue);
     // 삭제
     String delete(String choiceValue);
+
+
+    String insertFunding(ApprovedDTO approved);
 }

@@ -54,4 +54,7 @@ public interface AdminFundingMapper {
 
     // 펀딩 삭제
     int delete(String fundingCode);
+
+    // 펀딩 상태 리스트 추가
+    int insertFunding(String fundingCode);
 }
