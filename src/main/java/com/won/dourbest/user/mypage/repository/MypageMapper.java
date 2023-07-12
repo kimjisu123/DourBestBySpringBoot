@@ -1,8 +1,7 @@
 package com.won.dourbest.user.mypage.repository;
 
-import com.won.dourbest.admin.dto.AdminInquiriesDTO;
+import com.won.dourbest.admin.account.dto.AdminInquiriesDTO;
 import com.won.dourbest.common.dto.CategoryDTO;
-import com.won.dourbest.common.dto.Criteria;
 import com.won.dourbest.common.dto.SearchCriteria;
 import com.won.dourbest.seller.dto.SellerInquiryDTO;
 import com.won.dourbest.user.dto.*;
@@ -10,7 +9,6 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
-import java.util.Optional;
 
 @Mapper
 public interface MypageMapper {

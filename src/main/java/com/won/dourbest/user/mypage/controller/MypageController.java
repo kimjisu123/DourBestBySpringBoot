@@ -1,6 +1,6 @@
 package com.won.dourbest.user.mypage.controller;
 
-import com.won.dourbest.admin.dto.AdminInquiriesDTO;
+import com.won.dourbest.admin.account.dto.AdminInquiriesDTO;
 import com.won.dourbest.common.dto.CategoryDTO;
 import com.won.dourbest.common.dto.CommonResponse;
 import com.won.dourbest.common.dto.Pagination;
@@ -18,7 +18,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;

@@ -301,7 +301,7 @@
     top:-2px;
 }
 
-.contact button[type=submit]{
+.contact button[type=button]{
     position: relative;
     top: 0;
     display: block;

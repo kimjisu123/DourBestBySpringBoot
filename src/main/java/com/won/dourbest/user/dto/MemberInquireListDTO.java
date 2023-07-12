@@ -1,8 +1,7 @@
 package com.won.dourbest.user.dto;
 
-import com.won.dourbest.admin.dto.AdminInquiriesDTO;
+import com.won.dourbest.admin.account.dto.AdminInquiriesDTO;
 import lombok.*;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Date;
 

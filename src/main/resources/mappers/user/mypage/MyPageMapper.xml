@@ -22,7 +22,7 @@
 
 
      <!--   질문 답변  -->
-    <resultMap id="QnaAnwserResult" type="com.won.dourbest.admin.dto.AdminInquiriesDTO">
+    <resultMap id="QnaAnwserResult" type="com.won.dourbest.admin.account.dto.AdminInquiriesDTO">
         <id property="inquiriesCode" column="INQUIRIES_CODE"/>
         <result property="rowNum" column="RNUM"/>
         <result property="contactSubject" column="CONTACT_SUBJECT"/>
@@ -757,7 +757,7 @@
                A.CARD_COMPANY,
                A.CARD_NUMBER,
                A.TOTAL_PRICE,
-               A.POINT_AMOUNT ,
+               A.POINT_AMOUNT,
                A.CREDIT_STATUS,
                A.CREDIT_DATE,
                A.DELIVERY_STATUS,
@@ -772,7 +772,9 @@
         FROM
             (SELECT
                  O.ORDER_PRICE,
-                 NVL(O.COUPONLIST_CODE,0) COUPONLIST_CODE,
+                 CASE WHEN O.COUPONLIST_CODE IS NULL THEN 0
+                      WHEN TCOUP.COUPON_NAME ='무료배송' THEN 3000
+                      ELSE (O.ORDER_PRICE * TCOUP.COUPON_DISCOUNT)/100 END AS COUPONLIST_CODE,
                  O.DELIVERY_CHARGE,
                  TC.PAYMENT_CODE,
                  TC.CARD_COMPANY,
@@ -782,7 +784,8 @@
                  TFC.CREDIT_STATUS,
                  TFC.CREDIT_DATE,
                  T.DELIVERY_STATUS,
-\                 TD.DELIVERY_NUMBER,
+                 T.DELIVERY_DATE,
+                 TD.DELIVERY_NUMBER,
                  M.MEMBER_NAME,
                  M.MEMBER_PHONE,
                  M.MEMBER_CODE,
@@ -791,6 +794,8 @@
                  TA.ZIP_CODE
              FROM TBL_CREDIT TC
                       LEFT JOIN TBL_ORDER O on TC.ORDER_CODE = O.ORDER_CODE
+                      LEFT JOIN TBL_COUPONLIST TCL ON O.COUPONLIST_CODE = TCL.COUPONLIST_CODE
+                      LEFT JOIN TBL_COUPON TCOUP ON TCL.COUPON_CODE = TCOUP.COUPON_CODE
                       LEFT JOIN TBL_MEMBER M ON O.MEMBER_CODE = M.MEMBER_CODE
                       LEFT JOIN TBL_ADDRESS TA on M.MEMBER_CODE = TA.MEMBER_CODE
                       LEFT JOIN TBL_FUNDING_CREDITLIST TFC on TC.PAYMENT_CODE = TFC.PAYMENT_CODE
