@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -55,7 +56,6 @@ public class MainController {
         List<LikeFundingDTO> pre = mainService.preOpenSlide();
         System.out.println("pre = " + pre);
         List<CategoryDTO> category = commonService.fundingCategory();
-
         model.addAttribute("pre", pre);
         model.addAttribute("category",category);
         model.addAttribute("list",list);
