@@ -39,7 +39,7 @@
 }
 
 .thumb{
-    background-image: url("../resources/static/images/user/mypage/user.jpg");
+    /*background-image: url("../resources/static/images/user/mypage/user.jpg");*/
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
 }

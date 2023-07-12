@@ -32,7 +32,7 @@ function sample6_execDaumPostcode() {
          function idCheck(){
 
             var memberId = $("#memberId").val(); // 변수 넣기
-            var idRegExp = /^[a-zA-Z0-9_-]{5,20}$/;   // 영어 대소문자 및 숫자 4~12자리를 입력한 아이디만 가능
+            var idRegExp = /^[a-zA-Z0-9_-]{6,20}$/;   // 영어 대소문자 및 숫자 4~12자리를 입력한 아이디만 가능
             const output = document.querySelector('#id-error');
             console.log(memberId);
 

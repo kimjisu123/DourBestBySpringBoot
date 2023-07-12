@@ -102,7 +102,7 @@ public class MemberController {
 
         // 회원가입이 성공하면 -> 회원에게 쿠폰을 insert 로 담아줘야한다.
 
-        return "redirect:/category";
+        return "redirect:/user/signup-success";
     }
 
 
@@ -193,6 +193,18 @@ public class MemberController {
 
 
         return "user/mypage/quitMemberSuc";
+    }
+
+    // 회원가입 성공 페이지
+    @GetMapping("/signup-success")    //이동할 페이지
+    public String signupSuccess() {
+
+//        System.out.println("user = " + user);
+//        MemberDTO mypageInfo = service.findUser(user.getMemberId()).orElseThrow();
+//        model.addAttribute("mypageInfo", mypageInfo);  //멤버 배송지 모두 담겨있음.
+
+
+        return "user/signupSuc";
     }
 
 

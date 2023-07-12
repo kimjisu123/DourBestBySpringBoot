@@ -17,8 +17,8 @@
               <a th:href="|@{/funding/} + ${ slideImage.getFundingCode() }">
               <img th:src="@{/fundingImg/} + ${ slideImage.getFilePath() }" >
                 <div>
-                  <div class="slider-text">
-                    <p th:text="${ slideImage.getFundingTitle() }"></p>
+                  <div class="summary">
+                    <p  class="summary-title" th:text="${ slideImage.getFundingTitle() }"></p>
                     <p th:text="${ slideImage.getFundingSummary() }"></p>
                   </div>
                 </div>
@@ -37,7 +37,9 @@
         <div class="item-cards">
           <div class="item item-1">
             <a th:href="|@{/funding/} + ${ topLikeFunding.get(0).getFundingCode() }">
-              <div class="thumb" ><img th:src="@{/fundingImg/} + ${ topLikeFunding.get(0).getFilePath() }"></div>
+              <div class="thumb" th:style="'background-image: url('+@{/fundingImg/} + ${ topLikeFunding.get(0).getFilePath() }+')'">
+<!--                <img th:src="@{/fundingImg/} + ${ topLikeFunding.get(0).getFilePath() }">-->
+              </div>
               <article>
                 <h1 th:text="${topLikeFunding.get(0).getFundingTitle()}"></h1>
                 <p th:text="${topLikeFunding.get(0).getFundingSummary()}"></p>
@@ -50,7 +52,9 @@
           </div>
           <div class="item" th:each=" topLike : ${ topLikeFunding }">
             <a th:href="|@{/funding/} + ${ topLike.getFundingCode() }" class="card">
-              <div class="thumb"><img th:src="@{/fundingImg/} + ${ topLike.getFilePath() }"></div>
+              <div class="thumb" th:style="'background-image: url('+@{/fundingImg/} + ${ topLike.getFilePath() }+')'">
+<!--                <img th:src="@{/fundingImg/} + ${ topLike.getFilePath() }">-->
+              </div>
               <article>
                 <h1 th:text="${ topLike.getFundingTitle() }"></h1>
                 <p th:text="${ topLike.getFundingSummary() }"></p>
@@ -69,15 +73,18 @@
     <div class="main-banner">
       <h2>배너 영역</h2>
       <div class="banner-inner">
+<!--        <video muted autoplay loop>-->
+<!--          <source src="/videos/yoga.mp4" type="video/mp4">-->
         <h3 class="title">VIP 가입</h3>
-        <div class="desc">
-          <p>
-            VIP가입으로 무료배송의 혜택을 받으세요!
-          </p>
-          </p>
-          <a href="/" title="">VIP 가입하기</a>
-          <span class="small"></span>
-        </div>
+          <div class="desc">
+            <p>
+              VIP가입으로 무료배송의 혜택을 받으세요!
+            </p>
+            </p>
+            <a th:href="|@{/membership}|" title="">VIP 가입하기</a>
+            <span class="small"></span>
+          </div>
+<!--        </video>-->
       </div>
     </div>
   </section>
@@ -89,7 +96,9 @@
           <div class="swiper-slide" th:each=" open : ${ openFundings }">
             <div class="item-wrapper" >
               <a th:href="|@{/funding/} + ${ open.getFundingCode() }" class="item">
-                <div class="item-thumb"><img th:src="@{/fundingImg/} + ${ open.getFilePath() }" style="background-size: cover"></div>
+                <div class="item-thumb" th:style="'background-image: url('+@{/fundingImg/} + ${ open.getFilePath() }+')'">
+<!--                  <img th:src="@{/fundingImg/} + ${ open.getFilePath() }" style="background-size: cover">-->
+                </div>
                 <article>
                   <h1 th:text="${ open.getFundingTitle() }"></h1>
                   <p th:text="${ open.getFundingSummary() }"></p>
@@ -121,9 +130,11 @@
       <div class="swiper swiper2">
         <div class="swiper-wrapper">
           <div class="swiper-slide" th:each=" end : ${ endFundings }">
-            <div class="item">
+            <div class="item" >
               <a th:href="|@{/funding/} + ${ end.getFundingCode() }" class="card">
-                <div class="item-thumb" ><img th:src="@{/fundingImg/} + ${ end.getFilePath() }" ></div>
+                <div class="item-thumb" th:style="'background-image: url('+@{/fundingImg/} + ${ end.getFilePath() }+')'">
+<!--                <img th:src="@{/fundingImg/} + ${ end.getFilePath() }" >-->
+            </div>
                 <article>
                   <h1 th:text="${ end.getFundingTitle() }"></h1>
                   <p th:text="${ end.getFundingSummary() }"></p>

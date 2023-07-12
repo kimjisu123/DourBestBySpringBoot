@@ -151,9 +151,10 @@
 
 #signSubmit {
 
-    width: 500px;
+    width: 400px;
     padding-top: 30px;
-    margin: 0px auto;
+    margin-top: 10px;
+    margin-left: 123px;
     height: 46px;
     padding: 4px 11px 1px 15px;
     border-radius: 4px;
