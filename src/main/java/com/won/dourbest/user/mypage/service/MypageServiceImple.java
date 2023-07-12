@@ -70,6 +70,11 @@ public class MypageServiceImple implements MypageService{
     }
 
     @Override
+    public List<LikeFundingDTO> myFundingList(SearchCriteria searchCriteria, String userId) {
+        return mypageMapper.myFunding(searchCriteria,userId);
+    }
+
+    @Override
     public int listTotalCount(SearchCriteria searchCriteria, String userId, String name) {
         return mypageMapper.listCount(searchCriteria, userId, name);
     }

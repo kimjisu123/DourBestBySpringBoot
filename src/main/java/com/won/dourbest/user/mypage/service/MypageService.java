@@ -24,6 +24,8 @@ public interface MypageService {
 
     List<LikeFundingDTO> likeFundingList(SearchCriteria searchCriteria, String userId);
 
+    List<LikeFundingDTO> myFundingList(SearchCriteria searchCriteria, String userId);
+
     public int listTotalCount(SearchCriteria searchCriteria, String userId, String name);
 
     public int couponRegister(int code);

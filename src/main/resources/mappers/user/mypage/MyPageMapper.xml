@@ -510,6 +510,45 @@
         ORDER BY 1 ASC
     </select>
 
+    <select id="myFunding" resultMap="LikeFundingResultMap">
+        SELECT
+            B.RNUM,
+            B.FUNDING_CODE,
+            B.FUNDING_TITLE,
+            B.FUNDING_SUMMARY,
+            B.CATEGORY_NAME,
+            B.FILE_MODIFICATION_NAME
+        FROM(
+            SELECT
+                ROWNUM RNUM,
+                A.FUNDING_CODE,
+                A.FUNDING_TITLE,
+                A.FUNDING_SUMMARY,
+                A.CATEGORY_NAME,
+                A.FILE_MODIFICATION_NAME
+            FROM(
+                SELECT
+                    F.FUNDING_CODE,
+                    F.FUNDING_TITLE,
+                    F.FUNDING_SUMMARY,
+                    TC.CATEGORY_NAME,
+                    TFF.FILE_MODIFICATION_NAME
+                FROM TBL_FUNDING F
+                    JOIN TBL_SELLER S ON F.SELLER_CODE = S.SELLER_CODE
+                    LEFT JOIN TBL_MEMBER M ON S.MEMBER_CODE = M.MEMBER_CODE
+                    LEFT JOIN TBL_FUNDING_FILE TFF on F.FUNDING_CODE = TFF.FUNDING_CODE
+                    LEFT JOIN TBL_CATEGORY TC ON F.CATEGORY_CODE = TC.CATEGORY_CODE
+                WHERE M.MEMBER_ID = #{ userId }
+                AND TFF.FILE_TYPE='메인'
+                ) A
+                        <![CDATA[
+            WHERE ROWNUM <= #{ cri.rowEnd }
+                  ]]>
+                        ) B
+        WHERE B.RNUM >= #{ cri.rowStart }
+        ORDER BY 1 ASC
+    </select>
+
     <select id="listCount">
         <if test="name == 'sellerInquire'">
             SELECT
@@ -606,6 +645,17 @@
             <if test="cri.searchType != null">
                 AND TP.POINT_STATUS = #{cri.searchType}
             </if>
+        </if>
+        <if test="name == 'myFunding'">
+            SELECT
+                COUNT(*)
+            FROM TBL_FUNDING F
+                JOIN TBL_SELLER S ON F.SELLER_CODE = S.SELLER_CODE
+                LEFT JOIN TBL_MEMBER M ON S.MEMBER_CODE = M.MEMBER_CODE
+                LEFT JOIN TBL_FUNDING_FILE TFF on F.FUNDING_CODE = TFF.FUNDING_CODE
+                LEFT JOIN TBL_CATEGORY TC ON F.CATEGORY_CODE = TC.CATEGORY_CODE
+            WHERE M.MEMBER_ID = #{userId}
+            AND TFF.FILE_TYPE='메인'
         </if>
     </select>
 

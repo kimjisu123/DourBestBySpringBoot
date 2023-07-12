@@ -29,6 +29,7 @@ public interface MypageMapper {
     List<MemberReportListDTO> findReportAllById(@Param("cri") SearchCriteria searchCriteria, @Param("userId") String userId);
 
     List<MemberSellerInquireDTO> findSellerInquireById(@Param("cri") SearchCriteria searchCriteria, @Param("userId") String userId);
+    List<LikeFundingDTO> myFunding(@Param("cri") SearchCriteria searchCriteria, @Param("userId") String userId);
 
     int listCount(@Param("cri") SearchCriteria searchCriteria, @Param("userId") String userId, @Param("name") String name);
 

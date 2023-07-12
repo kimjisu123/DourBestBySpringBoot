@@ -8,6 +8,7 @@ import com.won.dourbest.user.dto.*;
 import com.won.dourbest.user.mypage.service.MypageCommonService;
 import com.won.dourbest.user.mypage.service.MypageService;
 import com.won.dourbest.user.service.MemberService;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.Banner;
@@ -282,24 +283,11 @@ public class MypageController {
     @GetMapping("quitMember")    //이동할 페이지
     public String quitMember(@AuthenticationPrincipal MemberImpl user, Model model) {
 
-//     MemberDTO mypageInfo = memberService.findUser(user.getMemberId()).orElseThrow();
-//       model.addAttribute("mypageInfo", mypageInfo);  //멤버 배송지 모두 담겨있음.
         model.addAttribute("user", user);
-
 
         return "user/mypage/quitMember";
     }
-    // 회원 탈퇴
-//    @PostMapping("quitMember")
-//    public String quitMember(@AuthenticationPrincipal MemberImpl user) {
-//
-//     MemberDTO mypageInfo = memberService.findUser(user.getMemberId()).orElseThrow();
-//     log.info("memberName" , mypageInfo);
-//     memberService.quitMember(mypageInfo.getMemberId());
-//     log.info("memberId" , mypageInfo.getMemberId());
-//
-//        return "user/mypage/quitMember";
-//    }
+
     @GetMapping("/purchase-funding/{id}")
     public String OrderDetail(@AuthenticationPrincipal MemberImpl user, @PathVariable int id, Model model){
 
@@ -366,6 +354,23 @@ public class MypageController {
             new File(profilePath + "\\" + savedName).delete();
         }
 
+    }
+
+
+    @GetMapping("/myFunding")
+    public String myFundingPage(@AuthenticationPrincipal MemberImpl member, @ModelAttribute("cri") SearchCriteria criteria, Model model){
+        //세션으로부터 받자
+        String userId = member.getUsername();
+
+        Pagination pagination = new Pagination(criteria, mypageService.listTotalCount(criteria, userId, "myFunding"));
+
+        List<LikeFundingDTO> list = mypageService.myFundingList(criteria, userId);
+
+        model.addAttribute("list", list);
+        model.addAttribute("pagination", pagination);
+
+
+        return "user/mypage/myFunding";
     }
 
 
