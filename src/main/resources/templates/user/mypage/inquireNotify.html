@@ -27,6 +27,10 @@
             <div class="writer" th:text="${inquir.getFundingTitle()}">신고합니다.</div>
         </div>
         <div class="contentbox">
+            <div class="left">신고 내용</div>
+            <div class="writer" th:text="${inquir.getCategoryName()}">신고합니다.</div>
+        </div>
+        <div class="contentbox">
             <div class="left">작성자</div>
             <div class="writer" th:text="${member.getMemberName()}">김펀딩</div>
         </div>

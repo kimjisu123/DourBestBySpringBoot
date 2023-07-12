@@ -1,7 +1,7 @@
 package com.won.dourbest.user.service;
 
 import com.won.dourbest.common.exception.user.EmailNotFoundException;
-import com.won.dourbest.user.dao.MemberMapper;
+import com.won.dourbest.user.dao.*;
 import com.won.dourbest.user.dto.*;
 import com.won.dourbest.user.event.RegistEvent;
 import lombok.RequiredArgsConstructor;

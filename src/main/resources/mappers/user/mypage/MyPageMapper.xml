@@ -819,22 +819,33 @@
 
 
 
-<!-- 고객 문의사항 쿼리문 -->
+<!-- 고객 문의사항 쿼리문 ( 답변 여러개중 최신만 가지고 오도록 쿼리짬) -->
     <select id="QnaInqurireAnwser" resultMap="QnaAnwserResult">
         SELECT
-            TAI.CONTACT_SUBJECT,
-            TAI.CONTACT_DETAILS,
-            TAI.DATE_CREATION_INQUIRY,
-            TC.CATEGORY_NAME,
-            TAQ.ANSWER_CONTENT,
-            TAQ.ANSWER_DATE,
-            TAI.INQUIRIES_CODE
-        FROM TBL_ADMIN_INQUIRIES TAI
-                 LEFT JOIN TBL_ADMIN_QNA TAQ on TAI.INQUIRIES_CODE = TAQ.INQUIRIES_CODE
-                 LEFT JOIN TBL_MEMBER M on TAI.MEMBER_CODE = M.MEMBER_CODE
-                 LEFT JOIN TBL_CATEGORY TC on TAI.CATEGORY_CODE = TC.CATEGORY_CODE
-        WHERE M.MEMBER_CODE= #{ memberCode }
-          AND TAI.INQUIRIES_CODE = #{ id } AND TC.CATEGORY_KIND = '관리자문의'
+            A.CONTACT_SUBJECT,
+            A.CONTACT_DETAILS,
+            A.DATE_CREATION_INQUIRY,
+            A.CATEGORY_NAME,
+            A.ANSWER_CONTENT,
+            A.ANSWER_DATE,
+            A.INQUIRIES_CODE
+        FROM
+            (SELECT
+                 TAI.CONTACT_SUBJECT,
+                 TAI.CONTACT_DETAILS,
+                 TAI.DATE_CREATION_INQUIRY,
+                 TC.CATEGORY_NAME,
+                 TAQ.ANSWER_CONTENT,
+                 TAQ.ANSWER_DATE,
+                 TAI.INQUIRIES_CODE,
+                 RANK() OVER (PARTITION BY TAI.INQUIRIES_CODE ORDER BY TAQ.ANSWER_DATE DESC ) AS RECENT
+             FROM TBL_ADMIN_INQUIRIES TAI
+                      LEFT JOIN TBL_ADMIN_QNA TAQ on TAI.INQUIRIES_CODE = TAQ.INQUIRIES_CODE
+                      LEFT JOIN TBL_MEMBER M on TAI.MEMBER_CODE = M.MEMBER_CODE
+                      LEFT JOIN TBL_CATEGORY TC on TAI.CATEGORY_CODE = TC.CATEGORY_CODE
+             WHERE M.MEMBER_CODE= #{ memberCode }
+               AND TAI.INQUIRIES_CODE = #{ id } AND TC.CATEGORY_KIND = '관리자문의'
+             ) A WHERE RECENT = 1
     </select>
 
 
@@ -842,38 +853,60 @@
     <!-- 판매자 문의사항 쿼리문 -->
     <select id="QnaSellerInquire" resultMap="QnaSellerResult">
         SELECT
-            F.FUNDING_TITLE,
-            SI.INQUIRY_TITLE,
-            SI.INQUIRY_CONTENT,
-            SI.INQUIRY_DATE,
-            TC.CATEGORY_NAME,
-            SA.INQUIRY_ANSWER_CONTENT,
-            SA.INQUIRY_ANSWER_DATE,
-            SI.SELLER_INQUIRY_CODE
-        FROM TBL_SELLER_INQUIRY SI
-                 LEFT JOIN TBL_MEMBER M on SI.MEMBER_CODE = M.MEMBER_CODE
-                 LEFT JOIN TBL_INQUIRY_ANSWER SA on SI.SELLER_INQUIRY_CODE = SA.SELLER_INQUIRY_CODE
-                 LEFT JOIN TBL_CATEGORY TC on SI.CATEGORY_CODE = TC.CATEGORY_CODE
-                 LEFT JOIN TBL_FUNDING f on F.FUNDING_CODE = SI.FUNDING_CODE
-        WHERE SI.MEMBER_CODE= #{ memberCode }
-          AND SI.SELLER_INQUIRY_CODE = #{ id }
+            A.FUNDING_TITLE,
+            A.INQUIRY_TITLE,
+            A.INQUIRY_CONTENT,
+            A.INQUIRY_DATE,
+            A.CATEGORY_NAME,
+            A.INQUIRY_ANSWER_CONTENT,
+            A.INQUIRY_ANSWER_DATE,
+            A.SELLER_INQUIRY_CODE
+        FROM
+            ( SELECT
+                  F.FUNDING_TITLE,
+                  SI.INQUIRY_TITLE,
+                  SI.INQUIRY_CONTENT,
+                  SI.INQUIRY_DATE,
+                  TC.CATEGORY_NAME,
+                  SA.INQUIRY_ANSWER_CONTENT,
+                  SA.INQUIRY_ANSWER_DATE,
+                  SI.SELLER_INQUIRY_CODE,
+                  RANK() OVER (PARTITION BY SI.SELLER_INQUIRY_CODE ORDER BY SA.INQUIRY_ANSWER_DATE DESC ) AS RECENT
+              FROM TBL_SELLER_INQUIRY SI
+                       LEFT JOIN TBL_MEMBER M on SI.MEMBER_CODE = M.MEMBER_CODE
+                       LEFT JOIN TBL_INQUIRY_ANSWER SA on SI.SELLER_INQUIRY_CODE = SA.SELLER_INQUIRY_CODE
+                       LEFT JOIN TBL_CATEGORY TC on SI.CATEGORY_CODE = TC.CATEGORY_CODE
+                       LEFT JOIN TBL_FUNDING f on F.FUNDING_CODE = SI.FUNDING_CODE
+              WHERE SI.MEMBER_CODE= #{ memberCode }
+                AND SI.SELLER_INQUIRY_CODE = #{ id }
+            )A WHERE RECENT = 1
     </select>
 
 <!--신고 문의 -->
     <select id="NotifyInquire" resultMap="QnaNotifyResult">
         SELECT
-            FR.REPORT_TITLE,
-            FR.REPORT_CONTENT,
-            FR.REPORT_DATE,
-            TC.CATEGORY_NAME,
-            PP.ANSWERS_CONTENT,
-            PP.ANSWER_DATE
-        FROM TBL_FUNDING_REPORT FR
-                 LEFT JOIN TBL_MEMBER M on FR.MEMBER_CODE = M.MEMBER_CODE
-                 LEFT JOIN TBL_REPORT_RESPONSE PP on FR.REPORT_CODE = PP.REPORT_CODE
-                 LEFT JOIN TBL_CATEGORY TC on FR.CATEGORY_CODE = TC.CATEGORY_CODE
-        WHERE FR.MEMBER_CODE= #{ memberCode }
-          AND FR.REPORT_CODE = #{ id }
+            A.REPORT_TITLE,
+            A.REPORT_CONTENT,
+            A.REPORT_DATE,
+            A.CATEGORY_NAME,
+            A.ANSWERS_CONTENT,
+            A.ANSWER_DATE
+        FROM
+            (SELECT
+                 FR.REPORT_TITLE,
+                 FR.REPORT_CONTENT,
+                 FR.REPORT_DATE,
+                 TC.CATEGORY_NAME,
+                 PP.ANSWERS_CONTENT,
+                 PP.ANSWER_DATE,
+                 RANK() OVER (PARTITION BY FR.REPORT_CODE ORDER BY PP.ANSWER_DATE DESC ) AS RECENT
+             FROM TBL_FUNDING_REPORT FR
+                      LEFT JOIN TBL_MEMBER M on FR.MEMBER_CODE = M.MEMBER_CODE
+                      LEFT JOIN TBL_REPORT_RESPONSE PP on FR.REPORT_CODE = PP.REPORT_CODE
+                      LEFT JOIN TBL_CATEGORY TC on FR.CATEGORY_CODE = TC.CATEGORY_CODE
+             WHERE FR.MEMBER_CODE= #{ memberCode }
+               AND FR.REPORT_CODE = #{ id }
+            )A WHERE RECENT = 1
     </select>
 
 

@@ -132,6 +132,9 @@
                                JOIN TBL_FUNDING_STATUSLIST FSL ON F.FUNDING_CODE = FSL.FUNDING_CODE
                                JOIN TBL_FUNDING_STATUS FSS ON FSS.FUNDING_STATUS_CODE = FSL.FUNDING_STATUS_CODE
                       WHERE  TFF.FILE_TYPE='메인' AND FSS.FUNDING_STATUS_NAME = '승인완료'
+                       <![CDATA[
+                        AND (F.START_DATE - TRUNC(SYSDATE)) < 7
+                        ]]>
                       ORDER BY (F.START_DATE - TRUNC(SYSDATE))
                   )A WHERE RECENT = 1)B
         <![CDATA[
@@ -143,18 +146,21 @@
     <select id="EndFundings" resultMap="SlideFileMap">
         SELECT
             ROWNUM RNUM,
+            B.END_DATE,
             B.FUNDING_CODE,
             B.FUNDING_TITLE,
             B.FUNDING_SUMMARY,
             B.FILE_MODIFICATION_NAME
         FROM
             (SELECT
+                 A.END_DATE,
                  A.FUNDING_CODE,
                  A.FUNDING_TITLE,
                  A.FUNDING_SUMMARY,
                  A.FILE_MODIFICATION_NAME
              FROM (
                       SELECT
+                          F.END_DATE,
                           F.FUNDING_CODE,
                           F.FUNDING_TITLE,
                           F.FUNDING_SUMMARY,
@@ -165,6 +171,9 @@
                                JOIN TBL_FUNDING_STATUSLIST FSL ON F.FUNDING_CODE = FSL.FUNDING_CODE
                                JOIN TBL_FUNDING_STATUS FSS ON FSS.FUNDING_STATUS_CODE = FSL.FUNDING_STATUS_CODE
                       WHERE  TFF.FILE_TYPE='메인' AND FSS.FUNDING_STATUS_NAME = '승인완료'
+                        <![CDATA[
+                        AND (F.END_DATE - TRUNC(SYSDATE)) < 7
+                        ]]>
                       ORDER BY (F.END_DATE - TRUNC(SYSDATE))
             )A WHERE RECENT = 1)B
         <![CDATA[
