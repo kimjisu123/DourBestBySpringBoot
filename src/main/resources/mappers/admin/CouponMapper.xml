@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.won.dourbest.admin.coupon.dao.CouponMapper">
 
-    <resultMap id="selectIssuanceResultMap" type="com.won.dourbest.admin.coupon.dto.CouponIssuance">
+    <resultMap id="selectIssuanceResultMap" type="com.won.dourbest.admin.coupon.dto.CouponIssuanceDTO">
         <id property="memberId" column="MEMBER_ID"/>
         <result property="memberName" column="MEMBER_NAME"/>
         <result property="memberEmail" column="MEMBER_EMAIL"/>
@@ -13,7 +13,7 @@
         <result property="couponValidDate" column="COUPON_VALID_DATE"/>
     </resultMap>
 
-    <resultMap id="selectUseCouponResultMap" type="com.won.dourbest.admin.coupon.dto.UseCoupon">
+    <resultMap id="selectUseCouponResultMap" type="com.won.dourbest.admin.coupon.dto.UseCouponDTO">
         <id property="memberId" column="MEMBER_ID"/>
         <result property="memberName" column="MEMBER_NAME"/>
         <result property="memberEmail" column="MEMBER_EMAIL"/>
@@ -34,11 +34,9 @@
         FROM    TBL_COUPONLIST A
         JOIN    TBL_COUPON B ON (A.COUPON_CODE = B.COUPON_CODE)
         JOIN    TBL_MEMBER C ON (A.MEMBER_CODE = C.MEMBER_CODE)
-        <where>
-            <if test="searchId != null and searchId != ''">
-                WHERE   MEMBER_ID = #{ searchId }
-            </if>
-        </where>
+        <if test="searchValue != null and searchValue != ''">
+            WHERE COUPON_CONTENT LIKE '%' || #{ searchValue } || '%'
+        </if>
         OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
 
     </select>
@@ -53,13 +51,11 @@
             B.COUPON_DISCOUNT,
             A.REGI_DATE
         FROM    TBL_COUPONLIST A
-                    JOIN    TBL_COUPON B ON (A.COUPON_CODE = B.COUPON_CODE)
-                    JOIN    TBL_MEMBER C ON (A.MEMBER_CODE = C.MEMBER_CODE)
-        <where>
-            <if test="searchId != null and searchId != ''">
-                WHERE   MEMBER_ID = #{ searchId }
-            </if>
-        </where>
+        JOIN    TBL_COUPON B ON (A.COUPON_CODE = B.COUPON_CODE)
+        JOIN    TBL_MEMBER C ON (A.MEMBER_CODE = C.MEMBER_CODE)
+        <if test="searchValue != null and searchValue != ''">
+            WHERE C.MEMBER_ID LIKE '%' || #{ searchValue } || '%'
+        </if>
         OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
 
     </select>
@@ -69,9 +65,50 @@
         SELECT
         count(*)
         FROM    TBL_MEMBER A
-        <if test="searchId != null and searchId != ''">
-            WHERE   MEMBER_ID = #{ searchId }
+        <if test="searchValue != null and searchValue != ''">
+            WHERE   MEMBER_ID = #{ searchValue }
         </if>
     </select>
 
+    <insert id="couponRegist">
+        INSERT INTO TBL_COUPON
+        VALUES
+        (
+            SEQ_COUPON_CODE.NEXTVAL,
+            #{ couponName },
+            #{ couponContent },
+            #{ couponDiscount },
+            #{ couponVaildDate }
+        )
+    </insert>
+    <!--  쿠폰 코드  -->
+    <select id="couponCode">
+        SELECT
+            COUPON_CODE
+        FROM TBL_COUPON
+        WHERE COUPON_NAME = #{couponName}
+    </select>
+
+    <!--  모든 멤버 코드 조회  -->
+    <select id="selectAllMemberCodes">
+        SELECT
+            MEMBER_CODE
+        FROM TBL_MEMBER
+    </select>
+
+    <!--  쿠폰 발급  -->
+    <insert id="insertCoupon">
+        INSERT INTO TBL_COUPONLIST
+        VALUES
+            (
+                SEQ_COUPONLIST_CODE.NEXTVAL,
+                '일련번호',
+                SYSDATE,
+                #{date},
+                'Y',
+                DEFAULT,
+                SEQ_COUPON_CODE.currval,
+                #{memCode}
+            )
+    </insert>
 </mapper>

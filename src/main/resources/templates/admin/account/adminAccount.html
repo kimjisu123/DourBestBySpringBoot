@@ -16,7 +16,7 @@
                 <div th:onclick="|location.href='@{/admin/admin}'|" id="sidebuttonMain" class="sideMenuButton">
                     계정 관리
                 </div>
-                <div th:onclick="|location.href='@{/admin/willopen}'|" id="sidebutton2" class="sideMenuButton">
+                <div th:onclick="|location.href='@{/admin/applied}'|" id="sidebutton2" class="sideMenuButton">
                     펀딩 목록 관리
                 </div>
                 <div th:onclick="|location.href='@{/admin/allPrice}'|" id="sidebutton3" class="sideMenuButton">
@@ -26,7 +26,7 @@
                     공지사항
                 </div>
                 <div th:onclick="|location.href='@{/admin/reportDetails}'|" id="sidebutton5" class="sideMenuButton">
-                    신고 관리
+                    고객 문의
                 </div>
                 <div th:onclick="|location.href='@{/admin/Issuance}'|" id="sidebutton6" class="sideMenuButton">
                     쿠폰 관리
@@ -61,14 +61,18 @@
                         <!-- 아이디 검색 버튼 -->
                         <div class="memberIDSearchContainer">
                             <div id="memberID" class="memberIDButton">
-                                아이디
+                                이름
                             </div>
-                            <input type="text" placeholder="검색하실 관리자의 아이디를 입력해주세요" id="inputID" class="memberIDButton">
 
-                            </input>
-                            <div id="searchButton" class="memberIDButton">
-                                검색
-                            </div>
+
+                            <input type="hidden" name="currentPage" value="1">
+
+                            <form method="get", action="/admin/adminAccount">
+                                <input type="search" placeholder="검색하실 관리자의 이름을 입력해주세요" id="inputID" class="memberIDButton" name="searchValue">
+                                <input type="submit"  id="searchButton" class="memberIDButton" value="검색"/>
+                            </form>
+
+
                         </div>
                         <!-- 조회 결과 페이지 -->
                         <div class="listPage">
@@ -137,6 +141,7 @@
                                 >
                                     >>
                                 </a>
+                                <button id="Withdrawal">계정 탈퇴</button>
                             </div>
 
                         </div>
@@ -203,8 +208,7 @@
                         </div>
                     </div>
                 </div>
-                <button id="Withdrawal">계정 탈퇴</button>
-            </ul>
+
         </section>
     <script>
         $('#btnCreate').click(function(){
@@ -219,8 +223,7 @@
                 adminEmail:adminEmail,
                 adminPassword:adminPassword
             }
-
-           $.ajax({
+            $.ajax({
                 contentType : "application/json",
                 data : JSON.stringify(admin),
                 type : "POST",
@@ -300,8 +303,7 @@
         }
 
 
-    </script>
-    <script>
+
         function contactreadURL(obj) {
 
             let reader = new FileReader();

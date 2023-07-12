@@ -32,12 +32,12 @@
         FROM TBL_FUNDING A
         JOIN TBL_SELLER B ON (A.SELLER_CODE = B.SELLER_CODE)
         JOIN TBL_MEMBER C ON (B.MEMBER_CODE = C.MEMBER_CODE)
+        JOIN TBL_FUNDING_STATUSLIST D ON (D.FUNDING_CODE = A.FUNDING_CODE)
         WHERE A.START_DATE &gt; SYSDATE
-        <where>
-            <if test="searchId != null and searchId != ''">
-                WHERE   FUNDING_TITLE = #{ searchId }
-            </if>
-        </where>
+        AND D.FUNDING_STATUS_CODE = 2
+        <if test="searchValue != null and searchValue != ''">
+            AND   FUNDING_TITLE LIKE '%' || #{ searchValue } || '%'
+        </if>
         ORDER BY START_DATE ASC
         OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
 
@@ -56,11 +56,9 @@
         JOIN TBL_MEMBER C ON (B.MEMBER_CODE = C.MEMBER_CODE)
         WHERE A.START_DATE &lt;= SYSDATE
         AND A.END_DATE &gt; SYSDATE
-        <where>
-            <if test="searchId != null and searchId != ''">
-                WHERE   FUNDING_TITLE = #{ searchId }
-            </if>
-        </where>
+        <if test="searchValue != null and searchValue != ''">
+            AND   FUNDING_TITLE LIKE '%' || #{ searchValue } || '%'
+        </if>
         ORDER BY START_DATE ASC
         OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
 
@@ -78,40 +76,36 @@
                  JOIN TBL_SELLER B ON (A.SELLER_CODE = B.SELLER_CODE)
                  JOIN TBL_MEMBER C ON (B.MEMBER_CODE = C.MEMBER_CODE)
         WHERE A.END_DATE &lt; SYSDATE
-        <where>
-            <if test="searchId != null and searchId != ''">
-                WHERE   FUNDING_TITLE = #{ searchId }
-            </if>
-        </where>
+        <if test="searchValue != null and searchValue != ''">
+            AND A.FUNDING_TITLE LIKE '%' || #{ searchValue } || '%'
+        </if>
         ORDER BY END_DATE ASC
         OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
 
     </select>
 
     <!-- 승인된 펀딩 목록 -->
-    <select id="selectAllapproved" resultMap="fundingResultMap">
-        SELECT
-            A.FUNDING_TITLE,
-            A.START_DATE,
-            A.END_DATE,
-            E.MEMBER_EMAIL,
-            E.MEMBER_ID,
-            C.FUNDING_STATUS_NAME
-        FROM TBL_FUNDING A
-                 JOIN TBL_FUNDING_STATUSLIST B ON (A.FUNDING_CODE = B.FUNDING_CODE)
-                 JOIN TBL_FUNDING_STATUS C ON (B.FUNDING_STATUS_CODE = C.FUNDING_STATUS_CODE)
-                 JOIN TBL_SELLER D ON (A.SELLER_CODE = D.SELLER_CODE)
-                 JOIN TBL_MEMBER E ON (D.MEMBER_CODE = E.MEMBER_CODE)
-        WHERE C.FUNDING_STATUS_NAME = '승인완료'
-        <where>
-            <if test="searchId != null and searchId != ''">
-                WHERE   FUNDING_TITLE = #{ searchId }
-            </if>
-        </where>
-        ORDER BY CHANGE_DATE DESC
-        OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
+<!--    <select id="selectAllapproved" resultMap="fundingResultMap">-->
+<!--        SELECT-->
+<!--            A.FUNDING_TITLE,-->
+<!--            A.START_DATE,-->
+<!--            A.END_DATE,-->
+<!--            E.MEMBER_EMAIL,-->
+<!--            E.MEMBER_ID,-->
+<!--            C.FUNDING_STATUS_NAME-->
+<!--        FROM TBL_FUNDING A-->
+<!--                 JOIN TBL_FUNDING_STATUSLIST B ON (A.FUNDING_CODE = B.FUNDING_CODE)-->
+<!--                 JOIN TBL_FUNDING_STATUS C ON (B.FUNDING_STATUS_CODE = C.FUNDING_STATUS_CODE)-->
+<!--                 JOIN TBL_SELLER D ON (A.SELLER_CODE = D.SELLER_CODE)-->
+<!--                 JOIN TBL_MEMBER E ON (D.MEMBER_CODE = E.MEMBER_CODE)-->
+<!--        WHERE C.FUNDING_STATUS_NAME = '승인완료'-->
+<!--        <if test="searchValue != null and searchValue != ''">-->
+<!--            AND FUNDING_TITLE LIKE '%' || #{ searchValue } || '%'-->
+<!--        </if>-->
+<!--        ORDER BY CHANGE_DATE DESC-->
+<!--        OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY-->
 
-    </select>
+<!--    </select>-->
     <!-- 신청한 펀딩 목록 -->
     <select id="selectAllApplied" resultMap="fundingResultMap">
         SELECT
@@ -127,11 +121,9 @@
                  JOIN TBL_SELLER D ON (A.SELLER_CODE = D.SELLER_CODE)
                  JOIN TBL_MEMBER E ON (D.MEMBER_CODE = E.MEMBER_CODE)
         WHERE C.FUNDING_STATUS_NAME = '승인대기'
-        <where>
-            <if test="searchId != null and searchId != ''">
-                WHERE   FUNDING_TITLE = #{ searchId }
-            </if>
-        </where>
+        <if test="searchValue != null and searchValue != ''">
+            AND FUNDING_TITLE LIKE '%' || #{ searchValue } || '%'
+        </if>
         ORDER BY CHANGE_DATE DESC
         OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
 
@@ -150,20 +142,80 @@
         FROM TBL_SELLER A
         JOIN TBL_MEMBER C ON (A.MEMBER_CODE = C.MEMBER_CODE)
         WHERE A.SELLER_APPROVAL IN '승인대기'
+        <if test="searchValue != null and searchValue != ''">
+            AND C.MEMBER_ID LIKE '%' || #{ searchValue } || '%'
+        </if>
         GROUP BY (C.MEMBER_ID, C.MEMBER_NAME, C.MEMBER_PHONE, C.MEMBER_EMAIL, A.BUSINESS_LICENSE, A.SELLER_DATE)
         ORDER BY A.SELLER_DATE ASC
         OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
 
     </select>
 
+    <!--  memberId로 memberCode을 찾음  -->
+    <select id="selectMemberCode">
+        SELECT
+            MEMBER_CODE
+        FROM TBL_MEMBER
+        WHERE   MEMBER_ID = #{ memberId }
+    </select>
+
+
+    <!-- 판매자 등록 권한 부여  -->
+    <insert id="insertSellerRegist">
+        INSERT INTO TBL_MEMBER_AUTHLIST
+        VALUES
+        (
+            2,
+            #{memberCode}
+        )
+    </insert>
+
+    <!--  판매자 상태값 수정  -->
+    <update id="updateSellerRegist">
+        UPDATE TBL_SELLER
+        SET     SELLER_APPROVAL = '승인완료'
+        WHERE   MEMBER_CODE = #{memberCode}
+    </update>
 
     <select id="selectTotalPage">
         SELECT
         count(*)
         FROM    TBL_MEMBER A
-        <if test="searchId != null and searchId != ''">
-            WHERE   MEMBER_ID = #{ searchId }
+        <if test="searchValue != null and searchValue != ''">
+            WHERE   MEMBER_ID = #{ searchValue }
         </if>
     </select>
 
+    <select id="selectFundingCode">
+        SELECT
+            FUNDING_CODE
+        FROM TBL_FUNDING
+        WHERE FUNDING_TITLE = #{ fundingTitle }
+    </select>
+
+    <insert id="Approval">
+        insert into TBL_FUNDING_STATUSLIST
+        values
+        (
+        SEQ_FUNDING_STATUSLIST_CODE.NEXTVAL,
+        DEFAULT,
+        2,
+        #{fundingCode}
+        )
+    </insert>
+
+    <insert id="deleteWillopen">
+        insert into TBL_FUNDING_STATUSLIST
+        values
+            (
+                SEQ_FUNDING_STATUSLIST_CODE.NEXTVAL,
+                DEFAULT,
+                3,
+                #{fundingCode}
+            )
+    </insert>
+    <delete id="delete">
+        DELETE TBL_FUNDING
+        WHERE FUNDING_CODE = #{fundingCode}
+    </delete>
 </mapper>

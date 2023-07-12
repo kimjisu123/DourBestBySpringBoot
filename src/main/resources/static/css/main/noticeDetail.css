@@ -1,0 +1,42 @@
+.mainbody {
+    margin-top: 50px;
+}
+
+.mainbody div {
+    margin-bottom: 50px;
+}
+
+.detailTitle {
+    font-size: 3.5em;
+    font-weight: 700;
+}
+
+.detailDate {
+    font-size: 1.3em;
+    color: gray;
+}
+
+.horizon {
+    height: 1px;
+    width: 100%;
+    border: 1px solid #c7c7c7;
+}
+
+.detailContent {
+    font-size: 1.5em;
+    color: #494949;
+    font-weight: 500;
+    margin-bottom: 30px;
+    white-space: pre-line;
+}
+
+.mainbody a {
+    font-weight: 600;
+    font-size: 1.5em;
+    margin-top: 15px;
+}
+
+.mainbody a:hover {
+    color: #F35F4C;
+}
+

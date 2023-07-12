@@ -1,0 +1,74 @@
+.noti, .question, .notice, .event {
+    display: flex;
+    justify-content: space-between;
+}
+
+.question, .notice, .event {
+    width: 280px;
+    height: 100px;
+    margin-bottom: 30px;
+    cursor: pointer;
+}
+
+.sidebar {
+    margin-top: 30px;
+    position: sticky;
+    top: 120px;
+    padding-top: 40px;
+    height: 500px;
+}
+
+.question {
+    background: rgba(243, 95, 76, 0.1);
+    text-align: center;
+    padding: 10px 5px;
+}
+
+.notice {
+    background: rgba(243, 95, 76, 0.15);
+    text-align: center;
+    padding: 10px 5px;
+}
+
+.event {
+    background: rgba(243, 95, 76, 0.2);
+    text-align: center;
+    padding: 10px 5px;
+}
+
+.small {
+    font-size: 1em;
+    color: gray;
+    margin-bottom: 30px;
+}
+
+.bold {
+    font-size: 1.2em;
+    color: #414141;
+    font-weight: 600;
+}
+
+.question i {
+    font-size: 5.3em;
+    font-weight: 700;
+    color: rgba(243, 95, 76, 0.35);
+}
+
+.notice i {
+    font-size: 5.7em;
+    font-weight: 700;
+    color: rgba(243, 95, 76, 0.35);
+}
+
+.event i {
+    font-size: 5.5em;
+    font-weight: 700;
+    color: rgba(243, 95, 76, 0.35);
+}
+
+.side {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+}
+

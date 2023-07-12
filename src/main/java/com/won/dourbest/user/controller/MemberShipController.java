@@ -47,9 +47,6 @@ public class MemberShipController {
 
     }
 
-
-
-
     @PostMapping("/credit")
     @ResponseBody
     public void creditcheck(@RequestParam int memberCode){

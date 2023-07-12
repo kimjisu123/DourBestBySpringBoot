@@ -5,11 +5,13 @@ import com.won.dourbest.admin.funding.dao.AdminFundingMapper;
 import com.won.dourbest.admin.funding.dto.AdminFundingDTO;
 import com.won.dourbest.admin.funding.dto.AdminSellerRegistDTO;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
 
 @Service
+@Transactional
 public class FundingListServiceImpl implements FundingListService {
     // 매퍼 생성자
     private final AdminFundingMapper mapper;
@@ -77,4 +79,97 @@ public class FundingListServiceImpl implements FundingListService {
         return result;
     }
 
+    // 판매자 등록 신청
+    @Override
+    public String insertSellerRegist(String memberId) {
+
+        // memberId로 memberCode를 찾는 코드
+        String memberCode = mapper.selectMemberCode(memberId);
+        System.out.println(memberCode);
+
+        int result;
+        int result2;
+
+        try {
+            // 권한부여
+            result = mapper.insertSellerRegist(memberCode);
+            // 상태값 수정 승인대기 => 승인완료
+            result2 = mapper.updateSellerRegist(memberCode);
+            System.out.println("result2 + result = " + result2 + result);
+            if(result != 0 && result2 != 0){
+                return "판매자 등록에 성공하셨습니다!";
+            } else{
+                throw new RuntimeException("판매자 등록에 실패하셧습니다");
+            }
+        } catch ( RuntimeException e){
+            throw new RuntimeException("판매자 등록에 실패하셧습니다");
+        }
+
+
+
+    }
+
+    // 오픈 예정 펀딩 승인
+    @Override
+    public String Approval(String choiceValue) {
+
+        String message = "";
+        String fundingCode;
+        // 펀딩 코드
+        fundingCode = mapper.selectFundingCode(choiceValue);
+
+        // 반려에 대한 결과
+        int result1 = mapper.Approval(fundingCode);
+
+        if(result1 != 0){
+            message = "승인에 성공 하셨습니다.";
+        } else{
+            message = "승인에 실패 하셨습니다.";
+        }
+
+        return message;
+    }
+
+
+    // 오픈 예정 펀딩 반려
+    @Override
+    public String updateDeleteWillopen(String choiceValue) {
+
+        String message = "";
+        String fundingCode;
+        // 펀딩 코드
+        fundingCode = mapper.selectFundingCode(choiceValue);
+
+        // 승인에 대한 결과
+        int result1 = mapper.deleteWillopen(fundingCode);
+
+        if(result1 != 0){
+            message = "반려에 성공 하셨습니다.";
+        } else{
+            message = "반려에 실패 하셨습니다.";
+        }
+
+        return message;
+    }
+
+
+    @Override
+    public String delete(String choiceValue) {
+
+        String message = "";
+        String fundingCode;
+        // 펀딩 코드
+        fundingCode = mapper.selectFundingCode(choiceValue);
+
+        // 삭제에 대한 결과
+        int result1 = mapper.delete(fundingCode);
+
+        if(result1 != 0){
+            message = "삭제에 성공 하셨습니다.";
+        } else{
+            message = "삭제에 실패 하셨습니다.";
+        }
+
+        return message;
+    }
 }

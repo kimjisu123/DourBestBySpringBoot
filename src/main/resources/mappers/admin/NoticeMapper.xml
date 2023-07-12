@@ -30,11 +30,9 @@
             A.ADMIN_CODE,
             ROWNUM
         FROM TBL_NOTICE A
-        <where>
-            <if test="searchId != null and searchId != ''">
-                WHERE   MEMBER_ID = #{ searchId }
-            </if>
-        </where>
+        <if test="searchValue != null and searchValue != ''">
+            WHERE A.NOTICE_TITLE LIKE '%' || #{ searchValue } || '%'
+        </if>
         ORDER BY REGI_DATE ASC
         OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
 
@@ -57,11 +55,9 @@
             FROM    TBL_EVENT )
         WHERE START_DATE &lt; SYSDATE
         AND   END_DATE &gt; SYSDATE
-        <where>
-            <if test="searchId != null and searchId != ''">
-                WHERE   MEMBER_ID = #{ searchId }
-            </if>
-        </where>
+        <if test="searchValue != null and searchValue != ''">
+            AND EVENT_TITLE LIKE '%' || #{ searchValue } || '%'
+        </if>
         ORDER BY START_DATE ASC
         OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
     </select>
@@ -84,15 +80,47 @@
                 ROWNUM
             FROM    TBL_EVENT )
         WHERE END_DATE &lt; SYSDATE
-        <where>
-            <if test="searchId != null and searchId != ''">
-                WHERE   MEMBER_ID = #{ searchId }
-            </if>
-        </where>
+        <if test="searchValue != null and searchValue != ''">
+            AND EVENT_TITLE LIKE '%' || #{ searchValue } || '%'
+        </if>
         ORDER BY START_DATE ASC
         OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
     </select>
 
+    <!--  공지사항 글 등록  -->
+    <insert id="insertNotice">
+        INSERT INTO TBL_NOTICE
+        VALUES
+        (
+         SEQ_NOTICE_CODE.nextval,
+         #{noticeTitle},
+         #{noticeContent},
+         DEFAULT,
+         5
+        )
+    </insert>
+
+    <!--  이벤트글 글 등록  -->
+
+    <insert id="insertEvent">
+        INSERT INTO TBL_EVENT
+        VALUES
+            (
+                SEQ_EVENT_CODE.nextval,
+                #{eventTitle},
+                #{eventContent},
+                SYSDATE,
+                #{eventEndDate},
+                1
+            )
+    </insert>
+
+
+    <!--  공지사항 삭제  -->
+    <delete id="deleteNotice">
+        DELETE TBL_NOTICE
+        WHERE NOTICE_TITLE = #{noticeTitle}
+    </delete>
 
 
     <!--  총 페이지 갯수  -->
@@ -100,8 +128,8 @@
         SELECT
         count(*)
         FROM    TBL_MEMBER A
-        <if test="searchId != null and searchId != ''">
-            WHERE   MEMBER_ID = #{ searchId }
+        <if test="searchValue != null and searchValue != ''">
+            WHERE   MEMBER_ID = #{ searchValue }
         </if>
     </select>
 

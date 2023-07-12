@@ -24,6 +24,7 @@ public class MemberDTO{
     private Date registDate;  //가입일
     private char withdrawalStatus;  //탈퇴여부
     private char adultStatus; // 성인여부
+    private String profile;
     private MemberShipDTO membership;  //멤버쉽
 
     /* 주소 */

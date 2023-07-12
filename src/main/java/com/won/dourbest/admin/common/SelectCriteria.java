@@ -15,14 +15,14 @@ public class SelectCriteria {
     private int endPage;
     private int startRow;
     private int endRow;
-    private String searchId;            // 검색할 아이디 ( 조건 )
+    private String searchValue;            // 검색할 아이디 ( 조건 )
 
 
     public SelectCriteria() {
     }
 
 
-    public SelectCriteria(int pageNo, int totalCount, int limit, int buttonAmount, int maxPage, int startPage, int endPage, int startRow, int endRow, String searchId) {
+    public SelectCriteria(int pageNo, int totalCount, int limit, int buttonAmount, int maxPage, int startPage, int endPage, int startRow, int endRow, String searchValue) {
         super();
         this.pageNo = pageNo;
         this.totalCount = totalCount;
@@ -33,7 +33,7 @@ public class SelectCriteria {
         this.endPage = endPage;
         this.startRow = startRow;
         this.endRow = endRow;
-        this.searchId = searchId;
+        this.searchValue = searchValue;
     }
 
     @Override
@@ -48,7 +48,7 @@ public class SelectCriteria {
                 ", endPage=" + endPage +
                 ", startRow=" + startRow +
                 ", endRow=" + endRow +
-                ", searchId='" + searchId + "\'" +
+                ", searchValue='" + searchValue + "\'" +
                 '}';
     }
 }

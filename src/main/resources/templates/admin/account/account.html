@@ -16,7 +16,7 @@
                 <div th:onclick="|location.href='@{/admin/admin}'|" id="sidebuttonMain" class="sideMenuButton">
                     계정 관리
                 </div>
-                <div th:onclick="|location.href='@{/admin/willopen}'|" id="sidebutton2" class="sideMenuButton">
+                <div th:onclick="|location.href='@{/admin/applied}'|" id="sidebutton2" class="sideMenuButton">
                     펀딩 목록 관리
                 </div>
                 <div th:onclick="|location.href='@{/admin/allPrice}'|" id="sidebutton3" class="sideMenuButton">
@@ -26,7 +26,7 @@
                     공지사항
                 </div>
                 <div th:onclick="|location.href='@{/admin/reportDetails}'|" id="sidebutton5" class="sideMenuButton">
-                    신고 관리
+                    고객 문의
                 </div>
                 <div th:onclick="|location.href='@{/admin/Issuance}'|" id="sidebutton6" class="sideMenuButton">
                     쿠폰 관리
@@ -53,9 +53,11 @@
                     <div th:onclick="|location.href='@{/admin/blackList}'|" id="mainMenuButton5" class="mainMenuButton">
                         블랙리스트
                     </div>
-                    <div th:onclick="|location.href='@{/admin/adminAccount}'|" id="mainMenuButton6" class="mainMenuButton">
-                        관리자 계정 관리
-                    </div>
+                    <th:block sec:authorize="hasRole('ROLE_SUPER')">
+                        <div th:onclick="|location.href='@{/admin/adminAccount}'|" id="mainMenuButton6" class="mainMenuButton">
+                            관리자 계정 관리
+                        </div>
+                    </th:block>
                 </div>
 
                 <!-- 아이디 검색 버튼 -->
@@ -68,7 +70,7 @@
                     <input type="hidden" name="currentPage" value="1">
 
                     <form method="get", action="/admin/admin">
-                        <input type="search" placeholder="검색하실 회원의 아이디를 입력해주세요" id="inputID" class="memberIDButton" name="searchId">
+                        <input type="search" placeholder="검색하실 회원의 아이디를 입력해주세요" id="inputID" class="memberIDButton" name="searchValue">
                         <input type="submit"  id="searchButton" class="memberIDButton" value="검색"/>
                     </form>
 
@@ -98,15 +100,14 @@
                             판매자 등록 여부
                         </div>
                     </div>
-                    <div th:if="${accountList}">
-                        <div th:each="account : ${accountList}" class="table">
-                            <div th:text="${account.getMemberId()}" id="adminAccount1"></div>
-                            <div th:text="${account.getMemberName()}" id="adminAccount2"></div>
-                            <div th:text="${account.getMemberEmail()}" id="adminAccount3"></div>
-                            <div th:text="${account.getMemberPhone()}" id="adminAccount4"></div>
-                            <div th:text="${#dates.format(account.getRegistDate(), 'yyyy/MM/dd')}" id="adminAccount5"></div>
-                            <div th:text="${account.getSellerCode()}"  id="adminAccount6"></div>
-                        </div>
+                    <div th:each="account : ${accountList}" class="table">
+                        <input type="checkbox" class="fundcheckbox" name="my_checkbox" value="0">
+                        <div th:text="${account.getMemberId()}" id="adminAccount1" class="choiceValue"></div>
+                        <div th:text="${account.getMemberName()}" id="adminAccount2"></div>
+                        <div th:text="${account.getMemberEmail()}" id="adminAccount3"></div>
+                        <div th:text="${account.getMemberPhone()}" id="adminAccount4"></div>
+                        <div th:text="${#dates.format(account.getRegistDate(), 'yyyy/MM/dd')}" id="adminAccount5"></div>
+                        <div th:text="${account.getSellerCode()}"  id="adminAccount6"></div>
                     </div>
 
 
@@ -149,10 +150,9 @@
                         >
                             >>
                         </a>
+
+                        <button type="button" id="accountWithdrawal">계정 탈퇴</button>
                     </div>
-
-                    <button type="button" id="accountWithdrawal">계정 탈퇴</button>
-
                 </div>
             </div>
         </section>
@@ -161,7 +161,25 @@
     </div>
 
     <script>
-
+        $('#accountWithdrawal').click(function() {
+            $('.fundcheckbox').each(function() {
+                if ($(this).prop('checked')) {
+                    let memberId = $(this).closest('.table').find('.choiceValue').text();
+                    $.ajax({
+                        url: "/admin/admin",
+                        data: { memberId: memberId },
+                        type: "post",
+                        success: function(data) {
+                            alert(data);
+                            window.location.reload();
+                        },
+                        error: function(error) {
+                            console.log(error);
+                        }
+                    });
+                }
+            });
+        });
     </script>
 </main>
 

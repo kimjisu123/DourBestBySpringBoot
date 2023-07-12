@@ -8,13 +8,15 @@
         <id property="categoryCode" column="CATEGORY_CODE"/>
         <result property="categoryName" column="CATEGORY_NAME"/>
         <result property="categoryKind" column="CATEGORY_KIND"/>
+        <result property="categoryIcon" column="CATEGORY_ICON"/>
     </resultMap>
 
     <select id="fundingCategory" resultMap="CategoryResultMap">
         SELECT
             TC.CATEGORY_CODE,
             TC.CATEGORY_NAME,
-            TC.CATEGORY_KIND
+            TC.CATEGORY_KIND,
+            TC.CATEGORY_ICON
             FROM TBL_CATEGORY TC
         WHERE TC.CATEGORY_KIND = '펀딩'
     </select>

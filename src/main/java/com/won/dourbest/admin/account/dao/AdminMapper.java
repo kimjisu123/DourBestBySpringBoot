@@ -46,5 +46,10 @@ public interface AdminMapper {
 
     Optional<AdminAccountDTO> findByAdmin(String adminId);
 
-
+    // 회원 탈퇴
+    int deleteMember(String memberId);
+    // 판매자 확인
+    String selectSeller(String memberId);
+    // 판매자 탈퇴
+    int deleteSeller(String memberCode);
 }

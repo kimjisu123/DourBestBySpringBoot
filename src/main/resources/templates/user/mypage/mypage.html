@@ -10,10 +10,11 @@
         <div class="profile flex-wrapper">
             <div class="profile-img flex-wrapper">
                 <div class="profile-round">
-                    <div class="img">
+                    <div class="img" th:style="'background-image: url('+@{/fundingImg/}+${mypageInfo.getProfile()}+')'">
+                        <input id="my-input" type="file" class="none"/>
                         <!-- 백그라운드 이미지를 주자 -->
                     </div>
-                    <button>
+                    <button id="my-image" th:onclick="onClickUpload()">
                         <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
                             <!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
                             <style>svg {
@@ -36,7 +37,7 @@
                     <h3>등급</h3>
                     <p th:text="${mypageInfo.getMembershipName()}">VIP</p>
                 </a>
-                <a href="" class="profile-detail">
+                <a th:href="|@{mypage/point}|" class="profile-detail">
                     <h3>적립금</h3>
                     <p th:text="${mypageInfo.getPointTotalAmount()}">100</p>
                 </a>
@@ -56,26 +57,25 @@
                         <div class="">
                             <a th:href="|@{/mypage/checkMember}|">회원정보 수정</a>
                             <a th:href="|@{/mypage/checkMemberPw}|">비밀번호 변경</a>
-                            <a href="">회원 등급 변경</a>
+                            <a th:href="@{/membership}">회원 등급 변경</a>
                             <a th:href="|@{/mypage/quitMember}|">탈퇴하기</a>
                         </div>
                     </div>
                     <div class="side-detail">
                         <h2>나의 활동</h2>
                         <div>
-                            <a href="/main-page/reveiw-list.html">후기내역 조회</a>
-                            <a href="">환불내역 조회</a>
+                            <a th:href="@{/mypage/review}">후기내역 조회</a>
                         </div>
                     </div>
                     <div class="side-detail">
                         <h2>주문 배송</h2>
                         <div>
-                            <a href="">배송 조회</a>
+                            <a th:href="|@{mypage/purchase-funding}|">배송 조회</a>
                         </div>
                     </div>
                     <div>
                         <div class="sidebar-logout">
-                            <a href="">로그아웃</a>
+                            <a th:href="@{user/logout}">로그아웃</a>
                         </div>
                     </div>
                 </div>
@@ -196,5 +196,43 @@
         </section>
     </div>
 </main>
-<script src=""></script>
+<script>
+    function onClickUpload(){
+        $('#my-input').click();
+    }
+
+    $('#my-input').change(function(e){
+        const fileValid =  /(.*?)\.(jpg|jpeg|png|gif|bmp)$/;
+
+        if (!(e.target.value.match(fileValid))){
+            alert("이미지파일이 아닙니다!@!")
+            return;
+        }
+
+        if (e.target.files.length === 1) {
+            let formData = new FormData();
+            console.log(e.target.files[0]);
+            formData.append("profile", e.target.files[0]);
+
+            $.ajax({
+                url: '/mypage/profile',[
+                method: 'post',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(e){
+                    alert('프로필 변경완료');
+                    $('.img').load(location.href + " .img");
+                },
+                error: function (e){
+                    console.log(e);
+                }
+
+            });
+
+        }
+    });
+
+
+</script>
 </html>

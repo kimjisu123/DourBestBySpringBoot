@@ -9,12 +9,12 @@ import java.util.Date;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class CouponIssuance {
+public class UseCouponDTO {
 
     private String memberId;
     private String memberName;
     private String memberEmail;
     private String couponContent;
     private String couponDiscount;
-    private Date couponValidDate;
+    private Date regiDate;
 }

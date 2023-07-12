@@ -2,15 +2,15 @@ package com.won.dourbest.admin.report.controller;
 
 import com.won.dourbest.admin.common.Pagenation;
 import com.won.dourbest.admin.common.SelectCriteria;
+import com.won.dourbest.admin.report.dto.AnswerRegistDTO;
+import com.won.dourbest.admin.report.dto.CustomerInquiryDTO;
 import com.won.dourbest.admin.report.dto.ReportDetailsDTO;
 import com.won.dourbest.admin.report.dto.AnswerReportDTO;
 import com.won.dourbest.admin.report.service.ReportServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.HashMap;
@@ -32,10 +32,10 @@ public class ReportController {
     }
 
     @GetMapping("reportDetails")
-    public ModelAndView reportDetails(ModelAndView mv, @RequestParam(required = false) String searchId, @RequestParam(defaultValue = "1", value="currentPage") int pageNO){
+    public ModelAndView reportDetails(ModelAndView mv, @RequestParam(required = false) String searchValue, @RequestParam(defaultValue = "1", value="currentPage") int pageNO){
 
         Map<String, String> searchMap = new HashMap<>();
-        searchMap.put("searchId", searchId);
+        searchMap.put("searchValue", searchValue);
 
         // 조건이 있을시에 보여지는 페이지의 갯수
         int totalPage = reportServiceImpl.selectTotalPage(searchMap);
@@ -48,8 +48,8 @@ public class ReportController {
 
         SelectCriteria selectCriteria = null;
 
-        if(searchId != "" && searchId != null){
-            selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button,searchId);  // 조건이 있을 경우
+        if(searchValue != "" && searchValue != null){
+            selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button,searchValue);  // 조건이 있을 경우
         } else {
             selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button);           // 조건이 없을 경우
         }
@@ -64,10 +64,10 @@ public class ReportController {
     }
 
     @GetMapping("answerReport")
-    public ModelAndView blackList(ModelAndView mv, @RequestParam(required = false) String searchId, @RequestParam(defaultValue = "1", value="currentPage") int pageNO){
+    public ModelAndView blackList(ModelAndView mv, @RequestParam(required = false) String searchValue, @RequestParam(defaultValue = "1", value="currentPage") int pageNO){
 
         Map<String, String> searchMap = new HashMap<>();
-        searchMap.put("searchId", searchId);
+        searchMap.put("searchValue", searchValue);
 
         // 조건이 있을시에 보여지는 페이지의 갯수
         int totalPage = reportServiceImpl.selectTotalPage(searchMap);
@@ -80,8 +80,8 @@ public class ReportController {
 
         SelectCriteria selectCriteria = null;
 
-        if(searchId != "" && searchId != null){
-            selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button,searchId);  // 조건이 있을 경우
+        if(searchValue != "" && searchValue != null){
+            selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button,searchValue);  // 조건이 있을 경우
         } else {
             selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button);           // 조건이 없을 경우
         }
@@ -97,4 +97,53 @@ public class ReportController {
 
         return mv;
     }
+
+    @GetMapping("/customerInquiry")
+    public ModelAndView customerInquiry(ModelAndView mv, @RequestParam(required = false) String searchValue, @RequestParam(defaultValue = "1", value="currentPage") int pageNO){
+
+        Map<String, String> searchMap = new HashMap<>();
+        searchMap.put("searchValue", searchValue);
+
+        // 조건이 있을시에 보여지는 페이지의 갯수
+        int totalPage = reportServiceImpl.selectTotalPage(searchMap);
+
+        // 한 페이지에 보여줄 게시물 수
+        int limit = 8;
+
+        // 한번에 보여줄 페이징 버튼 수
+        int button = 5;
+
+        SelectCriteria selectCriteria = null;
+
+        if(searchValue != "" && searchValue != null){
+            selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button,searchValue);  // 조건이 있을 경우
+        } else {
+            selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button);           // 조건이 없을 경우
+        }
+
+
+        List<CustomerInquiryDTO> customerInquiry = reportServiceImpl.selectInquiry(selectCriteria);
+        mv.addObject("selectCriteria", selectCriteria);
+        mv.addObject("customerInquiry", customerInquiry);
+
+
+        mv.setViewName("admin/report/customerInquiry");
+
+        return mv;
+    }
+
+
+
+    @PostMapping("answerRegist")
+    @ResponseBody
+    public String answerRegist(@RequestBody AnswerRegistDTO answer){
+
+        String message = reportServiceImpl.answerRegist(answer);
+
+        return message;
+    }
+
+
+
+
 }
