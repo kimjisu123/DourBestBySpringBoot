@@ -1,9 +1,11 @@
 package com.won.dourbest.user.mypage.controller;
 
+import com.won.dourbest.admin.dto.AdminInquiriesDTO;
 import com.won.dourbest.common.dto.CategoryDTO;
 import com.won.dourbest.common.dto.CommonResponse;
 import com.won.dourbest.common.dto.Pagination;
 import com.won.dourbest.common.dto.SearchCriteria;
+import com.won.dourbest.seller.dto.SellerInquiryDTO;
 import com.won.dourbest.user.dto.*;
 import com.won.dourbest.user.mypage.service.MypageCommonService;
 import com.won.dourbest.user.mypage.service.MypageService;
