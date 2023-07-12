@@ -1,17 +1,14 @@
 package com.won.dourbest.user.mypage.service;
 
-import com.won.dourbest.admin.dto.AdminInquiriesDTO;
 import com.won.dourbest.common.dto.CategoryDTO;
 import com.won.dourbest.common.dto.SearchCriteria;
 import com.won.dourbest.common.exception.user.CouponNotFoundException;
-import com.won.dourbest.seller.dto.SellerInquiryDTO;
 import com.won.dourbest.user.dto.*;
 import com.won.dourbest.user.mypage.repository.MypageCommonMapper;
 import com.won.dourbest.user.mypage.repository.MypageMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
 
 import java.util.HashMap;
 import java.util.List;
@@ -63,6 +60,11 @@ public class MypageServiceImple implements MypageService{
     }
 
     @Override
+    public List<MemberPointDTO> pointList(SearchCriteria searchCriteria, String userId) {
+        return mypageMapper.findByPoint(searchCriteria,userId);
+    }
+
+    @Override
     public List<LikeFundingDTO> likeFundingList(SearchCriteria searchCriteria, String userId) {
         return mypageMapper.findLikeFundingById(searchCriteria,userId);
     }
@@ -89,13 +91,21 @@ public class MypageServiceImple implements MypageService{
         OrderFundingDTO byOrder = mypageMapper.findByOrder(userId, orderCode);
         OrderCreditDTO byCredit = mypageMapper.findByCredit(orderCode);
         List<CategoryDTO> category = mypageMapper.contactCategory();
+        int reviewCount = mypageMapper.reviewCount(userId, byOrder.getFundingCode());
 
         Map<String,Object> info = new HashMap<>();
+
         info.put("order", byOrder);
         info.put("credit", byCredit);
         info.put("contactCategory", category);
+        info.put("reviewCount", reviewCount);
 
         return info;
+    }
+
+    @Override
+    public int changeProfile(ProfileDTO profile) {
+        return mypageMapper.updateProfile(profile);
     }
 
 //     문의사항 세부내역

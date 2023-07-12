@@ -69,3 +69,9 @@ img {
 main{
     margin-bottom: 30px;
 }
+.no-list{
+    font-size: 20px;
+    font-weight: 600;
+    color: #8c8c8c;
+    padding: 80px 0px;
+}

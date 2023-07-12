@@ -8,7 +8,6 @@ import com.won.dourbest.seller.dto.SellerInquiryDTO;
 import com.won.dourbest.user.dto.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.security.core.parameters.P;
 
 import java.util.List;
 import java.util.Optional;
@@ -41,6 +40,12 @@ public interface MypageMapper {
     OrderCreditDTO findByCredit(int orderCode);
 
     List<CategoryDTO> contactCategory();
+
+    List<MemberPointDTO> findByPoint(@Param("cri") SearchCriteria searchCriteria, @Param("userId") String userId);
+
+    int updateProfile(ProfileDTO profiles);
+
+    int reviewCount(@Param("userId") String userId, @Param("fundingCode") int fundingCode);
 
     AdminInquiriesDTO QnaInqurireAnwser(int memberCode ,int id);
 

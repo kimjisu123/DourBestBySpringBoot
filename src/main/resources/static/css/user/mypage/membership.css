@@ -1,0 +1,126 @@
+.blur,
+.main,
+.particles{
+  max-width: 1280px;
+  width: 100%;
+  height: 520px;
+  position: fixed;
+  /* top: 0; */
+  /* left: 0; */
+  z-index: 1;
+}
+.blur{
+  background-color: #F7FFF7;
+  filter: blur(10px);
+  position: absolute;
+  /* transform: scale(1.1); */
+}
+.main{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  margin: 0 auto;
+  align-items: center;
+  position: absolute;
+
+}
+
+.main > div{
+  flex-direction: column;
+}
+
+.regist{
+  display: inline-block;
+  font-family: sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  letter-spacing: 15px;
+  padding: 15px 20px;
+  border-radius: 5px;
+  color: #F7FFF7;
+  background: #FF6B6B;
+  z-index: 500;
+}
+
+.membership-title{
+  font-size: 40px;
+  margin: 50px 0;
+}
+
+.particles{
+  position: absolute;
+  z-index: 300;
+  transform-style: preserve-3d;
+  /*     animation: rotate-container 10s infinite ease-in-out alternate; */
+  overflow: hidden;
+}
+
+.membership-list{
+  display: flex;
+  align-items: center;
+}
+
+.main ul{
+  margin-bottom: 40px;
+}
+
+.benefit{
+  flex: 1;
+  z-index: 100;
+
+}
+
+.benefit span, .benefit strong{
+  font-size: 25px;
+}
+.benefit > span{
+  display: block;
+  font-weight: bold;
+  color: #f35f4c;
+}
+.regist-button{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+.membership:not(:last-child){
+  border-bottom: 1px solid #747575;
+}
+
+.membership{
+  padding: 25px 0;
+}
+
+.membership-list div img{
+  width: 80px;
+}
+
+@keyframes move {
+  0%{
+    transform: translateY(0);
+    opacity: 0;
+  }
+  10% ,90%{
+    opacity: 1;
+  }
+  100%{
+    transform: translateY(45vw);
+    opacity: 0;
+  }
+}
+@keyframes rotate-container {
+  0%{
+    transform:
+            perspective(1000px)
+            translateZ(0px);
+  }
+  100%{
+    transform:
+            perspective(1000px)
+            translateZ(150px);
+  }
+}

@@ -51,6 +51,10 @@
     color: #fff;
 }
 
+.active{
+    background-color: #f35f4c;
+}
+
 /* 쿠폰 */
 .coupon-container{
     font-size: 1.2em;

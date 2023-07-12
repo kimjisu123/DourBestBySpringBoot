@@ -30,9 +30,9 @@
                             <p th:if="${loginErrorMsg}" class="error" th:text="${loginErrorMsg}"></p>
                             <br>
                             <div class="finding">
-                                <a href="/user/html/findId.html">아이디찾기</a>
+                                <a th:href="|@{/mail}|">아이디찾기</a>
                                 <span class="line">│</span>
-                                <a href="/user/html/findpw.html">비밀번호찾기</a>
+                                <a th:href="@{/mail}">비밀번호찾기</a>
                             </div>
                         </div>
                         <div class="buttons">

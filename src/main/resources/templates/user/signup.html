@@ -3,7 +3,6 @@
 <head>
     <link rel="stylesheet" th:href="@{/css/user/signup.css}"/>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script> <!-- 주소 검색 스크립트 주소   -->
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     <script th:src="@{/js/user/member/signup.js}"></script>
 </head>
 <main>
@@ -286,14 +285,14 @@
 </main>
 <script src=""></script>
 <script>
-$(".personalterms").on("click", "#checkAll", function () {
-var checked = $(this).is(":checked");
+    $(".personalterms").on("click", "#checkAll", function () {
+            var checked = $(this).is(":checked");
 
-if(checked){
-$(this).siblings('input').prop("checked", true);
-} else {
-$(this).siblings('input').prop("checked", false);
-}
-});
+            if(checked){
+                $(this).siblings('input').prop("checked", true);
+            } else {
+                $(this).siblings('input').prop("checked", false);
+            }
+    });
 </script>
 </html>

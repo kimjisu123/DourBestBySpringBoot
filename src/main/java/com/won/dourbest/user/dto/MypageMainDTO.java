@@ -16,4 +16,6 @@ public class MypageMainDTO {
     private int couponCount;
     private int pointTotalAmount;
 
+    private String profile;
+
 }

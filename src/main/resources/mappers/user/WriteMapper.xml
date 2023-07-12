@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.won.dourbest.user.dao.WriteMapper">
+
+    <resultMap id="sellerInquireResultMap" type="SellerInquiryDTO">
+        <id property="sellerInquiryCode" column="SELLER_INQUIRY_CODE"/>
+        <result property="inquiryTitle" column="INQUIRY_TITLE"/>
+        <result property="inquiryContent" column="INQUIRY_CONTENT"/>
+        <result property="inquiryDate" column="INQUIRY_DATE"/>
+        <result property="answerStatus" column="ANSWER_STATUS"/>
+        <result property="fundingCode" column="FUNDING_CODE"/>
+        <result property="memberCode" column="MEMBER_CODE"/>
+        <result property="categoryCode" column="CATEGORY_CODE"/>
+    </resultMap>
+
+    <resultMap id="ReviewResult" type="ReviewDTO">
+        <id property="reviewCode" column="REVIEW_CODE"/>
+        <result property="reviewTitle" column="REVIEW_TITLE"/>
+        <result property="reviewContent" column="REVIEW_CONTENT"/>
+        <result property="reviewStar" column="RATE"/>
+        <collection property="reviewFile" resultMap="ReviewFile"/>
+    </resultMap>
+
+    <resultMap id="ReviewFile" type="ReviewFileDTO">
+        <id property="reviewFileCode" column="REVIEW_FILE_CODE"/>
+        <result property="fileModificationName" column="FILE_MODIFICATION_NAME"/>
+        <result property="deletionStatus" column="DELETION_STATUS"/>
+
+    </resultMap>
+
+    <insert id="insertReview" parameterType="ReviewDTO">
+        insert into TBL_REVIEW values (
+        SEQ_REVIEW_CODE.nextval,
+        #{reviewTitle},#{reviewContent},SYSDATE,'N',#{fundingCode},#{memberCode},#{reviewStar}
+        )
+        <selectKey keyProperty="reviewCode" resultType="int" order="AFTER">
+            SELECT SEQ_REVIEW_CODE.currval FROM DUAL
+        </selectKey>
+    </insert>
+
+    <insert id="insertReviewFile" parameterType="ReviewFileDTO">
+        INSERT INTO TBL_REVIEW_FILE VALUES
+            (SEQ_REVIEW_FILE.nextval, #{fileOriginalName},#{fileModificationName},SYSDATE, 'N', #{reviewCode})
+    </insert>
+
+    <select id="contactCount">
+        SELECT
+            COUNT(*)
+        from TBL_SELLER_INQUIRY TSI
+        LEFT JOIN TBL_MEMBER TM ON TM.MEMBER_CODE = TSI.MEMBER_CODE
+        WHERE TM.MEMBER_ID = #{userId}
+          AND TSI.FUNDING_CODE = #{fundingCode}
+          AND TSI.CATEGORY_CODE = #{categoryCode}
+    </select>
+
+    <insert id="insertSellerInquire" parameterType="SellerInquiryDTO">
+        INSERT INTO TBL_SELLER_INQUIRY VALUES
+            (SEQ_SELLER_INQUIRY_CODE.nextval, #{inquiryTitle},#{inquiryContent},SYSDATE,'N',#{fundingCode},#{memberCode}, #{categoryCode})
+    </insert>
+
+    <select id="reviewList" resultMap="ReviewResult">
+        SELECT
+            TR.REVIEW_CODE,
+            TR.REVIEW_TITLE,
+            TR.REVIEW_CONTENT,
+            TR.RATE,
+            TRF.REVIEW_FILE_CODE,
+            TRF.FILE_MODIFICATION_NAME,
+            TRF.DELETION_STATUS
+        FROM TBL_REVIEW TR
+            JOIN TBL_REVIEW_FILE TRF on TR.REVIEW_CODE = TRF.REVIEW_CODE
+        WHERE TR.REVIEW_CODE = #{reviewCode}
+    </select>
+
+    <delete id="reviewFileDelete" parameterType="_int">
+        DELETE FROM TBL_REVIEW_FILE TR
+        WHERE TR.REVIEW_FILE_CODE = #{reviewFileCode}
+    </delete>
+
+    <update id="reviewUpdate" parameterType="ReviewFileDTO">
+        UPDATE TBL_REVIEW R
+        SET R.REVIEW_TITLE = #{reviewTitle},
+            R.REVIEW_CONTENT = #{reviewContent},
+            R.CREATION_DATE = SYSDATE,
+            R.FUNDING_CODE = #{fundingCode},
+            R.MEMBER_CODE = #{memberCode},
+            R.RATE = #{reviewStar}
+        WHERE R.REVIEW_CODE = #{reviewCode}
+    </update>
+
+
+</mapper>

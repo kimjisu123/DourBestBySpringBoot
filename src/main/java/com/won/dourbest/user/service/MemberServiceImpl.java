@@ -3,11 +3,14 @@ package com.won.dourbest.user.service;
 import com.won.dourbest.common.exception.user.EmailNotFoundException;
 import com.won.dourbest.user.dao.MemberMapper;
 import com.won.dourbest.user.dto.*;
+import com.won.dourbest.user.event.RegistEvent;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.validator.internal.constraintvalidators.bv.time.futureorpresent.FutureOrPresentValidatorForLocalDateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,12 +22,14 @@ import org.springframework.transaction.annotation.Transactional;
 import java.lang.reflect.Member;
 import java.util.*;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
 
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
     private final MemberMapper mapper;
+    private final ApplicationEventPublisher publisher;
+
 
     // 회원가입 정보를  오라클에 저장 메소드
     @Override
@@ -40,7 +45,12 @@ public class MemberServiceImpl implements MemberService {
         int auth = mapper.insertMemberAuth();
 
         if (result > 0 && result2 > 0 && auth > 0) {
+
+            MemberDTO member = (MemberDTO) map.get("member");
+            publisher.publishEvent(new RegistEvent(member.getMemberCode()));
+
             return 1;
+
         } else {
             throw new IllegalStateException();
         }
@@ -73,6 +83,7 @@ public class MemberServiceImpl implements MemberService {
 
         //예외 추가해주기
         MemberDTO member = mapper.findByMember(username).orElseThrow();
+
         //권한리스트
         List<MemberAuthListDTO> memberAuthList = member.getMemberAuthList();
         List<GrantedAuthority> authorities = new ArrayList<>();

@@ -12,21 +12,18 @@
           <div class="counttext">
             <div class="content">
               <div>DourBest의</div>
-              <div class="value">154792</div>
+              <div class="value" th:text="|${imgMap['amount']}|"></div>
               <div>번째 펀딩이에요</div>
             </div>
           </div>
         </div>
         <div class="ad mainwrap">
           <h3>현재 실시간 인기 펀딩</h3>
-          <div>
-            <ul>
-              <li><a href="/"><img src="@{}jpg"></a></li>
-              <li><a href="/"><img src="../../resources/img/toothless.jpg"></a></li>
-              <li><a href="/"><img src="../../resources/img/toothless.jpg"></a></li>
-              <li><a href="/"><img src="../../resources/img/toothless.jpg"></a></li>
-              <li><a href="/"><img src="../../resources/img/toothless.jpg"></a></li>
-            </ul>
+          <div class="wrapping">
+            <div th:each="img : ${imgMap['imgList']}">
+              <div class="mainImg"><img th:style="'background-image: url('+@{/fundingImg/}+${img.fileModificationName}+'); background-size: cover'"
+                                        th:onclick="|location.href='@{/funding/{code}(code=${img.fundingCode})}'|"></div>
+            </div>
           </div>
         </div>
         <div class="sellerbutton">

@@ -1,41 +1,41 @@
-.radiobox label {
-    font-size: 20px;
-    line-height: 2rem;
-    padding: 0.2em 0.4em;
-}
+/*.radiobox label {*/
+/*    font-size: 20px;*/
+/*    line-height: 2rem;*/
+/*    padding: 0.2em 0.4em;*/
+/*}*/
 
-.radiobox span {
-    vertical-align: middle;
-    font-size: 15px;
-}
+/*.radiobox span {*/
+/*    vertical-align: middle;*/
+/*    font-size: 15px;*/
+/*}*/
 
-.radiobox [type="radio"] {
-    vertical-align: middle;
-    appearance: none;
-    border: max(2px, 0.1em) solid gray;
-    border-radius: 50%;
-    width: 1.5em;
-    height: 1.5em;
-    transition: border 0.2s ease-in-out;
-}
+/*.radiobox [type="radio"] {*/
+/*    vertical-align: middle;*/
+/*    appearance: none;*/
+/*    border: max(2px, 0.1em) solid gray;*/
+/*    border-radius: 50%;*/
+/*    width: 1.5em;*/
+/*    height: 1.5em;*/
+/*    transition: border 0.2s ease-in-out;*/
+/*}*/
 
-.radiobox [type="radio"]:checked {
-    border: 0.4em solid #f35f4c;
-}
+/*.radiobox [type="radio"]:checked {*/
+/*    border: 0.4em solid #f35f4c;*/
+/*}*/
 
-.radiobox [type="radio"]:focus-visible {
-    outline-offset: max(2px, 0.1em);
-    outline: max(2px, 0.1em) dotted #f35f4c;
-}
+/*.radiobox [type="radio"]:focus-visible {*/
+/*    outline-offset: max(2px, 0.1em);*/
+/*    outline: max(2px, 0.1em) dotted #f35f4c;*/
+/*}*/
 
-.radiobox [type="radio"]:hover {
-    box-shadow: 0 0 0 max(4px, 0.2em) lightgray;
-    cursor: pointer;
-}
+/*.radiobox [type="radio"]:hover {*/
+/*    box-shadow: 0 0 0 max(4px, 0.2em) lightgray;*/
+/*    cursor: pointer;*/
+/*}*/
 
-.radiobox {
-    margin-top: 40px;
-}
+/*.radiobox {*/
+/*    margin-top: 40px;*/
+/*}*/
 
 .photobox {
     position: relative;
@@ -133,9 +133,9 @@
     padding-left: 5px;
 }
 
-.box {
-    display: none ;
-}
+/*.box {*/
+/*    display: none ;*/
+/*}*/
 
 .group {
     position: relative;
