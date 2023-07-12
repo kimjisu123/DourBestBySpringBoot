@@ -32,30 +32,42 @@
     padding-top: 10px;
 }
 
-.ad ul {
-    display: flex;
-    justify-content: space-between;
-}
 
-.ad li {
-    margin-left: 10px;
-    margin-right: 10px;
-}
-
-.ad img {
+.imgBox img {
     width: auto;
     height: 300px;
     border-radius: 10px;
+}
+
+.mainImg img{
+    width: 240px;
+    height: 295px;
+    cursor: pointer;
+}
+
+.mainImg img:hover {
+    box-shadow: 0px 2px 4px 0px black;
+}
+
+.adimg {
+    display: flex;
+    justify-content: space-between;
 }
 
 .mainwrap {
     min-width: 1100px;
 }
 
+.wrapping {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10px;
+}
+
 .bottomtext {
     text-align: center;
     font-size: 30px;
-    font-weight: 5 00;
+    font-weight: 500;
     margin: 100px auto 0;
 }
 
@@ -87,9 +99,10 @@
 }
 
 .underselect {
-    font-size: 1.1em;
+    font-size: 1.2em;
     margin-top: -10px;
     font-weight: 500;
+    color: #6e6e6e;
 }
 
 .button2 {

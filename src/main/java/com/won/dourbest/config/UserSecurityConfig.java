@@ -41,7 +41,7 @@ public class UserSecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/mypage/**").hasRole("USER")
                 .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/submit/**").hasRole("SELLER")
+//                .antMatchers("/submit/**").hasRole("SELLER")
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()

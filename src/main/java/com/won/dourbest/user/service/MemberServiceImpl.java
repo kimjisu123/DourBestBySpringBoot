@@ -84,6 +84,7 @@ public class MemberServiceImpl implements MemberService {
 
         //예외 추가해주기
         MemberDTO member = mapper.findByMember(username).orElseThrow();
+
         //권한리스트
         List<MemberAuthListDTO> memberAuthList = member.getMemberAuthList();
         List<GrantedAuthority> authorities = new ArrayList<>();

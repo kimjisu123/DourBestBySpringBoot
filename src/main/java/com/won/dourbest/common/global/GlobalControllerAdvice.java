@@ -1,6 +1,7 @@
 package com.won.dourbest.common.global;
 
 import com.won.dourbest.common.dto.CommonResponse;
+import com.won.dourbest.common.exception.member.NoLoginException;
 import com.won.dourbest.common.exception.user.CouponNotFoundException;
 import com.won.dourbest.common.exception.user.ExistenceCreditException;
 import com.won.dourbest.common.exception.user.SellerInquireException;
@@ -26,5 +27,10 @@ public class GlobalControllerAdvice {
     }
 
 
+
+    @ExceptionHandler(NoLoginException.class)
+    public String pleaseLogin(NoLoginException N) {
+        return "user/login";
+    }
 
 }
