@@ -17,4 +17,5 @@ public class CreditListDTO {
     private Date creditDate;
     private int paymentCode;
 
+
 }

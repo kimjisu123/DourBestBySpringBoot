@@ -12,7 +12,7 @@ import java.util.List;
 @ToString
 public class CouponListDTO {
 
-    private int couponListCode; // 쿠폰코드
+    private int couponlistCode; // 쿠폰코드
     private int serialNumber; // 일련번호
     private Date regiDate; // 등록날짜
     private Date validDate; // 유효날짜

@@ -12,10 +12,13 @@ public class OrderDTO {
     private int orderCode;
     private int orderCount;
     private int orderPrice;
-    private int totalPrice;
     private int fundingCode;
     private int memberCode;
     private String orderRequest;
-    private int deliveryCharge;
+    private String orderDate;
+    private String fundingOptionCode;
+    private String deliveryCharge;
+    private String couponlistCode;
+
 
 }

@@ -4,9 +4,7 @@ import com.siot.IamportRestClient.IamportClient;
 import com.siot.IamportRestClient.exception.IamportResponseException;
 import com.siot.IamportRestClient.response.IamportResponse;
 import com.siot.IamportRestClient.response.Payment;
-import com.won.dourbest.seller.dto.FundingOptionDTO;
-import com.won.dourbest.seller.dto.ProductDTO;
-import com.won.dourbest.seller.dto.SellerDTO;
+import com.won.dourbest.seller.dto.*;
 import com.won.dourbest.seller.service.SellerService;
 import com.won.dourbest.seller.service.SellerServiceImpl;
 import com.won.dourbest.user.dto.*;
@@ -23,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -178,25 +177,35 @@ public class SellerController {
     }
 
 
+    @PostMapping("/order")
+    @ResponseBody
+    public OrderDTO order(@RequestBody @Valid OrderDTO order, @AuthenticationPrincipal MemberImpl id ) {
+
+        System.out.println("order : " + order.getFundingOptionCode());
+
+        OrderDTO insertOrder = service.insertOrder(order, id.getMemberId());
+
+        System.out.println(insertOrder.getOrderCode());
 
 
 
+        return insertOrder;
+    }
+
+    @PostMapping("/credit")
+    @ResponseBody
+    public String credit(@RequestBody @Valid PaymentDTO payment) {
+
+        System.out.println(payment.getOrderCode());
+        System.out.println(payment.getTotalPrice());
+        System.out.println(payment.getBankName());
+
+        return "";
+    }
 
 
 
-
-
-
-
-
-//    @PostMapping("/credit")
-//    @ResponseBody
-//    public void memberCode(@RequestParam int memberCode){
-//        service.selectMemberCode(memberCode);
-//    }
-//
-//
-//    @PostMapping("/verifyIamport/{imp_uid}")
+//    @GetMapping("/cards/{card_standard_code}")
 //    @ResponseBody
 //    public IamportResponse<Payment> Import(Model model, Locale locale, HttpSession session, @PathVariable(value = "imp_uid") String imp_uid) throws IamportResponseException, IOException {
 //

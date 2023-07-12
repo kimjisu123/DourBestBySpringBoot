@@ -1,10 +1,9 @@
 package com.won.dourbest.seller.service;
 
 import com.won.dourbest.seller.dao.SellerMapper;
-import com.won.dourbest.seller.dto.FundingOptionDTO;
-import com.won.dourbest.seller.dto.ProductDTO;
-import com.won.dourbest.seller.dto.SellerDTO;
+import com.won.dourbest.seller.dto.*;
 import com.won.dourbest.user.dto.*;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -121,10 +120,7 @@ public class SellerServiceImpl implements SellerService {
         return productPrice;
     }
 
-    @Override
-    public void selectMemberCode(int memberCode) {
 
-    }
 
     @Override
     public ProductDTO selectProduct(int optionCode) {
@@ -152,5 +148,47 @@ public class SellerServiceImpl implements SellerService {
         return null;
     }
 
+    @Override
+    @Transactional
+    public OrderDTO insertOrder(OrderDTO order, String memberId) {
+
+        // 멤버코드
+        MemberDTO memberCode = mapper.selectMember(memberId);
+        System.out.println("memberCode : " + memberCode.getMemberCode());
+
+        // 펀딩코드
+        FundingDTO fundingCode = mapper.selectfundingCode(order.getFundingOptionCode());
+        System.out.println("fundingCode = " + fundingCode);
+
+        // 쿠폰리스트 코드
+        CouponListDTO couponCode = mapper.selectCouponCode(memberCode.getMemberCode());
+
+        order.setMemberCode(memberCode.getMemberCode());
+        order.setFundingCode(fundingCode.getFundingCode());
+        order.setCouponlistCode(String.valueOf(couponCode.getCouponlistCode()));
+        
+        
+        int result = mapper.insertOrder(order);
+        int orderCode = order.getOrderCode();
+
+        System.out.println("orderCode = " + orderCode);
+        // 오더코드
+
+
+        if(result >= 1) {
+            System.out.println("주문 등록 성공");
+        } else {
+            System.out.println("주문 등록 실패");
+        }
+
+
+
+
+        return order;
+    }
+
 
 }
+
+
+

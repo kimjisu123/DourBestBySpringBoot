@@ -48,24 +48,25 @@
 
           <div class="card-choice1 form-select">
             <select >
-              <option disabled="disabled" selected="select-box">카드를 선택해주세요</option>
-              <option>국민</option>
-              <option >비씨</option>
-              <option >신한</option>
-              <option >현대</option>
-              <option >삼성</option>
-              <option >롯데</option>
-              <option >외환</option>
-              <option >NH</option>
-              <option >하나</option>
-              <option >우리</option>
-              <option >광주</option>
-              <option >수협</option>
-              <option >씨티</option>
-              <option >전북</option>
-              <option >제주</option>
-              <option >카카오뱅크</option>
-              <option >케이뱅크</option>
+              fo
+              <option disabled="disabled" selected="select-box" id="bank">카드를 선택해주세요</option>
+              <option value="1">국민</option>
+              <option value="2">비씨</option>
+              <option value="3">신한</option>
+              <option value="4">현대</option>
+              <option value="5">삼성</option>
+              <option value="6">롯데</option>
+              <option value="7">외환</option>
+              <option value="8">NH</option>
+              <option value="9">하나</option>
+              <option value="10">우리</option>
+              <option value="11">광주</option>
+              <option value="12">수협</option>
+              <option value="13">씨티</option>
+              <option value="14">전북</option>
+              <option value="15">제주</option>
+              <option value="16">카카오뱅크</option>
+              <option value="17">케이뱅크</option>
             </select>
           </div>
 
@@ -101,12 +102,12 @@
           <div class="address-text text2"><p th:text="${ address.getDetailAddress()}"></p></div>
           <div class="address text1">배송메모 <br>
             <div class="message-select form-select">
-              <select name="" id="">
-                <option value="" disabled="disabled" selected="select-box">요청사항을 선택해주세요</option>
-                <option>배송 전에 미리 연락 바랍니다.</option>
-                <option>부재시 경비실에 맡겨 주세요.</option>
-                <option>부재시 전화 주시거나 문자 남겨 주세요.</option>
-                <option>문앞에 놔주세요.</option>
+              <select id="request">
+                <option name="request" disabled="disabled" selected="select-box">요청사항을 선택해주세요</option>
+                <option name="request" value="1">배송 전에 미리 연락 바랍니다.</option>
+                <option name="request" value="2">부재시 경비실에 맡겨 주세요.</option>
+                <option name="request" value="3">부재시 전화 주시거나 문자 남겨 주세요.</option>
+                <option name="request" value="4">문앞에 놔주세요.</option>
               </select>
             </div>
           </div>
@@ -320,7 +321,8 @@ $("#send").click(function(){
   })
 </script>
 
-<script>
+<script th:inline="javascript">
+
   var IMP = window.IMP;
   IMP.init("imp35545546"); // 예: imp00000000
 
@@ -331,21 +333,76 @@ $("#send").click(function(){
       pay_method: "card",
       merchant_uid: "merchant_" + new Date().getTime(),
       name: $("#product-name").text(),
-      amount: 123,
-      buyer_email: $("#memberEmail").val(),
-      buyer_name: $("#memberName").val(),
-      buyer_tel: $("#memberPhone").val(),
-      buyer_addr: $("#memberAddress").val(),
+      amount: $("#product-price").text(),
+      buyer_email: $("#memberEmail").text(),
+      buyer_name: $("#memberName").text(),
+      buyer_tel: $("#memberPhone").text(),
+      buyer_addr: $("#memberAddress").text(),
       buyer_postcode: "01181"
-    }, function (rsp) { // callback
+    }, function (rsp) {
       if (rsp.success) {
+        const fundingOptionCode = $("#optionCode").val();
+        const orderPrice = $("#product-price").text();
+        const request = $("#request");
+        const orderRequest = request.val();
+        const deliveryCharge = $(".delivery").text();
+
+
+        const result = {
+          fundingOptionCode:fundingOptionCode,
+          orderPrice:orderPrice,
+          orderRequest:orderRequest,
+          deliveryCharge:deliveryCharge       }
+
+        $.ajax({
+          url: "/seller/order",
+          method: "POST",
+          data : JSON.stringify(result),
+          contentType: "application/json",
+          success: function(data){
+            const totalPrice = $("#totalPrice").text();
+            const bank = $("#bank");
+            const bankName = bank.val();
+            const bankNum = 135135;
+            const orderCode = data;
+
+            const payment = {
+              bankName : bankName,
+              totalPrice : totalPrice,
+              bankNum : bankNum,
+              orderCode : orderCode
+            }
+              $.ajax({
+                url:"/seller/credit",
+                method: "POST",
+                data: JSON.stringify(payment),
+                contentType: "application/json",
+                success: function(data){
+
+                },
+                error : function(error) {
+
+                }
+              })
+          },
+          error: function (data){
+
+          }
+        });
+
 
       } else {
 
       }
     });
   }
+
 </script>
+
+<script>
+
+</script>
+
 
 
 

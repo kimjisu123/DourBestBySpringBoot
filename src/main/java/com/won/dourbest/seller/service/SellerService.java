@@ -1,9 +1,11 @@
 package com.won.dourbest.seller.service;
 
+import com.won.dourbest.seller.dto.FundingCreditDTO;
 import com.won.dourbest.seller.dto.FundingOptionDTO;
 import com.won.dourbest.seller.dto.ProductDTO;
 import com.won.dourbest.seller.dto.SellerDTO;
 import com.won.dourbest.user.dto.*;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 import java.util.List;
 
@@ -20,16 +22,9 @@ public interface SellerService {
 
     List<CouponDTO> selectCouponList();
 
-//    CouponDTO selectTotalCouponDC();
-
-//    CouponDTO registCoupon(String contact);
-
-
     OrderDTO selectDelivery();
 
     ProductDTO registCoupon(String choiceCoupon, int optionCode);
-
-    void selectMemberCode(int memberCode);
 
     ProductDTO selectProduct(int optionCode);
 
@@ -38,6 +33,5 @@ public interface SellerService {
     ProductDTO totalPrice(int totalPrice);
 
 
-//    CouponDTO selectTotalPrice();
-
+    OrderDTO insertOrder(OrderDTO order, String memberId);
 }

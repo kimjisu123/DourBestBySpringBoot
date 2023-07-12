@@ -74,6 +74,29 @@
         <result property="pointTotalAmount" column="POINT_TOTAL_AMOUNT"></result>
     </resultMap>
 
+    <resultMap id="selectFundingResultMap" type="FundingDTO">
+
+        <result property="fundingCode" column="FUNDING_CODE"></result>
+    </resultMap>
+
+    <resultMap id="selectCouponCodeResultMap" type="CouponListDTO">
+        <result property="couponCode" column="COUPON_CODE"></result>
+    </resultMap>
+
+
+<!--    <resultMap id="selectOrderResultMap" type="OrderDTO">-->
+<!--        <result property="orderCode" column="ORDER_CODE"></result>-->
+<!--        <result property="orderCount" column="ORDER_COUNT"></result>-->
+<!--        <result property="orderPrice" column="ORDER_PRICE"></result>-->
+<!--        <result property="fundingCode" column="FUNDING_CODE"></result>-->
+<!--        <result property="memberCode" column="MEMBER_CODE"></result>-->
+<!--        <result property="orderRequest" column="ORDER_REQUEST"></result>-->
+<!--        <result property="orderDate" column="ORDER_DATE"></result>-->
+<!--        <result property="fundingOptionCode" column="FUNDING_OPTION_CODE"></result>-->
+<!--        <result property="deliveryCharge" column="DELIVERY_CHARGE"></result>-->
+<!--        <result property="couponlistCode" column="COUPONLIST_CODE"></result>-->
+<!--    </resultMap>-->
+
 
 
 
@@ -123,8 +146,9 @@
 
         SELECT MEMBER_NAME,
                MEMBER_PHONE,
-               MEMBER_EMAIL
-        FROM TBL_MEMBER
+               MEMBER_EMAIL,
+               MEMBER_CODE
+          FROM  TBL_MEMBER
         WHERE MEMBER_ID = #{ memberId }
     </select>
 
@@ -202,6 +226,65 @@
          WHERE A.FUNDING_OPTION_CODE = ${ optionCode }
           AND  B.FILE_TYPE = '메인'
     </select>
+
+
+
+
+
+    <select id="selectfundingCode" resultMap="selectFundingResultMap">
+        SELECT
+            FUNDING_CODE
+          FROM TBL_FUNDING_OPTIONS
+         WHERE FUNDING_OPTION_CODE = #{ fundingOptionCode }
+    </select>
+
+    <select id="selectCouponCode" resultMap="selectCouponCodeResultMap">
+        SELECT
+            COUPONLIST_CODE
+         FROM TBL_COUPONLIST
+        WHERE MEMBER_CODE = #{ memberCode }
+    </select>
+
+    <insert id="insertOrder">
+        INSERT
+        INTO TBL_ORDER
+        (
+         ORDER_CODE
+         , ORDER_COUNT
+         , ORDER_PRICE
+         , FUNDING_CODE
+         , MEMBER_CODE
+         , ORDER_REQUEST
+         , ORDER_DATE
+         , FUNDING_OPTION_CODE
+         , DELIVERY_CHARGE
+         , COUPONLIST_CODE
+        )
+        VALUES
+        (
+           SEQ_ORDER_CODE.nextval
+         , 1
+         , #{ orderPrice}
+         , #{ fundingCode }
+         , #{ memberCode }
+         , #{ orderRequest}
+         , DEFAULT
+         , #{ fundingOptionCode }
+         , #{ deliveryCharge }
+         , #{ couponlistCode }
+        )
+        <selectKey keyProperty="orderCode" resultType="_int" order="AFTER">
+            SELECT
+                SEQ_ORDER_CODE.currval
+              FROM DUAL
+        </selectKey>
+    </insert>
+
+
+
+<!--    <select id="selectfundingCode" resultMap="selectFundingResultMap">-->
+
+<!--    </select>-->
 
 
 
