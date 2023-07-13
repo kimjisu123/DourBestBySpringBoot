@@ -1,6 +1,7 @@
 package com.won.dourbest.seller.controller;
 
 import com.siot.IamportRestClient.IamportClient;
+import com.won.dourbest.common.exception.member.NoLoginException;
 import com.won.dourbest.seller.dto.*;
 import com.won.dourbest.seller.service.SellerServiceImpl;
 import com.won.dourbest.user.dto.*;
@@ -31,7 +32,11 @@ public class SellerController {
 
 
     @GetMapping("/application")
-    public String seller() {
+    public String seller(@AuthenticationPrincipal MemberImpl member) {
+
+        if(member == null) {
+            throw new NoLoginException("로그인 안됨");
+        }
 
         return "seller/giwon_seller/seller_application";
     }
