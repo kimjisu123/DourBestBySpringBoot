@@ -77,15 +77,15 @@
                             type  : "POST",
                             url : "/membership/verifyIamport/" + rsp.imp_uid
                         }).done(function(data) {
-
+                            console.log(data);
                             if(4400 == data.response.amount){
                                 alert("결제 및 결제검증완료");
 
                                 let result = JSON.stringify({
                                     memberCode: [[${member.memberCode}]],
-                                    cardCompany : data.response.pgProvider,
-                                    paymentNumber : data.response.merchantUid,
-                                    paymentDate : data.response.paidAt,
+                                    cardCompany : data.response.pg_provider,
+                                    paymentNumber : data.response.merchant_uid,
+                                    paymentDate : new Date(data.response.paid_at * 1000),
                                     memberStatus: data.response.status
                                 });
 

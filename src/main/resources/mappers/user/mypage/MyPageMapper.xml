@@ -66,7 +66,6 @@
     </resultMap>
 
 
-
     <resultMap id="MemberShipResultMap" type="MemberShipDTO">
         <id property="membershipCode" column="MEMBERSHIP_CODE"/>
         <result property="membershipName" column="MEMBERSHIP_NAME"/>
@@ -163,6 +162,7 @@
         <result property="endDate" column="END_DATE"/>
         <result property="reviewCode" column="REVIEW_CODE"/>
         <result property="orderCode" column="ORDER_CODE"/>
+        <result property="mainFile" column="FILE_MODIFICATION_NAME"/>
     </resultMap>
 
     <resultMap id="FundingResultMap" type="FundingDTO">
@@ -233,7 +233,7 @@
             (SELECT COUNT(COUPON_CODE) FROM TBL_COUPONLIST TCL WHERE MEMBER_CODE = (SELECT MEMBER_CODE
                                                                                     FROM TBL_MEMBER
                                                                                     WHERE MEMBER_ID = #{userId})
-                                                                 AND TCL.COUPON_REGI_STATUS = 'Y'
+                                                                 AND TCL.COUPON_USE_STATUS = 'N'
             ) COUPON_COUNT
         FROM TBL_MEMBER M
                  LEFT JOIN TBL_MEMBERSHIP TM ON (M.MEMBERSHIP_CODE = TM.MEMBERSHIP_CODE)
@@ -302,9 +302,7 @@
                         JOIN TBL_MEMBER TM on TCL.MEMBER_CODE = TM.MEMBER_CODE
                         JOIN TBL_COUPON TC on TCL.COUPON_CODE = TC.COUPON_CODE
                     WHERE TM.MEMBER_ID = #{ userId }
-<!--                <if test="cri.status != Y">-->
-<!--                    AND TCL.COUPON_REGI_STATUS = #{ cri.status }-->
-<!--                </if>-->
+                    AND TCL.COUPON_USE_STATUS ='N'
                 <choose>
                     <when test="cri.order != null ">
                         AND TCL.COUPON_USE_STATUS = #{ cri.order }
@@ -419,16 +417,16 @@
                     </if>
 
                     <choose>
-                        <when test='"N".equals(cri.status)'>
+                        <when test='"N".equals(cri.status) or cri.status == null'>
                             AND TR.REVIEW_CODE IS NULL
                         </when>
-                        <when test='"Y".equals(cri.status) or cri.status == null'>
+                        <when test='"Y".equals(cri.status)'>
                             AND TR.REVIEW_CODE IS NOT NULL
                         </when>
                         <otherwise>
+                            AND TR.REVIEW_CODE IS NULL
                         </otherwise>
                     </choose>
-
                     ) A
                 <![CDATA[
                     WHERE ROWNUM <= #{ cri.rowEnd }
@@ -632,16 +630,24 @@
         </if>
         <if test="name == 'coupon'">
             SELECT
-            COUNT(*)
+            count(*)
             FROM TBL_COUPONLIST TCL
-                JOIN TBL_MEMBER TM on TCL.MEMBER_CODE = TM.MEMBER_CODE
-                JOIN TBL_COUPON TC on TCL.COUPON_CODE = TC.COUPON_CODE
-            <if test="cri.status != null">
-                AND TCL.COUPON_REGI_STATUS = #{ cri.status }
-            </if>
-            <if test="cri.order != null">
-                AND TCL.COUPON_USE_STATUS = #{ cri.order }
-            </if>
+            JOIN TBL_MEMBER TM on TCL.MEMBER_CODE = TM.MEMBER_CODE
+            JOIN TBL_COUPON TC on TCL.COUPON_CODE = TC.COUPON_CODE
+            WHERE TM.MEMBER_ID = #{ userId }
+            AND TCL.COUPON_USE_STATUS ='N'
+            <choose>
+                <when test="cri.order != null ">
+                    AND TCL.COUPON_USE_STATUS = #{ cri.order }
+                </when>
+                <when test="cri.status != null">
+                    AND TCL.COUPON_REGI_STATUS = #{ cri.status }
+                </when>
+                <otherwise>
+                    AND TCL.COUPON_REGI_STATUS = 'Y'
+                </otherwise>
+            </choose>
+            ORDER BY TCL.VALID_DATE DESC
         </if>
         <if test="name == 'like'">
             SELECT
@@ -672,13 +678,14 @@
                 ]]>
             </if>
             <choose>
-                <when test='"Y".equals(cri.status)'>
-                    AND TR.REVIEW_CODE IS NOT NULL
-                </when>
                 <when test='"N".equals(cri.status) or cri.status == null'>
                     AND TR.REVIEW_CODE IS NULL
                 </when>
+                <when test='"Y".equals(cri.status)'>
+                    AND TR.REVIEW_CODE IS NOT NULL
+                </when>
                 <otherwise>
+                    AND TR.REVIEW_CODE IS NULL
                 </otherwise>
             </choose>
         </if>

@@ -293,6 +293,20 @@
         </selectKey>
     </insert>
 
+    <insert id="insertPurchase" parameterType="HashMap">
+        INSERT
+          INTO TBL_PURCHASED_FUNDING_LIST
+        (
+         MEMBER_CODE, FUNDING_CODE, TBL_PURCHASED_FUNDING_LIST
+        )
+        VALUES
+        (
+           #{mCode}
+        ,  #{fundCode}
+        , SEQ_PURCHASED_FUNDING_LIST_CODE.nextval
+        )
+    </insert>
+
     <select id="selectCoupon1" parameterType="hashMap">
         SELECT
             A.COUPON_CODE
