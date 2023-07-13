@@ -29,7 +29,7 @@
 
     <select id="getAmount">
         SELECT
-               MAX(FUNDING_CODE)
+               NVL(MAX(FUNDING_CODE),0)
           FROM TBL_FUNDING
     </select>
 

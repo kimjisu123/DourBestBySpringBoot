@@ -18,5 +18,5 @@ public class OptionDTO {
     private String optionColor;
     private String optionSize;
     private String deliverDate;
-
+    private int fundingCode;
 }
