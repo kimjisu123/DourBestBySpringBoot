@@ -93,7 +93,7 @@ section{
 
 .main-banner{
     /* 임시 */
-
+    background-image: url("/static/images/common/heart.jpg") ;
     background-color: #b4b4b4;
 
 
@@ -124,6 +124,7 @@ section{
     line-height: 1;
     font-weight: 300;
     padding: 20px;
+    color: black;
 }
 
 .banner-inner a {
@@ -134,12 +135,14 @@ section{
     background-color: #ffd2c4;
     color: #fff;
     transition: 0.5s;
+
 }
 
 .banner-inner p {
     font-size: 20px;
     padding: 20px 0px;
     border-radius: 10px;
+    color: black;
 }
 
 .banner-inner a:hover{
