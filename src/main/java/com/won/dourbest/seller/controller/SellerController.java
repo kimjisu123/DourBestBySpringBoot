@@ -93,6 +93,10 @@ public class SellerController {
     @GetMapping("/payment/{optionCode}")
     public String payment(Model model, HttpServletRequest request , @AuthenticationPrincipal MemberImpl id, @PathVariable int optionCode) {
 
+        if(id == null) {
+            throw new NoLoginException("로그인 안됨");
+        }
+
         FundingOptionDTO product = service.selectProductName(optionCode);
 
         model.addAttribute("product", product);
