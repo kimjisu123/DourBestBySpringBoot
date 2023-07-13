@@ -9,6 +9,7 @@ import com.won.dourbest.admin.notice.dto.EventRegistDTO;
 import com.won.dourbest.admin.notice.dto.NoticeRegistDTO;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -26,11 +27,10 @@ public interface NoticeMapper {
 
 
     // 공지사항 등록
-    int insertNotice(NoticeRegistDTO notice);
+    int insertNotice(String noticeContent, String noticeTitle, int adminCode);
 
     // 이벤트 글 등록
-    int insertEvent(EventRegistDTO event);
-
+    int insertEvent(String eventContent, String eventTitle, Date eventEndDate, int adminCode);
     // 공지사항 삭제
     int deleteNotice(String noticeTitle);
 
@@ -40,4 +40,6 @@ public interface NoticeMapper {
 
     // 종료된 이벤트 글 삭제
     int finishedEventDelete(String eventCode);
+
+
 }

@@ -21,4 +21,5 @@ public class AccountDTO {
     private char withdrawalStatus;  //탈퇴여부
     private char adultStatus; // 성인여부
     private String sellerCode; // 판매자 코드
+    private String  sellerApproval; // 승인 여부
 }

@@ -17,5 +17,5 @@ public interface ReportService {
 
     List<CustomerInquiryDTO> selectInquiry(SelectCriteria selectCriteria);
 
-    String userAnswerRegist(UserAnswerRegistDTO userAnswer);
+    String userAnswerRegist(UserAnswerRegistDTO userAnswer, int adminCode);
 }
