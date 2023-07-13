@@ -35,7 +35,7 @@ public class ReportController {
 //    }
 
     @GetMapping("reportDetails")
-    public ModelAndView reportDetails(ModelAndView mv, @RequestParam(required = false) String searchValue, @RequestParam(defaultValue = "1", value="currentPage") int pageNO){
+    public ModelAndView reportDetails(ModelAndView mv, @RequestParam(required = false) String searchValue, @RequestParam(defaultValue = "1", value="currentPage") int pageNO,   @AuthenticationPrincipal AdminImpl admin){
 
         Map<String, String> searchMap = new HashMap<>();
         searchMap.put("searchValue", searchValue);
@@ -56,6 +56,12 @@ public class ReportController {
         } else {
             selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button);           // 조건이 없을 경우
         }
+
+        if(admin == null){
+            throw new NoLoginException();
+        }
+
+        int adminCode = admin.getAdminCode();
 
 
         List<ReportDetailsDTO> reportDetailsList = reportServiceImpl.selectReportDetails(selectCriteria);
@@ -87,6 +93,8 @@ public class ReportController {
             selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button);
         }
 
+
+
         List<AnswerReportDTO> responseList = reportServiceImpl.selectAnswerReport(selectCriteria);
         mv.addObject("selectCriteria", selectCriteria);
         mv.addObject("responseList", responseList);
@@ -98,6 +106,8 @@ public class ReportController {
 
     @GetMapping("/customerInquiry")
     public ModelAndView customerInquiry(ModelAndView mv, @RequestParam(required = false) String searchValue, @RequestParam(defaultValue = "1", value="currentPage") int pageNO){
+
+
 
         Map<String, String> searchMap = new HashMap<>();
         searchMap.put("searchValue", searchValue);
@@ -134,11 +144,15 @@ public class ReportController {
     // 제재 답변
     @PostMapping("answerRegist")
     @ResponseBody
-    public String answerRegist(@RequestBody AnswerRegistDTO answer){
+    public String answerRegist(@RequestBody AnswerRegistDTO answer, @AuthenticationPrincipal AdminImpl admin){
 
-        System.out.println("answer = " + answer);
+        if(admin == null){
+            throw new NoLoginException();
+        }
+
+        int adminCode = admin.getAdminCode();
         
-        String message = reportServiceImpl.answerRegist(answer);
+        String message = reportServiceImpl.answerRegist(answer, adminCode);
 
         return message;
     }

@@ -30,7 +30,7 @@ public interface ReportMapper {
     String selectReported(String sellerCode);
 
     // 블랙리스트 등록
-    int insertBlackList(String blackListMemberCode);
+    int insertBlackList(String blackListMemberCode, int adminCode);
 
 
     // 판매자 코드
@@ -41,7 +41,7 @@ public interface ReportMapper {
 
 
     // 신고 답변 등록
-    int insertAnswer(int reportCode, AnswerRegistDTO answerRegist);
+    int insertAnswer(int reportCode, AnswerRegistDTO answerRegist, int adminCode);
 
     // 펀딩 신고 상태값 업데이트
     int updateReport(int reportCode);

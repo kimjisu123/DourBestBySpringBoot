@@ -45,7 +45,7 @@ public class ReportServiceImpl implements ReportService{
     }
 
     @Override
-    public String answerRegist(AnswerRegistDTO answerRegist) {
+    public String answerRegist(AnswerRegistDTO answerRegist, int adminCode) {
 
         int fundingCode;
         int reportCode;
@@ -67,7 +67,7 @@ public class ReportServiceImpl implements ReportService{
         int result3;
         String message="";
 
-        result = mapper.insertAnswer(reportCode, answerRegist);
+        result = mapper.insertAnswer(reportCode, answerRegist, adminCode);
         if (result != 0) {
             result1 = mapper.updateSeller(sellerCode);
             if (result1 != 0) {
@@ -87,7 +87,7 @@ public class ReportServiceImpl implements ReportService{
 
         if (blackListMemberCode != null) {
 
-            result3 = mapper.insertBlackList(blackListMemberCode);
+            result3 = mapper.insertBlackList(blackListMemberCode, adminCode);
             if (result3 != 0) {
                 // 성공시 반환
                 message = "블랙리스트에 등록이 되었습니다.";

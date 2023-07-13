@@ -156,7 +156,7 @@
     SEQ_REPORT_RESPONSE_CODE.NEXTVAL,
     #{ answerRegist.answerContent },
     DEFAULT,
-    70,
+    #{adminCode},
     #{ reportCode }
     )
     </insert>
@@ -184,7 +184,7 @@
         VALUES
         (
          SEQ_BLACKLIST_LIST_CODE.nextval,
-         1,
+         #{adminCode},
          #{blackListMemberCode},
          DEFAULT,
          '신고 누적 3회로 인한 블랙리스트 추가'
