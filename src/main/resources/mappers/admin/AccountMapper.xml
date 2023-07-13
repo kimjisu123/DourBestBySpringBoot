@@ -13,6 +13,7 @@
         <result property="memberEmail" column="MEMBER_EMAIL"/>
         <result property="registDate" column="REGIST_DATE"/>
         <result property="sellerCode" column="SELLER_CODE"/>
+        <result property="sellerApproval" column="SELLER_APPROVAL"/>
     </resultMap>
 
     <resultMap id="FundingPaymentResultMap" type="com.won.dourbest.admin.account.dto.FundingPaymentDTO">
@@ -77,7 +78,8 @@
             A.MEMBER_EMAIL,
             A.MEMBER_PHONE,
             A.REGIST_DATE,
-            B.SELLER_CODE
+            B.SELLER_CODE,
+            B.SELLER_APPROVAL
         FROM TBL_MEMBER A
         LEFT JOIN TBL_SELLER B ON A.MEMBER_CODE = B.MEMBER_CODE
         <if test="searchValue != null and searchValue != ''">

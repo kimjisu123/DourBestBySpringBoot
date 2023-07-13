@@ -1,15 +1,16 @@
 package com.won.dourbest.admin.notice.controller;
 
 
+import com.won.dourbest.admin.account.dto.AdminImpl;
 import com.won.dourbest.admin.common.Pagenation;
 import com.won.dourbest.admin.common.SelectCriteria;
-import com.won.dourbest.admin.dto.AdminDTO;
 import com.won.dourbest.admin.notice.dto.AdminNoticeDTO;
 import com.won.dourbest.admin.notice.dto.AdminEventDTO;
 
 import com.won.dourbest.admin.notice.dto.EventRegistDTO;
 import com.won.dourbest.admin.notice.dto.NoticeRegistDTO;
 import com.won.dourbest.admin.notice.service.NoticeServiceImpl;
+import com.won.dourbest.common.exception.member.NoLoginException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -17,8 +18,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -138,21 +137,34 @@ public class NoticeController {
 
     }
 
+    // 공지사항 등록
     @PostMapping("notice")
     @ResponseBody
-    public String noticeRegist(@RequestBody NoticeRegistDTO notice){
+    public String noticeRegist(@RequestBody NoticeRegistDTO notice,@AuthenticationPrincipal AdminImpl admin){
+
+        if(admin == null){
+            throw new NoLoginException();
+        }
+
+        int adminCode = admin.getAdminCode();
 
 
-        String message = noticeServiceImpl.insertNotice(notice);
+        String message = noticeServiceImpl.insertNotice(notice, adminCode);
 
-        return "";
+        return message;
     }
-
+    // 이벤트 등록
     @PostMapping("event")
     @ResponseBody
-    public String eventRegist(@RequestBody EventRegistDTO event){
+    public String eventRegist(@RequestBody EventRegistDTO event,@AuthenticationPrincipal AdminImpl admin){
 
-        String message = noticeServiceImpl.insertEvent(event);
+        if(admin == null){
+            throw new NoLoginException();
+        }
+
+        int adminCode = admin.getAdminCode();
+
+        String message = noticeServiceImpl.insertEvent(event,adminCode);
 
         return message;
 

@@ -42,7 +42,7 @@
                         쿠폰 발급 내역 조회
                     </div>
                     <div th:onclick="|location.href='@{/admin/UseCoupon}'|" id="mainMenuButton2" class="mainMenuButton">
-                        쿠폰 사용 내역 조회
+                        쿠폰 등록 내역 조회
                     </div>
                 </div>
 
@@ -64,32 +64,28 @@
                 <!-- 조회 결과 페이지 -->
                 <div class="listPage">
                     <div class="SortationContainer">
-                        <div id="Sortation1" class="SortationList">
+                        <div id="issuanceCoupons1" class="SortationList">
                             아이디
                         </div>
-                        <div id="Sortation2" class="SortationList">
+                        <div id="issuanceCoupons2" class="SortationList">
                             이름
                         </div>
-                        <div id="Sortation3" class="SortationList">
-                            이메일
+                        <div id="issuanceCoupons3" class="SortationList">
+                            쿠폰 제목
                         </div>
-                        <div id="Sortation4" class="SortationList">
-                            쿠폰 내용
-                        </div>
-                        <div id="Sortation5" class="SortationList">
+                        <div id="issuanceCoupons4" class="SortationList">
                             할인율(%)
                         </div>
-                        <div id="Sortation6" class="SortationList">
+                        <div id="issuanceCoupons5" class="SortationList">
                             쿠폰 유효기간
                         </div>
                     </div>
                     <div th:each="couponIssuance : ${couponIssuanceList}" class="table">
-                        <div th:text="${couponIssuance.getMemberId()}" id="adminAccount1"></div>
-                        <div th:text="${couponIssuance.getMemberName()}" id="adminAccount2"></div>
-                        <div th:text="${couponIssuance.getMemberEmail()}" id="adminAccount3"></div>
-                        <div th:text="${couponIssuance.getCouponContent()}" id="adminAccount4"></div>
-                        <div th:text="${couponIssuance.getCouponDiscount()}" id="adminAccount5"></div>
-                        <div th:text="${#dates.format(couponIssuance.getCouponValidDate(), 'yyyy/MM/dd')}"  id="adminAccount6"></div>
+                        <div th:text="${couponIssuance.getMemberId()}" id="couponList1"></div>
+                        <div th:text="${couponIssuance.getMemberName()}" id="couponList2"></div>
+                        <div th:text="${couponIssuance.getCouponName()}" id="couponList3"></div>
+                        <div th:text="${couponIssuance.getCouponDiscount()}" id="couponList4"></div>
+                        <div th:text="${#dates.format(couponIssuance.getCouponValidDate(), 'yyyy/MM/dd')}"  id="couponList5"></div>
                     </div>
 
 

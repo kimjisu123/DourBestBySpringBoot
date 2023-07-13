@@ -16,10 +16,10 @@
         <div class="main-container5">
           <div class="final-payment text1">최종 결제금액</div>
           <ul>
-            <li class="text2 final-detaile">상품가격 : <p id="product-price" th:text="${ product.getOptionPrice() }" ></p></li>
+            <li class="text2 final-detaile">상품가격 : <p id="product-price" th:text="${ option.getOptionPrice() }" ></p></li>
             <li class="text2 final-detaile">쿠폰할인 : <p id="useCoupon"></p></li>
             <li class="text2 final-detaile">포인트사용 : <p id="usePoint"></p></li>
-            <li class="text2 final-detaile">배송비 : <p class="delivery" th:text="${delivery.getDeliveryCharge()}"></p></li>
+            <li class="text2 final-detaile">배송비 : <p class="delivery" th:text="${deliverPrice}"></p></li>
             <li class="text2 final-detaile">총금액 : <p id="totalPrice"></p></li>
           </ul>
         </div>
@@ -32,7 +32,7 @@
 <!--            <div class="product-img"><img src="/images/seller/adminlogo.png" alt=""></div>-->
           </div>
           <input type="hidden" name="optionCode" id="optionCode" th:value="${ optionCode }">
-          <div class="product-name text2"><p id="product-name" th:text="${ product.getOptionName() }"></p></div>
+          <div class="product-name text2"><p id="product-name" th:text="${ option.getOptionName() }"></p></div>
         </div>
 
         <div class="main-container6">
@@ -170,14 +170,23 @@ $("#send").click(function(){
       const productPrice = $("#product-price").text();
       const usePoint = $("#usePoint").text();
       const delivery = parseFloat($(".delivery").text());
+
       $.ajax({
         url: "/seller/coupon",
         type : "POST",
         data : {choiceCoupon : choiceCoupon, optionCode : optionCode},
         success : function(data) {
+              // alert(data.disCount)
+          if(data.disCount == 9999) {
+            $('.delivery').text(0);
+            $("#useCoupon").text(0)
+            $(".coupon-application").text(data.coupon)
+            $("#totalPrice").text(productPrice - usePoint);
+          } else {
             $(".coupon-application").text(data.coupon)
             $("#useCoupon").text(data.disCount)
             $("#totalPrice").text(productPrice - data.disCount - usePoint + delivery);
+          }
 
 
         },
@@ -346,13 +355,23 @@ $("#send").click(function(){
         const request = $("#request");
         const orderRequest = request.val();
         const deliveryCharge = $(".delivery").text();
+        let coupon = '';
+        $(".userCouponCheck").each(function(){
+          if(this.checked == true) {
+            coupon = this.nextElementSibling.children[0].innerText;
+            }
+        });
+
+
+
 
 
         const result = {
           fundingOptionCode:fundingOptionCode,
           orderPrice:orderPrice,
           orderRequest:orderRequest,
-          deliveryCharge:deliveryCharge       }
+          deliveryCharge:deliveryCharge,
+          coupon:coupon}
 
         $.ajax({
           url: "/seller/order",
@@ -360,6 +379,8 @@ $("#send").click(function(){
           data : JSON.stringify(result),
           contentType: "application/json",
           success: function(data){
+
+            console.log(coupon)
             const totalPrice = $("#totalPrice").text();
             const bank = $("#bank");
             const bankName = bank.val();
@@ -370,7 +391,8 @@ $("#send").click(function(){
               bankName : bankName,
               totalPrice : totalPrice,
               bankNum : bankNum,
-              orderCode : orderCode
+              orderCode : orderCode,
+              coupon : coupon
             }
               $.ajax({
                 url:"/seller/credit",
@@ -385,28 +407,9 @@ $("#send").click(function(){
                     method:"POST",
                     data: { paymentCode : paymentCode },
                     success: function (data){
-                      const fundingCode = data;
-                      const disCount = $("#useCoupon").text();
-                      const usePoint = $("#usePoint").text();
 
-                      let result = {
-                        fundingCode : fundingCode,
-                        disCount : disCount,
-                        usePoint : usePoint,
-                      }
+                      location.href='/seller/fail'
 
-                      $.ajax({
-                        url:"/seller/disCount",
-                        method:"POST",
-                        data: JSON.stringify(result),
-                        contentType:"application/json",
-                        success: function (){
-                          location.href='/seller/fail'
-                        },
-                        error: function (){
-
-                        }
-                      })
                     },
                     error: function (error){
 

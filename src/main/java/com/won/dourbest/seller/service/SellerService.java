@@ -14,9 +14,9 @@ public interface SellerService {
 
     MemberDTO selectMember(String memberId);
 
-    AddressDTO selectAddress(String memberId);
+    AddressDTO selectAddress(int memberId);
 
-    List<CouponDTO> selectCouponList();
+    List<CouponDTO> selectCouponList(String memberId);
 
     OrderDTO selectDelivery();
 
@@ -24,12 +24,12 @@ public interface SellerService {
 
     ProductDTO selectProduct(int optionCode);
 
-    ProductDTO selectPoint(String id);
+    ProductDTO selectPoint(String memberCode);
 
     ProductDTO totalPrice(int totalPrice);
 
 
-    OrderDTO insertOrder(OrderDTO order, String memberId);
+    OrderDTO insertOrder(OrderDTO order, int memberId);
 
     PaymentDTO insertPayment(PaymentDTO payment);
 

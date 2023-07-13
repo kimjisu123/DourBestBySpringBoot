@@ -5,6 +5,7 @@ import com.won.dourbest.user.dto.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface SellerMapper {
@@ -15,9 +16,9 @@ public interface SellerMapper {
 
     MemberDTO selectMember(String memberId);
 
-    AddressDTO selectAddress(String memberId);
+    AddressDTO selectAddress(int memberCode);
 
-    List<CouponDTO> selectCouponList();
+    List<CouponDTO> selectCouponList(String memberId);
     
 
     OrderDTO selectDelivery();
@@ -50,7 +51,7 @@ public interface SellerMapper {
 
     int insertOrder(OrderDTO order);
 
-    CouponListDTO selectCouponCode(Integer memberCode);
+    CouponListDTO selectCouponCode(Map<String, Object> map);
 
 
     int insertPayment(PaymentDTO payment);
@@ -70,4 +71,18 @@ public interface SellerMapper {
     int selectUseCoupon(int memberCode);
 
     int updatePoint(int usePoint, int memberCode);
+
+    int update(FundingDTO fundingCode);
+
+    int update(int optionCode);
+
+    OptionDTO selectOption(int optionCode);
+
+    int selectVIP(int memberCode);
+
+    int selectCatogory(int fundingCode);
+
+    int couponUpdate(Map<String, Object> couponCode);
+
+    int selectCoupon1(Map<String, Object> cp);
 }

@@ -14,7 +14,7 @@ public class CouponIssuanceDTO {
     private String memberId;
     private String memberName;
     private String memberEmail;
-    private String couponContent;
+    private String couponName;
     private String couponDiscount;
     private Date couponValidDate;
 }

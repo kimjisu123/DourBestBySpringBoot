@@ -41,6 +41,8 @@ public class AccountController {
     public ModelAndView account(ModelAndView mv, @RequestParam(required = false) String searchValue, @RequestParam(defaultValue = "1", value="currentPage") int pageNO
     ){
 
+
+
         Map<String, String> searchMap = new HashMap<>();
         searchMap.put("searchValue", searchValue);
 
@@ -79,6 +81,7 @@ public class AccountController {
     // 탈퇴한 회원 조회
     @GetMapping("/withdrawn")
     public ModelAndView withdrawnMember (ModelAndView mv, @RequestParam(required = false) String searchValue, @RequestParam(defaultValue = "1", value="currentPage") int pageNO){
+
 
         Map<String, String> searchMap = new HashMap<>();
         searchMap.put("searchValue", searchValue);
