@@ -62,6 +62,13 @@ public class MemberController {
         return "user/login";
     }
 
+    @PostMapping("/login/error")    //이동할 페이지
+    public String loginError(Model model){
+        model.addAttribute("loginErrorMsg","아이디 또는 비밀번호를 확인해주세요");
+        return "user/login";
+    }
+
+
     // 중복아이디 체크
     @PostMapping("checkId")
     @ResponseBody  //
@@ -95,8 +102,9 @@ public class MemberController {
 
         // 회원가입이 성공하면 -> 회원에게 쿠폰을 insert 로 담아줘야한다.
 
-        return "redirect:/category";
+        return "redirect:/user/signup-success";
     }
+
 
     @GetMapping("/modify")
     public String modifyMemvberInfo(@AuthenticationPrincipal MemberImpl member, Model model){
@@ -159,11 +167,45 @@ public class MemberController {
         }
     }
 
+    // 탈퇴 전 회원 확인
+
+    @PostMapping("/beforequitMember")
+    public String checkMemberDelete(@AuthenticationPrincipal MemberImpl user, @RequestParam String pwd){
+//        log.info("user = " +  user);
+//        log.info("pwd = " +  pwd);
+        boolean result = passwordEncoder.matches( pwd , user.getPassword());
+//        log.info("result = " + result);
+        if(result) {
+            return "redirect:/mypage/quitMember";
+        } else {
+//
+            return "redirect:/mypage/beforequitMember";
+        }
+    }
+
+    // 회원탈퇴 성공
+    @GetMapping("/quitMember-success")    //이동할 페이지
+    public String quitMemberSuccess() {
+
+//        System.out.println("user = " + user);
+//        MemberDTO mypageInfo = service.findUser(user.getMemberId()).orElseThrow();
+//        model.addAttribute("mypageInfo", mypageInfo);  //멤버 배송지 모두 담겨있음.
 
 
+        return "user/mypage/quitMemberSuc";
+    }
+
+    // 회원가입 성공 페이지
+    @GetMapping("/signup-success")    //이동할 페이지
+    public String signupSuccess() {
+
+//        System.out.println("user = " + user);
+//        MemberDTO mypageInfo = service.findUser(user.getMemberId()).orElseThrow();
+//        model.addAttribute("mypageInfo", mypageInfo);  //멤버 배송지 모두 담겨있음.
 
 
-
+        return "user/signupSuc";
+    }
 
 
 }

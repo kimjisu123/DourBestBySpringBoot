@@ -90,6 +90,15 @@
     border: 0px none;
 }
 
+.loginButton:hover{
+
+    background-color: #f14933;
+    color: white;
+    transition: .4s;
+
+
+}
+
 .signupButton {
 
     display: block;
@@ -103,6 +112,16 @@
     background-color: white;
     border: 1px solid #f35f4c;
 }
+.signupButton:hover{
+
+
+    background-color: #f35f4c;
+    color: white;
+    transition: .4s;
+
+}
+
+
 
 .finding {
 

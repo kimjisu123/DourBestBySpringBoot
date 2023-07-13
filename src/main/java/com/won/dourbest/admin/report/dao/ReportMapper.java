@@ -1,10 +1,7 @@
 package com.won.dourbest.admin.report.dao;
 
 import com.won.dourbest.admin.common.SelectCriteria;
-import com.won.dourbest.admin.report.dto.AnswerRegistDTO;
-import com.won.dourbest.admin.report.dto.AnswerReportDTO;
-import com.won.dourbest.admin.report.dto.CustomerInquiryDTO;
-import com.won.dourbest.admin.report.dto.ReportDetailsDTO;
+import com.won.dourbest.admin.report.dto.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -12,10 +9,11 @@ import java.util.List;
 @Mapper
 public interface ReportMapper {
 
+    // 신고 내역 조회
     List<ReportDetailsDTO> selectReportDetails(SelectCriteria selectCriteria);
-
+    // 신고 처리 내역 조회
     List<AnswerReportDTO> selectAnswerReport(SelectCriteria selectCriteria);
-
+    // 1:1 문의사항 조회
     List<CustomerInquiryDTO> selectInquiry(SelectCriteria selectCriteria);
 
     int selectTotalPage();
@@ -48,5 +46,8 @@ public interface ReportMapper {
     // 펀딩 신고 상태값 업데이트
     int updateReport(int reportCode);
 
-
+    // 문의사항 답변 등록
+    int insertQNARegist(UserAnswerRegistDTO userAnswer);
+    // 1:1 문의사항 상태값 변경
+    int updateInquiries(int inquriesCode);
 }

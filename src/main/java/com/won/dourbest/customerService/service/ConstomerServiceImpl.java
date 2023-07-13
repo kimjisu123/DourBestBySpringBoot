@@ -1,5 +1,7 @@
 package com.won.dourbest.customerService.service;
 
+import com.won.dourbest.admin.account.dto.AdminInquiriesDTO;
+import com.won.dourbest.common.dto.CategoryDTO;
 import com.won.dourbest.customerService.dao.ConstomerMapper;
 import com.won.dourbest.customerService.dto.ConstomerContactDTO;
 import org.springframework.stereotype.Service;
@@ -86,5 +88,15 @@ public class ConstomerServiceImpl implements ConstomerService {
         List<ConstomerContactDTO> useServiceList =  mapper.selectUseService();
 
         return useServiceList;
+    }
+
+    @Override
+    public List<CategoryDTO> selectCategory() {
+        return mapper.fundingCategory();
+    }
+
+    @Override
+    public int adminInquire(AdminInquiriesDTO inquire) {
+        return mapper.insertAdminInquire(inquire);
     }
 }

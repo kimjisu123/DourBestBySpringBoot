@@ -12,5 +12,5 @@ public class ConstomerContactDTO {
 
     private String contactName;
     private String contactDetails;
-
+    private int rowNum;
 }

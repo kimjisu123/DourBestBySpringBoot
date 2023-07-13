@@ -131,12 +131,41 @@ public class NoticeServiceImpl implements NoticeService{
         if(result != 0){
             message = "공지사항이 삭제되었습니다";
         } else {
-            message = "공지사항 삭제에 실패하셨습니다";
+            throw new RuntimeException();
         }
 
 
 
         return message;
+    }
+
+
+    // 진행중인 이벤트 삭제
+    @Override
+    public String ongoingEventDelete(String eventCode) {
+
+        int result = mapper.ongoingEventDelete(eventCode);
+
+        if(result != 0){
+            return "이벤트 삭제에 성공하셨습니다";
+        } else{
+            throw new RuntimeException();
+        }
+
+    }
+
+    @Override
+    public String finishedEventDelete(String eventCode) {
+
+        int result = mapper.finishedEventDelete(eventCode);
+
+
+        if(result != 0){
+            return "이벤트 삭제에 성공하셨습니다";
+        } else{
+            throw new RuntimeException();
+        }
+
     }
 
 

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html th:replace="~{/layouts/base :: layout(~{::main}, ~{::link}, ~{::script})}"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
   <link rel="stylesheet" th:href="@{css/seller/jiho/beforefunding.css}">
   <link rel="stylesheet" th:href="@{css/seller/jiho/sellerbutton.css}">
@@ -27,11 +27,34 @@
           </div>
         </div>
         <div class="sellerbutton">
-          <button class="redbutton" th:onclick="|location.href='@{submit/category}'|">
-                            <span>
-                                펀딩 신청하기
-                            </span>
-          </button>
+          <th:block sec:authorize="!isAuthenticated()">
+            <button class="redbutton" th:onclick="|location.href='@{user/login}'|">
+              <span>
+                펀딩 신청하기
+              </span>
+            </button>
+          </th:block>
+
+          <th:block sec:authorize="hasRole('USER')">
+            <th:block th:if="${imgMap['result'] == 0}">
+              <button class="redbutton" th:onclick="|location.href='@{seller/application}'|">
+                <span>
+                  펀딩 신청하기
+                </span>
+              </button>
+            </th:block>
+          </th:block>
+
+          <th:block sec:authorize="hasRole('SELLER')">
+            <th:block th:if="${imgMap['result'] == 1}">
+              <button class="redbutton" th:onclick="|location.href='@{submit/category}'|">
+                <span>
+                  펀딩 신청하기
+                </span>
+              </button>
+            </th:block>
+          </th:block>
+
         </div>
         <div class="bottomtext">DourBest에서 건강한 습관을 만들어봐요</div>
       </div>

@@ -3,6 +3,7 @@ package com.won.dourbest.admin.notice.controller;
 
 import com.won.dourbest.admin.common.Pagenation;
 import com.won.dourbest.admin.common.SelectCriteria;
+import com.won.dourbest.admin.dto.AdminDTO;
 import com.won.dourbest.admin.notice.dto.AdminNoticeDTO;
 import com.won.dourbest.admin.notice.dto.AdminEventDTO;
 
@@ -11,6 +12,7 @@ import com.won.dourbest.admin.notice.dto.NoticeRegistDTO;
 import com.won.dourbest.admin.notice.service.NoticeServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -140,6 +142,7 @@ public class NoticeController {
     @ResponseBody
     public String noticeRegist(@RequestBody NoticeRegistDTO notice){
 
+
         String message = noticeServiceImpl.insertNotice(notice);
 
         return "";
@@ -163,5 +166,24 @@ public class NoticeController {
 
         return message;
 
+    }
+
+    @PostMapping("ongoingEventDelete")
+    @ResponseBody
+    public String ongoingEventDelete(@RequestParam String eventCode){
+
+        String message = noticeServiceImpl.ongoingEventDelete(eventCode);
+
+        return message;
+    }
+
+
+    @PostMapping("finishedEventDelete")
+    @ResponseBody
+    public String finishedEventDelete(@RequestParam String eventCode){
+
+        String message = noticeServiceImpl.finishedEventDelete(eventCode);
+
+        return message;
     }
 }

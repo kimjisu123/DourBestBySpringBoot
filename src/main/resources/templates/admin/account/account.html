@@ -53,11 +53,11 @@
                     <div th:onclick="|location.href='@{/admin/blackList}'|" id="mainMenuButton5" class="mainMenuButton">
                         블랙리스트
                     </div>
-                    <th:block sec:authorize="hasRole('ROLE_SUPER')">
-                        <div th:onclick="|location.href='@{/admin/adminAccount}'|" id="mainMenuButton6" class="mainMenuButton">
-                            관리자 계정 관리
-                        </div>
-                    </th:block>
+
+<!--                    <div th:onclick="|location.href='@{/admin/adminAccount}'|" id="mainMenuButton6" class="mainMenuButton">-->
+<!--                        관리자 계정 관리-->
+<!--                    </div>-->
+
                 </div>
 
                 <!-- 아이디 검색 버튼 -->
@@ -102,12 +102,13 @@
                     </div>
                     <div th:each="account : ${accountList}" class="table">
                         <input type="checkbox" class="fundcheckbox" name="my_checkbox" value="0">
-                        <div th:text="${account.getMemberId()}" id="adminAccount1" class="choiceValue"></div>
+                        <div th:text="${account.getMemberId()}" id="adminAccount1"></div>
                         <div th:text="${account.getMemberName()}" id="adminAccount2"></div>
                         <div th:text="${account.getMemberEmail()}" id="adminAccount3"></div>
                         <div th:text="${account.getMemberPhone()}" id="adminAccount4"></div>
                         <div th:text="${#dates.format(account.getRegistDate(), 'yyyy/MM/dd')}" id="adminAccount5"></div>
                         <div th:text="${account.getSellerCode()}"  id="adminAccount6"></div>
+                        <div th:text="${account.getMemberCode()}"  id="adminAccount7" class="choiceValue"></div>
                     </div>
 
 
@@ -129,11 +130,11 @@
                         </a>
                         <!-- 숫자 버튼 th:disabled로 인해 현재페이지랑 같은 숫자의 버튼을 비활성화 한다. -->
                         <th:block th:each="page : ${#numbers.sequence(selectCriteria.startPage, selectCriteria.endPage)}">
-                            <button class="num"
+                            <a class="num"
                                     th:text="${ page }"
                                     th:onclick="'location.href=\'/admin/admin?currentPage='+ @{${page}} + '\''"
                                     th:disabled="${ selectCriteria.pageNo eq page }">
-                            </button>
+                            </a>
                         </th:block>
 
                         <!-- 다음 페이지 버튼 th:disabled로 인해 현재 페이지가 마지막 페이지인 경우 비활성화 한다-->
@@ -150,36 +151,40 @@
                         >
                             >>
                         </a>
-
-                        <button type="button" id="accountWithdrawal">계정 탈퇴</button>
                     </div>
                 </div>
             </div>
         </section>
     </div>
-    </section>
-    </div>
-
-    <script>
-        $('#accountWithdrawal').click(function() {
-            $('.fundcheckbox').each(function() {
-                if ($(this).prop('checked')) {
-                    let memberId = $(this).closest('.table').find('.choiceValue').text();
-                    $.ajax({
-                        url: "/admin/admin",
-                        data: { memberId: memberId },
-                        type: "post",
-                        success: function(data) {
-                            alert(data);
-                            window.location.reload();
-                        },
-                        error: function(error) {
-                            console.log(error);
-                        }
-                    });
-                }
-            });
-        });
-    </script>
 </main>
+<script>
+    $('#accountWithdrawal').click(function() {
+        $('.fundcheckbox').each(function() {
+            if ($(this).prop('checked')) {
+                let memberCode = $(this).closest('.table').find('.choiceValue').text();
+                $.ajax({
+                    url: "/admin/admin",
+                    data: { memberCode: memberCode} ,
+                    type: "post",
+                    success: function(data) {
+                        alert(data);
+                        window.location.reload();
+                    },
+                    error: function(error) {
+                        alert("삭제에 실패하셨습니다.");
+                    }
+                });
+            }
+        });
+    });
+</script>
+
+
+
+
+
+
+
+
+
 

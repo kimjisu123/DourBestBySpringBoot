@@ -94,6 +94,7 @@ section{
 .main-banner{
     /* 임시 */
     background-color: #b4b4b4;
+
 }
 
 .main-banner > h2 {
@@ -106,10 +107,11 @@ section{
 }
 
 .banner-inner{
-    /* background-image: url(/resources/img/pexels-shvets-production-7203694.jpg);
+
+
     background-repeat: no-repeat;
     background-position: center center;
-    background-size: cover; */
+    background-size: cover;
     text-align: center;
     padding: 20px;
     color: #fff;
@@ -156,7 +158,8 @@ section{
 }
 
 .item-thumb{
-    background-image: url("/resources/img/pexels-jane-doan-1099680.jpg");
+
+    /*background-image: url("/resources/img/common/rest-person.jpeg");*/
     background-size: cover;
     padding-bottom: 70%;
     border-top-left-radius: 15px;
@@ -191,4 +194,21 @@ section{
     flex: 1;
     justify-content: space-between;
     flex-direction: column;
+}
+
+
+/*   */
+
+.funding h2{
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+    padding: 0px 0px 40px;
+}
+
+
+.card-img-top {
+
+    height: 15rem;
+    object-fit: cover;
 }

@@ -1,11 +1,15 @@
 package com.won.dourbest.customerService.controller;
 
 
+import com.won.dourbest.admin.account.dto.AdminInquiriesDTO;
+import com.won.dourbest.common.dto.CategoryDTO;
 import com.won.dourbest.customerService.dto.ConstomerContactDTO;
 import com.won.dourbest.customerService.service.ConstomerServiceImpl;
+import com.won.dourbest.user.dto.MemberImpl;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -20,21 +24,23 @@ public class ConstomerController {
     }
 
     @GetMapping("/customerService")
-    public ModelAndView customerService(ModelAndView mv){
+    public String customerService(Model model){
 
-    List<ConstomerContactDTO> contactList =  constomerServiceImpl.selectCoupon();
+    List<ConstomerContactDTO> contactList = constomerServiceImpl.selectCoupon();
 
-    mv.addObject("contactList", contactList);
-    mv.setViewName("customerService/customerService");
+    List<CategoryDTO> categoryList = constomerServiceImpl.selectCategory();
 
-        return mv;
+    model.addAttribute("contactList", contactList);
+    model.addAttribute("categoryList", categoryList);
+
+        return "customerService/customerService";
     }
     // 쿠폰
     @GetMapping("/coupon")
     public ModelAndView coupon(ModelAndView mv){
 
 
-        List<ConstomerContactDTO> couponList =  constomerServiceImpl.selectContact();
+        List<ConstomerContactDTO> couponList =  constomerServiceImpl.selectCoupon();
 
         mv.addObject("couponList", couponList);
         mv.setViewName("/customerService/customerServiceCategory/coupon");
@@ -120,6 +126,16 @@ public class ConstomerController {
         return mv;
     }
 
+    @PostMapping("/inquire")
+    @ResponseBody
+    public void inquries(@AuthenticationPrincipal MemberImpl member, @RequestBody AdminInquiriesDTO data){
+
+        int memberCode = member.getMemberCode();
+        data.setMemberCode(memberCode);
+
+        constomerServiceImpl.adminInquire(data);
+
+    }
 
 
 

@@ -32,4 +32,12 @@
                MAX(FUNDING_CODE)
           FROM TBL_FUNDING
     </select>
+
+    <select id="searchAuth" parameterType="_int">
+        SELECT
+               COUNT(*)
+          FROM TBL_MEMBER_AUTHLIST
+         WHERE MEMBER_CODE = #{ memberCode }
+           AND MEMBER_AUTH_CODE = 2
+    </select>
 </mapper>

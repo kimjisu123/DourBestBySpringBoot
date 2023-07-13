@@ -70,22 +70,20 @@ $('#pwdButton').click(function (event){
 
 });
 
+// $('#button2').click(function (event){
+//
+//     var result = confirm("정말로 탈퇴하시겠습니까?");
+//     if(result){
+//
+//         alert("탈퇴가 완료되었습니다.");
+//         return result;
+//
+//     } else {
+//
+//         alert("서비스를 이용해주셔서 감사합니다.");
+//         return result;
+//     }
+//
+//
+// });
 
-
-
-$('#button2').click(function (event){
-
-    var result = confirm("정말로 탈퇴하시겠습니까?");
-    if(result){
-
-        alert("탈퇴가 완료되었습니다.");
-        return result;
-
-    } else {
-
-        alert("서비스를 이용해주셔서 감사합니다.");
-        return result;
-    }
-
-
-});

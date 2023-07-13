@@ -20,6 +20,53 @@
 <!--        <collection property="purchasedFundingList" resultMap="PurchasedFundingResultMap"/>-->
 <!--    </resultMap>-->
 
+
+     <!--   질문 답변  -->
+    <resultMap id="QnaAnwserResult" type="com.won.dourbest.admin.account.dto.AdminInquiriesDTO">
+        <id property="inquiriesCode" column="INQUIRIES_CODE"/>
+        <result property="rowNum" column="RNUM"/>
+        <result property="contactSubject" column="CONTACT_SUBJECT"/>
+        <result property="contactDetails" column="CONTACT_DETAILS"/>
+        <result property="dateCreationInquiry" column="DATE_CREATION_INQUIRY"/>
+        <result property="whetherAnswer" column="WHETHER_ANSWER"/>
+        <result property="categoryCode" column="CATEGORY_CODE"/>
+        <result property="inquiriesCode" column="INQUIRIES_CODE"/>
+        <result property="answerContent" column="ANSWER_CONTENT"/>
+        <result property="answerDate" column="ANSWER_DATE"/>
+        <result property="memberCode" column="MEMBER_CODE"/>
+    </resultMap>
+
+<!--    판매자 답변-->
+
+    <resultMap id="QnaSellerResult" type="com.won.dourbest.seller.dto.SellerInquiryDTO">
+        <id property="sellerInquiryCode" column="SELLER_INQUIRY_CODE"/>
+        <result property="rowNum" column="RNUM"/>
+        <result property="fundingTitle" column="FUNDING_TITLE"/>
+        <result property="inquiryTitle" column="INQUIRY_TITLE"/>
+        <result property="inquiryContent" column="INQUIRY_CONTENT"/>
+        <result property="inquiryDate" column="INQUIRY_DATE"/>
+        <result property="answerStatus" column="ANSWER_STATUS"/>
+        <result property="answerContent" column="INQUIRY_ANSWER_CONTENT"/>
+        <result property="answerDate" column="INQUIRY_ANSWER_DATE"/>
+        <result property="fundingCode" column="FUNDING_CODE"/>
+        <result property="memberCode" column="MEMBER_CODE"/>
+    </resultMap>
+
+<!--신고 답변-->
+
+    <resultMap id="QnaNotifyResult" type="com.won.dourbest.user.dto.MemberReportListDTO">
+        <id property="reportCode" column="REPORT_CODE"/>
+<!--        <result property="rowNum" column="RNUM"/>-->
+        <result property="fundingTitle" column="REPORT_TITLE"/>
+        <result property="reportContent" column="REPORT_CONTENT"/>
+        <result property="reportDate" column="REPORT_DATE"/>
+        <result property="categoryName" column="CATEGORY_NAME"/>
+        <result property="reportAnswer" column="ANSWERS_CONTENT"/>
+        <result property="reportAnswerDate" column="ANSWER_DATE"/>
+    </resultMap>
+
+
+
     <resultMap id="MemberShipResultMap" type="MemberShipDTO">
         <id property="membershipCode" column="MEMBERSHIP_CODE"/>
         <result property="membershipName" column="MEMBERSHIP_NAME"/>
@@ -147,6 +194,7 @@
         <id property="sellerInqCode" column="SELLER_INQUIRY_CODE"/>
         <result property="rowNum" column="RNUM"/>
         <result property="sellerInqDate" column="INQUIRY_DATE"/>
+        <result property="sellerInqTitle" column="INQUIRY_TITLE"/>
         <result property="sellerInqAnswerStatus" column="ANSWER_STATUS"/>
         <result property="categoryName" column="CATEGORY_NAME"/>
     </resultMap>
@@ -510,6 +558,45 @@
         ORDER BY 1 ASC
     </select>
 
+    <select id="myFunding" resultMap="LikeFundingResultMap">
+        SELECT
+            B.RNUM,
+            B.FUNDING_CODE,
+            B.FUNDING_TITLE,
+            B.FUNDING_SUMMARY,
+            B.CATEGORY_NAME,
+            B.FILE_MODIFICATION_NAME
+        FROM(
+            SELECT
+                ROWNUM RNUM,
+                A.FUNDING_CODE,
+                A.FUNDING_TITLE,
+                A.FUNDING_SUMMARY,
+                A.CATEGORY_NAME,
+                A.FILE_MODIFICATION_NAME
+            FROM(
+                SELECT
+                    F.FUNDING_CODE,
+                    F.FUNDING_TITLE,
+                    F.FUNDING_SUMMARY,
+                    TC.CATEGORY_NAME,
+                    TFF.FILE_MODIFICATION_NAME
+                FROM TBL_FUNDING F
+                    JOIN TBL_SELLER S ON F.SELLER_CODE = S.SELLER_CODE
+                    LEFT JOIN TBL_MEMBER M ON S.MEMBER_CODE = M.MEMBER_CODE
+                    LEFT JOIN TBL_FUNDING_FILE TFF on F.FUNDING_CODE = TFF.FUNDING_CODE
+                    LEFT JOIN TBL_CATEGORY TC ON F.CATEGORY_CODE = TC.CATEGORY_CODE
+                WHERE M.MEMBER_ID = #{ userId }
+                AND TFF.FILE_TYPE='메인'
+                ) A
+                        <![CDATA[
+            WHERE ROWNUM <= #{ cri.rowEnd }
+                  ]]>
+                        ) B
+        WHERE B.RNUM >= #{ cri.rowStart }
+        ORDER BY 1 ASC
+    </select>
+
     <select id="listCount">
         <if test="name == 'sellerInquire'">
             SELECT
@@ -607,6 +694,17 @@
                 AND TP.POINT_STATUS = #{cri.searchType}
             </if>
         </if>
+        <if test="name == 'myFunding'">
+            SELECT
+                COUNT(*)
+            FROM TBL_FUNDING F
+                JOIN TBL_SELLER S ON F.SELLER_CODE = S.SELLER_CODE
+                LEFT JOIN TBL_MEMBER M ON S.MEMBER_CODE = M.MEMBER_CODE
+                LEFT JOIN TBL_FUNDING_FILE TFF on F.FUNDING_CODE = TFF.FUNDING_CODE
+                LEFT JOIN TBL_CATEGORY TC ON F.CATEGORY_CODE = TC.CATEGORY_CODE
+            WHERE M.MEMBER_ID = #{userId}
+            AND TFF.FILE_TYPE='메인'
+        </if>
     </select>
 
     <update id="updateCouponStatus" parameterType="_int">
@@ -659,7 +757,7 @@
                A.CARD_COMPANY,
                A.CARD_NUMBER,
                A.TOTAL_PRICE,
-               A.POINT_AMOUNT ,
+               A.POINT_AMOUNT,
                A.CREDIT_STATUS,
                A.CREDIT_DATE,
                A.DELIVERY_STATUS,
@@ -674,7 +772,9 @@
         FROM
             (SELECT
                  O.ORDER_PRICE,
-                 NVL(O.COUPONLIST_CODE,0) COUPONLIST_CODE,
+                 CASE WHEN O.COUPONLIST_CODE IS NULL THEN 0
+                      WHEN TCOUP.COUPON_NAME ='무료배송' THEN 3000
+                      ELSE (O.ORDER_PRICE * TCOUP.COUPON_DISCOUNT)/100 END AS COUPONLIST_CODE,
                  O.DELIVERY_CHARGE,
                  TC.PAYMENT_CODE,
                  TC.CARD_COMPANY,
@@ -684,7 +784,8 @@
                  TFC.CREDIT_STATUS,
                  TFC.CREDIT_DATE,
                  T.DELIVERY_STATUS,
-\                 TD.DELIVERY_NUMBER,
+                 T.DELIVERY_DATE,
+                 TD.DELIVERY_NUMBER,
                  M.MEMBER_NAME,
                  M.MEMBER_PHONE,
                  M.MEMBER_CODE,
@@ -693,6 +794,8 @@
                  TA.ZIP_CODE
              FROM TBL_CREDIT TC
                       LEFT JOIN TBL_ORDER O on TC.ORDER_CODE = O.ORDER_CODE
+                      LEFT JOIN TBL_COUPONLIST TCL ON O.COUPONLIST_CODE = TCL.COUPONLIST_CODE
+                      LEFT JOIN TBL_COUPON TCOUP ON TCL.COUPON_CODE = TCOUP.COUPON_CODE
                       LEFT JOIN TBL_MEMBER M ON O.MEMBER_CODE = M.MEMBER_CODE
                       LEFT JOIN TBL_ADDRESS TA on M.MEMBER_CODE = TA.MEMBER_CODE
                       LEFT JOIN TBL_FUNDING_CREDITLIST TFC on TC.PAYMENT_CODE = TFC.PAYMENT_CODE
@@ -769,6 +872,97 @@
         AND TF.FUNDING_CODE = #{fundingCode}
     </select>
 
+
+
+<!-- 고객 문의사항 쿼리문 ( 답변 여러개중 최신만 가지고 오도록 쿼리짬) -->
+    <select id="QnaInqurireAnwser" resultMap="QnaAnwserResult">
+        SELECT
+            A.CONTACT_SUBJECT,
+            A.CONTACT_DETAILS,
+            A.DATE_CREATION_INQUIRY,
+            A.CATEGORY_NAME,
+            A.ANSWER_CONTENT,
+            A.ANSWER_DATE,
+            A.INQUIRIES_CODE
+        FROM
+            (SELECT
+                 TAI.CONTACT_SUBJECT,
+                 TAI.CONTACT_DETAILS,
+                 TAI.DATE_CREATION_INQUIRY,
+                 TC.CATEGORY_NAME,
+                 TAQ.ANSWER_CONTENT,
+                 TAQ.ANSWER_DATE,
+                 TAI.INQUIRIES_CODE,
+                 RANK() OVER (PARTITION BY TAI.INQUIRIES_CODE ORDER BY TAQ.ANSWER_DATE DESC ) AS RECENT
+             FROM TBL_ADMIN_INQUIRIES TAI
+                      LEFT JOIN TBL_ADMIN_QNA TAQ on TAI.INQUIRIES_CODE = TAQ.INQUIRIES_CODE
+                      LEFT JOIN TBL_MEMBER M on TAI.MEMBER_CODE = M.MEMBER_CODE
+                      LEFT JOIN TBL_CATEGORY TC on TAI.CATEGORY_CODE = TC.CATEGORY_CODE
+             WHERE M.MEMBER_CODE= #{ memberCode }
+               AND TAI.INQUIRIES_CODE = #{ id } AND TC.CATEGORY_KIND = '관리자문의'
+             ) A WHERE RECENT = 1
+    </select>
+
+
+
+    <!-- 판매자 문의사항 쿼리문 -->
+    <select id="QnaSellerInquire" resultMap="QnaSellerResult">
+        SELECT
+            A.FUNDING_TITLE,
+            A.INQUIRY_TITLE,
+            A.INQUIRY_CONTENT,
+            A.INQUIRY_DATE,
+            A.CATEGORY_NAME,
+            A.INQUIRY_ANSWER_CONTENT,
+            A.INQUIRY_ANSWER_DATE,
+            A.SELLER_INQUIRY_CODE
+        FROM
+            ( SELECT
+                  F.FUNDING_TITLE,
+                  SI.INQUIRY_TITLE,
+                  SI.INQUIRY_CONTENT,
+                  SI.INQUIRY_DATE,
+                  TC.CATEGORY_NAME,
+                  SA.INQUIRY_ANSWER_CONTENT,
+                  SA.INQUIRY_ANSWER_DATE,
+                  SI.SELLER_INQUIRY_CODE,
+                  RANK() OVER (PARTITION BY SI.SELLER_INQUIRY_CODE ORDER BY SA.INQUIRY_ANSWER_DATE DESC ) AS RECENT
+              FROM TBL_SELLER_INQUIRY SI
+                       LEFT JOIN TBL_MEMBER M on SI.MEMBER_CODE = M.MEMBER_CODE
+                       LEFT JOIN TBL_INQUIRY_ANSWER SA on SI.SELLER_INQUIRY_CODE = SA.SELLER_INQUIRY_CODE
+                       LEFT JOIN TBL_CATEGORY TC on SI.CATEGORY_CODE = TC.CATEGORY_CODE
+                       LEFT JOIN TBL_FUNDING f on F.FUNDING_CODE = SI.FUNDING_CODE
+              WHERE SI.MEMBER_CODE= #{ memberCode }
+                AND SI.SELLER_INQUIRY_CODE = #{ id }
+            )A WHERE RECENT = 1
+    </select>
+
+<!--신고 문의 -->
+    <select id="NotifyInquire" resultMap="QnaNotifyResult">
+        SELECT
+            A.REPORT_TITLE,
+            A.REPORT_CONTENT,
+            A.REPORT_DATE,
+            A.CATEGORY_NAME,
+            A.ANSWERS_CONTENT,
+            A.ANSWER_DATE
+        FROM
+            (SELECT
+                 FR.REPORT_TITLE,
+                 FR.REPORT_CONTENT,
+                 FR.REPORT_DATE,
+                 TC.CATEGORY_NAME,
+                 PP.ANSWERS_CONTENT,
+                 PP.ANSWER_DATE,
+                 RANK() OVER (PARTITION BY FR.REPORT_CODE ORDER BY PP.ANSWER_DATE DESC ) AS RECENT
+             FROM TBL_FUNDING_REPORT FR
+                      LEFT JOIN TBL_MEMBER M on FR.MEMBER_CODE = M.MEMBER_CODE
+                      LEFT JOIN TBL_REPORT_RESPONSE PP on FR.REPORT_CODE = PP.REPORT_CODE
+                      LEFT JOIN TBL_CATEGORY TC on FR.CATEGORY_CODE = TC.CATEGORY_CODE
+             WHERE FR.MEMBER_CODE= #{ memberCode }
+               AND FR.REPORT_CODE = #{ id }
+            )A WHERE RECENT = 1
+    </select>
 
 
 </mapper>

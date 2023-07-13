@@ -12,6 +12,7 @@ public class AdminFundingDTO {
 
     private String memberId;
     private String memberEmail;
+    private int fundingCode;
     private String fundingTitle;
     private Date startDate;
     private Date endDate;

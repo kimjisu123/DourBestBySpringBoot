@@ -76,14 +76,11 @@
                         <div id="reportSort4" class="SortationList">
                             신고 제목
                         </div>
-                        <div id="reportSort5" class="SortationList">
+                        <div id="reportSort50" class="SortationList">
                             신고 날짜
                         </div>
                         <div id="reportSort6" class="SortationList">
                             신고 제재 횟수
-                        </div>
-                        <div id="reportSort7" class="SortationList">
-                            답변 여부
                         </div>
                     </div>
 
@@ -97,8 +94,9 @@
                         <div th:text="${reportDetails.getReportTitle()}" id="reportLine4" class="choiceValue"></div>
                         <div th:text="${#dates.format(reportDetails.getReport_date(), 'yyyy/MM/dd')}" id="reportLine5"></div>
                         <div th:text="${reportDetails.getNumberReported()}"  id="reportLine6"></div>
-                        <div th:text="${reportDetails.getAnswersStatus()}" id="reportLine7"></div>
+<!--                        <div th:text="${reportDetails.getAnswersStatus()}" id="reportLine7"></div>-->
                         <div style="display: none" th:text="${reportDetails.getFundingCode()}" id="reportLine8"></div>
+                        <div style="display: none" th:text="${reportDetails.getReportContent()}" id="reportLine9"></div>
                     </div>
 
                     <!-- 페이지 처리 -->
@@ -119,11 +117,11 @@
                         </a>
                         <!-- 숫자 버튼 th:disabled로 인해 현재페이지랑 같은 숫자의 버튼을 비활성화 한다. -->
                         <th:block th:each="page : ${#numbers.sequence(selectCriteria.startPage, selectCriteria.endPage)}">
-                            <button class="num"
+                            <a class="num"
                                     th:text="${ page }"
                                     th:onclick="'location.href=\'/admin/reportDetails?currentPage='+ @{${page}} + '\''"
                                     th:disabled="${ selectCriteria.pageNo eq page }">
-                            </button>
+                            </a>
                         </th:block>
 
                         <!-- 다음 페이지 버튼 th:disabled로 인해 현재 페이지가 마지막 페이지인 경우 비활성화 한다-->
@@ -149,12 +147,6 @@
     </div>
 
 
-
-
-
-
-
-
     <div class="contactmodal">
         <div class="contactmodal-container">
             <div class="contactmodal-content">
@@ -172,14 +164,23 @@
     </div>
 
 
-    <div id="modalWrap">
-        <div id="modalBody">
 
-        </div>
-        <div>
-
+    <div class="modal">
+        <div class="xbtn"><div class="x">X</div></div>
+        <div class="innerBox">
+            <h1>신고 제목</h1>
+            <div class="reportTitle">
+                <div class="reportitle"></div>
+            </div>
+            <h3>신고 내용</h3>
+            <div class="inputText">
+                <div class="reportReason"></div>
+            </div>
+            <div class="modalbot">
+            </div>
         </div>
     </div>
+
 
 
     <script>
@@ -201,22 +202,21 @@
                         contactCode,
                         fundingCode
                     }
-
-                    $.ajax({
-                        url: "/admin/answerRegist",
-                        data : JSON.stringify(answer),
-                        type: "post",
-                        contentType: "application/json",
-                        success: function(data) {
-                            alert(data);
-                            window.location.reload();
-                        },
-                        error: function(error) {
-                            console.log(error);
-                        }
-                    });
                 }
             });
+        });
+
+
+
+        $(".choiceValue").click(function(e) {
+            var $tableRow = $(this).closest('.table');
+            var title = $tableRow.find('#reportLine4').text();
+            var content = $tableRow.find('#reportLine9').text();
+
+            $('.reportitle').text(title);
+            $('.reportReason').text(content);
+
+            $('.modal').show();
         });
 
         const contactmodal = document.querySelector(".contactmodal");
@@ -268,24 +268,22 @@
         }
 
 
-        const btn = document.getElementById('popupBtn');
-        const modal = document.getElementById('modalWrap');
-        const closeBtn = document.getElementById('closeBtn');
+        window.onload = function() {
 
-        btn.onclick = function() {
-            modal.style.display = 'block';
-        }
-        closeBtn.onclick = function() {
-            modal.style.display = 'none';
+            $('.modal').hide();
         }
 
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
+        $('.report').click(function() {
+            $('.modal').show();
+        })
 
+        $('.x').click(function() {
+            $('.modal').hide();
+        })
 
+        $('.delete').click(function() {
+            $('.modal').hide();
+        })
     </script>
 
 </main>

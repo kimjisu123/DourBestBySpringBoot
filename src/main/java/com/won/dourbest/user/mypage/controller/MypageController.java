@@ -1,32 +1,29 @@
 package com.won.dourbest.user.mypage.controller;
 
+import com.won.dourbest.admin.account.dto.AdminInquiriesDTO;
 import com.won.dourbest.common.dto.CategoryDTO;
 import com.won.dourbest.common.dto.CommonResponse;
 import com.won.dourbest.common.dto.Pagination;
 import com.won.dourbest.common.dto.SearchCriteria;
+import com.won.dourbest.seller.dto.SellerInquiryDTO;
 import com.won.dourbest.user.dto.*;
 import com.won.dourbest.user.mypage.service.MypageCommonService;
 import com.won.dourbest.user.mypage.service.MypageService;
 import com.won.dourbest.user.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.Banner;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
-import java.security.Principal;
 import java.util.*;
 
 @Slf4j
@@ -278,28 +275,53 @@ public class MypageController {
 
     }
 
-    // 회원탈퇴 메소드
-    @GetMapping("quitMember")    //이동할 페이지
-    public String quitMember(@AuthenticationPrincipal MemberImpl user, Model model) {
+    // 회원 탈퇴 ================================================================================================
 
-//     MemberDTO mypageInfo = memberService.findUser(user.getMemberId()).orElseThrow();
-//       model.addAttribute("mypageInfo", mypageInfo);  //멤버 배송지 모두 담겨있음.
+    //탈퇴전 본인 확인 메소드
+    @GetMapping("beforequitMember")
+    public String checkmemberDelete(@AuthenticationPrincipal MemberImpl user, Model model) {
+
         model.addAttribute("user", user);
 
 
-        return "user/mypage/quitMember";
+        return "/user/mypage/checkMemberDelete";
+
     }
-    // 회원 탈퇴
-//    @PostMapping("quitMember")
-//    public String quitMember(@AuthenticationPrincipal MemberImpl user) {
-//
-//     MemberDTO mypageInfo = memberService.findUser(user.getMemberId()).orElseThrow();
-//     log.info("memberName" , mypageInfo);
-//     memberService.quitMember(mypageInfo.getMemberId());
-//     log.info("memberId" , mypageInfo.getMemberId());
-//
-//        return "user/mypage/quitMember";
-//    }
+
+    // 회원탈퇴 메소드
+    @GetMapping("/quitMember")    //이동할 페이지
+    public String quitMember(@AuthenticationPrincipal MemberImpl user, Model model) {
+
+        System.out.println("user = " + user);
+        MemberDTO mypageInfo = memberService.findUser(user.getMemberId()).orElseThrow();
+        model.addAttribute("mypageInfo", mypageInfo);  //멤버 배송지 모두 담겨있음.
+//        model.addAttribute("mypageInfo", mypageInfo);
+        System.out.println("mypageInfo.getMemberId() ======================== " + mypageInfo.getMemberId());
+
+        return "/user/mypage/quitMember";
+    }
+
+
+//     회원 탈퇴  =====================================================================================================
+    @GetMapping("/quitMemberS")
+    public String quitMember(@AuthenticationPrincipal MemberImpl user) {
+
+        System.out.println("user ======================== " + user);
+        MemberDTO mypageInfo = memberService.findUser(user.getMemberId()).orElseThrow();
+        System.out.println("mypageInfo = " + mypageInfo);
+        int success = memberService.quitMember(mypageInfo.getMemberId());
+        System.out.println(" success ======================== " + success );
+
+        if(success == 1) {
+
+        }
+
+        SecurityContextHolder.clearContext();
+        return "redirect:/user/quitMember-success" ;
+
+    }
+
+
     @GetMapping("/purchase-funding/{id}")
     public String OrderDetail(@AuthenticationPrincipal MemberImpl user, @PathVariable int id, Model model){
 
@@ -333,7 +355,7 @@ public class MypageController {
 
             member1.setMemberPwd(passwordEncoder.encode(pwd));  // 비밀번호 암호화 안되면 로그인 안됨.
             memberService.changePwd(member1);
-
+            return "redirect:/mypage";
         }
 
         return "user/mypage/changePwd";
@@ -369,6 +391,106 @@ public class MypageController {
     }
 
 
+    @GetMapping("/myFunding")
+    public String myFundingPage(@AuthenticationPrincipal MemberImpl member, @ModelAttribute("cri") SearchCriteria criteria, Model model){
+        //세션으로부터 받자
+        String userId = member.getUsername();
+
+        Pagination pagination = new Pagination(criteria, mypageService.listTotalCount(criteria, userId, "myFunding"));
+
+        List<LikeFundingDTO> list = mypageService.myFundingList(criteria, userId);
+
+        model.addAttribute("list", list);
+        model.addAttribute("pagination", pagination);
+
+
+        return "user/mypage/myFunding";
+    }
+
+
+
+
+
+    // 문의사항 상세페이지 ================================================================================================
+
+    @GetMapping("/admin-inquire/{id}")    //이동할 페이지
+    public String inquireView(@AuthenticationPrincipal MemberImpl user ,@PathVariable("id") int id, Model model){
+//        System.out.println("id  ============================ " + id);
+        MemberDTO findMember = memberService.findUser(user.getMemberId()).orElseThrow();
+        AdminInquiriesDTO inquir = mypageService.QnaInqurireAnwser(findMember.getMemberCode(), id);
+
+        if( inquir.getAnswerContent() != null) {
+
+            model.addAttribute("member",findMember);
+            model.addAttribute("inquir" ,inquir);
+            model.addAttribute("showAnswer", true);
+//        System.out.println("membercode ============================ " + findMember.getMemberCode());
+//        System.out.println("inquir ============================ " + inquir);
+
+
+        } else {
+            model.addAttribute("member",findMember);
+            model.addAttribute("inquir" ,inquir);
+            model.addAttribute("showAnswer", false);
+
+        }
+
+        return "user/mypage/inquireVeiw";
+    }
+
+    // 판매자 문의사항 상세페이지 ================================================================================================
+    @GetMapping("/seller-inquire/{id}")    //이동할 페이지
+    public String QnaSellerInquire(@AuthenticationPrincipal MemberImpl user ,@PathVariable("id") int id, Model model){
+        System.out.println("id  ============================ " + id);
+        MemberDTO findMember = memberService.findUser(user.getMemberId()).orElseThrow();
+        SellerInquiryDTO inquir = mypageService.QnaSellerInquire(findMember.getMemberCode(), id);
+
+        if( inquir.getAnswerContent() != null) {
+
+            model.addAttribute("member",findMember);
+            model.addAttribute("inquir" ,inquir);
+            model.addAttribute("showAnswer", true);
+        System.out.println("membercode ============================ " + findMember);
+        System.out.println("inquir ============================ " + inquir);
+
+
+        } else {
+            model.addAttribute("member",findMember);
+            model.addAttribute("inquir" ,inquir);
+            model.addAttribute("showAnswer", false);
+
+        }
+
+        return "user/mypage/inquireSeller";
+    }
+
+    // 신고 상세페이지 ================================================================================================
+
+    @GetMapping("/modifiy-inquire/{id}")    //이동할 페이지
+    public String NotifyInquire(@AuthenticationPrincipal MemberImpl user ,@PathVariable("id") int id, Model model){
+        System.out.println("id  ============================ " + id);
+        MemberDTO findMember = memberService.findUser(user.getMemberId()).orElseThrow();
+        MemberReportListDTO inquir = mypageService.NotifyInquire(findMember.getMemberCode(), id);
+
+        if( inquir.getReportAnswer() != null) {
+
+            model.addAttribute("member",findMember);
+            model.addAttribute("inquir" ,inquir);
+            model.addAttribute("showAnswer", true);
+            System.out.println("membercode ============================ " + findMember);
+            System.out.println("inquir ============================ " + inquir);
+
+
+        } else {
+
+            model.addAttribute("member",findMember);
+            model.addAttribute("inquir" ,inquir);
+            model.addAttribute("showAnswer", false);
+
+        }
+
+        return "user/mypage/inquireNotify";
+    }
 
 
 }

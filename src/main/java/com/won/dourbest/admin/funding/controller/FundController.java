@@ -5,6 +5,7 @@ import com.won.dourbest.admin.common.Pagenation;
 import com.won.dourbest.admin.common.SelectCriteria;
 import com.won.dourbest.admin.funding.dto.AdminFundingDTO;
 import com.won.dourbest.admin.funding.dto.AdminSellerRegistDTO;
+import com.won.dourbest.admin.funding.dto.ApprovedDTO;
 import com.won.dourbest.admin.funding.service.FundingListServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -262,10 +263,41 @@ public class FundController {
     // 삭제
     @PostMapping("delete")
     @ResponseBody
-    public String delete(@RequestParam String choiceValue){
+    public String delete(@RequestParam String fundingCode){
 
-        String message = fundingListService.delete(choiceValue);
+        String message = fundingListService.delete(fundingCode);
 
         return message;
+    }
+
+    // 신청한 펀딩 승인
+    @PostMapping("approved")
+    @ResponseBody
+    public String approved(@RequestBody ApprovedDTO apporved){
+
+        String message = fundingListService.insertFunding(apporved);
+
+        return message;
+    }
+
+    @PostMapping("drop")
+    @ResponseBody
+    public String drop(@RequestBody ApprovedDTO approved){
+
+        String message = fundingListService.dropFunding(approved);
+
+        return message;
+
+    }
+
+    // 신청한 판매자 등록 반려
+    @PostMapping("sellerDrop")
+    @ResponseBody
+    public String sellerDrop(@RequestParam String memberId){
+
+        String message =  fundingListService.sellerDrop(memberId);
+
+        return message;
+
     }
 }

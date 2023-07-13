@@ -1,5 +1,7 @@
 package com.won.dourbest.customerService.dao;
 
+import com.won.dourbest.admin.account.dto.AdminInquiriesDTO;
+import com.won.dourbest.common.dto.CategoryDTO;
 import com.won.dourbest.customerService.dto.ConstomerContactDTO;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -27,4 +29,8 @@ public interface ConstomerMapper {
     List<ConstomerContactDTO> selectRefund();
     // 이용 서비스
     List<ConstomerContactDTO> selectUseService();
+
+    List<CategoryDTO> fundingCategory();
+
+    int insertAdminInquire(AdminInquiriesDTO inquire);
 }

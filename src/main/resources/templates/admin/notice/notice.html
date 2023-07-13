@@ -88,6 +88,7 @@
                         <div th:text="${adminNotice.getNoticeTitle()}" id="noticeLine2" class="choiceValue"></div>
                         <div th:text="${#dates.format(adminNotice.getRegiDate(), 'yyyy/MM/dd')}" id="noticeLine3"></div>
                         <div th:text="${adminNotice.getAdminCode()}" id="noticeLine4"></div>
+                        <div style="display: none" th:text="${adminNotice.getNoticeContent()}" id="noticeLine5"></div>
                     </div>
                     <!-- 페이지 처리 -->
                     <div class="board_page" align="center">
@@ -107,11 +108,11 @@
                         </a>
                         <!-- 숫자 버튼 th:disabled로 인해 현재페이지랑 같은 숫자의 버튼을 비활성화 한다. -->
                         <th:block th:each="page : ${#numbers.sequence(selectCriteria.startPage, selectCriteria.endPage)}">
-                            <button class="num"
+                            <a class="num"
                                     th:text="${ page }"
                                     th:onclick="'location.href=\'/admin/notice?currentPage='+ @{${page}} + '\''"
                                     th:disabled="${ selectCriteria.pageNo eq page }">
-                            </button>
+                            </a>
                         </th:block>
 
                         <!-- 다음 페이지 버튼 th:disabled로 인해 현재 페이지가 마지막 페이지인 경우 비활성화 한다-->
@@ -128,8 +129,10 @@
                         >
                             >>
                         </a>
-                        <button class="contactBtn" id="createadminAccount">등록</button>
-                        <button type="button" id="Withdrawal">삭제</button>
+                        <div class="buttonSet">
+                            <button class="contactBtn" id="createadminAccount">등록</button>
+                            <button type="button" id="Withdrawal">삭제</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -154,11 +157,36 @@
     </div>
 
 
+    <div class="modal">
+        <div class="xbtn"><div class="x">X</div></div>
+        <div class="innerBox">
+            <h1>공지사항 제목</h1>
+            <div class="reportTitle">
+                <div class="reportitle"></div>
+            </div>
+            <h3>공지사항 내용</h3>
+            <div class="inputText">
+                <div class="reportReason"></div>
+            </div>
+            <div class="modalbot">
+            </div>
+        </div>
+    </div>
 
 
 
     <script>
 
+        $(".choiceValue").click(function(e) {
+            var $tableRow = $(this).closest('.table');
+            var title = $tableRow.find('#noticeLine2').text();
+            var content = $tableRow.find('#noticeLine5').text();
+
+            $('.reportitle').text(title);
+            $('.reportReason').text(content);
+
+            $('.modal').show();
+        });
 
 
 
@@ -259,6 +287,24 @@
                 $($div).append(img);
             }
         }
+
+
+        window.onload = function() {
+
+            $('.modal').hide();
+        }
+
+        $('.report').click(function() {
+            $('.modal').show();
+        })
+
+        $('.x').click(function() {
+            $('.modal').hide();
+        })
+
+        $('.delete').click(function() {
+            $('.modal').hide();
+        })
     </script>
 
     </div>

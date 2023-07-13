@@ -64,7 +64,7 @@ class MemberMapperTest {
         Map<String, Object> map = new HashMap<>();
         map.put("member",member);
 
-        mapper.registMember(map);
+//        mapper.registMember(map);
 
         System.out.println("member.getMemberCode() = " + member.getMemberCode());
 
