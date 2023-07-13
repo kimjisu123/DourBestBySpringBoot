@@ -51,16 +51,16 @@ public class SellerController {
         String phone = request.getParameter("phone");
         String email = request.getParameter("email");
         String license = request.getParameter("license");
-//        String newPhone = phone.replace("-", "");
+        String newPhone = phone.replace("-", "");
         System.out.println("license : " + license);
         System.out.println(id);
         System.out.println(name);
-        System.out.println(phone);
+        System.out.println(newPhone);
         System.out.println(email);
 
         member.setMemberId(id);
         member.setMemberName(name);
-        member.setMemberPhone(phone);
+        member.setMemberPhone(newPhone);
         member.setMemberEmail(email);
         seller.setBusinessLicense(license);
 
@@ -91,48 +91,71 @@ public class SellerController {
 
     // 상품명 조회
     @GetMapping("/payment/{optionCode}")
-    public String payment(Model model, HttpServletRequest request , @AuthenticationPrincipal MemberImpl id, @PathVariable int optionCode) {
+    public String payment(Model model, HttpServletRequest request , @AuthenticationPrincipal MemberImpl member, @PathVariable int optionCode) {
 
-        if(id == null) {
+        if(member == null) {
             throw new NoLoginException("로그인 안됨");
         }
 
-        FundingOptionDTO product = service.selectProductName(optionCode);
+        OptionDTO option = service.selectOption(optionCode);
 
-        model.addAttribute("product", product);
-        model.addAttribute("optionCode", optionCode);
+        model.addAttribute("option", option);
 
-        // 주문자 정보 조회
-        MemberDTO member = service.selectMember(id.getMemberId());
+        int memberCode = member.getMemberCode();
+        int fundingCode = option.getFundingCode();
+        int vip = service.selectVIP(memberCode);
+        int categoryCode = service.selectCategory(fundingCode);
 
+        AddressDTO address = service.selectAddress(memberCode);
+        int deliverPrice = 0;
 
-        model.addAttribute("member", member);
+        if(vip == 2 || categoryCode == 19) {
+            deliverPrice = 0;
+        } else {
+            deliverPrice = 3000;
+        }
 
-        // 배송지 조회
-        AddressDTO address = service.selectAddress(id.getMemberId());
 
         model.addAttribute("address", address);
+        model.addAttribute("deliverPrice", deliverPrice);
+        model.addAttribute("member", member);
 
-        // 회원이 가지고 있는 쿠폰 목록
-
-        List<CouponDTO> couponName = service.selectCouponList();
+//        FundingOptionDTO product = service.selectProductName(optionCode);
+//
+//        model.addAttribute("product", product);
+//        model.addAttribute("optionCode", optionCode);
+//
+//        // 주문자 정보 조회
+//        MemberDTO member = service.selectMember(id.getMemberId());
+////
+//
+//        model.addAttribute("member", member);
+//
+//        // 배송지 조회
+//        AddressDTO address = service.selectAddress(id.getMemberId());
+//
+//        model.addAttribute("address", address);
+//
+//        // 회원이 가지고 있는 쿠폰 목록
+//
+        List<CouponDTO> couponName = service.selectCouponList(member.getMemberId());
 
         model.addAttribute("couponName" , couponName);
 
-        // 포인트 조회
-        ProductDTO pointAmount = service.selectPoint(id.getMemberId());
+//        // 포인트 조회
+        ProductDTO pointAmount = service.selectPoint(member.getMemberId());
 
         model.addAttribute("pointAmount", pointAmount );
-
-        // 배송비
-
-        OrderDTO delivery = service.selectDelivery();
-
-        model.addAttribute("delivery" , delivery );
-
-        System.out.println("memberId : " + id);
-
-        // 최종 결제 금액
+//
+//        // 배송비
+//
+//        OrderDTO delivery = service.selectDelivery();
+//
+//        model.addAttribute("delivery" , delivery );
+//
+//        System.out.println("memberId : " + id);
+//
+//        // 최종 결제 금액
 
 
 
@@ -190,8 +213,11 @@ public class SellerController {
     public OrderDTO order(@RequestBody @Valid OrderDTO order, @AuthenticationPrincipal MemberImpl id ) {
 
         System.out.println("order : " + order.getFundingOptionCode());
+        int memberCode = id.getMemberCode();
+        order.setMemberCode(memberCode);
+        System.out.println("order : " + order);
+        OrderDTO insertOrder = service.insertOrder(order, memberCode);
 
-        OrderDTO insertOrder = service.insertOrder(order, id.getMemberId());
 
         System.out.println(insertOrder.getOrderCode());
 
@@ -218,20 +244,10 @@ public class SellerController {
         int fundingList = service.insertFundingCreditList(paymentCode);
 
 
-
         return paymentCode;
     }
 
-    @PostMapping("/disCount")
-    @ResponseBody
-    public int disCount(@RequestBody @Valid DisCountDTO dc, @AuthenticationPrincipal MemberImpl member) {
 
-        System.out.println("========= : " + dc);
-
-        int disCount = service.updateCoupon(dc, member.getMemberCode());
-
-        return 0;
-    }
 
 
 

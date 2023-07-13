@@ -19,6 +19,7 @@ public class OrderDTO {
     private String fundingOptionCode;
     private String deliveryCharge;
     private String couponlistCode;
+    private String coupon;
 
 
 }

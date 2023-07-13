@@ -6,7 +6,9 @@ import com.won.dourbest.user.dto.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 @Service
@@ -68,17 +70,17 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
-    public AddressDTO selectAddress(String memberId) {
+    public AddressDTO selectAddress(int memberCode) {
 
-        AddressDTO address = mapper.selectAddress(memberId);
+        AddressDTO address = mapper.selectAddress(memberCode);
 
         return address;
     }
 
     @Override
-    public List<CouponDTO> selectCouponList() {
+    public List<CouponDTO> selectCouponList(String memberId) {
 
-        List<CouponDTO> couponList = mapper.selectCouponList();
+        List<CouponDTO> couponList = mapper.selectCouponList(memberId);
 
 
         return couponList;
@@ -123,9 +125,20 @@ public class SellerServiceImpl implements SellerService {
         ProductDTO productPrice = mapper.selectProduct(optionCode);
 
         ProductDTO disCount = mapper.selectCoupon(choiceCoupon);
+        int result = 0;
+        int total = 0;
 
-        int result = productPrice.getOptionPrice()*(disCount.getCouponDisCount())/100;
-        int total = productPrice.getOptionPrice() - result;
+        if(disCount.getCouponDisCount() == 9999) {
+            result = 9999;
+            total= productPrice.getOptionPrice();
+        } else {
+
+            result = productPrice.getOptionPrice()*(disCount.getCouponDisCount())/100;
+            total = productPrice.getOptionPrice() - result;
+        }
+
+
+
         productPrice.setCouponDisCount(result);
         productPrice.setPointTotalAmount(total);
 
@@ -167,22 +180,33 @@ public class SellerServiceImpl implements SellerService {
 
     @Override
     @Transactional
-    public OrderDTO insertOrder(OrderDTO order, String memberId) {
+    public OrderDTO insertOrder(OrderDTO order, int mCode) {
 
         // 멤버코드
-        MemberDTO memberCode = mapper.selectMember(memberId);
-        System.out.println("memberCode : " + memberCode.getMemberCode());
+
+
 
         // 펀딩코드
         FundingDTO fundingCode = mapper.selectfundingCode(order.getFundingOptionCode());
         System.out.println("fundingCode = " + fundingCode);
 
-        // 쿠폰리스트 코드
-        CouponListDTO couponCode = mapper.selectCouponCode(memberCode.getMemberCode());
+        int optionCode = Integer.parseInt(order.getFundingOptionCode());
 
-        order.setMemberCode(memberCode.getMemberCode());
+        int update = mapper.update(optionCode);
+
+        String cp = order.getCoupon();
+        Map<String, Object> map = new HashMap<>();
+        map.put("mCode" , mCode);
+        map.put("cp", cp);
+        int couponCode = mapper.selectCoupon1(map);
+        map.put("couponCode", couponCode);
+        int result1 = mapper.couponUpdate(map);
+        // 쿠폰리스트 코드
+        CouponListDTO couponCode1 = mapper.selectCouponCode(map);
+
+        order.setMemberCode(mCode);
         order.setFundingCode(fundingCode.getFundingCode());
-        order.setCouponlistCode(String.valueOf(couponCode.getCouponlistCode()));
+        order.setCouponlistCode(String.valueOf(couponCode1.getCouponlistCode()));
         
         
         int result = mapper.insertOrder(order);
@@ -312,6 +336,26 @@ public class SellerServiceImpl implements SellerService {
     }
 
 
+    public OptionDTO selectOption(int optionCode) {
+
+        OptionDTO option = mapper.selectOption(optionCode);
+
+        return option;
+    }
+
+    public int selectVIP(int memberCode) {
+
+        int vip = mapper.selectVIP(memberCode);
+
+        return vip;
+    }
+
+    public int selectCategory(int fundingCode) {
+
+        int categoryCode = mapper.selectCatogory(fundingCode);
+
+        return categoryCode;
+    }
 }
 
 
