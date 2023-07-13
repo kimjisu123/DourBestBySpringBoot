@@ -93,7 +93,9 @@ section{
 
 .main-banner{
     /* 임시 */
+
     background-color: #b4b4b4;
+
 
 }
 
@@ -108,7 +110,7 @@ section{
 
 .banner-inner{
 
-
+    background-image: url("/static/images/common/rest-person.jpg");
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
