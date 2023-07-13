@@ -108,8 +108,8 @@
                         <div th:text="${account.getMemberEmail()}" id="adminAccount3"></div>
                         <div th:text="${account.getMemberPhone()}" id="adminAccount4"></div>
                         <div th:text="${#dates.format(account.getRegistDate(), 'yyyy/MM/dd')}" id="adminAccount5"></div>
-                        <div th:text="${account.getSellerCode()}"  id="adminAccount6"></div>
-                        <div th:text="${account.getMemberCode()}"  id="adminAccount7" class="choiceValue"></div>
+                        <div th:text="${account.getSellerApproval()}"  id="adminAccount6"></div>
+                        <div style="display: none" th:text="${account.getMemberCode()}"  id="adminAccount7" class="choiceValue"></div>
                     </div>
 
 

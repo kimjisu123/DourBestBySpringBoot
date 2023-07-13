@@ -158,106 +158,105 @@
             </div>
         </div>
     </div>
-
-
-    <script>
-
-        $('#adminQNA').click(function() {
-            $('.fundcheckbox').each(function () {
-                if ($(this).prop('checked')) {
-                    let answerContent = $('#answerContent').val();
-                    // 선택한 질문 코드
-                    let InquiriesCode = $(this).closest('.table').find('.choiceValue').text();
-                    let inquiry = {
-                        answerContent,
-                        InquiriesCode
-                    }
-                    $.ajax({
-                        url: "/admin/customerInquiry",
-                        type: "post",
-                        data: JSON.stringify(inquiry),
-                        contentType: "application/json",
-                        success: function (data) {
-                            alert(data);
-                            $('.contactmodal').css('display', 'none')
-                            window.location.reload()
-                        },
-                        error: function (error) {
-                            alert("답변 등록에 실패하셨습니다.");
-                        }
-                    });
-                }
-                ;
-            });
-        });
-
-
-
-        const contactmodal = document.querySelector(".contactmodal");
-        const btn = document.querySelector(".contactBtn");
-        const $span = document.querySelector(".close");
-
-
-        btn.addEventListener('click', openContactModal);
-        $span.addEventListener('click', closeContactModal);
-
-        function openContactModal() {
-            contactmodal.style.display = "block";
-            contactmodal.animate([{opacity: 0}, {opacity: 1}], {duration: 300, fill: "forwards"});
-        }
-
-        function closeContactModal() {
-            contactmodal.animate([{opacity: 1}, {opacity: 0}], {duration: 300, fill: "forwards"}).onfinish = function() {
-                contactmodal.style.display = "none";
-                const $img = document.querySelector(".contact-imgdiv");
-                if($img.hasChildNodes()){
-                    $img.replaceChildren();
-                }
-            };
-        }
-
-
-
-        function contactreadURL(obj) {
-
-            let reader = new FileReader();
-            if(!obj.files.length) {
-                return;
-            }
-            reader.readAsDataURL(obj.files[0]);
-            reader.onload = function (e) {
-                let $div = $('<div>');
-                $($div).css('width','120px');
-                $($div).css('height','120px');
-                $($div).css('padding','10px 10px 0px 0px');
-
-                $('.contact-imgdiv').append($div);
-
-                let img = $('<img />');
-                $(img).attr('src', e.target.result);
-                $(img).css('width','100%');
-                $(img).css('height','100%');
-                $($div).append(img);
-            }
-        }
-
-
-        window.onload = function() {
-
-            $('.modal').hide();
-        }
-
-        $('.report').click(function() {
-            $('.modal').show();
-        })
-
-        $('.x').click(function() {
-            $('.modal').hide();
-        })
-
-        $('.delete').click(function() {
-            $('.modal').hide();
-        })
-    </script>
-
 </main>
+
+
+<script>
+
+    $('#adminQNA').click(function() {
+        $('.fundcheckbox').each(function () {
+            if ($(this).prop('checked')) {
+                let answerContent = $('#answerContent').val();
+                // 선택한 질문 코드
+                let InquiriesCode = $(this).closest('.table').find('.choiceValue').text();
+                let inquiry = {
+                    answerContent,
+                    InquiriesCode
+                }
+                $.ajax({
+                    url: "/admin/customerInquiry",
+                    type: "post",
+                    data: JSON.stringify(inquiry),
+                    contentType: "application/json",
+                    success: function (data) {
+                        alert(data);
+                        $('.contactmodal').css('display', 'none')
+                        window.location.reload()
+                    },
+                    error: function (error) {
+                        alert("답변 등록에 실패하셨습니다.");
+                    }
+                });
+            }
+            ;
+        });
+    });
+
+
+
+    const contactmodal = document.querySelector(".contactmodal");
+    const btn = document.querySelector(".contactBtn");
+    const $span = document.querySelector(".close");
+
+
+    btn.addEventListener('click', openContactModal);
+    $span.addEventListener('click', closeContactModal);
+
+    function openContactModal() {
+        contactmodal.style.display = "block";
+        contactmodal.animate([{opacity: 0}, {opacity: 1}], {duration: 300, fill: "forwards"});
+    }
+
+    function closeContactModal() {
+        contactmodal.animate([{opacity: 1}, {opacity: 0}], {duration: 300, fill: "forwards"}).onfinish = function() {
+            contactmodal.style.display = "none";
+            const $img = document.querySelector(".contact-imgdiv");
+            if($img.hasChildNodes()){
+                $img.replaceChildren();
+            }
+        };
+    }
+
+
+
+    function contactreadURL(obj) {
+
+        let reader = new FileReader();
+        if(!obj.files.length) {
+            return;
+        }
+        reader.readAsDataURL(obj.files[0]);
+        reader.onload = function (e) {
+            let $div = $('<div>');
+            $($div).css('width','120px');
+            $($div).css('height','120px');
+            $($div).css('padding','10px 10px 0px 0px');
+
+            $('.contact-imgdiv').append($div);
+
+            let img = $('<img />');
+            $(img).attr('src', e.target.result);
+            $(img).css('width','100%');
+            $(img).css('height','100%');
+            $($div).append(img);
+        }
+    }
+
+
+    window.onload = function() {
+
+        $('.modal').hide();
+    }
+
+    $('.report').click(function() {
+        $('.modal').show();
+    })
+
+    $('.x').click(function() {
+        $('.modal').hide();
+    })
+
+    $('.delete').click(function() {
+        $('.modal').hide();
+    })
+</script>

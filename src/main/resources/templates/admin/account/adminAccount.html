@@ -143,7 +143,7 @@
                                 >
                                     >>
                                 </a>
-                                <button id="Withdrawal">계정 탈퇴</button>
+                                <button id="createAccount" class="contactBtn">관리자 계정 생성</button>
                             </div>
 
                         </div>
@@ -153,8 +153,6 @@
             <ul class="pagination">
 
                 <!-- 슬라이드바 -->
-
-                <button id="createadminAccount" class="contactBtn">관리자 계정 생성</button>
                 <div class="contactmodal">
                     <div class="contactmodal-container">
                         <div class="contactmodal-content">
@@ -212,38 +210,43 @@
                 </div>
             </ul>
         </section>
-    <script>
-        $('#btnCreate').click(function(){
-            let adminName = $('#inputName').val();
-            let adminPhone = $('#inputPhone').val();
-            let adminEmail = $('#inputEmail').val();
-            let adminPassword = $('#inputPassword').val();
 
-            let admin = {
-                adminName:adminName,
-                adminPhone:adminPhone,
-                adminEmail:adminEmail,
-                adminPassword:adminPassword
+    </div>
+</main>
+
+
+<script>
+    $('#btnCreate').click(function(){
+        let adminName = $('#inputName').val();
+        let adminPhone = $('#inputPhone').val();
+        let adminEmail = $('#inputEmail').val();
+        let adminPassword = $('#inputPassword').val();
+
+        let admin = {
+            adminName:adminName,
+            adminPhone:adminPhone,
+            adminEmail:adminEmail,
+            adminPassword:adminPassword
+        }
+        $.ajax({
+            contentType : "application/json",
+            data : JSON.stringify(admin),
+            type : "POST",
+            url : "/admin/adminAccount",
+            success : function (data) {
+                console.log(data);
+                alert(data);
+                $('.contactmodal').css('display', 'none')
+                window.location.reload()
+            },
+            error : function (error) {
+                console.log(error);
+                alert(error);
+                $('.contactmodal').css('display', 'none')
+                window.location.reload()
             }
-            $.ajax({
-                contentType : "application/json",
-                data : JSON.stringify(admin),
-                type : "POST",
-                url : "/admin/adminAccount",
-                success : function (data) {
-                    console.log(data);
-                    alert(data);
-                    $('.contactmodal').css('display', 'none')
-                    window.location.reload()
-                },
-                error : function (error) {
-                    console.log(error);
-                    alert(error);
-                    $('.contactmodal').css('display', 'none')
-                    window.location.reload()
-                }
-            })
-        });
+        })
+    });
 
     $('.Redundancy').keyup(function(){
 
@@ -279,58 +282,54 @@
         })
 
 
-        })
+    })
 
-        const contactmodal = document.querySelector(".contactmodal");
-        const btn = document.querySelector(".contactBtn");
-        const $span = document.querySelector(".close");
-
-
-        btn.addEventListener('click', openContactModal);
-        $span.addEventListener('click', closeContactModal);
-
-        function openContactModal() {
-            contactmodal.style.display = "block";
-            contactmodal.animate([{opacity: 0}, {opacity: 1}], {duration: 300, fill: "forwards"});
-        }
-
-        function closeContactModal() {
-            contactmodal.animate([{opacity: 1}, {opacity: 0}], {duration: 300, fill: "forwards"}).onfinish = function() {
-                contactmodal.style.display = "none";
-                const $img = document.querySelector(".contact-imgdiv");
-                if($img.hasChildNodes()){
-                    $img.replaceChildren();
-                }
-            };
-        }
+    const contactmodal = document.querySelector(".contactmodal");
+    const btn = document.querySelector(".contactBtn");
+    const $span = document.querySelector(".close");
 
 
+    btn.addEventListener('click', openContactModal);
+    $span.addEventListener('click', closeContactModal);
 
-        function contactreadURL(obj) {
+    function openContactModal() {
+        contactmodal.style.display = "block";
+        contactmodal.animate([{opacity: 0}, {opacity: 1}], {duration: 300, fill: "forwards"});
+    }
 
-            let reader = new FileReader();
-            if(!obj.files.length) {
-                return;
+    function closeContactModal() {
+        contactmodal.animate([{opacity: 1}, {opacity: 0}], {duration: 300, fill: "forwards"}).onfinish = function() {
+            contactmodal.style.display = "none";
+            const $img = document.querySelector(".contact-imgdiv");
+            if($img.hasChildNodes()){
+                $img.replaceChildren();
             }
-            reader.readAsDataURL(obj.files[0]);
-            reader.onload = function (e) {
-                let $div = $('<div>');
-                $($div).css('width','120px');
-                $($div).css('height','120px');
-                $($div).css('padding','10px 10px 0px 0px');
+        };
+    }
 
-                $('.contact-imgdiv').append($div);
 
-                let img = $('<img />');
-                $(img).attr('src', e.target.result);
-                $(img).css('width','100%');
-                $(img).css('height','100%');
-                $($div).append(img);
-            }
+
+    function contactreadURL(obj) {
+
+        let reader = new FileReader();
+        if(!obj.files.length) {
+            return;
         }
-    </script>
+        reader.readAsDataURL(obj.files[0]);
+        reader.onload = function (e) {
+            let $div = $('<div>');
+            $($div).css('width','120px');
+            $($div).css('height','120px');
+            $($div).css('padding','10px 10px 0px 0px');
 
-    </div>
-</main>
+            $('.contact-imgdiv').append($div);
 
+            let img = $('<img />');
+            $(img).attr('src', e.target.result);
+            $(img).css('width','100%');
+            $(img).css('height','100%');
+            $($div).append(img);
+        }
+    }
+</script>
 </html>

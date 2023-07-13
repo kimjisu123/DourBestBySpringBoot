@@ -51,7 +51,7 @@ public class SellerController {
         String phone = request.getParameter("phone");
         String email = request.getParameter("email");
         String license = request.getParameter("license");
-//        String newPhone = phone.replace("-", "");
+        String newPhone = phone.replace("-", "");
         System.out.println("license : " + license);
         System.out.println(id);
         System.out.println(name);
@@ -60,7 +60,7 @@ public class SellerController {
 
         member.setMemberId(id);
         member.setMemberName(name);
-        member.setMemberPhone(phone);
+        member.setMemberPhone(newPhone);
         member.setMemberEmail(email);
         seller.setBusinessLicense(license);
 

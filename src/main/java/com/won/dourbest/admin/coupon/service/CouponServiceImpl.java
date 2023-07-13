@@ -46,7 +46,7 @@ public class CouponServiceImpl implements CouponService{
         return couponIssuanceList;
     }
 
-    // 쿠폰 사용 내역
+    // 쿠폰 등록 내역
     @Override
     public List<UseCouponDTO> selectUseCoupon(SelectCriteria selectCriteria) {
 

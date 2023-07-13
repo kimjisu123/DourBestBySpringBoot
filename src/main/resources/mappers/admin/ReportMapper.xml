@@ -201,8 +201,8 @@
         SEQ_ADMIN_QNA_CODE.NEXTVAL,
          #{answerContent},
          DEFAULT,
-         1,
-         #{InquiriesCode}
+         #{adminCode},
+         #{inquriesCode}
         )
     </insert>
 
