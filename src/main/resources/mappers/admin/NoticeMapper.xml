@@ -114,7 +114,7 @@
          #{ noticeTitle},
          #{ noticeContent},
          DEFAULT,
-         5
+         70
         )
     </insert>
 
@@ -129,7 +129,7 @@
                 #{eventContent},
                 SYSDATE,
                 #{eventEndDate},
-                1
+                70
             )
     </insert>
 

@@ -47,7 +47,6 @@ public class ReportServiceImpl implements ReportService{
     @Override
     public String answerRegist(AnswerRegistDTO answerRegist) {
 
-
         // 펀딩 코드
         int fundingCode;
         // 펀딩신고 코드
@@ -119,11 +118,18 @@ public class ReportServiceImpl implements ReportService{
             } else {
                 throw new RuntimeException();
             }
+        } else {
         }
 
 
         return message;
+
     }
+
+
+
+
+
 
     // 1:1 문의사항 내역 조회
     @Override

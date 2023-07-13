@@ -53,9 +53,11 @@
                             <div th:onclick="|location.href='@{/admin/blackList}'|"   id="mainMenuButton5" class="mainMenuButton">
                                 블랙리스트
                             </div>
-                            <div th:onclick="|location.href='@{/admin/adminAccount}'|"   id="mainMenuContainernotfirst" class="mainMenuButton">
-                                관리자 계정 관리
-                            </div>
+                            <th:block sec:authorize="hasRole('ROLE_SUPER')">
+                                <div th:onclick="|location.href='@{/admin/adminAccount}'|"   id="mainMenuContainernotfirst" class="mainMenuButton">
+                                    관리자 계정 관리
+                                </div>
+                            </th:block>
                         </div>
 
                         <!-- 아이디 검색 버튼 -->
@@ -152,7 +154,7 @@
 
                 <!-- 슬라이드바 -->
 
-                <button id="createadminAccount" class="contactBtn">관리자 계정 생성 모달 테스트</button>
+                <button id="createadminAccount" class="contactBtn">관리자 계정 생성</button>
                 <div class="contactmodal">
                     <div class="contactmodal-container">
                         <div class="contactmodal-content">
@@ -208,7 +210,7 @@
                         </div>
                     </div>
                 </div>
-
+            </ul>
         </section>
     <script>
         $('#btnCreate').click(function(){

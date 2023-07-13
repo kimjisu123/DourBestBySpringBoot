@@ -98,9 +98,6 @@
                         <div id="SortationFund5" class="SortationList">
                             종료 날짜
                         </div>
-                        <div id="SortationFund6" class="SortationList">
-                            상태 값
-                        </div>
                     </div>
 
 
@@ -113,8 +110,6 @@
                         <div th:text="${#dates.format(fundingApplied.getStartDate(), 'yyyy/MM/dd')}" id="adminFund4"></div>
                         <div th:text="${#dates.format(fundingApplied.getEndDate(), 'yyyy/MM/dd')}" id="adminFund5"></div>
                         <div style="display: none" th:text="${fundingApplied.getFundingCode()}" class="adminFund6"></div>
-                        <div id="adminAccountFund6"> 상태값</div>
-
                     </div>
 
                     <!-- 페이지 처리 -->

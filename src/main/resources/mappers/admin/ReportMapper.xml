@@ -150,7 +150,7 @@
     SEQ_REPORT_RESPONSE_CODE.NEXTVAL,
     #{ answerRegist.answerContent },
     DEFAULT,
-    1,
+    70,
     #{ reportCode }
     )
     </insert>

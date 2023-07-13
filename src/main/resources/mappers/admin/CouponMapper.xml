@@ -37,6 +37,7 @@
         <if test="searchValue != null and searchValue != ''">
             WHERE COUPON_CONTENT LIKE '%' || #{ searchValue } || '%'
         </if>
+        ORDER BY COUPON_VALID_DATE
         OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
 
     </select>

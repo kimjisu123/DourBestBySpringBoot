@@ -95,7 +95,7 @@
                         <div th:text="${#dates.format(reportDetails.getReport_date(), 'yyyy/MM/dd')}" id="reportLine5"></div>
                         <div th:text="${reportDetails.getNumberReported()}"  id="reportLine6"></div>
 <!--                        <div th:text="${reportDetails.getAnswersStatus()}" id="reportLine7"></div>-->
-                        <div style="display: none" th:text="${reportDetails.getFundingCode()}" id="reportLine8"></div>
+                        <div style="display: none" th:text="${reportDetails.getFundingCode()}" id="reportLine8" class="fundingcode"></div>
                         <div style="display: none" th:text="${reportDetails.getReportContent()}" id="reportLine9"></div>
                     </div>
 
@@ -180,110 +180,122 @@
             </div>
         </div>
     </div>
-
-
-
-    <script>
-        $('#answer').click(function() {
-            $('.fundcheckbox').each(function() {
-                if ($(this).prop('checked')) {
-                    // 신고 답변
-                    let answerContent = $('#answerContent').val();
-                    // 신고 제목
-                    let choiceValue = $(this).closest('.table').find('.choiceValue').text();
-                    // 선택한 제재
-                    let contactCode = $('#contactCode').val();
-                    // 선택한 펀딩 코드
-                    let fundingCode = $('#reportLine8').text();
-
-                    let answer ={
-                        answerContent,
-                        choiceValue,
-                        contactCode,
-                        fundingCode
-                    }
-                }
-            });
-        });
-
-
-
-        $(".choiceValue").click(function(e) {
-            var $tableRow = $(this).closest('.table');
-            var title = $tableRow.find('#reportLine4').text();
-            var content = $tableRow.find('#reportLine9').text();
-
-            $('.reportitle').text(title);
-            $('.reportReason').text(content);
-
-            $('.modal').show();
-        });
-
-        const contactmodal = document.querySelector(".contactmodal");
-        const btn = document.querySelector(".contactBtn");
-        const $span = document.querySelector(".close");
-
-
-        btn.addEventListener('click', openContactModal);
-        $span.addEventListener('click', closeContactModal);
-
-        function openContactModal() {
-            contactmodal.style.display = "block";
-            contactmodal.animate([{opacity: 0}, {opacity: 1}], {duration: 300, fill: "forwards"});
-        }
-
-        function closeContactModal() {
-            contactmodal.animate([{opacity: 1}, {opacity: 0}], {duration: 300, fill: "forwards"}).onfinish = function() {
-                contactmodal.style.display = "none";
-                const $img = document.querySelector(".contact-imgdiv");
-                if($img.hasChildNodes()){
-                    $img.replaceChildren();
-                }
-            };
-        }
-
-
-
-        function contactreadURL(obj) {
-
-            let reader = new FileReader();
-            if(!obj.files.length) {
-                return;
-            }
-            reader.readAsDataURL(obj.files[0]);
-            reader.onload = function (e) {
-                let $div = $('<div>');
-                $($div).css('width','120px');
-                $($div).css('height','120px');
-                $($div).css('padding','10px 10px 0px 0px');
-
-                $('.contact-imgdiv').append($div);
-
-                let img = $('<img />');
-                $(img).attr('src', e.target.result);
-                $(img).css('width','100%');
-                $(img).css('height','100%');
-                $($div).append(img);
-            }
-        }
-
-
-        window.onload = function() {
-
-            $('.modal').hide();
-        }
-
-        $('.report').click(function() {
-            $('.modal').show();
-        })
-
-        $('.x').click(function() {
-            $('.modal').hide();
-        })
-
-        $('.delete').click(function() {
-            $('.modal').hide();
-        })
-    </script>
-
 </main>
+
+<script>
+
+
+    $('#answer').click(function() {
+        $('.fundcheckbox').each(function() {
+            if ($(this).prop('checked')) {
+                // 신고 답변
+                let answerContent = $('#answerContent').val();
+                // 선택한 유저의 아이디
+                let choiceValue = $(this).closest('.table').find('.choiceValue').text();
+                // 선택한 제재
+                let contactCode = $('#contactCode').val();
+                // 선택한 펀딩 코드
+                let fundingCode = $(this).closest('.table').find('.fundingcode').text();
+
+                let answer ={
+                    answerContent,
+                    choiceValue,
+                    contactCode,
+                    fundingCode
+                }
+
+                $.ajax({
+                    url: "/admin/answerRegist",
+                    data : JSON.stringify(answer),
+                    type: "post",
+                    contentType: "application/json",
+                    success: function(data) {
+                        alert(data);
+                        window.location.reload();
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+            }
+        });
+    });
+
+
+    $(".choiceValue").click(function(e) {
+        var $tableRow = $(this).closest('.table');
+        var title = $tableRow.find('#reportLine4').text();
+        var content = $tableRow.find('#reportLine9').text();
+
+        $('.reportitle').text(title);
+        $('.reportReason').text(content);
+
+        $('.modal').show();
+    });
+
+    const contactmodal = document.querySelector(".contactmodal");
+    const btn = document.querySelector(".contactBtn");
+    const $span = document.querySelector(".close");
+
+
+    btn.addEventListener('click', openContactModal);
+    $span.addEventListener('click', closeContactModal);
+
+    function openContactModal() {
+        contactmodal.style.display = "block";
+        contactmodal.animate([{opacity: 0}, {opacity: 1}], {duration: 300, fill: "forwards"});
+    }
+
+    function closeContactModal() {
+        contactmodal.animate([{opacity: 1}, {opacity: 0}], {duration: 300, fill: "forwards"}).onfinish = function() {
+            contactmodal.style.display = "none";
+            const $img = document.querySelector(".contact-imgdiv");
+            if($img.hasChildNodes()){
+                $img.replaceChildren();
+            }
+        };
+    }
+
+
+
+    function contactreadURL(obj) {
+
+        let reader = new FileReader();
+        if(!obj.files.length) {
+            return;
+        }
+        reader.readAsDataURL(obj.files[0]);
+        reader.onload = function (e) {
+            let $div = $('<div>');
+            $($div).css('width','120px');
+            $($div).css('height','120px');
+            $($div).css('padding','10px 10px 0px 0px');
+
+            $('.contact-imgdiv').append($div);
+
+            let img = $('<img />');
+            $(img).attr('src', e.target.result);
+            $(img).css('width','100%');
+            $(img).css('height','100%');
+            $($div).append(img);
+        }
+    }
+
+
+    window.onload = function() {
+
+        $('.modal').hide();
+    }
+
+    $('.report').click(function() {
+        $('.modal').show();
+    })
+
+    $('.x').click(function() {
+        $('.modal').hide();
+    })
+
+    $('.delete').click(function() {
+        $('.modal').hide();
+    })
+</script>

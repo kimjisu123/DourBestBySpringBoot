@@ -135,6 +135,8 @@ public class ReportController {
     @ResponseBody
     public String answerRegist(@RequestBody AnswerRegistDTO answer){
 
+        System.out.println("answer = " + answer);
+        
         String message = reportServiceImpl.answerRegist(answer);
 
         return message;
