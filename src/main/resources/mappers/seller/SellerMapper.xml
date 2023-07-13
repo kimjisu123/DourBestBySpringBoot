@@ -70,8 +70,9 @@
     </resultMap>
 
     <resultMap id="selectProductResultMap" type="ProductDTO">
-
-        <result property="pointTotalAmount" column="POINT_TOTAL_AMOUNT"></result>
+        <result property="couponDisCount" column="COUPON_DISCOUNT"/>
+        <result property="pointTotalAmount" column="POINT_TOTAL_AMOUNT"/>
+        <result property="couponName" column="COUPON_NAME"/>
     </resultMap>
 
     <resultMap id="selectFundingResultMap" type="FundingDTO">
@@ -138,7 +139,7 @@
             A.OPTION_NAME
            ,A.OPTION_PRICE
          FROM TBL_FUNDING_OPTIONS A
-        WHERE FUNDING_OPTION_CODE = 111
+        WHERE FUNDING_OPTION_CODE = #{ optionCode }
 
     </select>
 
@@ -186,10 +187,10 @@
         SELECT
 
 
-         A.POINT_TOTAL_AMOUNT
+         NVL(A.POINT_TOTAL_AMOUNT,0) as POINT_TOTAL_AMOUNT
 
           FROM TBL_POINTLIST A
-          JOIN TBL_MEMBER B ON (A.MEMBER_CODE = B.MEMBER_CODE)
+         right JOIN TBL_MEMBER B ON (A.MEMBER_CODE = B.MEMBER_CODE)
          WHERE B.MEMBER_ID = #{ memberId }
 
 
@@ -216,20 +217,30 @@
          WHERE ORDER_CODE = 1
     </delete>
 
-    <select id="selectProduct" resultMap="selectProductResultMap">
+<!--    <select id="selectProduct" resultMap="selectProductResultMap">-->
+<!--        SELECT-->
+<!--            OPTION_NAME-->
+<!--          , OPTION_PRICE-->
+<!--          , FILE_MODIFICATION_NAME-->
+<!--          FROM TBL_FUNDING_OPTIONS A-->
+<!--          JOIN TBL_FUNDING_FILE B on (B.FUNDING_CODE = A.FUNDING_CODE)-->
+<!--         WHERE A.FUNDING_OPTION_CODE = ${ optionCode }-->
+<!--          AND  B.FILE_TYPE = '메인'-->
+<!--    </select>-->
+
+    <select id="selectCoupon" resultMap="selectProductResultMap">
         SELECT
-            OPTION_NAME
-          , OPTION_PRICE
-          , FILE_MODIFICATION_NAME
-          FROM TBL_FUNDING_OPTIONS A
-          JOIN TBL_FUNDING_FILE B on (B.FUNDING_CODE = A.FUNDING_CODE)
-         WHERE A.FUNDING_OPTION_CODE = ${ optionCode }
-          AND  B.FILE_TYPE = '메인'
+            COUPON_DISCOUNT
+          FROM TBL_COUPON
+        WHERE COUPON_NAME = #{ couponName }
     </select>
 
-
-
-
+    <select id="selectProduct">
+        SELECT
+            OPTION_PRICE
+          FROM TBL_FUNDING_OPTIONS
+         WHERE FUNDING_OPTION_CODE = #{ fundingOptionCode }
+    </select>
 
     <select id="selectfundingCode" resultMap="selectFundingResultMap">
         SELECT
@@ -279,6 +290,120 @@
               FROM DUAL
         </selectKey>
     </insert>
+
+    <insert id="insertPayment">
+        INSERT
+          INTO TBL_CREDIT
+        (
+         PAYMENT_CODE
+         , CARD_COMPANY
+         , CARD_NUMBER
+         , ORDER_CODE
+         , TOTAL_PRICE
+        )
+        VALUES
+        (
+            SEQ_PAYMENT_CODE.nextval
+          , #{ bankName }
+          , #{ bankNum}
+          , #{ orderCode }
+          , #{ totalPrice }
+        )
+
+        <selectKey keyProperty="paymentCode" resultType="_int" order="AFTER">
+            SELECT
+                SEQ_PAYMENT_CODE.currval
+              FROM DUAL
+        </selectKey>
+    </insert>
+
+    <insert id="insertFundingCreditList">
+        INSERT
+          INTO TBL_FUNDING_CREDITLIST
+        (
+         FUND_CREDIT_CODE
+         , CREDIT_STATUS
+         , CREDIT_DATE
+         , PAYMENT_CODE
+        )
+        VALUES
+        (
+            SEQ_FUND_CREDIT_CODE.nextval
+            , '결제완료'
+            , DEFAULT
+            , #{ paymentCode }
+        )
+
+    </insert>
+
+    <select id="selectDeliveryPrice">
+        SELECT
+            DELIVERY_CHARGE
+          FROM TBL_CREDIT A
+          JOIN TBL_ORDER B ON(A.ORDER_CODE = B.ORDER_CODE)
+         WHERE PAYMENT_CODE = #{ paymentCode }
+
+    </select>
+
+    <insert id="insertDelivery">
+        INSERT
+          INTO TBL_DELIVERY
+        (
+         DELIVERY_CODE
+         , DELIVERY_NUMBER
+         , DELIVERY_COMPANY
+         , PAYMENT_CODE
+        )
+        VALUES
+        (
+           SEQ_DELIVERY_CODE.nextval
+         , #{ deliveryNumber }
+         , 'CJ대한통운'
+         , #{ paymentCode }
+        )
+
+        <selectKey keyProperty="deliveryCode" resultType="_int" order="AFTER">
+            SELECT
+                SEQ_DELIVERY_CODE.currval
+              FROM DUAL
+        </selectKey>
+    </insert>
+
+    <insert id="insertDeliveryList">
+        INSERT
+          INTO TBL_DELIVERYLIST
+        (
+         DELIVERY_LIST_CODE
+         , DELIVERY_STATUS
+         , DELIVERY_DATE
+         , DELIVERY_CODE
+        )
+        VALUES
+        (
+           SEQ_DELIVERYLIST_CODE.nextval
+         , '배송준비중'
+         , DEFAULT
+         , #{ deliveryCode }
+        )
+    </insert>
+
+    <update id="updateCoupon">
+        UPDATE TBL_COUPONLIST
+        SET
+            COUPON_USE_STATUS = 'Y'
+        WHERE MEMBER_CODE = #{ memberCode }
+
+
+    </update>
+
+    <update id="updatePoint">
+        UPDATE TBL_POINTLIST
+        SET POINT_TOTAL_AMOUNT = POINT_TOTAL_AMOUNT - #{ usePoint }
+        WHERE MEMBER_CODE = #{ memberCode }
+
+    </update>
+
+
 
 
 

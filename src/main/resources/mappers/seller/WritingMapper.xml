@@ -28,6 +28,20 @@
         )
     </insert>
 
+    <insert id="registNoticeWriting">
+        INSERT
+          INTO TBL_FUNDING_NOTICE
+        VALUES
+        (
+         SEQ_FUNDING_NOTICE_CODE
+         , #{ inquiryTitle }
+         , default
+         , #{inquiryContent}
+        )
+    </insert>
+
+
+
 
 </mapper>
 

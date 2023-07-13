@@ -1,33 +1,19 @@
 package com.won.dourbest.seller.controller;
 
 import com.siot.IamportRestClient.IamportClient;
-import com.siot.IamportRestClient.exception.IamportResponseException;
-import com.siot.IamportRestClient.response.IamportResponse;
-import com.siot.IamportRestClient.response.Payment;
+import com.won.dourbest.common.exception.member.NoLoginException;
 import com.won.dourbest.seller.dto.*;
-import com.won.dourbest.seller.service.SellerService;
 import com.won.dourbest.seller.service.SellerServiceImpl;
 import com.won.dourbest.user.dto.*;
-import org.apache.ibatis.annotations.Param;
-import org.apache.tomcat.util.json.JSONParser;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 
-import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.logging.Logger;
+import java.util.*;
 
 
 @Controller
@@ -46,13 +32,18 @@ public class SellerController {
 
 
     @GetMapping("/application")
-    public String seller() {
+    public String seller(@AuthenticationPrincipal MemberImpl member) {
+
+        if(member == null) {
+            throw new NoLoginException("로그인 안됨");
+        }
 
         return "seller/giwon_seller/seller_application";
     }
 
     @PostMapping("/application")
-    public String seller(HttpServletRequest request , @ModelAttribute SellerDTO seller ,@ModelAttribute MemberDTO member){
+    @ResponseBody
+    public Integer seller(HttpServletRequest request , @ModelAttribute SellerDTO seller ,@ModelAttribute MemberDTO member){
 
 
         String id = request.getParameter("id");
@@ -60,6 +51,7 @@ public class SellerController {
         String phone = request.getParameter("phone");
         String email = request.getParameter("email");
         String license = request.getParameter("license");
+//        String newPhone = phone.replace("-", "");
         System.out.println("license : " + license);
         System.out.println(id);
         System.out.println(name);
@@ -73,11 +65,10 @@ public class SellerController {
         seller.setBusinessLicense(license);
 
 
-        service.registSeller(seller, member);
+        Integer selectMember = service.registSeller(seller, member);
 
 
-
-        return "seller/giwon_seller/seller_application";
+        return selectMember;
     }
 
     @GetMapping("/success")
@@ -86,13 +77,26 @@ public class SellerController {
         return "seller/giwon_seller/seller_success";
     }
 
-    // 상품명 조회
-    @GetMapping("/payment")
-    public String payment(Model model, HttpServletRequest request , @AuthenticationPrincipal MemberImpl id ) {
+    @PostMapping("/success")
+    public String success1() {
 
-        FundingOptionDTO product = service.selectProductName();
+        return "seller/giwon_seller/seller_success";
+    }
+
+    @GetMapping("/fail")
+    public String fail() {
+
+        return "seller/giwon_seller/fundingCreditSuccess";
+    }
+
+    // 상품명 조회
+    @GetMapping("/payment/{optionCode}")
+    public String payment(Model model, HttpServletRequest request , @AuthenticationPrincipal MemberImpl id, @PathVariable int optionCode) {
+
+        FundingOptionDTO product = service.selectProductName(optionCode);
 
         model.addAttribute("product", product);
+        model.addAttribute("optionCode", optionCode);
 
         // 주문자 정보 조회
         MemberDTO member = service.selectMember(id.getMemberId());
@@ -142,7 +146,7 @@ public class SellerController {
         ProductDTO couponApply = service.registCoupon(choiceCoupon,optionCode);
         System.out.println("couponApply = " + couponApply);
         map.put("coupon" , String.valueOf(couponApply.getPointTotalAmount()));
-        map.put("disCount", String.valueOf(couponApply.getDisCount()));
+        map.put("disCount", String.valueOf(couponApply.getCouponDisCount()));
 
 
         return map;
@@ -150,9 +154,9 @@ public class SellerController {
 
     @PostMapping("/point")
     @ResponseBody
-    public String point(@RequestParam String usePoint,@AuthenticationPrincipal MemberImpl id ) {
+    public int point(@RequestParam int usePoint,@AuthenticationPrincipal MemberImpl id ) {
 
-        ProductDTO point = service.selectPoint(id.getMemberId());
+        ProductDTO point = service.selectUserPoint(id.getMemberId(), usePoint);
 
         System.out.println("usePoint : " + usePoint);
 
@@ -194,13 +198,35 @@ public class SellerController {
 
     @PostMapping("/credit")
     @ResponseBody
-    public String credit(@RequestBody @Valid PaymentDTO payment) {
+    public PaymentDTO credit(@RequestBody @Valid PaymentDTO payment) {
 
-        System.out.println(payment.getOrderCode());
-        System.out.println(payment.getTotalPrice());
-        System.out.println(payment.getBankName());
+        System.out.println("이거다" + payment.getOrderCode());
 
-        return "";
+        PaymentDTO credit = service.insertPayment(payment);
+
+        return credit;
+    }
+
+    @PostMapping("/creditList")
+    @ResponseBody
+    public int credit(@RequestParam("paymentCode") int paymentCode) {
+
+        int fundingList = service.insertFundingCreditList(paymentCode);
+
+
+
+        return paymentCode;
+    }
+
+    @PostMapping("/disCount")
+    @ResponseBody
+    public int disCount(@RequestBody @Valid DisCountDTO dc, @AuthenticationPrincipal MemberImpl member) {
+
+        System.out.println("========= : " + dc);
+
+        int disCount = service.updateCoupon(dc, member.getMemberCode());
+
+        return 0;
     }
 
 

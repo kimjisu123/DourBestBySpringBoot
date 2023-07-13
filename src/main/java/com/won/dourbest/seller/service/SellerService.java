@@ -1,11 +1,7 @@
 package com.won.dourbest.seller.service;
 
-import com.won.dourbest.seller.dto.FundingCreditDTO;
-import com.won.dourbest.seller.dto.FundingOptionDTO;
-import com.won.dourbest.seller.dto.ProductDTO;
-import com.won.dourbest.seller.dto.SellerDTO;
+import com.won.dourbest.seller.dto.*;
 import com.won.dourbest.user.dto.*;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 import java.util.List;
 
@@ -14,7 +10,7 @@ public interface SellerService {
 
     public Integer registSeller(SellerDTO seller, MemberDTO member);
 
-    FundingOptionDTO selectProductName();
+    FundingOptionDTO selectProductName(int optionCode);
 
     MemberDTO selectMember(String memberId);
 
@@ -34,4 +30,13 @@ public interface SellerService {
 
 
     OrderDTO insertOrder(OrderDTO order, String memberId);
+
+    PaymentDTO insertPayment(PaymentDTO payment);
+
+    int insertFundingCreditList(int paymentCode);
+
+
+    int updateCoupon(DisCountDTO dc, int memberCode);
+
+    ProductDTO selectUserPoint(String memberId, int usePoint);
 }

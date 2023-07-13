@@ -8,10 +8,10 @@
     <div class="main-container0">
       <a class="box1 text1">공지사항</a>
 
-      <a href="/seller/review" class="box2 text1">리뷰
+      <a th:href="@{/funding/seller/review/{id}(id=${fundingCode})}"  class="box2 text1">리뷰
         <p class="count text1">()</p>
       </a>
-      <a href="/seller/question" class="box3 text1">Q&A</a>
+      <a th:href="@{/funding/seller/question/{id}(id=${fundingCode})}" class="box3 text1">Q&A</a>
 
       <a class="box4 text1">환불 정책</a>
     </div>
@@ -35,6 +35,98 @@
       <div class="horizon"></div>
       </th:block>
     </div>
+
+
+
+    <!-------------------------------------------------------------------------- -->
+
+    <div class="pagingArea" align="center">
+
+
+      <button
+              th:onclick="'location.href=\'/seller/question?currentPage='+ @{${selectCriteria.startPage}} + '\''"
+              th:disabled="${selectCriteria.pageNo == 1}" >
+
+      </button>
+
+      <button
+              th:onclick="'location.href=\'/seller/question?currentPage='+ @{${selectCriteria.pageNo - 1}} + '\''"
+              th:disabled="${selectCriteria.pageNo == 1}" >
+      </button>
+
+
+
+      <th:block th:each="page : ${#numbers.sequence(selectCriteria.startPage, selectCriteria.endPage)}">
+        <button class="paging-button"
+                th:text="${ page }"
+                th:onclick="'location.href=\'/seller/question?currentPage='+ @{${page}} + '\''"
+                th:disabled="${ selectCriteria.pageNo eq page }">
+        </button>
+      </th:block>
+
+
+
+
+      <button
+              th:onclick="'location.href=\'/seller/question?currentPage='+ @{${selectCriteria.pageNo + 1}} + '\''"
+              th:disabled="${selectCriteria.pageNo == selectCriteria.maxPage}" >
+      </button>
+
+
+
+
+      <button
+              th:onclick="'location.href=\'/seller/question?currentPage='+ @{${selectCriteria.maxPage}} + '\''"
+              th:disabled="${selectCriteria.pageNo == selectCriteria.maxPage}">
+
+      </button>
+
+      <div class="button">
+        <button onclick="location.href='/seller/writing'">글쓰기</button>
+      </div>
+
+
+
+    </div>
+
+    <!-- 검색 폼 -->
+    <div class="search-area" align="center">
+
+
+
+      <form id="searchForm"
+            th:action="@{/seller/notice}"
+            method="get"
+            style="display: inline-block" >
+
+
+
+
+
+
+
+        <input type="search" id="searchValue" name="searchValue">
+
+
+
+
+      </form>
+
+
+
+
+      <!--   로그인 한 경우에만 버튼이 보여짐  -->
+      <th:block sec:authorize="isAuthenticated()">
+        <button class="btn btn-or" id="writeBoard">작성하기</button>
+      </th:block>
+
+
+
+    </div>
+
+    </div>
+
+    <!-------------------------------------------------------------------------------->
 
 
 

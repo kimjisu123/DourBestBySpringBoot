@@ -254,4 +254,10 @@
          WHERE F.FUNDING_CODE = #{code}
     </select>
 
+    <update id="upViews" parameterType="_int">
+        UPDATE TBL_FUNDING
+           SET VIEWS = VIEWS + 1
+         WHERE FUNDING_CODE = #{code}
+    </update>
+
 </mapper>
