@@ -64,4 +64,6 @@ public interface AdminFundingMapper {
 
     // 판매자 신청 반려
     int sellerDrop(String memberCode);
+
+    int selectOngoingTotalPage(Map<String, String> searchMap);
 }

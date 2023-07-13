@@ -44,4 +44,6 @@ public interface FundingListService {
     String dropFunding(ApprovedDTO appored);
 
     String sellerDrop(String memberId);
+
+    int selectOngoingTotalPage(Map<String, String> searchMap);
 }

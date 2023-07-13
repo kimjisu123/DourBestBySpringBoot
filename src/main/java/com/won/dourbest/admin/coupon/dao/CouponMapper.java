@@ -29,4 +29,6 @@ public interface CouponMapper {
 
     // 모든 멤버에게 쿠폰 등록
     int insertCoupon(Date date, int memCode);
+
+    int selectRegiTotalPage();
 }

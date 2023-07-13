@@ -18,4 +18,6 @@ public interface CouponService {
     int selectTotalPage(Map<String, String> searchMap);
 
     String couponRegist(CouponRegistDTO coupon);
+
+    int selectRegiTotalPage(Map<String, String> searchMap);
 }

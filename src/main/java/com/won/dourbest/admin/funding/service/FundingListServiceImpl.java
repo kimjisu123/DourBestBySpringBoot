@@ -248,4 +248,12 @@ public class FundingListServiceImpl implements FundingListService {
 
 
     }
+
+    @Override
+    public int selectOngoingTotalPage(Map<String, String> searchMap) {
+
+        int result = mapper.selectOngoingTotalPage(searchMap);
+
+        return result;
+    }
 }

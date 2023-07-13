@@ -141,17 +141,6 @@
     </delete>
 
 
-    <!--  총 페이지 갯수  -->
-    <select id="selectTotalPage">
-        SELECT
-        count(*)
-        FROM    TBL_MEMBER A
-        <if test="searchValue != null and searchValue != ''">
-            WHERE   MEMBER_ID = #{ searchValue }
-        </if>
-    </select>
-
-
     <!-- 진행중인 이벤트 삭제  -->
     <delete id="ongoingEventDelete">
         DELETE TBL_EVENT
@@ -164,4 +153,39 @@
         DELETE TBL_EVENT
         WHERE EVENT_CODE = #{eventCode}
     </delete>
+
+
+
+    <!--  공지사항의 총 페이지 갯수  -->
+    <select id="selectTotalPage">
+        SELECT
+        count(*)
+        FROM    TBL_NOTICE
+        <if test="searchValue != null and searchValue != ''">
+            WHERE   NOTICE_TITLE = #{ searchValue }
+        </if>
+    </select>
+
+    <!--  진행중인 이벤트의 페이지 갯수  -->
+    <select id="selectTotalOngoingPage">
+        SELECT
+        count(*)
+        FROM    TBL_EVENT
+        WHERE START_DATE &lt; SYSDATE
+        AND   END_DATE &gt; SYSDATE
+        <if test="searchValue != null and searchValue != ''">
+            WHERE   NOTICE_TITLE = #{ searchValue }
+        </if>
+    </select>
+
+    <!--  종료된 이벤트의 페이지 갯수  -->
+    <select id="selectTotalFinshPage">
+        SELECT
+        count(*)
+        FROM    TBL_EVENT
+        WHERE END_DATE &lt; SYSDATE
+        <if test="searchValue != null and searchValue != ''">
+            WHERE   NOTICE_TITLE = #{ searchValue }
+        </if>
+    </select>
 </mapper>

@@ -179,5 +179,22 @@ public class NoticeServiceImpl implements NoticeService{
 
     }
 
+    @Override
+    public int selectTotalOngoingPage(Map<String, String> searchMap) {
+
+        int result = mapper.selectTotalOngoingPage(searchMap);
+
+        return result;
+    }
+
+    @Override
+    public int selectTotalFinshPage(Map<String, String> searchMap) {
+
+        int result = mapper.selectTotalFinshPage(searchMap);
+
+        return result;
+
+    }
+
 
 }

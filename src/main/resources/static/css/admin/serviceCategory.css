@@ -127,16 +127,20 @@
     margin-top: 00px;
 }
 
+.QuestionsList{
+    width: 830px;
+    margin-right: 330px;
+}
 .FrequentlyHelp{
-    margin-left:420px;
-    margin-bottom : 20px;
+    margin-left: 420px;
+    margin-bottom: 20px;
     font-size: 40px;
     font-weight: bold;
+    width: 1090px;
+    height: 500px;
 }
 
-.QuestionsListContainer{
-    margin-left:200px;
-}
+
 
 .QuestionsHead{
     font-size: 25px;

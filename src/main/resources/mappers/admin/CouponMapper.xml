@@ -66,9 +66,23 @@
     <select id="selectTotalPage">
         SELECT
         count(*)
-        FROM    TBL_MEMBER A
+        FROM    TBL_COUPONLIST A
+        JOIN    TBL_COUPON B ON (A.COUPON_CODE = B.COUPON_CODE)
+        JOIN    TBL_MEMBER C ON (A.MEMBER_CODE = C.MEMBER_CODE)
         <if test="searchValue != null and searchValue != ''">
-            WHERE   MEMBER_ID = #{ searchValue }
+            WHERE   COUPON_NAME = #{ searchValue }
+        </if>
+    </select>
+
+    <select id="selectRegiTotalPage">
+        SELECT
+        count(*)
+        FROM    TBL_COUPONLIST A
+        JOIN    TBL_COUPON B ON (A.COUPON_CODE = B.COUPON_CODE)
+        JOIN    TBL_MEMBER C ON (A.MEMBER_CODE = C.MEMBER_CODE)
+        WHERE A.COUPON_REGI_STATUS = 'Y'
+        <if test="searchValue != null and searchValue != ''">
+            WHERE   COUPON_NAME = #{ searchValue }
         </if>
     </select>
 

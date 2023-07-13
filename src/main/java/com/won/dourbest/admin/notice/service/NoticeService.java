@@ -30,4 +30,8 @@ public interface NoticeService {
     String ongoingEventDelete(String eventCode);
 
     String finishedEventDelete(String eventCode);
+
+    int selectTotalOngoingPage(Map<String, String> searchMap);
+
+    int selectTotalFinshPage(Map<String, String> searchMap);
 }

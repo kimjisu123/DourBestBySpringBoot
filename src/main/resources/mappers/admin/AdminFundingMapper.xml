@@ -179,15 +179,6 @@
         WHERE   MEMBER_CODE = #{memberCode}
     </update>
 
-    <select id="selectTotalPage">
-        SELECT
-        count(*)
-        FROM    TBL_MEMBER A
-        <if test="searchValue != null and searchValue != ''">
-            WHERE   MEMBER_ID = #{ searchValue }
-        </if>
-    </select>
-
     <select id="selectFundingCode">
         SELECT
             FUNDING_CODE
@@ -241,4 +232,22 @@
         SET     SELLER_APPROVAL = '승인거절'
         WHERE   MEMBER_CODE = #{memberCode}
     </update>
+
+
+    <!-- 신청한 펀딩 페이징처리 -->
+    <select id="selectOngoingTotalPage">
+        SELECT
+        count(*)
+        FROM TBL_FUNDING A
+        JOIN TBL_FUNDING_STATUSLIST B ON (A.FUNDING_CODE = B.FUNDING_CODE)
+        JOIN TBL_FUNDING_STATUS C ON (B.FUNDING_STATUS_CODE = C.FUNDING_STATUS_CODE)
+        JOIN TBL_SELLER D ON (A.SELLER_CODE = D.SELLER_CODE)
+        JOIN TBL_MEMBER E ON (D.MEMBER_CODE = E.MEMBER_CODE)
+        WHERE B.FUNDING_STATUS_CODE = 1
+        <if test="searchValue != null and searchValue != ''">
+            WHERE   MEMBER_ID = #{ searchValue }
+        </if>
+    </select>
+
+
 </mapper>
