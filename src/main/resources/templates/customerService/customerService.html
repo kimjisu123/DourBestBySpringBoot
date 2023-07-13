@@ -81,12 +81,12 @@
 
         <div  class="QuestionsListContainer">
             <div class="QuestionsList">
-                <div th:each="contact : ${contactList}">
+                <div th:each="category : ${contactList}">
                     <div class="QuestionsHead">
-                        <div th:text="${contact.getContactName()}"></div>
+                        <div th:text="${category.getContactName()}"></div>
                     </div>
                     <div class="QuestionsBody">
-                        <div th:text="${contact.getContactDetails()}"></div>
+                        <div th:text="${category.getContactDetails()}"></div>
                     </div>
                 </div>
             </div>

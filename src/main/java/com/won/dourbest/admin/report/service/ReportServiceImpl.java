@@ -47,17 +47,14 @@ public class ReportServiceImpl implements ReportService{
     @Override
     public String answerRegist(AnswerRegistDTO answerRegist) {
 
-        // 펀딩 코드
         int fundingCode;
-        // 펀딩신고 코드
+
         int reportCode;
-        // 판매자 코드
+
         String sellerCode;
-        // 신고 제목
+
         String reportTitle;
 
-
-        // 회원 코드 (블랙리스트 용) 값이 있을시 블랙리스트 처리
         String blackListMemberCode;
 
         reportTitle = answerRegist.getChoiceValue();
@@ -66,34 +63,22 @@ public class ReportServiceImpl implements ReportService{
 
         sellerCode = mapper.selectSellerCode(fundingCode);
 
-
-
-
-
-        System.out.println("sellerCode = " + sellerCode);
-        System.out.println("fundingCode = " + fundingCode);
-
         reportCode  = mapper.selectReportCode(fundingCode, reportTitle);
 
-
-        // 신고 답변 등록
         int result;
-        // 유저 상태값 업데이트
+
         int result1;
-        // 펀딩 신고 상태값 업데이트 여부
+
         int result2;
-        // 신고 누적횟수가 3일 경우 블랙리스트
+
         int result3;
 
         String message="";
 
-        // 신고 답변 등록 (신고코드, 입력한 값)
         result = mapper.insertAnswer(reportCode, answerRegist);
         if (result != 0) {
-            // 유저 상태값 업데이트 (판매자 코드)
             result1 = mapper.updateSeller(sellerCode);
             if (result1 != 0) {
-                // 펀딩 신고 상태값 업데이트 (신고 코드)
                 result2 = mapper.updateReport(reportCode);
                 if (result2 != 0) {
                     message =  "성공적으로 제재가 되었습니다.";
@@ -118,12 +103,8 @@ public class ReportServiceImpl implements ReportService{
             } else {
                 throw new RuntimeException();
             }
-        } else {
         }
-
-
         return message;
-
     }
 
 

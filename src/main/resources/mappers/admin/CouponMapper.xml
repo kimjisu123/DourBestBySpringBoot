@@ -107,7 +107,7 @@
                 '일련번호',
                 SYSDATE,
                 #{date},
-                'Y',
+                'N',
                 DEFAULT,
                 SEQ_COUPON_CODE.currval,
                 #{memCode}

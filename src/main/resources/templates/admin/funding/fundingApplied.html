@@ -104,9 +104,9 @@
 
                     <div th:each="fundingApplied : ${fundingAppliedList}" class="table">
                         <input type="checkbox" class="fundcheckbox" name="my_checkbox" value="1">
-                        <div th:text="${fundingApplied.getMemberId()}" id="adminApplied1"></div>
+                        <div th:text="${fundingApplied.getMemberId()}" class="memberId" id="adminApplied1"></div>
                         <div th:text="${fundingApplied.getMemberEmail()}" id="adminApplied2"></div>
-                        <div th:text="${fundingApplied.getFundingTitle()}" id="adminApplied3" class="adminApplied5"></div>
+                        <div th:text="${fundingApplied.getFundingTitle()}" id="adminApplied3" class="choiceValue"></div>
                         <div th:text="${#dates.format(fundingApplied.getStartDate(), 'yyyy/MM/dd')}" id="adminApplied4"></div>
                         <div th:text="${#dates.format(fundingApplied.getEndDate(), 'yyyy/MM/dd')}" id="adminApplied5"></div>
                         <div style="display: none" th:text="${fundingApplied.getFundingCode()}" class="adminFund6"></div>
@@ -166,7 +166,7 @@
     $('#createadminAccount').click(function(){
         $('.fundcheckbox').each(function() {
             if ($(this).prop('checked')) {
-                let memberId = $(this).closest('.table').find('#adminAccountFund1').text();
+                let memberId = $(this).closest('.table').find('.memberId').text();
                 let fundingTitle = $(this).closest('.table').find('.choiceValue').text();
 
                 let apporved = {

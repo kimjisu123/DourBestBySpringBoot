@@ -270,15 +270,22 @@ public class FundController {
         return message;
     }
 
+
+
+
     // 신청한 펀딩 승인
     @PostMapping("approved")
     @ResponseBody
     public String approved(@RequestBody ApprovedDTO apporved){
 
+        System.out.println("apporved = " + apporved);
+        
         String message = fundingListService.insertFunding(apporved);
 
         return message;
     }
+
+
 
     @PostMapping("drop")
     @ResponseBody

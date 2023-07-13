@@ -184,7 +184,7 @@
         SELECT
             FUNDING_CODE
         FROM TBL_FUNDING
-        WHERE FUNDING_TITLE = #{ fundingTitle }
+        WHERE FUNDING_TITLE = #{fundingTitle}
     </select>
 
     <insert id="Approval">
