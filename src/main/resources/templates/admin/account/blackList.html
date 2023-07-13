@@ -53,11 +53,11 @@
                     <div th:onclick="|location.href='@{/admin/blackList}'|"   id="mainMenuContainernotfirst" class="mainMenuButton">
                         블랙리스트
                     </div>
-                    <th:block sec:authorize="hasRole('ROLE_SUPER')">
-                        <div th:onclick="|location.href='@{/admin/adminAccount}'|" id="mainMenuButton6" class="mainMenuButton">
-                            관리자 계정 관리
-                        </div>
-                    </th:block>
+
+                    <div th:onclick="|location.href='@{/admin/adminAccount}'|" id="mainMenuButton6" class="mainMenuButton">
+                        관리자 계정 관리
+                    </div>
+
                 </div>
 
                 <!-- 아이디 검색 버튼 -->
