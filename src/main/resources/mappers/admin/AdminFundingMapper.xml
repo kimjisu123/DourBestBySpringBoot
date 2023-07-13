@@ -46,7 +46,15 @@
     </select>
     <!-- 진행중인 펀딩 목록 -->
     <select id="selectAllOngoing" resultMap="fundingResultMap">
-
+        SELECT
+        A.FUNDING_TITLE,
+        A.START_DATE,
+        A.END_DATE,
+        C.MEMBER_EMAIL,
+        C.MEMBER_ID
+        FROM TBL_FUNDING A
+        JOIN TBL_SELLER B ON (A.SELLER_CODE = B.SELLER_CODE)
+        JOIN TBL_MEMBER C ON (B.MEMBER_CODE = C.MEMBER_CODE)
         WHERE A.START_DATE &lt;= SYSDATE
         AND A.END_DATE &gt; SYSDATE
         <if test="searchValue != null and searchValue != ''">
