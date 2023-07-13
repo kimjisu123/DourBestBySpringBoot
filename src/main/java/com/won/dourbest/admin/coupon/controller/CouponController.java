@@ -56,7 +56,7 @@ public class CouponController {
         return mv;
     }
 
-    // 쿠폰 사용 내역
+    // 쿠폰 등록 내역
     @GetMapping("/UseCoupon")
     public ModelAndView useCoupon(ModelAndView mv, @RequestParam(required = false) String searchValue, @RequestParam(defaultValue = "1", value="currentPage") int pageNO){
 

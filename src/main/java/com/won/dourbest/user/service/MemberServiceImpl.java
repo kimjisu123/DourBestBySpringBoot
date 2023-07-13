@@ -30,14 +30,12 @@ public class MemberServiceImpl implements MemberService {
     private final MemberMapper mapper;
     private final ApplicationEventPublisher publisher;
 
-
     // 회원가입 정보를  오라클에 저장 메소드
     @Override
     @Transactional(rollbackFor = { Exception.class }) // 데이터를 여러번 이동 할 수 있게 해주는 어노테이션
     public int registMember(Map<String, Object> map) {
 //
         // 메퍼에서 데이터 베이스에 접속하여 로직 실행에 필요한 쿼리를 호출함.
-        System.out.println("map ====== " + map);
         int result = mapper.registMember(map);
         int result2 = mapper.registAddress(map);
 

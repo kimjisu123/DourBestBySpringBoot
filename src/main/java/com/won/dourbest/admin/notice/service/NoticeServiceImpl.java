@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -85,9 +86,16 @@ public class NoticeServiceImpl implements NoticeService{
     }
 
     @Override
-    public String insertNotice(NoticeRegistDTO notice) {
+    public String insertNotice(NoticeRegistDTO notice, int adminCode) {
 
-        int result = mapper.insertNotice(notice);
+
+        String noticeContent;
+        String noticeTitle;
+
+        noticeContent = notice.getNoticeContent();
+        noticeTitle = notice.getNoticeTitle();
+
+        int result = mapper.insertNotice(noticeContent, noticeTitle, adminCode);
 
         String message = "";
 
@@ -103,10 +111,13 @@ public class NoticeServiceImpl implements NoticeService{
 
     // 이벤트 글 등록
     @Override
-    public String insertEvent(EventRegistDTO event) {
+    public String insertEvent(EventRegistDTO event, int adminCode) {
 
+        String eventContent = event.getEventContent();
+        String eventTitle = event.getEventTitle();
+        Date eventEndDate = event.getEventEndDate();
 
-        int result = mapper.insertEvent(event);
+        int result = mapper.insertEvent(eventContent, eventTitle,eventEndDate, adminCode);
 
         String message = "";
 

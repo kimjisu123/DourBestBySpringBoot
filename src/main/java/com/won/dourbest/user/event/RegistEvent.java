@@ -8,6 +8,7 @@ import org.springframework.context.ApplicationEvent;
 @Getter
 @Setter
 public class RegistEvent {
+
     private int memberCode;
     public RegistEvent(int memberCode) {
         this.memberCode = memberCode;

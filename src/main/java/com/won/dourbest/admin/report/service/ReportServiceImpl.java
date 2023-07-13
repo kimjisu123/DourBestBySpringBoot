@@ -143,7 +143,7 @@ public class ReportServiceImpl implements ReportService{
     }
     // 1:1 문의사항 답변
     @Override
-    public String userAnswerRegist(UserAnswerRegistDTO userAnswer) {
+    public String userAnswerRegist(UserAnswerRegistDTO userAnswer, int adminCode) {
 
         // 문의사항 답변 등록
         int result;
@@ -154,10 +154,18 @@ public class ReportServiceImpl implements ReportService{
         // 1:1 문의사항 코드
         int inquriesCode;
 
+        // 문의사항 답변 내용
+        String answerContent;
+
         inquriesCode = userAnswer.getInquiriesCode();
 
 
-        result = mapper.insertQNARegist(userAnswer);
+        answerContent = userAnswer.getAnswerContent();
+
+
+
+
+        result = mapper.insertQNARegist(inquriesCode, answerContent, adminCode);
         if(result != 0){
             result2 = mapper.updateInquiries(inquriesCode);
             if(result2 != 0){

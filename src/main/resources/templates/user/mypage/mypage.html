@@ -14,7 +14,7 @@
                         <input id="my-input" type="file" class="none"/>
                         <!-- 백그라운드 이미지를 주자 -->
                     </div>
-                    <button id="my-image" th:onclick="onClickUpload()">
+                    <button id="my-image" onclick="onClickUpload()">
                         <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
                             <!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
                             <style>svg {
@@ -215,14 +215,14 @@
             formData.append("profile", e.target.files[0]);
 
             $.ajax({
-                url: '/mypage/profile',[
+                url: '/mypage/profile',
                 method: 'post',
                 data: formData,
                 processData: false,
                 contentType: false,
                 success: function(e){
                     alert('프로필 변경완료');
-                    $('.img').load(location.href + " .img");
+                    location.reload();
                 },
                 error: function (e){
                     console.log(e);

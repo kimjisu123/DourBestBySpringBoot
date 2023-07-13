@@ -129,7 +129,7 @@
                 #{eventContent},
                 SYSDATE,
                 #{eventEndDate},
-                70
+                #{adminCode}
             )
     </insert>
 
