@@ -5,6 +5,7 @@ import com.won.dourbest.seller.dto.MainImgDTO;
 import com.won.dourbest.seller.dto.OptionDTO;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -36,6 +37,23 @@ public interface FundingMapper {
     Integer selectCategory(String category);
 
     int selectReport(int code, int memberCode);
+
+    String selectProfile(int memberCode);
+
+    int selectSellerCode(int code);
+
+    int selectMemberCode(int sellerCode);
+
+    int selectStatus(int code);
+
+    String selectRefund(int code);
+
+    Date startDate(int code);
+
+    Date endDate(int code);
+
+    String email(int code);
+
 
 //    int findCode(String name);
 }

@@ -2,7 +2,6 @@ package com.won.dourbest.seller.service.jiho;
 
 import com.won.dourbest.seller.dao.jiho.FundingMapper;
 import com.won.dourbest.seller.dto.FundPageDTO;
-import com.won.dourbest.seller.dto.FundingDTO;
 import com.won.dourbest.seller.dto.MainImgDTO;
 import com.won.dourbest.seller.dto.OptionDTO;
 import org.springframework.stereotype.Service;
@@ -23,9 +22,11 @@ public class FundingServiceImpl implements FundingService{
 
     @Override
     public Map<String, Object> fundingPage(int code) {
-
-        // 펀딩 정보 불러오기
         Map<String, Object> map = new HashMap<>();
+
+        int status = fundingMapper.selectStatus(code);
+        map.put("status", status);
+        // 펀딩 정보 불러오기
         FundPageDTO funding = fundingMapper.selectFunding(code);
         System.out.println("funding = " + funding);
 
@@ -157,5 +158,34 @@ public class FundingServiceImpl implements FundingService{
             result = 1;
         }
         return result;
+    }
+
+    @Override
+    public String selectProfile(int code) {
+
+        int sellerCode = fundingMapper.selectSellerCode(code);
+
+        int memberCode = fundingMapper.selectMemberCode(sellerCode);
+
+        String profile = fundingMapper.selectProfile(memberCode);
+
+        return profile;
+    }
+
+    @Override
+    public Map<String, Object> selectRefund(int code) {
+
+        Map<String, Object> map = new HashMap<>();
+        String refund = fundingMapper.selectRefund(code);
+        Date startDate = fundingMapper.startDate(code);
+        Date endDate = fundingMapper.endDate(code);
+        String email = fundingMapper.email(code);
+
+        map.put("refund", refund);
+        map.put("startDate", startDate);
+        map.put("endDate", endDate);
+        map.put("email", email);
+
+        return map;
     }
 }

@@ -101,7 +101,7 @@
         , #{ endDate }
         , #{ goalMoney }
         , null
-        , 1
+        , #{ sellerCode }
         , #{ categoryCode }
         , #{ planCode }
         )
@@ -133,6 +133,24 @@
         , '메인'
         , default
         , SEQ_FUNDING_CODE.CURRVAL
+        )
+    </insert>
+
+    <insert id="insertStatusList">
+        INSERT
+          INTO TBL_FUNDING_STATUSLIST
+        (
+           FUNDING_STATUS_HISTORY_CODE
+         , CHANGE_DATE
+         , FUNDING_STATUS_CODE
+         , FUNDING_CODE
+        )
+        VALUES
+        (
+           SEQ_FUNDING_STATUSLIST_CODE.NEXTVAL
+         , DEFAULT
+         , 1
+         , SEQ_FUNDING_CODE.CURRVAL
         )
     </insert>
 
@@ -236,6 +254,13 @@
            SET RETURN_ROLE = #{ refundRule }
          WHERE FUNDING_CODE = #{ fundingCode }
     </update>
+
+    <select id="selectSeller" parameterType="HashMap">
+        SELECT
+               SELLER_CODE
+          FROM TBL_SELLER
+         WHERE MEMBER_CODE = #{memberCode}
+    </select>
 
 
 </mapper>
