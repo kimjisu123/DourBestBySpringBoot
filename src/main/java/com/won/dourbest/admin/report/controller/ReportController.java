@@ -7,6 +7,8 @@ import com.won.dourbest.admin.report.dto.*;
 import com.won.dourbest.admin.report.service.ReportServiceImpl;
 import com.won.dourbest.common.exception.member.NoLoginException;
 import com.won.dourbest.user.dto.MemberImpl;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -17,20 +19,20 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+@Slf4j
 @Controller
 @RequestMapping("/admin")
+@RequiredArgsConstructor
 public class ReportController {
 
     private final ReportServiceImpl reportServiceImpl;
 
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-    public ReportController(ReportServiceImpl reportServiceImpl) {
-
-        this.reportServiceImpl = reportServiceImpl;
-
-    }
+//    public ReportController(ReportServiceImpl reportServiceImpl) {
+//
+//        this.reportServiceImpl = reportServiceImpl;
+//
+//    }
 
     @GetMapping("reportDetails")
     public ModelAndView reportDetails(ModelAndView mv, @RequestParam(required = false) String searchValue, @RequestParam(defaultValue = "1", value="currentPage") int pageNO){
