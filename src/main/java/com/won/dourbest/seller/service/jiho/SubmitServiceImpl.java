@@ -60,13 +60,21 @@ public class SubmitServiceImpl implements SubmitService{
     @Transactional
     public Map<String, Integer> insertAboutFunding(Map<String, Object> tossMap) {
 
+        int sellerCode = sellerFundingMapper.selectSeller(tossMap);
+
+        tossMap.put("sellerCode", sellerCode);
+
         int result = sellerFundingMapper.insertFunding(tossMap);
+
+        int list = sellerFundingMapper.insertStatusList();
         System.out.println("tossMap = " + tossMap);
         int result1 = sellerFundingMapper.insertMainFile(tossMap);
 
         int result2 = sellerFundingMapper.insertTopFile(tossMap);
 
         int result3 = sellerFundingMapper.insertContentFile(tossMap);
+
+
 
         Integer result4 = 0;
         String tagList = (String) tossMap.get("tagList");

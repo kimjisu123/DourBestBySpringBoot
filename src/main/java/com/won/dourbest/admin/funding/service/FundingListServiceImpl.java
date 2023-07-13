@@ -4,6 +4,7 @@ import com.won.dourbest.admin.common.SelectCriteria;
 import com.won.dourbest.admin.funding.dao.AdminFundingMapper;
 import com.won.dourbest.admin.funding.dto.AdminFundingDTO;
 import com.won.dourbest.admin.funding.dto.AdminSellerRegistDTO;
+import com.won.dourbest.admin.funding.dto.ApprovedDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -156,20 +157,95 @@ public class FundingListServiceImpl implements FundingListService {
     @Override
     public String delete(String choiceValue) {
 
-        String message = "";
-        String fundingCode;
-        // 펀딩 코드
-        fundingCode = mapper.selectFundingCode(choiceValue);
+
 
         // 삭제에 대한 결과
-        int result1 = mapper.delete(fundingCode);
+        int result1 = mapper.delete(choiceValue);
 
-        if(result1 != 0){
-            message = "삭제에 성공 하셨습니다.";
+        if(result1 != 0) {
+            return "성공적으로 삭제 되었습니다.";
+        } else {
+            throw new RuntimeException();
+        }
+    }
+
+
+
+    // 신청한 펀딩 승인
+    @Override
+    public String insertFunding(ApprovedDTO approved) {
+
+        String fundingTitle;
+        String fundingCode;
+        int result;
+        String message = "";
+
+
+        fundingTitle = approved.getFundingTitle();
+
+        // 펀딩 코드
+        fundingCode = mapper.selectFundingCode(fundingTitle);
+
+        // 상태 리스트 추가
+        result = mapper.insertFunding(fundingCode);
+
+        System.out.println("result = " + result);
+
+        if(result != 0){
+            message = "승인에 성공하셨습니다";
         } else{
-            message = "삭제에 실패 하셨습니다.";
+            throw new RuntimeException();
         }
 
         return message;
+    }
+
+    // 펀딩 반려
+    @Override
+    public String dropFunding(ApprovedDTO approved) {
+
+        String fundingTitle;
+        int fundingCode;
+        int result;
+        String message = "";
+
+
+        fundingTitle = approved.getFundingTitle();
+
+        // 펀딩 코드
+        fundingCode = approved.getFundingCode();
+
+        // 상태 리스트 추가
+        result = mapper.dropFunding(fundingCode);
+
+        System.out.println("result = " + result);
+
+        if(result != 0){
+            message = "반려에 성공하셨습니다";
+        }  else{
+            throw new RuntimeException();
+        }
+
+
+        return message;
+    }
+
+    @Override
+    public String sellerDrop(String memberId) {
+
+        // memberId로 memberCode를 찾는 코드
+        String memberCode = mapper.selectMemberCode(memberId);
+
+        int result;
+
+        result = mapper.sellerDrop(memberCode);
+
+        if(result != 0){
+            return " 반려에 성공하셨습니다.";
+        } else {
+            throw new RuntimeException();
+        }
+
+
     }
 }

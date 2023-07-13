@@ -9,11 +9,11 @@
       <div class="header-container">
         <!-- 헤더 상단 메뉴 -->
         <div class="header-top">
-
-
             <img id="headerlogo" th:src="@{/images/common/logo.jpeg}" alt="DourBest로고">
-
-          <div id="mainGo">
+          <th:block sec:authorize="hasRole('ROLE_USER')">
+            <button class="contactBtn">문의 등록</button>
+          </th:block>
+          <div id="mainGo" th:onclick="|location.href='@{/}'|">
             메인페이지
           </div>
 

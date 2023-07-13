@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html th:replace="~{/layouts/base :: layout(~{::main}, ~{::link}, ~{::script})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" th:href="@{/css/seller/jiho/refund.css}">
+</head>
+<main>
+    <section>
+        <div class="all">
+            <div class="date">
+                <div class="start" th:text="|펀딩 시작일 : ${#dates.format(map['startDate'], 'yy/MM/dd')}|"></div>
+                <div class="end" th:text="|펀딩 종료일 : ${#dates.format(map['endDate'], 'yy/MM/dd')}|"></div>
+            </div>
+            <div class="horizon"></div>
+            <div class="main">
+                <div class="top">환불 규정</div>
+                <div class="text" th:text="${map['refund']}"></div>
+            </div>
+            <div class="horizon"></div>
+            <div class="email">더 자세한 문의는 &nbsp;&nbsp; <div class="red" th:text="${map['email']}"></div>&nbsp;으로 부탁드립니다!</div>
+        </div>
+    </section>
+</main>
+<script src=""></script>
+</html>

@@ -26,4 +26,8 @@ public interface NoticeService {
     String insertEvent(EventRegistDTO event);
 
     String deleteNotice(String noticeTitle);
+
+    String ongoingEventDelete(String eventCode);
+
+    String finishedEventDelete(String eventCode);
 }

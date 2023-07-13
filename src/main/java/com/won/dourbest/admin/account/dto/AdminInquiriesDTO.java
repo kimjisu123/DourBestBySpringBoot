@@ -1,4 +1,4 @@
-package com.won.dourbest.admin.dto;
+package com.won.dourbest.admin.account.dto;
 
 import com.won.dourbest.common.dto.CategoryDTO;
 import com.won.dourbest.user.dto.MemberDTO;

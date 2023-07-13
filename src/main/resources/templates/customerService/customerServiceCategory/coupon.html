@@ -16,8 +16,6 @@
 
 </div>
 
-
-
 <!-- 메인 컨테이너 -->
 <div class="maincontainer">
     <div>
@@ -26,15 +24,15 @@
         </div>
         <!-- 자주묻는 질문 컨테이너-->
         <div>
-
-
             <div th:each="coupon : ${couponList}">
-            <div id="Title1" class="menufirst"> <div th:text="${coupon.getContactName()}"></div> </div>
-                <p id ="content1" class="content" th:text="${coupon.getContactDetails()}"></p>
+                <div id="Title1" class="menufirst">
+                    <div th:text="${coupon.getContactName()}"/>
+                </div>
+                <p id ="content1" class="content" th:text="${coupon.getContactDetails()}"/>
             </div>
-
         </div>
     </div>
+
 
 
     <!-- 사이드 바 -->
@@ -69,14 +67,11 @@
     </div>
 
 </div>
-
-
+</main>
 
 <script>
-
-
+    $('.menufirst').click(function(){
+        $(this).next('p').slideToggle();
+    });
 </script>
-
-</body>
-</main>
 </html>

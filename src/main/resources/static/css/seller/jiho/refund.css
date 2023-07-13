@@ -1,0 +1,44 @@
+.all {
+    width: 900px;
+    /*border: 1px solid saddlebrown;*/
+    padding: 30px;
+}
+
+.top {
+    font-size: 3em;
+    font-weight: 700;
+    color: #4b4b4b;
+    margin-bottom: 40px;
+}
+
+.text {
+    font-size: 1.3em;
+    font-weight: 600;
+    color: black;
+    margin-bottom: 30px;
+}
+
+.start, .end {
+    font-size: 1.3em;
+    font-weight: 600;
+    margin-bottom: 30px;
+}
+
+.horizon {
+    border: 1px solid #e3e3e3;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.email {
+    font-size: 1.3em;
+    font-weight: 500;
+    display: flex;
+}
+
+.red {
+    font-size: 1.3em;
+    font-weight: 600;
+    color: #F35F4C;
+    line-height: 20px;
+}

@@ -38,12 +38,10 @@
               <div class="item card" th:each="topLike , stat : ${ topLikeFunding }" th:classappend="${ stat.count } == 1 ? 'item-1'">
                   <a th:href="|@{/funding/} + ${ topLike.getFundingCode() }|">
                       <div class="thumb" th:style="'background-image: url('+@{/fundingImg/} + ${ topLike.getFilePath() }+')'" >
-<!--                          <img th:src="@{/fundingImg/} + ${ topLike.getFilePath() }">-->
                       </div>
                       <article>
                           <h1 th:text="${topLike.fundingTitle}"></h1>
                           <p th:text="${topLike.fundingSummary}"></p>
-                          <!--                <span>content1</span>-->
                       </article>
                   </a>
               </div>

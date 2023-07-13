@@ -10,4 +10,6 @@ public interface BeforeFundingMapper {
     List<MainImgDTO> getImgName();
 
     int getAmount();
+
+    int searchAuth(int memberCode);
 }

@@ -7,11 +7,13 @@ import com.won.dourbest.seller.dto.FundingOptionDTO;
 import com.won.dourbest.seller.dto.PlanDTO;
 import com.won.dourbest.seller.service.jiho.SubmitService;
 import com.won.dourbest.seller.service.jiho.SubmitServiceImpl;
+import com.won.dourbest.user.dto.MemberImpl;
 import groovy.util.logging.Slf4j;
 import jdk.jfr.ContentType;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jackson.JsonObjectDeserializer;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -176,11 +178,14 @@ public class SubmitPageController {
             , @RequestParam String fundContent, @RequestParam(required = false) String videoUrl
             , @RequestParam(required = false)MultipartFile topImg, @RequestParam String originFileName
             , @RequestParam String savedFileName, @RequestParam String oriName
-            , @RequestParam String saveName, @RequestParam String tagList, HttpServletRequest request) throws ParseException {
+            , @RequestParam String saveName, @RequestParam String tagList
+            , @AuthenticationPrincipal MemberImpl member, HttpServletRequest request) throws ParseException {
 
         System.out.println("originFileName = " + originFileName);
         System.out.println("savedFileName = " + savedFileName);
         System.out.println("fundContent = " + fundContent);
+
+        int memberCode = member.getMemberCode();
 
         /* 펀딩 상단 사진 저장 */
         String root = "C:\\dev\\fundingImg\\";
@@ -234,6 +239,7 @@ public class SubmitPageController {
         tossMap.put("fundContentPhotoOrigin", oriName); // 펀딩 본문사진
         tossMap.put("fundContentPhotoSaved", saveName);
         tossMap.put("tagList", tagList);
+        tossMap.put("memberCode", memberCode);
 
         Map<String, Integer> result = submitService.insertAboutFunding(tossMap);
         if((Integer) result.get("result") == 1) {

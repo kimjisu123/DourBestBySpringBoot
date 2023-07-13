@@ -7,27 +7,19 @@
 
 <!-- 헤더 상단 메뉴-->
 <main>
-<div class="helpmain">
-
-    <div class="helpImage">
-        <img class="adminlogo" th:src="@{/images/admin/serviceImage.jpg}" src="./resources/img/logo.jpeg" alt="도움말센터이미지">
+    <div class="helpmain">
+        <div class="helpImage">
+            <img class="adminlogo" th:src="@{/images/admin/serviceImage.jpg}" src="./resources/img/logo.jpeg" alt="도움말센터이미지">
+        </div>
+        <div class="helpmaininfo">
+            다워베스트에 대한 모든 궁금증       <br>
+            고객센터에서 해결하세요.
+        </div>
     </div>
-
-    <div class="helpmaininfo">
-        다워베스트에 대한 모든 궁금증       <br>
-        고객센터에서 해결하세요.
-    </div>
-</div>
-
-<!-- 메인 -->
-
-    <!-- 메인 -->
 
 
     <div class="InquiryContainer">
-
         <div class="firstLine">
-
             <div  id="Inquir1" class="Inquiry">
                 <div th:onclick="|location.href='@{/customerService/member}'|">
                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"/></svg>
@@ -52,12 +44,8 @@
                 </div>
                 상품/배송
             </div>
-
-
         </div>
-
         <div class="secondLine">
-
             <div  id="Inquir5" class="Inquiry">
                 <div th:onclick="|location.href='@{/customerService/membership}'|">
                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#f35f4c}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H512c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm80 256h64c44.2 0 80 35.8 80 80c0 8.8-7.2 16-16 16H80c-8.8 0-16-7.2-16-16c0-44.2 35.8-80 80-80zm-32-96a64 64 0 1 1 128 0 64 64 0 1 1 -128 0zm256-32H496c8.8 0 16 7.2 16 16s-7.2 16-16 16H368c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64H496c8.8 0 16 7.2 16 16s-7.2 16-16 16H368c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64H496c8.8 0 16 7.2 16 16s-7.2 16-16 16H368c-8.8 0-16-7.2-16-16s7.2-16 16-16z"/></svg>
@@ -82,14 +70,8 @@
                 </div>
                 서비스 이용 문의
             </div>
-
         </div>
-
-
     </div>
-
-
-
     <!-- 자주 찾는 도움말 -->
     <div class="FrequentlyHelpContainor">
         <div class="FrequentlyHelp">
@@ -109,19 +91,87 @@
                 </div>
             </div>
         </div>
-
-
-
-        <script>
-
-        </script>
-
     </div>
+    <div class="contactmodal">
+        <div class="contactmodal-container">
+            <div class="contactmodal-content">
+                <span class="close">&times;</span>
+                <h2 class="contactmodal-title">1:1 문의</h2>
+                <form class="mb-3 contact" name="contact" id="contact">
+                    <label for=""></label>
+                    <select name="contactCode" id="contactCode">
+                        <option th:each="cate : ${categoryList}" th:value="${cate.categoryCode}" th:text="${cate.categoryName}">회원 정보 문의</option>
+                    </select>
+                    <input type="text" class="contact-title" placeholder="제목">
+                    <textarea class="col-auto form-control contactContents" type="text" id="" placeholder="최소10이상 작성해주세요!!" maxlength="3000"></textarea>
+                    <button class="inquire" type="button">제출</button>
+                </form>
+            </div>
+        </div>
     </div>
-    <script>
+    <script th:inline="javascript">
+        const contactmodal = document.querySelector(".contactmodal");
+        const btn = document.querySelector(".contactBtn");
+        const $span = document.querySelector(".close");
+
+
+        btn.addEventListener('click', openContactModal);
+        $span.addEventListener('click', closeContactModal);
+
+        function openContactModal() {
+            contactmodal.style.display = "block";
+            contactmodal.animate([{opacity: 0}, {opacity: 1}], {duration: 300, fill: "forwards"});
+        }
+
+        function closeContactModal() {
+            contactmodal.animate([{opacity: 1}, {opacity: 0}], {duration: 300, fill: "forwards"}).onfinish = function() {
+                contactmodal.style.display = "none";
+            };
+        }
+
+        $('.inquire').click(function (){
+            const categoryCode = $("#contactCode option:selected").val();
+            const contactSubject = $('.contact-title').val();
+            const contactDetails = $('.contactContents').val();
+
+            if (categoryCode === null || categoryCode === ''){
+                alert("옵션을 선택해주세요")
+                return;
+            }
+
+            if(contactSubject === null || contactSubject ===''){
+                alert("제목을 적어주세요");
+                return;
+            }
+
+            if(contactDetails.length < 10){
+                alert("본문은 10자이상 적어주세요")
+                return;
+            }
+
+            let data = {
+                'categoryCode' : categoryCode,
+                'contactSubject' : contactSubject,
+                'contactDetails' : contactDetails,
+            };
+
+            $.ajax({
+                url: '/customerService/inquire',
+                method: 'post',
+                data: JSON.stringify(data),
+                contentType: 'application/json; charset=utf-8',
+                success: function (e){
+                    console.log(e);
+                    closeContactModal();
+                },
+                error: function (e){
+                    console.log(e);
+                }
+            });
+
+        });
+
 
     </script>
-
-    </body>
 </main>
 </html>

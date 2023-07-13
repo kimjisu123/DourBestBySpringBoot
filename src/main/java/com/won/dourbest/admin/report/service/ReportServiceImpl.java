@@ -2,10 +2,7 @@ package com.won.dourbest.admin.report.service;
 
 import com.won.dourbest.admin.common.SelectCriteria;
 import com.won.dourbest.admin.report.dao.ReportMapper;
-import com.won.dourbest.admin.report.dto.AnswerRegistDTO;
-import com.won.dourbest.admin.report.dto.AnswerReportDTO;
-import com.won.dourbest.admin.report.dto.CustomerInquiryDTO;
-import com.won.dourbest.admin.report.dto.ReportDetailsDTO;
+import com.won.dourbest.admin.report.dto.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -89,7 +86,7 @@ public class ReportServiceImpl implements ReportService{
         // 신고 누적횟수가 3일 경우 블랙리스트
         int result3;
 
-        String message;
+        String message="";
 
         // 신고 답변 등록 (신고코드, 입력한 값)
         result = mapper.insertAnswer(reportCode, answerRegist);
@@ -122,15 +119,13 @@ public class ReportServiceImpl implements ReportService{
             } else {
                 throw new RuntimeException();
             }
-        } else {
-            throw new RuntimeException();
         }
 
 
         return message;
     }
 
-    // 1:1 문의사항
+    // 1:1 문의사항 내역 조회
     @Override
     public List<CustomerInquiryDTO> selectInquiry(SelectCriteria selectCriteria) {
 
@@ -139,6 +134,34 @@ public class ReportServiceImpl implements ReportService{
 
 
         return customerInquiry;
+    }
+    // 1:1 문의사항 답변
+    @Override
+    public String userAnswerRegist(UserAnswerRegistDTO userAnswer) {
+
+        // 문의사항 답변 등록
+        int result;
+
+        // 1:1 문의사항 상태값 변경
+        int result2;
+
+        // 1:1 문의사항 코드
+        int inquriesCode;
+
+        inquriesCode = userAnswer.getInquiriesCode();
+
+
+        result = mapper.insertQNARegist(userAnswer);
+        if(result != 0){
+            result2 = mapper.updateInquiries(inquriesCode);
+            if(result2 != 0){
+                return "답변 등록에 성공하셨습니다";
+            } else{
+                throw new RuntimeException();
+            }
+        }throw new RuntimeException();
+
+
     }
 
 

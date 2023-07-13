@@ -194,4 +194,64 @@
          WHERE FUNDING_CODE = #{ code }
            AND MEMBER_CODE = #{ memberCode }
     </select>
+
+    <select id="selectProfile" parameterType="_int">
+        SELECT
+               PROFILE
+          FROM TBL_MEMBER
+         WHERE MEMBER_CODE = #{memberCode}
+    </select>
+
+    <select id="selectSellerCode" parameterType="_int">
+        SELECT
+               SELLER_CODE
+          FROM TBL_FUNDING
+         WHERE FUNDING_CODE = #{ code }
+    </select>
+
+    <select id="selectMemberCode" parameterType="_int">
+        SELECT
+               MEMBER_CODE
+          FROM TBL_SELLER
+         WHERE SELLER_CODE = #{ sellerCode }
+    </select>
+
+    <select id="selectStatus" parameterType="_int">
+        SELECT
+               COUNT(*)
+          FROM TBL_FUNDING_STATUSLIST
+         WHERE FUNDING_CODE = #{ code }
+           AND FUNDING_STATUS_CODE = 2
+    </select>
+
+    <select id="selectRefund" parameterType="_int">
+        SELECT
+               RETURN_ROLE
+          FROM TBL_FUNDING
+         WHERE FUNDING_CODE = #{code}
+    </select>
+
+    <select id="startDate" parameterType="int">
+        SELECT
+               START_DATE
+          FROM TBL_FUNDING
+         WHERE FUNDING_CODE = #{code}
+    </select>
+
+    <select id="endDate" parameterType="int">
+        SELECT
+            END_DATE
+        FROM TBL_FUNDING
+        WHERE FUNDING_CODE = #{code}
+    </select>
+
+    <select id="email" parameterType="_int">
+        SELECT
+               MEMBER_EMAIL
+          FROM TBL_MEMBER M
+          JOIN TBL_SELLER S ON(M.MEMBER_CODE = S.MEMBER_CODE)
+          JOIN TBL_FUNDING F ON(S.SELLER_CODE = F.SELLER_CODE)
+         WHERE F.FUNDING_CODE = #{code}
+    </select>
+
 </mapper>

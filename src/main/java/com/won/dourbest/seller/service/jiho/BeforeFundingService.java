@@ -4,4 +4,6 @@ import java.util.Map;
 
 public interface BeforeFundingService {
     Map<String, Object> getImg();
+
+    int searchAuth(int memberCode);
 }

@@ -1,6 +1,6 @@
 package com.won.dourbest.user.mypage.controller;
 
-import com.won.dourbest.admin.dto.AdminInquiriesDTO;
+import com.won.dourbest.admin.account.dto.AdminInquiriesDTO;
 import com.won.dourbest.common.dto.CategoryDTO;
 import com.won.dourbest.common.dto.CommonResponse;
 import com.won.dourbest.common.dto.Pagination;
@@ -230,7 +230,6 @@ public class MypageController {
 
         model.addAttribute("user", user);
 
-
         return "/user/mypage/checkMember";
 
     }
@@ -241,11 +240,9 @@ public class MypageController {
 
         model.addAttribute("user", user);
 
-
         return "/user/mypage/checkMemberPw";
 
     }
-
 
     @GetMapping("changeInfo")
     public String changeInfo(@AuthenticationPrincipal MemberImpl member, Model model) {
@@ -273,7 +270,6 @@ public class MypageController {
 //        log.info("MemberDTO : ",member.toString());
 //        log.info("AddressDTO : ",address.toString());
         memberService.updateMember(map);  //객체 담은 후 서비스로 전송
-
 
         return "redirect:/mypage";
 
@@ -325,22 +321,11 @@ public class MypageController {
 
     }
 
-//    // 회원탈퇴 성공
-//    @GetMapping("/quitMember-success")    //이동할 페이지
-//    public String quitMemberSuccess(@AuthenticationPrincipal MemberImpl user, Model model) {
-//
-//        System.out.println("user = " + user);
-//        MemberDTO mypageInfo = memberService.findUser(user.getMemberId()).orElseThrow();
-//        model.addAttribute("mypageInfo", mypageInfo);  //멤버 배송지 모두 담겨있음.
-//
-//
-//        return "/user/mypage/quitMemberSuc";
-//    }
+
     @GetMapping("/purchase-funding/{id}")
     public String OrderDetail(@AuthenticationPrincipal MemberImpl user, @PathVariable int id, Model model){
 
         Map<String, Object> result = mypageService.OrderAndCreditInfo(user.getUsername(), id);
-
 
         model.addAttribute("order",(OrderFundingDTO) result.get("order"));
         model.addAttribute("credit",(OrderCreditDTO) result.get("credit"));
@@ -350,15 +335,12 @@ public class MypageController {
         return "user/order/funding-detail";
     }
 
-
-    // 비밀번호 변경 ====================================================================================================
     @GetMapping("/changePwd")    //이동할 페이지
     public String changePwd(){
 
         return "user/mypage/changePwd";
     }
 
-    // 비밀번호 변경 페이지 ==============================================================================================
 
     @PostMapping ("/changePwd")    //이동할 페이지
     public String changePwd(@AuthenticationPrincipal MemberImpl member, @RequestParam String pwd, @RequestParam String pwdCheck){
@@ -406,6 +388,23 @@ public class MypageController {
             new File(profilePath + "\\" + savedName).delete();
         }
 
+    }
+
+
+    @GetMapping("/myFunding")
+    public String myFundingPage(@AuthenticationPrincipal MemberImpl member, @ModelAttribute("cri") SearchCriteria criteria, Model model){
+        //세션으로부터 받자
+        String userId = member.getUsername();
+
+        Pagination pagination = new Pagination(criteria, mypageService.listTotalCount(criteria, userId, "myFunding"));
+
+        List<LikeFundingDTO> list = mypageService.myFundingList(criteria, userId);
+
+        model.addAttribute("list", list);
+        model.addAttribute("pagination", pagination);
+
+
+        return "user/mypage/myFunding";
     }
 
 

@@ -7,6 +7,7 @@
 
     <resultMap id="accountResultMap" type="com.won.dourbest.admin.account.dto.AccountDTO">
         <result property="memberId" column="MEMBER_ID"/>
+        <result property="memberCode" column="MEMBER_CODE"/>
         <result property="memberName" column="MEMBER_NAME"/>
         <result property="memberPhone" column="MEMBER_PHONE"/>
         <result property="memberEmail" column="MEMBER_EMAIL"/>
