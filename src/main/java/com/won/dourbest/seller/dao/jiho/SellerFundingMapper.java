@@ -49,5 +49,7 @@ public interface SellerFundingMapper {
     // 태그 리스트
     Integer insertTagList(int num);
 
+    int selectSeller(Map<String, Object> tossMap);
 
+    int insertStatusList();
 }

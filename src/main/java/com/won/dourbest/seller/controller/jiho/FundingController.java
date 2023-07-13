@@ -29,28 +29,38 @@ public class FundingController {
     @GetMapping("/{code}")
     public String funding(Model model, @PathVariable int code, @AuthenticationPrincipal MemberImpl member) {
 
+
         Map<String, Object> map = fundingService.fundingPage(code);
 
-        int result= 0;
-        int result1 = 0;
+        int status = (int) map.get("status");
 
-        if(member == null) {
-            result = -1;
-        } else {
-            int memberCode = member.getMemberCode();
-            result = fundingService.selectLikes(code, memberCode);
-            result1 = fundingService.selectReport(code, memberCode);
+        if(status == 0) {
+            return "seller/funding/notOpenFunding";
         }
 
-        model.addAttribute("result", result);
-        model.addAttribute("result1", result1);
-        System.out.println("result1 = " + result1);
-        System.out.println("map = " + map);
-        model.addAttribute("tossMap", map);
-        System.out.println("code = " + code);
-        model.addAttribute("fundingCode", code);
+            int result = 0;
+            int result1 = 0;
+            String profile = "";
+            if (member == null) {
+                result = -1;
+            } else {
+                int memberCode = member.getMemberCode();
+                result = fundingService.selectLikes(code, memberCode);
+                result1 = fundingService.selectReport(code, memberCode);
+                profile = fundingService.selectProfile(code);
+            }
 
-        return "seller/funding/funding";
+            model.addAttribute("profile", profile);
+            model.addAttribute("result", result);
+            model.addAttribute("result1", result1);
+            System.out.println("result1 = " + result1);
+            System.out.println("map = " + map);
+            model.addAttribute("tossMap", map);
+            System.out.println("code = " + code);
+            model.addAttribute("fundingCode", code);
+
+            return "seller/funding/funding";
+
     }
 
     @GetMapping("/buy/{optionCode}")
@@ -168,5 +178,15 @@ public class FundingController {
         }
 
         return message;
+    }
+
+    @GetMapping("/refund/{code}")
+    public String refund(Model model, @PathVariable int code) {
+
+        Map<String, Object> map = fundingService.selectRefund(code);
+
+        model.addAttribute("map", map);
+
+        return "seller/funding/refund";
     }
 }

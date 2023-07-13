@@ -15,4 +15,8 @@ public interface FundingService {
     String insertReport(Map<String, Object> map);
 
     int selectReport(int code, int memberCode);
+
+    String selectProfile(int memberCode);
+
+    Map<String, Object> selectRefund(int code);
 }

@@ -31,4 +31,14 @@ public class BeforeFundingServiceImpl implements BeforeFundingService{
 
         return imgMap;
     }
+
+    @Override
+    public int searchAuth(int memberCode) {
+
+        int result = beforeFundingMapper.searchAuth(memberCode);
+
+        return result;
+    }
+
+
 }
