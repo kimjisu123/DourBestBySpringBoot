@@ -24,7 +24,7 @@ public class ConstomerController {
     }
 
     @GetMapping("/customerService")
-    public String customerService( Model model){
+    public String customerService(Model model){
 
     List<ConstomerContactDTO> contactList = constomerServiceImpl.selectCoupon();
 
@@ -40,7 +40,7 @@ public class ConstomerController {
     public ModelAndView coupon(ModelAndView mv){
 
 
-        List<ConstomerContactDTO> couponList =  constomerServiceImpl.selectContact();
+        List<ConstomerContactDTO> couponList =  constomerServiceImpl.selectCoupon();
 
         mv.addObject("couponList", couponList);
         mv.setViewName("/customerService/customerServiceCategory/coupon");

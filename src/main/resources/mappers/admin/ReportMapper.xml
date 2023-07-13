@@ -9,6 +9,7 @@
         <result property="memberEmail" column="MEMBER_EMAIL"/>
         <result property="fundingTitle" column="FUNDING_TITLE"/>
         <result property="reportTitle" column="REPORT_TITLE"/>
+        <result property="reportContent" column="REPORT_CONTENT"/>
         <result property="report_date" column="REPORT_DATE"/>
         <result property="numberReported" column="NUMBER_REPORTED"/>
         <result property="answersStatus" column="ANSWERS_STATUS"/>
@@ -28,7 +29,8 @@
     </resultMap>
 
     <resultMap id="selectInquiresResultMap" type="com.won.dourbest.admin.report.dto.CustomerInquiryDTO">
-        <id property="contactSubject" column="CONTACT_SUBJECT"/>
+        <id property="inquiriesCode" column="INQUIRIES_CODE"/>
+        <result property="contactSubject" column="CONTACT_SUBJECT"/>
         <result property="contactDetails" column="CONTACT_DETAILS"/>
         <result property="dateCreationInquiry" column="DATE_CREATION_INQUIRY"/>
         <result property="answerDate" column="ANSWER_DATE"/>
@@ -41,6 +43,7 @@
             D.MEMBER_EMAIL,
             B.FUNDING_TITLE,
             A.REPORT_TITLE,
+            A.REPORT_CONTENT,
             A.REPORT_DATE,
             C.NUMBER_REPORTED,
             E.REPORT_RESP_STATUS,
@@ -51,6 +54,7 @@
         JOIN    TBL_MEMBER D ON (C.MEMBER_CODE = D.MEMBER_CODE)
         JOIN    TBL_FUNDING_REPORT E ON (E.REPORT_CODE = A.REPORT_CODE)
         WHERE   E.REPORT_RESP_STATUS = 'N'
+        AND     C.NUMBER_REPORTED &lt; 3
         <if test="searchValue != null and searchValue != ''">
             AND   MEMBER_ID LIKE '%' || #{ searchValue } || '%'
         </if>
@@ -83,6 +87,7 @@
 
     <select id="selectInquiry" resultMap="selectInquiresResultMap">
     SELECT
+        B.INQUIRIES_CODE,
         B.CONTACT_SUBJECT,
         B.CONTACT_DETAILS,
         B.DATE_CREATION_INQUIRY,
@@ -181,22 +186,31 @@
 
     </insert>
 
-    <insert id="">
-        INSERT INTO TBL_BLACKLIST_LIST
-        VALUES
-        (
-         SEQ_BLACKLIST_LIST_CODE.NEXTVAL,
-         1,
-         #{memberCode},
-         DEFAULT,
-         '신고 횟수 누적 3회로 인한 블랙리스트'
-        )
-    </insert>
 
     <update id="updateReport">
         UPDATE TBL_FUNDING_REPORT
         SET    REPORT_RESP_STATUS = 'Y'
         WHERE  REPORT_CODE = #{reportCode}
+    </update>
+
+    <!--  문의사항 답변  -->
+    <insert id="insertQNARegist">
+        INSERT INTO TBL_ADMIN_QNA
+        VALUES
+        (
+        SEQ_ADMIN_QNA_CODE.NEXTVAL,
+         #{answerContent},
+         DEFAULT,
+         1,
+         #{InquiriesCode}
+        )
+    </insert>
+
+
+    <update id="updateInquiries">
+        UPDATE TBL_ADMIN_INQUIRIES
+        SET WHETHER_ANSWER = 'Y'
+        WHERE INQUIRIES_CODE = #{inquriesCode}
     </update>
 
 

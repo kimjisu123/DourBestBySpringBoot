@@ -74,17 +74,6 @@ public class AccountController {
         return mv;
     }
 
-    // 회원 탈퇴
-    @PostMapping("/admin")
-    @ResponseBody
-    public String deleteMember(@RequestParam String memberId){
-
-        String message = adminService.deleteMember(memberId);
-
-        System.out.println("message = " + message);
-
-        return message;
-    }
 
 
     // 탈퇴한 회원 조회
@@ -288,6 +277,7 @@ public class AccountController {
 
         return message;
     }
+
 
 
 

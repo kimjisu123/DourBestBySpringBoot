@@ -7,6 +7,7 @@
     <resultMap id="contactResultMap" type="com.won.dourbest.customerService.dto.ConstomerContactDTO">
         <id property="contactName" column="CONTACT_NAME"/>
         <result property="contactDetails" column="CONTACT_DETAILS"/>
+        <result property="rowNum" column="ROWNUM"/>
     </resultMap>
 
     <resultMap id="CategoryResultMap" type="CategoryDTO">
@@ -19,8 +20,17 @@
     <select id="selectContact" resultMap="contactResultMap">
         SELECT
             CONTACT_NAME,
-            CONTACT_DETAILS
-        FROM    TBL_CONTACT
+            CONTACT_DETAILS,
+            ROWNUM
+        FROM
+            (SELECT
+                CONTACT_NAME,
+                CONTACT_DETAILS,
+                ROWNUM
+            FROM    TBL_CONTACT
+            ORDER BY CONTACT_CODE)
+        WHERE ROWNUM  &lt; 9
+
     </select>
 
     <!--  쿠폰  -->
@@ -29,6 +39,7 @@
             CONTACT_NAME,
             CONTACT_DETAILS
         FROM    TBL_CONTACT
+        WHERE CATEGORY_CODE =4
     </select>
 
 
@@ -38,6 +49,7 @@
             CONTACT_NAME,
             CONTACT_DETAILS
         FROM    TBL_CONTACT
+        WHERE CATEGORY_CODE = 5
     </select>
 
     <!--  교환  -->
@@ -46,6 +58,7 @@
             CONTACT_NAME,
             CONTACT_DETAILS
         FROM    TBL_CONTACT
+        WHERE CATEGORY_CODE = 7
     </select>
 
     <!--  회원정보  -->
@@ -54,6 +67,7 @@
             CONTACT_NAME,
             CONTACT_DETAILS
         FROM    TBL_CONTACT
+        WHERE CATEGORY_CODE = 2
     </select>
 
     <!--  멤버십  -->
@@ -62,6 +76,7 @@
             CONTACT_NAME,
             CONTACT_DETAILS
         FROM    TBL_CONTACT
+        WHERE CATEGORY_CODE = 6
     </select>
 
     <!--  결제  -->
@@ -70,6 +85,7 @@
             CONTACT_NAME,
             CONTACT_DETAILS
         FROM    TBL_CONTACT
+        WHERE CATEGORY_CODE = 3
     </select>
 
     <!--  환불  -->
@@ -78,6 +94,7 @@
             CONTACT_NAME,
             CONTACT_DETAILS
         FROM    TBL_CONTACT
+        WHERE CATEGORY_CODE =8
     </select>
 
     <!--  이용 서비스  -->
@@ -86,6 +103,7 @@
             CONTACT_NAME,
             CONTACT_DETAILS
         FROM    TBL_CONTACT
+        WHERE CATEGORY_CODE = 1
     </select>
 
     <select id="fundingCategory" resultMap="CategoryResultMap">

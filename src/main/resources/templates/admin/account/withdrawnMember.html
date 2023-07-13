@@ -54,11 +54,9 @@
                     <div th:onclick="|location.href='@{/admin/blackList}'|"  id="mainMenuButton5" class="mainMenuButton">
                         블랙리스트
                     </div>
-                    <th:block sec:authorize="hasRole('ROLE_SUPER')">
-                        <div th:onclick="|location.href='@{/admin/adminAccount}'|" id="mainMenuButton6" class="mainMenuButton">
-                            관리자 계정 관리
-                        </div>
-                    </th:block>
+                    <div th:onclick="|location.href='@{/admin/adminAccount}'|" id="mainMenuButton6" class="mainMenuButton">
+                        관리자 계정 관리
+                    </div>
                 </div>
 
                 <!-- 아이디 검색 버튼 -->
@@ -124,11 +122,11 @@
                         </a>
                         <!-- 숫자 버튼 th:disabled로 인해 현재페이지랑 같은 숫자의 버튼을 비활성화 한다. -->
                         <th:block th:each="page : ${#numbers.sequence(selectCriteria.startPage, selectCriteria.endPage)}">
-                            <button class="num"
+                            <a class="num"
                                     th:text="${ page }"
                                     th:onclick="'location.href=\'/admin/withdrawn?currentPage='+ @{${page}} + '\''"
                                     th:disabled="${ selectCriteria.pageNo eq page }">
-                            </button>
+                            </a>
                         </th:block>
 
                         <!-- 다음 페이지 버튼 th:disabled로 인해 현재 페이지가 마지막 페이지인 경우 비활성화 한다-->

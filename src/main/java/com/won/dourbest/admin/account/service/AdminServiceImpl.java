@@ -145,45 +145,6 @@ public class AdminServiceImpl implements AdminService {
         return "회원가입에 실패하셨습니다.";
     }
 
-    // 회원 탈퇴
-    @Override
-    public String deleteMember(String memberId) {
-
-
-        String result1;
-        int result2;
-        int result3;
-
-        // 전송할 값
-        String message ="";
-
-        // 판매자인지 확인 (MEMBER_CODE 반환)
-        result1 = mapper.selectSeller(memberId);
-        // 이후 탈퇴
-        result3 = mapper.deleteMember(memberId);
-
-        // 판매자인지 확인
-        if(result1 != null){
-            // 판매자일 경우 판매자 권한 탈퇴(MEMBER_CODE로 값을 찾아 탈퇴)
-            result2 = mapper.deleteSeller(result1);
-
-            // 권한 탈퇴에 성공 했을 경우 회원 탈퇴
-            if(result2 != 0){
-                result3 = mapper.deleteMember(memberId);
-            }
-        } else{
-            // 판매자가 아니라면 회원 탈퇴
-            result3 = mapper.deleteMember(memberId);
-        }
-
-        if(result3 != 0){
-            message = "회원 탈퇴에 성공하셨습니다.";
-        } else {
-            message = "회원 탈퇴에 실패하였습니다.";
-        }
-
-        return message;
-    }
 
 
 

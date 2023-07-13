@@ -46,8 +46,8 @@ public class AdminSecurityConfig {
                 .authenticationProvider(adminAuthenticationProvider())
                 .antMatcher("/admin/**")   // 이거만 추가했음
                 .authorizeRequests()
-//                .antMatchers("/admin/adminAccount").hasRole("SUPER")
-//                .antMatchers("/admin/**").access("hasRole('ADMIN') or hasRole('SUPER')")
+                .antMatchers("/admin/adminAccount").hasRole("SUPER")
+                .antMatchers("/admin/**").access("hasRole('ADMIN') or hasRole('SUPER')")
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()

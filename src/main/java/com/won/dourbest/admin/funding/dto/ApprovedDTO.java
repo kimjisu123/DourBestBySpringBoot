@@ -2,18 +2,14 @@ package com.won.dourbest.admin.funding.dto;
 
 import lombok.*;
 
-import java.util.Date;
 @Getter
 @Setter
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class AdminFundingDTO {
+public class ApprovedDTO {
 
     private String memberId;
-    private String memberEmail;
-    private int fundingCode;
     private String fundingTitle;
-    private Date startDate;
-    private Date endDate;
+    private int fundingCode;
 }

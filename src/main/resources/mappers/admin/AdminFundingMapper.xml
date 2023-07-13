@@ -8,6 +8,7 @@
         <result property="memberId" column="MEMBER_ID"/>
         <result property="memberEmail" column="MEMBER_EMAIL"/>
         <result property="fundingTitle" column="FUNDING_TITLE"/>
+        <result property="fundingCode" column="FUNDING_CODE"/>
         <result property="startDate" column="START_DATE"/>
         <result property="endDate" column="END_DATE"/>
     </resultMap>
@@ -46,6 +47,7 @@
     <!-- 진행중인 펀딩 목록 -->
     <select id="selectAllOngoing" resultMap="fundingResultMap">
         SELECT
+        A.FUNDING_CODE,
         A.FUNDING_TITLE,
         A.START_DATE,
         A.END_DATE,
@@ -109,6 +111,7 @@
     <!-- 신청한 펀딩 목록 -->
     <select id="selectAllApplied" resultMap="fundingResultMap">
         SELECT
+            A.FUNDING_CODE,
             A.FUNDING_TITLE,
             A.START_DATE,
             A.END_DATE,
@@ -218,4 +221,35 @@
         DELETE TBL_FUNDING
         WHERE FUNDING_CODE = #{fundingCode}
     </delete>
+    
+    <!--  펀딩 상태값 업데이트  -->
+    <insert id="insertFunding">
+        INSERT INTO TBL_FUNDING_STATUSLIST
+        VALUES
+        (
+            SEQ_FUNDING_STATUSLIST_CODE.nextval,
+            SYSDATE,
+            2,
+            #{fundingCode}
+        )
+    </insert>
+
+    <insert id="dropFunding">
+        INSERT INTO TBL_FUNDING_STATUSLIST
+        VALUES
+            (
+                SEQ_FUNDING_STATUSLIST_CODE.nextval,
+                SYSDATE,
+                3,
+                #{fundingCode}
+            )
+    </insert>
+
+
+    <!--  판매자 상태값 수정(거절)  -->
+    <update id="sellerDrop">
+        UPDATE TBL_SELLER
+        SET     SELLER_APPROVAL = '승인거절'
+        WHERE   MEMBER_CODE = #{memberCode}
+    </update>
 </mapper>
