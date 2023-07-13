@@ -108,6 +108,7 @@ public class MemberController {
 
     @GetMapping("/modify")
     public String modifyMemvberInfo(@AuthenticationPrincipal MemberImpl member, Model model){
+
         MemberDTO findMember = service.findUser(member.getMemberId()).orElseThrow();
         boolean result = passwordEncoder.matches("iYk6786w", member.getPassword());
 
@@ -138,10 +139,9 @@ public class MemberController {
     @PostMapping("/checkMember")
     @Transactional(rollbackFor = { Exception.class })
     public String checkMember(@AuthenticationPrincipal MemberImpl user, @RequestParam String pwd){
-//        log.info("user = " +  user);
-//        log.info("pwd = " +  pwd);
+
         boolean result = passwordEncoder.matches( pwd , user.getPassword());
-//        log.info("result = " + result);
+
         if(result) {
             return "redirect:/mypage/changeInfo";
         } else {
@@ -155,10 +155,9 @@ public class MemberController {
     @PostMapping("/checkMemberPw")
     @Transactional(rollbackFor = { Exception.class })
     public String checkMemberPw(@AuthenticationPrincipal MemberImpl user, @RequestParam String pwd){
-//        log.info("user = " +  user);
-//        log.info("pwd = " +  pwd);
+
         boolean result = passwordEncoder.matches( pwd , user.getPassword());
-//        log.info("result = " + result);
+
         if(result) {
             return "redirect:/mypage/changePwd";
         } else {
@@ -170,7 +169,11 @@ public class MemberController {
     // 탈퇴 전 회원 확인
 
     @PostMapping("/beforequitMember")
-    public String checkMemberDelete(@AuthenticationPrincipal MemberImpl user, @RequestParam String pwd){
+    public String checkMemberDelete(@AuthenticationPrincipal MemberImpl user, @RequestParam String pwd,Model model){
+
+        MemberDTO findMember = service.findUser(user.getMemberId()).orElseThrow();
+        model.addAttribute("user", user);
+        model.addAttribute( "mypageInfo", findMember);
 //        log.info("user = " +  user);
 //        log.info("pwd = " +  pwd);
         boolean result = passwordEncoder.matches( pwd , user.getPassword());
