@@ -361,6 +361,13 @@ public class SellerServiceImpl implements SellerService {
 
         return categoryCode;
     }
+
+    public int insertRefundRule(Map<String, Object> map) {
+
+        int result = mapper.insertRefundRule(map);
+
+        return result;
+    }
 }
 
 

@@ -468,6 +468,11 @@
          WHERE FUNDING_CODE = #{ fundingCode }
     </select>
 
+    <update id="insertRefundRule" parameterType="HashMap">
+        UPDATE TBL_FUNDING
+           SET RETURN_ROLE = #{ refundRule }
+         WHERE FUNDING_CODE = #{ fundingCode }
+    </update>
 
 
 <!--    <select id="selectfundingCode" resultMap="selectFundingResultMap">-->
