@@ -48,13 +48,9 @@ public class ReportServiceImpl implements ReportService{
     public String answerRegist(AnswerRegistDTO answerRegist) {
 
         int fundingCode;
-
         int reportCode;
-
         String sellerCode;
-
         String reportTitle;
-
         String blackListMemberCode;
 
         reportTitle = answerRegist.getChoiceValue();
@@ -66,13 +62,9 @@ public class ReportServiceImpl implements ReportService{
         reportCode  = mapper.selectReportCode(fundingCode, reportTitle);
 
         int result;
-
         int result1;
-
         int result2;
-
         int result3;
-
         String message="";
 
         result = mapper.insertAnswer(reportCode, answerRegist);
@@ -90,12 +82,11 @@ public class ReportServiceImpl implements ReportService{
             throw new RuntimeException();
         }
 
-        // 신고 누적 횟수 3 여부 3일 경우 MEMBER_CODE 반환
         blackListMemberCode = mapper.selectReported(sellerCode);
 
-        // 신고 누적 횟수가 3인 경우
+
         if (blackListMemberCode != null) {
-            // 블랙리스트 등록
+
             result3 = mapper.insertBlackList(blackListMemberCode);
             if (result3 != 0) {
                 // 성공시 반환

@@ -167,7 +167,6 @@
         $('.fundcheckbox').each(function () {
             if ($(this).prop('checked')) {
                 let answerContent = $('#answerContent').val();
-                // 선택한 질문 코드
                 let InquiriesCode = $(this).closest('.table').find('.choiceValue').text();
                 let inquiry = {
                     answerContent,
