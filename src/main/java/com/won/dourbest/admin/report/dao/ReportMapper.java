@@ -46,8 +46,9 @@ public interface ReportMapper {
     // 펀딩 신고 상태값 업데이트
     int updateReport(int reportCode);
 
-    // 문의사항 답변 등록
-    int insertQNARegist(UserAnswerRegistDTO userAnswer);
     // 1:1 문의사항 상태값 변경
     int updateInquiries(int inquriesCode);
+
+    // 문의사항 답변 등록
+    int insertQNARegist(int inquriesCode, String answerContent, int adminCode);
 }

@@ -221,7 +221,7 @@
                COUNT(*)
           FROM TBL_FUNDING_STATUSLIST
          WHERE FUNDING_CODE = #{ code }
-           AND FUNDING_STATUS_CODE = 2
+           AND FUNDING_STATUS_CODE = 1
     </select>
 
     <select id="selectRefund" parameterType="_int">

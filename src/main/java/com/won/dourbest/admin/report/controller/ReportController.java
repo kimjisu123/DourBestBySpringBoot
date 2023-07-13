@@ -1,11 +1,15 @@
 package com.won.dourbest.admin.report.controller;
 
+import com.won.dourbest.admin.account.dto.AdminImpl;
 import com.won.dourbest.admin.common.Pagenation;
 import com.won.dourbest.admin.common.SelectCriteria;
 import com.won.dourbest.admin.report.dto.*;
 import com.won.dourbest.admin.report.service.ReportServiceImpl;
+import com.won.dourbest.common.exception.member.NoLoginException;
+import com.won.dourbest.user.dto.MemberImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -145,11 +149,15 @@ public class ReportController {
     // 1:1 문의 답변
     @PostMapping("customerInquiry")
     @ResponseBody
-    public String userAnswerRegist(@RequestBody UserAnswerRegistDTO inquiry){
+    public String userAnswerRegist( @RequestBody UserAnswerRegistDTO inquiry, @AuthenticationPrincipal AdminImpl admin){
 
-        System.out.println("inquiry = " + inquiry);
-        
-        String message = reportServiceImpl.userAnswerRegist(inquiry);
+        if(admin == null){
+            throw new NoLoginException();
+        }
+
+        int adminCode = admin.getAdminCode();
+
+        String message = reportServiceImpl.userAnswerRegist(inquiry, adminCode);
 
         return message;
     }

@@ -34,11 +34,10 @@ public class AdminServiceImpl implements AdminService {
         List<AccountDTO> accountList = mapper.selectAllaccountList(selectCriteria);
 
         for(int i =0; i <accountList.size(); i++){
-            if(accountList.get(i).getSellerCode()!= null) {
-                accountList.get(i).setSellerCode("Y");
+            if(accountList.get(i).getSellerApproval()!= "승인대기") {
+                accountList.get(i).setSellerApproval("Y");
             }
         }
-        System.out.println("accountList.size() = " + accountList.size());
         return accountList;
     }
 

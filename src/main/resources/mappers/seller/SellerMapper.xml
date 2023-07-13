@@ -18,8 +18,8 @@
 <!--        <result property="sellerApproval" column="SELLER_APPROVAL"/>-->
 <!--    </resultMap>-->
 
-    <resultMap id="selectFundingOption" type="com.won.dourbest.seller.dto.FundingOptionDTO">
-        <result property="fundingOptionCode" column="FUNDING_OPTION_CODE"/>
+    <resultMap id="selectFundingOption" type="com.won.dourbest.seller.dto.OptionDTO">
+<!--        <result property="fundingOptionCode" column="FUNDING_OPTION_CODE"/>-->
         <result property="optionName" column="OPTION_NAME"/>
         <result property="optionContents" column="OPTION_CONTENTS"/>
         <result property="optionPrice" column="OPTION_PRICE"/>
@@ -159,7 +159,7 @@
           , DETAIL_ADDRESS
           FROM TBL_ADDRESS A
           JOIN TBL_MEMBER B on (B.MEMBER_CODE = A.MEMBER_CODE)
-        WHERE MEMBER_ID = #{ memberId }
+        WHERE A.MEMBER_CODE = #{ memberCode }
     </select>
 
 
@@ -169,7 +169,7 @@
           FROM TBL_COUPON
            JOIN TBL_COUPONLIST TC on (TBL_COUPON.COUPON_CODE = TC.COUPON_CODE)
            JOIN TBL_MEMBER TM on (TC.MEMBER_CODE = TM.MEMBER_CODE)
-        WHERE TC.MEMBER_CODE = 5
+        WHERE TM.MEMBER_ID = #{memberId}
           AND COUPON_REGI_STATUS = 'Y'
 
     </select>
@@ -249,11 +249,13 @@
          WHERE FUNDING_OPTION_CODE = #{ fundingOptionCode }
     </select>
 
-    <select id="selectCouponCode" resultMap="selectCouponCodeResultMap">
+    <select id="selectCouponCode" parameterType="hashMap">
         SELECT
             COUPONLIST_CODE
-         FROM TBL_COUPONLIST
-        WHERE MEMBER_CODE = #{ memberCode }
+         FROM TBL_COUPONLIST A
+         JOIN TBL_COUPON TC on (A.COUPON_CODE = TC.COUPON_CODE)
+        WHERE A.MEMBER_CODE = #{mCode}
+         and TC.COUPON_NAME = #{cp}
     </select>
 
     <insert id="insertOrder">
@@ -278,7 +280,7 @@
          , #{ orderPrice}
          , #{ fundingCode }
          , #{ memberCode }
-         , #{ orderRequest}
+         , '배송전에 미리 연락 부탁드립니다.'
          , DEFAULT
          , #{ fundingOptionCode }
          , #{ deliveryCharge }
@@ -291,6 +293,24 @@
         </selectKey>
     </insert>
 
+    <select id="selectCoupon1" parameterType="hashMap">
+        SELECT
+            A.COUPON_CODE
+        FROM TBL_COUPONLIST A
+        JOIN TBL_MEMBER TM on A.MEMBER_CODE = TM.MEMBER_CODE
+        JOIN TBL_COUPON TC on A.COUPON_CODE = TC.COUPON_CODE
+        WHERE TC.COUPON_NAME = #{ cp }
+         AND  TM.MEMBER_CODE = #{ mCode}
+    </select>
+
+    <update id="couponUpdate" parameterType="hashMap">
+        UPDATE
+                TBL_COUPONLIST
+        SET     COUPON_USE_STATUS = 'Y'
+        WHERE COUPON_CODE = #{ couponCode }
+          AND MEMBER_CODE = #{ mCode}
+
+    </update>
     <insert id="insertPayment">
         INSERT
           INTO TBL_CREDIT
@@ -317,6 +337,12 @@
         </selectKey>
     </insert>
 
+    <update id="update" parameterType="_int">
+        update TBL_FUNDING_OPTIONS
+           set LIMIT_QUANTITY = LIMIT_QUANTITY - 1
+         where FUNDING_OPTION_CODE = #{optionCode}
+    </update>
+
     <insert id="insertFundingCreditList">
         INSERT
           INTO TBL_FUNDING_CREDITLIST
@@ -338,7 +364,7 @@
 
     <select id="selectDeliveryPrice">
         SELECT
-            DELIVERY_CHARGE
+            NVL(DELIVERY_CHARGE, 0)
           FROM TBL_CREDIT A
           JOIN TBL_ORDER B ON(A.ORDER_CODE = B.ORDER_CODE)
          WHERE PAYMENT_CODE = #{ paymentCode }
@@ -403,7 +429,30 @@
 
     </update>
 
+    <select id="selectOption" resultMap="selectFundingOption">
+        SELECT
+               OPTION_NAME
+             , OPTION_CONTENTS
+             , OPTION_PRICE
+             , LIMIT_QUANTITY
+             , FUNDING_CODE
+          FROM TBL_FUNDING_OPTIONS
+         WHERE FUNDING_OPTION_CODE = #{ optionCode }
+    </select>
 
+    <select id="selectVIP" parameterType="_int">
+        SELECT
+               MEMBERSHIP_CODE
+          FROM TBL_MEMBER
+         WHERE MEMBER_CODE = #{ memberCode }
+    </select>
+
+    <select id="selectCatogory" parameterType="_int">
+        SELECT
+               CATEGORY_CODE
+          FROM TBL_FUNDING
+         WHERE FUNDING_CODE = #{ fundingCode }
+    </select>
 
 
 

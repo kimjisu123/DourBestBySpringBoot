@@ -21,9 +21,9 @@ public interface NoticeService {
     int selectTotalPage(Map<String, String> searchMap);
 
 
-    String insertNotice(NoticeRegistDTO notice);
+    String insertNotice(NoticeRegistDTO notice, int adminCode);
 
-    String insertEvent(EventRegistDTO event);
+    String insertEvent(EventRegistDTO event, int adminCode);
 
     String deleteNotice(String noticeTitle);
 

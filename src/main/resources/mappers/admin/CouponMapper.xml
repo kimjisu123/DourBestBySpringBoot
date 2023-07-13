@@ -8,7 +8,7 @@
         <id property="memberId" column="MEMBER_ID"/>
         <result property="memberName" column="MEMBER_NAME"/>
         <result property="memberEmail" column="MEMBER_EMAIL"/>
-        <result property="couponContent" column="COUPON_CONTENT"/>
+        <result property="couponName" column="COUPON_NAME"/>
         <result property="couponDiscount" column="COUPON_DISCOUNT"/>
         <result property="couponValidDate" column="COUPON_VALID_DATE"/>
     </resultMap>
@@ -54,8 +54,9 @@
         FROM    TBL_COUPONLIST A
         JOIN    TBL_COUPON B ON (A.COUPON_CODE = B.COUPON_CODE)
         JOIN    TBL_MEMBER C ON (A.MEMBER_CODE = C.MEMBER_CODE)
+        WHERE A.COUPON_REGI_STATUS = 'Y'
         <if test="searchValue != null and searchValue != ''">
-            WHERE C.MEMBER_ID LIKE '%' || #{ searchValue } || '%'
+            AND C.MEMBER_ID LIKE '%' || #{ searchValue } || '%'
         </if>
         OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
 

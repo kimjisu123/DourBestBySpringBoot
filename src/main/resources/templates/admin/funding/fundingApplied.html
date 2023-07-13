@@ -83,19 +83,19 @@
                 <!-- 조회 결과 페이지 -->
                 <div class="listPage">
                     <div class="SortationContainer">
-                        <div id="SortationFund1" class="SortationList">
+                        <div id="SortationdApplied1" class="SortationList">
                             아이디
                         </div>
-                        <div id="SortationFund2" class="SortationList">
+                        <div id="SortationdApplied2" class="SortationList">
                             이메일
                         </div>
-                        <div id="SortationFund3" class="SortationList">
+                        <div id="SortationdApplied3" class="SortationList">
                             펀딩 제목
                         </div>
-                        <div id="SortationFund4" class="SortationList">
+                        <div id="SortationdApplied4" class="SortationList">
                             오픈 예정일
                         </div>
-                        <div id="SortationFund5" class="SortationList">
+                        <div id="SortationdApplied5" class="SortationList">
                             종료 날짜
                         </div>
                     </div>
@@ -104,11 +104,11 @@
 
                     <div th:each="fundingApplied : ${fundingAppliedList}" class="table">
                         <input type="checkbox" class="fundcheckbox" name="my_checkbox" value="1">
-                        <div th:text="${fundingApplied.getMemberId()}" id="adminAccountFund1"></div>
-                        <div th:text="${fundingApplied.getMemberEmail()}" id="adminFund2"></div>
-                        <div th:text="${fundingApplied.getFundingTitle()}" id="adminFund3" class="choiceValue"></div>
-                        <div th:text="${#dates.format(fundingApplied.getStartDate(), 'yyyy/MM/dd')}" id="adminFund4"></div>
-                        <div th:text="${#dates.format(fundingApplied.getEndDate(), 'yyyy/MM/dd')}" id="adminFund5"></div>
+                        <div th:text="${fundingApplied.getMemberId()}" id="adminApplied1"></div>
+                        <div th:text="${fundingApplied.getMemberEmail()}" id="adminApplied2"></div>
+                        <div th:text="${fundingApplied.getFundingTitle()}" id="adminApplied3" class="adminApplied5"></div>
+                        <div th:text="${#dates.format(fundingApplied.getStartDate(), 'yyyy/MM/dd')}" id="adminApplied4"></div>
+                        <div th:text="${#dates.format(fundingApplied.getEndDate(), 'yyyy/MM/dd')}" id="adminApplied5"></div>
                         <div style="display: none" th:text="${fundingApplied.getFundingCode()}" class="adminFund6"></div>
                     </div>
 
