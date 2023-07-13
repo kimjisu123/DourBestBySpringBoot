@@ -442,9 +442,9 @@
 
 input[type="checkbox"]{
 
-    width: 20px; /*Desired width*/
+    width: 40px; /*Desired width*/
 
-    height: 20px; /*Desired height*/
+    height: 40px; /*Desired height*/
 
     cursor: pointer;
 
