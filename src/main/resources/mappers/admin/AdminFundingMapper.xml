@@ -123,7 +123,7 @@
                  JOIN TBL_FUNDING_STATUS C ON (B.FUNDING_STATUS_CODE = C.FUNDING_STATUS_CODE)
                  JOIN TBL_SELLER D ON (A.SELLER_CODE = D.SELLER_CODE)
                  JOIN TBL_MEMBER E ON (D.MEMBER_CODE = E.MEMBER_CODE)
-        WHERE C.FUNDING_STATUS_NAME = '승인대기'
+        WHERE B.FUNDING_STATUS_CODE = 1
         <if test="searchValue != null and searchValue != ''">
             AND FUNDING_TITLE LIKE '%' || #{ searchValue } || '%'
         </if>
@@ -221,28 +221,18 @@
         DELETE TBL_FUNDING
         WHERE FUNDING_CODE = #{fundingCode}
     </delete>
-    
+
     <!--  펀딩 상태값 업데이트  -->
     <insert id="insertFunding">
-        INSERT INTO TBL_FUNDING_STATUSLIST
-        VALUES
-        (
-            SEQ_FUNDING_STATUSLIST_CODE.nextval,
-            SYSDATE,
-            2,
-            #{fundingCode}
-        )
+        UPDATE TBL_FUNDING_STATUSLIST
+        SET    FUNDING_STATUS_CODE = 2
+        WHERE FUNDING_CODE = #{fundingCode}
     </insert>
 
     <insert id="dropFunding">
-        INSERT INTO TBL_FUNDING_STATUSLIST
-        VALUES
-            (
-                SEQ_FUNDING_STATUSLIST_CODE.nextval,
-                SYSDATE,
-                3,
-                #{fundingCode}
-            )
+        UPDATE TBL_FUNDING_STATUSLIST
+        SET    FUNDING_STATUS_CODE = 3
+        WHERE FUNDING_CODE = #{fundingCode}
     </insert>
 
 
