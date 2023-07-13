@@ -218,8 +218,6 @@ public class SellerController {
         System.out.println("order : " + order);
         OrderDTO insertOrder = service.insertOrder(order, memberCode);
 
-        OrderDTO insertOrder = service.insertOrder(order, id.getMemberId());
-
         System.out.println(insertOrder.getOrderCode());
 
 
