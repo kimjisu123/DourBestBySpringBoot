@@ -34,4 +34,10 @@ public class WritingServiceImpl implements WritingService{
 
         return writing;
     }
+
+    @Override
+    public void registNoticeWriting(QuestionDTO question) {
+
+        int writing = mapper.registNoticeWriting(question);
+    }
 }

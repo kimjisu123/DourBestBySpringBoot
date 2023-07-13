@@ -24,6 +24,7 @@
           FROM TBL_SELLER_INQUIRY A
           JOIN TBL_MEMBER B ON (A.MEMBER_CODE = B.MEMBER_CODE)
         JOIN TBL_CATEGORY C ON (A.CATEGORY_CODE = C.CATEGORY_CODE)
+
           ORDER BY INQUIRY_DATE DESC
         OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
     </select>

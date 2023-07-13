@@ -1,10 +1,11 @@
 package com.won.dourbest.user.mypage.service;
 
+import com.won.dourbest.admin.account.dto.AdminInquiriesDTO;
 import com.won.dourbest.common.dto.CategoryDTO;
 import com.won.dourbest.common.dto.SearchCriteria;
 import com.won.dourbest.common.exception.user.CouponNotFoundException;
+import com.won.dourbest.seller.dto.SellerInquiryDTO;
 import com.won.dourbest.user.dto.*;
-import com.won.dourbest.user.mypage.repository.MypageCommonMapper;
 import com.won.dourbest.user.mypage.repository.MypageMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -32,6 +32,12 @@ public class MypageServiceImple implements MypageService{
 
         return mypageInfo;
     }
+
+    @Override
+    public MypageMainDTO info(String userId) {
+        return mypageMapper.findById(userId);
+    }
+
 
     @Override
     public List<MemberCouponList> allCoupon(SearchCriteria searchCriteria, String userId) {
@@ -67,6 +73,11 @@ public class MypageServiceImple implements MypageService{
     @Override
     public List<LikeFundingDTO> likeFundingList(SearchCriteria searchCriteria, String userId) {
         return mypageMapper.findLikeFundingById(searchCriteria,userId);
+    }
+
+    @Override
+    public List<LikeFundingDTO> myFundingList(SearchCriteria searchCriteria, String userId) {
+        return mypageMapper.myFunding(searchCriteria,userId);
     }
 
     @Override
@@ -106,6 +117,27 @@ public class MypageServiceImple implements MypageService{
     @Override
     public int changeProfile(ProfileDTO profile) {
         return mypageMapper.updateProfile(profile);
+    }
+
+//     문의사항 세부내역
+    @Override
+    @Transactional
+    public AdminInquiriesDTO QnaInqurireAnwser(int memberCode , int id) {
+
+
+        return  mypageMapper.QnaInqurireAnwser(memberCode, id);
+    }
+
+    @Override
+    @Transactional
+    public SellerInquiryDTO QnaSellerInquire(int memberCode, int id) {
+        return mypageMapper.QnaSellerInquire(memberCode,id);
+    }
+
+    @Override
+    @Transactional
+    public MemberReportListDTO NotifyInquire(int memberCode, int id) {
+        return mypageMapper.NotifyInquire(memberCode,id);
     }
 
 

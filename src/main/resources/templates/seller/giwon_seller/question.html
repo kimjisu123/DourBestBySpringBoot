@@ -9,9 +9,9 @@
 
     <div class="container0">
     <div class="main-container0">
-        <a href="/seller/notice" class="box1 text1">공지사항</a>
+        <a th:href="@{/funding/seller/notice/{id}(id=${fundingCode})}" th class="box1 text1">공지사항</a>
 
-        <a href="/seller/review" class="box2 text1">리뷰
+        <a th:href="@{/funding/seller/review/{id}(id=${fundingCode})}" class="box2 text1">리뷰
             <p class="count text1">()</p>
         </a>
         <a class="box3 text1">Q&A</a>
@@ -90,7 +90,7 @@
         </button>
 
         <div class="button">
-        <input type="button" id="writing" value="글쓰기">
+            <button onclick="location.href='/seller/writing'">글쓰기</button>
         </div>
 
 
@@ -116,7 +116,7 @@
         <input type="search" id="searchValue" name="searchValue">
 
 
-        <button class="btn btn-bs" type="submit">검색하기</button>
+<!--        <button class="btn btn-bs" type="submit">검색하기</button>-->
 
 
     </form>

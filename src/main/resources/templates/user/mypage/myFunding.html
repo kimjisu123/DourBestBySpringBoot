@@ -1,0 +1,42 @@
+<html th:replace="~{/layouts/base :: layout(~{::main}, ~{::link}, ~{::script})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link rel="stylesheet" th:href="@{/css/common/page.css}">
+  <link rel="stylesheet" th:href="@{/css/common/item-card.css}">
+  <link rel="stylesheet" th:href="@{/css/common/board.css}">
+</head>
+  <main>
+    <div class="page-wrapper">
+      <section>
+        <div class="page-title">
+          <h1>나의 펀딩</h1>
+        </div>
+        <div class="filter-wrapper">
+        </div>
+
+        <div class="page-container">
+          <div class="page-content">
+            <h2 class="sr-only">나의 목록</h2>
+            <div class="item-cards">
+              <th:block th:unless="${!list.isEmpty()} or ${list.size()} > 0 ">
+                <p class="no-list"> 없습니다. </p>
+              </th:block>
+              <div class="item" th:each="funding : ${list}">
+                <a th:href="@{/funding/{id}(id=${funding.fundingCode})}" class="card" >
+                  <div class="thumb" th:style="'background-image: url('+@{/fundingImg/}+${funding.filePath}+')'" ></div>
+                  <article>
+                    <h1 th:text="${funding.fundingTitle}">item1</h1>
+                    <p th:text="${funding.fundingSummary}">설명</p>
+                    <span>content1</span>
+                  </article>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+<script>
+</script>
+</html>

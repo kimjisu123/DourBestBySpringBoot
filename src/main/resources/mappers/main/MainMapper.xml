@@ -30,94 +30,153 @@
         <!--        <collection property="likeFundingList" resultMap="LikeFundingResultMap"/>-->
     </resultMap>
 
+
+    <!--  메인이미지 슬라이드 쿼리문 업로드 날짜 순으로 표시 리미트 8개    -->
+    <!--        <select id="getSlideImages" resultMap="fundingFileDTO">-->
+    <!--         SELECT-->
+    <!--                 FILE_MODIFICATION_NAME-->
+    <!--                FROM TBL_FUNDING_FILE;-->
+    <!--                WHERE FILE_TYPE = '메인'-->
+    <!--             ORDER BY UPLOAD_DATE DESC-->
+    <!--                LIMIT 8-->
+    <!--         </select>-->
+
+
     <select id="getSlideImages" resultMap="SlideFileMap">
         SELECT
-            ROWNUM RNUM,
-            A.FUNDING_CODE,
-            A.FUNDING_TITLE,
-            A.FUNDING_SUMMARY,
-            A.FILE_MODIFICATION_NAME
+        ROWNUM RNUM,
+        B.FUNDING_CODE,
+        B.FUNDING_TITLE,
+        B.FUNDING_SUMMARY,
+        B.FILE_MODIFICATION_NAME
+        FROM
+        (SELECT
+        A.FUNDING_CODE,
+        A.FUNDING_TITLE,
+        A.FUNDING_SUMMARY,
+        A.FILE_MODIFICATION_NAME
         FROM (
-                 SELECT
-                     F.FUNDING_CODE,
-                     F.FUNDING_TITLE,
-                     F.FUNDING_SUMMARY,
-                     TFF.FILE_MODIFICATION_NAME
-                 FROM TBL_FUNDING F
-                          JOIN TBL_FUNDING_FILE TFF ON F.FUNDING_CODE = TFF.FUNDING_CODE
-                 WHERE  TFF.FILE_TYPE='메인'
-                 ORDER BY F.APPLICATION_DATE DESC) A
-    <![CDATA[
+        SELECT
+        F.FUNDING_CODE,
+        F.FUNDING_TITLE,
+        F.FUNDING_SUMMARY,
+        TFF.FILE_MODIFICATION_NAME,
+        RANK() OVER (PARTITION BY FSL.FUNDING_CODE ORDER BY FSL.CHANGE_DATE DESC ) AS RECENT
+        FROM TBL_FUNDING F
+        JOIN TBL_FUNDING_FILE TFF ON F.FUNDING_CODE = TFF.FUNDING_CODE
+        JOIN TBL_FUNDING_STATUSLIST FSL ON F.FUNDING_CODE = FSL.FUNDING_CODE
+        JOIN TBL_FUNDING_STATUS FSS ON FSS.FUNDING_STATUS_CODE = FSL.FUNDING_STATUS_CODE
+        WHERE  TFF.FILE_TYPE='메인' AND FSS.FUNDING_STATUS_NAME = '펀딩 진행중'
+        ORDER BY F.APPLICATION_DATE DESC
+        )A WHERE RECENT = 1)B
+        <![CDATA[
         WHERE ROWNUM <= 8
-        ]]>
+                ]]>
     </select>
 
     <select id="ToplikeFundings" resultMap="SlideFileMap">
         SELECT
             ROWNUM RNUM,
-            A.FUNDING_CODE,
-            A.FUNDING_TITLE,
-            A.FUNDING_SUMMARY,
-            A.FILE_MODIFICATION_NAME
-        FROM (
-                 SELECT
-                     F.FUNDING_CODE,
-                     F.FUNDING_TITLE,
-                     F.FUNDING_SUMMARY,
-                     TFF.FILE_MODIFICATION_NAME
-                 FROM TBL_FUNDING F
-                          JOIN TBL_FUNDING_FILE TFF ON F.FUNDING_CODE = TFF.FUNDING_CODE
-                 WHERE  TFF.FILE_TYPE='메인'
-                 ORDER BY F.LIKES DESC) A
-    <![CDATA[
+            B.FUNDING_CODE,
+            B.FUNDING_TITLE,
+            B.FUNDING_SUMMARY,
+            B.FILE_MODIFICATION_NAME
+        FROM
+            (SELECT
+                 A.FUNDING_CODE,
+                 A.FUNDING_TITLE,
+                 A.FUNDING_SUMMARY,
+                 A.FILE_MODIFICATION_NAME
+             FROM (
+                      SELECT
+                          F.FUNDING_CODE,
+                          F.FUNDING_TITLE,
+                          F.FUNDING_SUMMARY,
+                          TFF.FILE_MODIFICATION_NAME,
+                          RANK() OVER (PARTITION BY FSL.FUNDING_CODE ORDER BY FSL.CHANGE_DATE DESC ) AS RECENT
+                      FROM TBL_FUNDING F
+                               JOIN TBL_FUNDING_FILE TFF ON F.FUNDING_CODE = TFF.FUNDING_CODE
+                               JOIN TBL_FUNDING_STATUSLIST FSL ON F.FUNDING_CODE = FSL.FUNDING_CODE
+                               JOIN TBL_FUNDING_STATUS FSS ON FSS.FUNDING_STATUS_CODE = FSL.FUNDING_STATUS_CODE
+                      WHERE  TFF.FILE_TYPE='메인' AND FSS.FUNDING_STATUS_NAME = '펀딩 진행중'
+                      ORDER BY F.LIKES DESC
+                  )A WHERE RECENT = 1)B
+        <![CDATA[
         WHERE ROWNUM <= 5
         ]]>
     </select>
+
 
     <select id="OpenFundings" resultMap="SlideFileMap">
         SELECT
             ROWNUM RNUM,
-            A.START_DATE,
-            A.FUNDING_CODE,
-            A.FUNDING_TITLE,
-            A.FUNDING_SUMMARY,
-            A.FILE_MODIFICATION_NAME
-        FROM (
-                 SELECT
-                     F.START_DATE,
-                     F.FUNDING_CODE,
-                     F.FUNDING_TITLE,
-                     F.FUNDING_SUMMARY,
-                     TFF.FILE_MODIFICATION_NAME
-                 FROM TBL_FUNDING F
-                          JOIN TBL_FUNDING_FILE TFF ON F.FUNDING_CODE = TFF.FUNDING_CODE
-                 WHERE  TFF.FILE_TYPE='메인'
-                 ORDER BY (F.START_DATE - TRUNC(SYSDATE))) A
-    <![CDATA[
+            B.FUNDING_CODE,
+            B.FUNDING_TITLE,
+            B.FUNDING_SUMMARY,
+            B.FILE_MODIFICATION_NAME
+        FROM
+            (SELECT
+                 A.FUNDING_CODE,
+                 A.FUNDING_TITLE,
+                 A.FUNDING_SUMMARY,
+                 A.FILE_MODIFICATION_NAME
+             FROM (
+                      SELECT
+                          F.FUNDING_CODE,
+                          F.FUNDING_TITLE,
+                          F.FUNDING_SUMMARY,
+                          TFF.FILE_MODIFICATION_NAME,
+                          RANK() OVER (PARTITION BY FSL.FUNDING_CODE ORDER BY FSL.CHANGE_DATE DESC ) AS RECENT
+                      FROM TBL_FUNDING F
+                               JOIN TBL_FUNDING_FILE TFF ON F.FUNDING_CODE = TFF.FUNDING_CODE
+                               JOIN TBL_FUNDING_STATUSLIST FSL ON F.FUNDING_CODE = FSL.FUNDING_CODE
+                               JOIN TBL_FUNDING_STATUS FSS ON FSS.FUNDING_STATUS_CODE = FSL.FUNDING_STATUS_CODE
+                      WHERE  TFF.FILE_TYPE='메인' AND FSS.FUNDING_STATUS_NAME = '승인완료'
+                       <![CDATA[
+                        AND (F.START_DATE - TRUNC(SYSDATE)) < 7
+                        ]]>
+                      ORDER BY (F.START_DATE - TRUNC(SYSDATE))
+                  )A WHERE RECENT = 1)B
+        <![CDATA[
         WHERE ROWNUM <= 5
         ]]>
     </select>
 
+
     <select id="EndFundings" resultMap="SlideFileMap">
         SELECT
             ROWNUM RNUM,
-            A.END_DATE,
-            A.FUNDING_CODE,
-            A.FUNDING_TITLE,
-            A.FUNDING_SUMMARY,
-            A.FILE_MODIFICATION_NAME
-        FROM (
-                 SELECT
-                     F.END_DATE,
-                     F.FUNDING_CODE,
-                     F.FUNDING_TITLE,
-                     F.FUNDING_SUMMARY,
-                     TFF.FILE_MODIFICATION_NAME
-                 FROM TBL_FUNDING F
-                          JOIN TBL_FUNDING_FILE TFF ON F.FUNDING_CODE = TFF.FUNDING_CODE
-                 WHERE  TFF.FILE_TYPE='메인'
-                 ORDER BY (F.END_DATE - TRUNC(SYSDATE))) A
-    <![CDATA[
+            B.END_DATE,
+            B.FUNDING_CODE,
+            B.FUNDING_TITLE,
+            B.FUNDING_SUMMARY,
+            B.FILE_MODIFICATION_NAME
+        FROM
+            (SELECT
+                 A.END_DATE,
+                 A.FUNDING_CODE,
+                 A.FUNDING_TITLE,
+                 A.FUNDING_SUMMARY,
+                 A.FILE_MODIFICATION_NAME
+             FROM (
+                      SELECT
+                          F.END_DATE,
+                          F.FUNDING_CODE,
+                          F.FUNDING_TITLE,
+                          F.FUNDING_SUMMARY,
+                          TFF.FILE_MODIFICATION_NAME,
+                          RANK() OVER (PARTITION BY FSL.FUNDING_CODE ORDER BY FSL.CHANGE_DATE DESC ) AS RECENT
+                      FROM TBL_FUNDING F
+                               JOIN TBL_FUNDING_FILE TFF ON F.FUNDING_CODE = TFF.FUNDING_CODE
+                               JOIN TBL_FUNDING_STATUSLIST FSL ON F.FUNDING_CODE = FSL.FUNDING_CODE
+                               JOIN TBL_FUNDING_STATUS FSS ON FSS.FUNDING_STATUS_CODE = FSL.FUNDING_STATUS_CODE
+                      WHERE  TFF.FILE_TYPE='메인' AND FSS.FUNDING_STATUS_NAME = '승인완료'
+                        <![CDATA[
+                        AND (F.END_DATE - TRUNC(SYSDATE)) < 7
+                        ]]>
+                      ORDER BY (F.END_DATE - TRUNC(SYSDATE))
+            )A WHERE RECENT = 1)B
+        <![CDATA[
         WHERE ROWNUM <= 5
         ]]>
     </select>
@@ -170,14 +229,14 @@
                     TC.CATEGORY_NAME,
                     TFF.FILE_MODIFICATION_NAME,
                     T.FUNDING_STATUS_NAME,
-                    TFS.CHANGE_DATE,
-                    RANK() over (partition by TF.FUNDING_CODE order by CHANGE_DATE desc) RECENT
+                    TFS.CHANGE_DATE
                 FROM TBL_FUNDING TF
                     LEFT JOIN TBL_CATEGORY TC on TF.CATEGORY_CODE = TC.CATEGORY_CODE
                     LEFT JOIN TBL_FUNDING_FILE TFF on TF.FUNDING_CODE = TFF.FUNDING_CODE
                     LEFT JOIN TBL_FUNDING_STATUSLIST TFS on TF.FUNDING_CODE = TFS.FUNDING_CODE
                     LEFT JOIN TBL_FUNDING_STATUS T on TFS.FUNDING_STATUS_CODE = T.FUNDING_STATUS_CODE
                 WHERE TFF.FILE_TYPE = '메인'
+                AND T.FUNDING_STATUS_NAME='승인완료'
                 <if test="cri.searchType != null">
                     AND TC.CATEGORY_NAME = #{cri.searchType}
                 </if>
@@ -193,9 +252,8 @@
                     </otherwise>
                 </choose>
                 ) A
-            WHERE A.RECENT = 1
             <![CDATA[
-                 AND ROWNUM <= #{ cri.rowEnd }
+                 WHERE ROWNUM <= #{ cri.rowEnd }
             ]]>
             AND A.FUNDING_STATUS_NAME='승인완료'
             ) B
@@ -251,14 +309,14 @@
                     TC.CATEGORY_NAME,
                     TFF.FILE_MODIFICATION_NAME,
                     T.FUNDING_STATUS_NAME,
-                    TFS.CHANGE_DATE,
-                    RANK() over (partition by TF.FUNDING_CODE order by CHANGE_DATE desc) RECENT
+                    TFS.CHANGE_DATE
                 FROM TBL_FUNDING TF
                     LEFT JOIN TBL_CATEGORY TC on TF.CATEGORY_CODE = TC.CATEGORY_CODE
                     LEFT JOIN TBL_FUNDING_FILE TFF on TF.FUNDING_CODE = TFF.FUNDING_CODE
                     LEFT JOIN TBL_FUNDING_STATUSLIST TFS on TF.FUNDING_CODE = TFS.FUNDING_CODE
                     LEFT JOIN TBL_FUNDING_STATUS T on TFS.FUNDING_STATUS_CODE = T.FUNDING_STATUS_CODE
                 WHERE TFF.FILE_TYPE = '메인'
+                AND T.FUNDING_STATUS_NAME='펀딩 진행중'
                 <if test="cri.searchType != null">
                     AND TC.CATEGORY_NAME = #{cri.searchType}
                 </if>
@@ -274,11 +332,9 @@
                     </otherwise>
                 </choose>
                 ) A
-            WHERE A.RECENT = 1
             <![CDATA[
-                 AND ROWNUM <= #{ cri.rowEnd }
+                 WHERE ROWNUM <= #{ cri.rowEnd }
             ]]>
-            AND A.FUNDING_STATUS_NAME='펀딩 진행중'
             ) B
         <![CDATA[WHERE B.RNUM >= #{ cri.rowStart }]]>
         ORDER BY 1 ASC
@@ -288,29 +344,13 @@
         <if test="name == 'pre'">
             SELECT
             COUNT(*)
-            FROM(
-            SELECT
-            TF.FUNDING_CODE,
-            TF.FUNDING_TITLE,
-            TF.FUNDING_SUMMARY,
-            TF.APPLICATION_DATE,
-            TF.START_DATE,
-            TF.FUNDING_GOAL_MONEY,
-            TF.END_DATE,
-            TF.LIKES,
-            TF.VIEWS,
-            TC.CATEGORY_CODE,
-            TC.CATEGORY_NAME,
-            TFF.FILE_MODIFICATION_NAME,
-            T.FUNDING_STATUS_NAME,
-            TFS.CHANGE_DATE,
-            RANK() over (partition by TF.FUNDING_CODE order by CHANGE_DATE desc) RECENT
             FROM TBL_FUNDING TF
             LEFT JOIN TBL_CATEGORY TC on TF.CATEGORY_CODE = TC.CATEGORY_CODE
             LEFT JOIN TBL_FUNDING_FILE TFF on TF.FUNDING_CODE = TFF.FUNDING_CODE
             LEFT JOIN TBL_FUNDING_STATUSLIST TFS on TF.FUNDING_CODE = TFS.FUNDING_CODE
             LEFT JOIN TBL_FUNDING_STATUS T on TFS.FUNDING_STATUS_CODE = T.FUNDING_STATUS_CODE
             WHERE TFF.FILE_TYPE = '메인'
+            AND T.FUNDING_STATUS_NAME='승인완료'
             <if test="cri.searchType != null">
                 AND TC.CATEGORY_NAME = #{cri.searchType}
             </if>
@@ -325,39 +365,17 @@
                     ORDER BY TF.START_DATE DESC
                 </otherwise>
             </choose>
-            ) A
-            WHERE A.RECENT = 1
-            <![CDATA[
-                 AND ROWNUM <= #{ cri.rowEnd }
-            ]]>
-            AND A.FUNDING_STATUS_NAME='승인완료'
         </if>
         <if test="name == 'open'">
             SELECT
             COUNT(*)
-            FROM(
-            SELECT
-            TF.FUNDING_CODE,
-            TF.FUNDING_TITLE,
-            TF.FUNDING_SUMMARY,
-            TF.APPLICATION_DATE,
-            TF.START_DATE,
-            TF.FUNDING_GOAL_MONEY,
-            TF.END_DATE,
-            TF.LIKES,
-            TF.VIEWS,
-            TC.CATEGORY_CODE,
-            TC.CATEGORY_NAME,
-            TFF.FILE_MODIFICATION_NAME,
-            T.FUNDING_STATUS_NAME,
-            TFS.CHANGE_DATE,
-            RANK() over (partition by TF.FUNDING_CODE order by CHANGE_DATE desc) RECENT
             FROM TBL_FUNDING TF
             LEFT JOIN TBL_CATEGORY TC on TF.CATEGORY_CODE = TC.CATEGORY_CODE
             LEFT JOIN TBL_FUNDING_FILE TFF on TF.FUNDING_CODE = TFF.FUNDING_CODE
             LEFT JOIN TBL_FUNDING_STATUSLIST TFS on TF.FUNDING_CODE = TFS.FUNDING_CODE
             LEFT JOIN TBL_FUNDING_STATUS T on TFS.FUNDING_STATUS_CODE = T.FUNDING_STATUS_CODE
             WHERE TFF.FILE_TYPE = '메인'
+            AND T.FUNDING_STATUS_NAME='펀딩 진행중'
             <if test="cri.searchType != null">
                 AND TC.CATEGORY_NAME = #{cri.searchType}
             </if>
@@ -372,12 +390,6 @@
                     ORDER BY TF.START_DATE DESC
                 </otherwise>
             </choose>
-            ) A
-            WHERE A.RECENT = 1
-            <![CDATA[
-                 AND ROWNUM <= #{ cri.rowEnd }
-            ]]>
-            AND A.FUNDING_STATUS_NAME='펀딩 진행중'
         </if>
     </select>
 

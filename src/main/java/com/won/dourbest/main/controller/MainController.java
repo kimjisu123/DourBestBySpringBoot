@@ -39,6 +39,7 @@ public class MainController {
         model.addAttribute("openFundings", openFundings);
         model.addAttribute("endFundings", endFundings);
 
+
         return "/main/main";
     }
     @PostMapping("/")

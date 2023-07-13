@@ -21,4 +21,6 @@
         WHERE TC.CATEGORY_KIND = '펀딩'
     </select>
 
+
+
 </mapper>

@@ -58,7 +58,7 @@
                             <a th:href="|@{/mypage/checkMember}|">회원정보 수정</a>
                             <a th:href="|@{/mypage/checkMemberPw}|">비밀번호 변경</a>
                             <a th:href="@{/membership}">회원 등급 변경</a>
-                            <a th:href="|@{/mypage/quitMember}|">탈퇴하기</a>
+                            <a th:href="|@{/mypage/beforequitMember}|">탈퇴하기</a>
                         </div>
                     </div>
                     <div class="side-detail">
@@ -113,7 +113,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="" class="flex-wrapper">
+                            <a th:href="|@{/mypage/myFunding}|" class="flex-wrapper">
                   <span>
                       <svg xmlns="http://www.w3.org/2000/svg" height="2em" viewBox="0 0 640 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg {
                           fill: #f35f4c

@@ -68,9 +68,15 @@ class MainMapperTest {
 
   @Test
   void test3(){
-    List<LikeFundingDTO> funding = mainMapper.preOpenSlide();
-    System.out.println("funding = " + funding);
+//    List<LikeFundingDTO> likeFundingDTOS = mainMapper.ToplikeFundings();
+//    System.out.println("likeFundingDTOS = " + likeFundingDTOS);
+
+
+    List<LikeFundingDTO> likeFundingDTOS = mainService.ToplikeFundings();
+    System.out.println("likeFundingDTOS = " + likeFundingDTOS);
+
   }
+
 
 
 

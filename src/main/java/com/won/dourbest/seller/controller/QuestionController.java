@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -17,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/seller")
+@RequestMapping("/funding/seller")
 public class QuestionController {
 
     private final QuestionService service;
@@ -27,12 +28,13 @@ public class QuestionController {
         this.service = service;
     }
 
-    @GetMapping("/question")
+    @GetMapping("/question/{fundingCode}")
     public ModelAndView question(ModelAndView mv, @RequestParam(required = false) String searchTitle
-                                       , @RequestParam ( value="currentPage", defaultValue = "1") int pagNo) {
+                                       , @RequestParam ( value="currentPage", defaultValue = "1") int pagNo , @PathVariable int fundingCode) {
 
         Map<String, String> searchMap = new HashMap<>();
         searchMap.put("searchTitle", searchTitle);
+        mv.addObject("fundingCode", fundingCode);
 
         int totalCount = service.selectTotalCount(searchMap);
 

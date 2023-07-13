@@ -24,6 +24,9 @@ public class FundingServiceImpl implements FundingService{
     public Map<String, Object> fundingPage(int code) {
         Map<String, Object> map = new HashMap<>();
 
+        // 조회수 올리기
+        int view = fundingMapper.upViews(code);
+
         int status = fundingMapper.selectStatus(code);
         map.put("status", status);
         // 펀딩 정보 불러오기

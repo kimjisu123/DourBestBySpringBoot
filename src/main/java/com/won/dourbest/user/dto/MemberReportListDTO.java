@@ -16,7 +16,12 @@ public class MemberReportListDTO {
     private int rowNum;
     private Integer responseCode;
     private String fundingTitle;
+    private String reportContent;
     private Date reportDate;
     private String categoryName;
     private String answerStatus;
+    private String reportAnswer;
+    private Date reportAnswerDate;
+    private int fundingCode;
+    private int memberCode;
 }

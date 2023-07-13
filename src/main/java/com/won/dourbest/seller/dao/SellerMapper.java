@@ -11,7 +11,7 @@ public interface SellerMapper {
     Integer selectMemberCode(MemberDTO member);
     int insertSeller(SellerDTO seller);
 
-    FundingOptionDTO selectProductName( );
+    FundingOptionDTO selectProductName(int optionCode);
 
     MemberDTO selectMember(String memberId);
 
@@ -51,4 +51,23 @@ public interface SellerMapper {
     int insertOrder(OrderDTO order);
 
     CouponListDTO selectCouponCode(Integer memberCode);
+
+
+    int insertPayment(PaymentDTO payment);
+
+    int insertFundingCreditList(int paymentCode);
+
+    int selectDeliveryPrice(int paymentCode);
+
+    int insertDelivery(SellerDeliveryDTO delivery);
+
+    int insertDeliveryList(int deliveryCode);
+
+    ProductDTO selectCoupon(String choiceCoupon);
+
+    int updateCoupon(int memberCode);
+
+    int selectUseCoupon(int memberCode);
+
+    int updatePoint(int usePoint, int memberCode);
 }

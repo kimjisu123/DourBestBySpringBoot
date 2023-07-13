@@ -20,6 +20,16 @@
           ,  TO_CHAR(B.CREATION_DATE, 'YYYY/MM/DD') AS CREATION_DATE
           FROM TBL_REVIEW B
           JOIN TBL_MEMBER A ON (B.MEMBER_CODE = A.MEMBER_CODE)
+
+        ORDER BY CREATION_DATE DESC
+        OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
+    </select>
+
+    <select id="selectSearch">
+        SELECT
+            COUNT(*)
+        FROM TBL_REVIEW A
+
     </select>
 
 </mapper>

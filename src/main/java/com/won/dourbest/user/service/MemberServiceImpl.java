@@ -1,7 +1,7 @@
 package com.won.dourbest.user.service;
 
 import com.won.dourbest.common.exception.user.EmailNotFoundException;
-import com.won.dourbest.user.dao.MemberMapper;
+import com.won.dourbest.user.dao.*;
 import com.won.dourbest.user.dto.*;
 import com.won.dourbest.user.event.RegistEvent;
 import lombok.RequiredArgsConstructor;
@@ -70,7 +70,6 @@ public class MemberServiceImpl implements MemberService {
     }
 
 
-
     @Override
     public Optional<MemberDTO> findUser(String userId) {
 
@@ -132,10 +131,10 @@ public class MemberServiceImpl implements MemberService {
 
     public int quitMember(String memberId){
 
-        int result = mapper.deleteMember(memberId);
+        return mapper.deleteMember(memberId);
 
-        return result;
+        }
+
+
     }
 
-
-}

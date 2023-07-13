@@ -25,7 +25,8 @@ class MypageServiceImpleTest {
     }
 
     @Test
-    void allCoupon() {
+    void test() {
+
     }
 
     @Test

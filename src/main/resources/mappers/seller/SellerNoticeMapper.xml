@@ -23,6 +23,16 @@
           JOIN TBL_SELLER D on (C.SELLER_CODE = D.SELLER_CODE)
           JOIN TBL_MEMBER E ON (E.MEMBER_CODE = D.MEMBER_CODE)
 
+        ORDER BY NOTICE_DATE DESC
+        OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY
+
+    </select>
+
+    <select id="selectSearch">
+        SELECT
+            COUNT(*)
+        FROM TBL_FUNDING_NOTICE
+
     </select>
 
 </mapper>
