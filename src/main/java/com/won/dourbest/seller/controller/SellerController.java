@@ -72,6 +72,12 @@ public class SellerController {
         return "seller/giwon_seller/seller_success";
     }
 
+    @PostMapping("/success")
+    public String success1() {
+
+        return "seller/giwon_seller/seller_success";
+    }
+
     @GetMapping("/fail")
     public String fail() {
 
