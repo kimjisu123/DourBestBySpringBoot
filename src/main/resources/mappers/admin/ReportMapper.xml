@@ -105,9 +105,15 @@
     <select id="selectTotalPage">
         SELECT
         count(*)
-        FROM    TBL_MEMBER A
+        FROM    TBL_FUNDING_REPORT A
+        JOIN    TBL_FUNDING B ON (A.FUNDING_CODE = B.FUNDING_CODE)
+        JOIN    TBL_SELLER  C ON (B.SELLER_CODE = C.SELLER_CODE)
+        JOIN    TBL_MEMBER D ON (C.MEMBER_CODE = D.MEMBER_CODE)
+        JOIN    TBL_FUNDING_REPORT E ON (E.REPORT_CODE = A.REPORT_CODE)
+        JOIN    TBL_REPORT_RESPONSE F ON (E.REPORT_CODE = F.REPORT_CODE)
+        WHERE   E.REPORT_RESP_STATUS = 'Y'
         <if test="searchValue != null and searchValue != ''">
-            WHERE   MEMBER_ID = #{ searchValue }
+            WHERE   D.MEMBER_ID = #{ searchValue }
         </if>
     </select>
 

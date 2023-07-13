@@ -169,7 +169,7 @@ public class FundController {
         searchMap.put("searchValue", searchValue);
 
         // 조건이 있을시에 보여지는 페이지의 갯수
-        int totalPage = fundingListService.selectTotalPage(searchMap);
+        int totalPage = fundingListService.selectOngoingTotalPage(searchMap);
 
         // 한 페이지에 보여줄 게시물 수
         int limit = 8;

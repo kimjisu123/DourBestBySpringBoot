@@ -233,6 +233,14 @@
         WHERE   MEMBER_CODE = #{memberCode}
     </update>
 
+    <select id="selectTotalPage">
+        SELECT
+        count(*)
+        FROM    TBL_MEMBER A
+        <if test="searchValue != null and searchValue != ''">
+            WHERE   MEMBER_ID = #{ searchValue }
+        </if>
+    </select>
 
     <!-- 신청한 펀딩 페이징처리 -->
     <select id="selectOngoingTotalPage">
