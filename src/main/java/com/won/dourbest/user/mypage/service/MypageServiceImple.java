@@ -34,6 +34,12 @@ public class MypageServiceImple implements MypageService{
     }
 
     @Override
+    public MypageMainDTO info(String userId) {
+        return mypageMapper.findById(userId);
+    }
+
+
+    @Override
     public List<MemberCouponList> allCoupon(SearchCriteria searchCriteria, String userId) {
         return mypageMapper.findByCoupon(searchCriteria, userId);
     }

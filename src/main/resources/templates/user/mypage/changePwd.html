@@ -27,8 +27,8 @@
                 </div>
                 <div class="profile-info">
                             <span>
-                                <strong><h3></h3> </strong>
-                                님
+                                <strong> 아이디 </strong>
+                                <p th:text="${info.memberId}"></p>
                             </span>
                     <p>환영합니다.</p>
                 </div>
@@ -36,15 +36,15 @@
             <div class="profile-desc flex-wrapper">
                 <a href="" class="profile-detail">
                     <h3>등급</h3>
-                    <p>VIP</p>
+                    <p th:text="${info.getMembershipName()}">VIP</p>
                 </a>
-                <a href="" class="profile-detail">
+                <a th:href="|@{mypage/point}|" class="profile-detail">
                     <h3>적립금</h3>
-                    <p>100</p>
+                    <p th:text="${info.getPointTotalAmount()}">100</p>
                 </a>
-                <a href="" class="profile-detail">
+                <a th:href="|@{/mypage/coupon}|" class="profile-detail">
                     <h3>쿠폰</h3>
-                    <p>1</p>
+                    <p th:text="${info.getCouponCount()}">1</p>
                 </a>
             </div>
         </div>
@@ -59,26 +59,24 @@
                             <a th:href="|@{/mypage/checkMember}|">회원정보 수정</a>
                             <a th:href="|@{/mypage/checkMemberPw}|">비밀번호 변경</a>
                             <a th:href="@{/membership}">회원 등급 변경</a>
-                            <a th:href="|@{/mypage/quitMember}|">탈퇴하기</a>
+                            <a th:href="|@{/mypage/beforequitMember}|">탈퇴하기</a>
                         </div>
                     </div>
                     <div class="side-detail">
                         <h2>나의 활동</h2>
                         <div>
-                            <a href="">후기내역 조회</a>
-                            <a href="">환불내역 조회</a>
-                            <a href="">해시태그 수정</a>
+                            <a th:href="@{/mypage/review}">후기내역 조회</a>
                         </div>
                     </div>
                     <div class="side-detail">
                         <h2>주문 배송</h2>
                         <div>
-                            <a href="">주문 조회</a>
+                            <a th:href="|@{mypage/purchase-funding}|">배송 조회</a>
                         </div>
                     </div>
                     <div>
                         <div class="sidebar-logout">
-                            <a href="">로그아웃</a>
+                            <a th:href="@{user/logout}">로그아웃</a>
                         </div>
                     </div>
                 </div>
