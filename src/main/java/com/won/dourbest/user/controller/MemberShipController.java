@@ -68,6 +68,7 @@ public class MemberShipController {
     public ResponseEntity<CommonResponse> memberShipUpdate(@RequestBody MemberShipCreditDTO memberShipCredit){
 
         log.info("memberShipCredit={}", memberShipCredit);
+        System.out.println("memberShipCredit = " + memberShipCredit);
         Optional<MemberShipCreditDTO> result = memberShipService.memberShipChange(memberShipCredit);
 
         if(result.isEmpty()) throw new CreditException("결제정보 저장오류");

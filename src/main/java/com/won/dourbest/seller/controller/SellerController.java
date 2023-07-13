@@ -51,7 +51,7 @@ public class SellerController {
         String phone = request.getParameter("phone");
         String email = request.getParameter("email");
         String license = request.getParameter("license");
-//        String newPhone = phone.replace("-", "");
+        String newPhone = phone.replace("-", "");
         System.out.println("license : " + license);
         System.out.println(id);
         System.out.println(name);
@@ -60,7 +60,7 @@ public class SellerController {
 
         member.setMemberId(id);
         member.setMemberName(name);
-        member.setMemberPhone(phone);
+        member.setMemberPhone(newPhone);
         member.setMemberEmail(email);
         seller.setBusinessLicense(license);
 
@@ -105,7 +105,6 @@ public class SellerController {
         // 주문자 정보 조회
         MemberDTO member = service.selectMember(id.getMemberId());
 
-
         model.addAttribute("member", member);
 
         // 배송지 조회
@@ -133,8 +132,6 @@ public class SellerController {
         System.out.println("memberId : " + id);
 
         // 최종 결제 금액
-
-
 
 
         return "seller/giwon_seller/payment_page";
