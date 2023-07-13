@@ -11,6 +11,7 @@ import java.util.Map;
 public interface MypageService {
 
     public Map<String,Object> myPageinfo(String userId);
+    public MypageMainDTO info(String userId);
 
     public List<MemberCouponList> allCoupon(SearchCriteria searchCriteria, String userId);
 

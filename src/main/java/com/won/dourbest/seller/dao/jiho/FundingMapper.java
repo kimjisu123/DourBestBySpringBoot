@@ -54,6 +54,8 @@ public interface FundingMapper {
 
     String email(int code);
 
+    int upViews(int code);
+
 
 //    int findCode(String name);
 }

@@ -228,7 +228,11 @@ public class MypageController {
     @GetMapping("checkMember")
     public String checkmember(@AuthenticationPrincipal MemberImpl user, Model model) {
 
-        model.addAttribute("user", user);
+        MypageMainDTO info = mypageService.info(user.getUsername());
+
+        model.addAttribute( "user", user.getUsername());
+        model.addAttribute( "info", info);
+
 
         return "/user/mypage/checkMember";
 
@@ -237,20 +241,25 @@ public class MypageController {
     // 비밀번호 변경 전 재로그인 페이지 이동
     @GetMapping("checkMemberPw")
     public String checkmemberPw(@AuthenticationPrincipal MemberImpl user, Model model) {
+        MypageMainDTO info = mypageService.info(user.getUsername());
 
-        model.addAttribute("user", user);
+        model.addAttribute("user", user.getUsername());
+        model.addAttribute( "info", info);
+
 
         return "/user/mypage/checkMemberPw";
 
     }
 
     @GetMapping("changeInfo")
-    public String changeInfo(@AuthenticationPrincipal MemberImpl member, Model model) {
+    public String changeInfo(@AuthenticationPrincipal MemberImpl user, Model model) {
 
-        MemberDTO mypageInfo = memberService.findUser(member.getMemberId()).orElseThrow();
+        MypageMainDTO info = mypageService.info(user.getUsername());
+        MemberDTO mypageInfo = memberService.findUser(user.getMemberId()).orElseThrow();
 
-        model.addAttribute("mypageInfo", mypageInfo);  //멤버 배송지 모두 담겨있음.
-        model.addAttribute("member", member);
+        model.addAttribute("user", user.getUsername());
+        model.addAttribute( "info", info);
+        model.addAttribute( "mypageInfo", mypageInfo);
 
         return "user/mypage/changeInfo";
 
@@ -281,7 +290,11 @@ public class MypageController {
     @GetMapping("beforequitMember")
     public String checkmemberDelete(@AuthenticationPrincipal MemberImpl user, Model model) {
 
+
+        MypageMainDTO info = mypageService.info(user.getUsername());
+
         model.addAttribute("user", user);
+        model.addAttribute("info", info);
 
 
         return "/user/mypage/checkMemberDelete";
@@ -292,6 +305,10 @@ public class MypageController {
     @GetMapping("/quitMember")    //이동할 페이지
     public String quitMember(@AuthenticationPrincipal MemberImpl user, Model model) {
 
+        MypageMainDTO info = mypageService.info(user.getUsername());
+
+        model.addAttribute("user", user);
+        model.addAttribute("info", info);
         System.out.println("user = " + user);
         MemberDTO mypageInfo = memberService.findUser(user.getMemberId()).orElseThrow();
         model.addAttribute("mypageInfo", mypageInfo);  //멤버 배송지 모두 담겨있음.
@@ -336,7 +353,12 @@ public class MypageController {
     }
 
     @GetMapping("/changePwd")    //이동할 페이지
-    public String changePwd(){
+    public String changePwd(@AuthenticationPrincipal MemberImpl user, Model model){
+
+        MypageMainDTO info = mypageService.info(user.getUsername());
+
+        model.addAttribute("user", user.getUsername());
+        model.addAttribute( "info", info);
 
         return "user/mypage/changePwd";
     }

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html th:replace="~{/layouts/base :: layout(~{::main}, ~{::link}, ~{::script})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link rel="stylesheet" th:href="@{/css/seller/giwon_seller/noticeWriting}">
+
+</head>
+<main>
+  <div class="main-container">
+    <div class="question-writing">
+      <h1 class="text1">공지사항</h1>
+    </div>
+
+    <div >
+      <div class="writing">
+        <textarea class="text2" id="writing-title" placeholder="제목을 입력해주세요" maxlength="1000"></textarea>
+        <select class="select-box">
+          <option disabled="disabled" selected="select-box">요청사항을 선택해주세요</option>
+
+        </select>
+        <textarea class="text2" id="writing-text" placeholder="내용을 입력해주세요" maxlength="1000" ></textarea>
+      </div>
+      <div class="text3">문의하신 내용에 대한 답변은 해당 상품의 상세페이지 또는 <span>'상품Q&A'</span>에서 확인하실수 있습니다.</div>
+
+      <div class="regist">
+        <button class="regist-button" onclick="location.href='/seller/writing'">등록
+        </button>
+      </div>
+    </div>
+
+
+
+
+  </div>
+
+</main>
+
+<script>
+
+  $(".regist-button").click(function() {
+    const title = $("#writing-title").val();
+    const text = $("#writing-text").val();
+    const selectBox = $(".select-box").val()
+
+    $.ajax({
+      url: "/noticeWriting/writing",
+      type : "post",
+      data : { title : title , text : text , selectBox : selectBox},
+      success : function(data) {
+        alert("등록 완료")
+      },
+      error : function (error) {
+        alert(error);
+      }
+    });
+  });
+
+</script>
+
+<script>
+
+</script>
+
+</html>

@@ -52,7 +52,7 @@
                     </div>
                     <div class="button-panel">
 
-                        <a class="button" href="/seller/success">판매자 신청</a>
+                        <a class="button" >판매자 신청</a>
                     </div>
                 </div>
         </form>
@@ -74,10 +74,10 @@
             type : "post",
             data : {id : id , name : name ,phone : phone , email : email , license : license},
             success : function(data) {
-
+                location.href="/seller/success"
             },
             error : function (error) {
-                alert(error);
+                alert("회원정보를 다시입력해주세요.");
             }
         });
     });

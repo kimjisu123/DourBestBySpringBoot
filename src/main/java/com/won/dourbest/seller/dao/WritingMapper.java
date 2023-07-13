@@ -6,4 +6,6 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface WritingMapper {
     int registWriting(QuestionDTO question);
+
+    int registNoticeWriting(QuestionDTO question);
 }

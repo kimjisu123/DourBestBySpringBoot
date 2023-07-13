@@ -16,7 +16,7 @@
         <div class="main-container5">
           <div class="final-payment text1">최종 결제금액</div>
           <ul>
-            <li class="text2 final-detaile">상품가격 : <p id="product-price"  ></p></li>
+            <li class="text2 final-detaile">상품가격 : <p id="product-price" th:text="${ product.getOptionPrice() }" ></p></li>
             <li class="text2 final-detaile">쿠폰할인 : <p id="useCoupon"></p></li>
             <li class="text2 final-detaile">포인트사용 : <p id="usePoint"></p></li>
             <li class="text2 final-detaile">배송비 : <p class="delivery" th:text="${delivery.getDeliveryCharge()}"></p></li>
@@ -29,10 +29,10 @@
         <div class="main-container">
           <div class="payment-text">
             <div class="payment-tetails text1">주문 상품 정보 </div>
-            <div class="product-img"><img src="/images/seller/adminlogo.png" alt=""></div>
+<!--            <div class="product-img"><img src="/images/seller/adminlogo.png" alt=""></div>-->
           </div>
-          <input type="hidden" name="optionCode" id="optionCode" th:value="${ 112 }">
-          <div class="product-name text2"><p id="product-name"></p></div>
+          <input type="hidden" name="optionCode" id="optionCode" th:value="${ optionCode }">
+          <div class="product-name text2"><p id="product-name" th:text="${ product.getOptionName() }"></p></div>
         </div>
 
         <div class="main-container6">
@@ -50,23 +50,23 @@
             <select >
               fo
               <option disabled="disabled" selected="select-box" id="bank">카드를 선택해주세요</option>
-              <option value="1">국민</option>
-              <option value="2">비씨</option>
-              <option value="3">신한</option>
-              <option value="4">현대</option>
-              <option value="5">삼성</option>
-              <option value="6">롯데</option>
-              <option value="7">외환</option>
-              <option value="8">NH</option>
-              <option value="9">하나</option>
-              <option value="10">우리</option>
-              <option value="11">광주</option>
-              <option value="12">수협</option>
-              <option value="13">씨티</option>
-              <option value="14">전북</option>
-              <option value="15">제주</option>
-              <option value="16">카카오뱅크</option>
-              <option value="17">케이뱅크</option>
+              <option name="bank" value="1">국민</option>
+              <option name="bank" value="2">비씨</option>
+              <option name="bank" value="3">신한</option>
+              <option name="bank" value="4">현대</option>
+              <option name="bank" value="5">삼성</option>
+              <option name="bank" value="6">롯데</option>
+              <option name="bank" value="7">외환</option>
+              <option name="bank" value="8">NH</option>
+              <option name="bank" value="9">하나</option>
+              <option name="bank" value="10">우리</option>
+              <option name="bank" value="11">광주</option>
+              <option name="bank" value="12">수협</option>
+              <option name="bank" value="13">씨티</option>
+              <option name="bank" value="14">전북</option>
+              <option name="bank" value="15">제주</option>
+              <option name="bank" value="16">카카오뱅크</option>
+              <option name="bank" value="17">케이뱅크</option>
             </select>
           </div>
 
@@ -128,7 +128,7 @@
             </div>
             <div class="hold-point text3">보유 포인트 : <p id="pointAmount" th:text="${ pointAmount.getPointTotalAmount() }"></p> </div>
               <textarea class="point-application" id="use-point" placeholder="사용할 포인트를 입력해주세요." maxlength="10" ></textarea>
-            <div class="hold-point2">5,000 포인트 이상 보유 및 10,000원 이상 구매시 사용 가능</div>
+
           </div>
         </div>
 
@@ -192,7 +192,7 @@ $("#send").click(function(){
 <script>
   $(".buttonPoint").click(function(){
     const productPrice = $("#product-price").text();
-
+    const havePoint = $("#pointAmount").text();
     const usePoint = $("#use-point").val();
     const useCoupon = $("#useCoupon").text();
     const delivery = parseFloat($(".delivery").text());
@@ -206,7 +206,7 @@ $("#send").click(function(){
 
       },
       error : function(error) {
-
+        alert("포인트가 부족합니다.")
       }
     })
   })
@@ -306,19 +306,19 @@ $("#send").click(function(){
 </script>
 
 <script>
-  const optionCode = $("#optionCode").val();
-  $.ajax({
-    url: "/seller/option",
-    type: "post",
-    data: {optionCode : optionCode},
-    success : function(data) {
-      $("#product-price").text(data.optionPrice)
-      $("#product-name").text(data.optionName)
-    },
-    error : function(error) {
-
-    }
-  })
+  // const optionCode = $("#optionCode").val();
+  // $.ajax({
+  //   url: "/seller/option",
+  //   type: "post",
+  //   data: {optionCode : optionCode},
+  //   success : function(data) {
+  //     $("#product-price").text(data.optionPrice)
+  //     $("#product-name").text(data.optionName)
+  //   },
+  //   error : function(error) {
+  //
+  //   }
+  // })
 </script>
 
 <script th:inline="javascript">
@@ -333,7 +333,7 @@ $("#send").click(function(){
       pay_method: "card",
       merchant_uid: "merchant_" + new Date().getTime(),
       name: $("#product-name").text(),
-      amount: $("#product-price").text(),
+      amount: $("#totalPrice").text(),
       buyer_email: $("#memberEmail").text(),
       buyer_name: $("#memberName").text(),
       buyer_tel: $("#memberPhone").text(),
@@ -364,7 +364,7 @@ $("#send").click(function(){
             const bank = $("#bank");
             const bankName = bank.val();
             const bankNum = 135135;
-            const orderCode = data;
+            const orderCode = data.orderCode;
 
             const payment = {
               bankName : bankName,
@@ -378,6 +378,40 @@ $("#send").click(function(){
                 data: JSON.stringify(payment),
                 contentType: "application/json",
                 success: function(data){
+                  const paymentCode = data.paymentCode;
+
+                  $.ajax({
+                    url:"/seller/creditList",
+                    method:"POST",
+                    data: { paymentCode : paymentCode },
+                    success: function (data){
+                      const fundingCode = data;
+                      const disCount = $("#useCoupon").text();
+                      const usePoint = $("#usePoint").text();
+
+                      let result = {
+                        fundingCode : fundingCode,
+                        disCount : disCount,
+                        usePoint : usePoint,
+                      }
+
+                      $.ajax({
+                        url:"/seller/disCount",
+                        method:"POST",
+                        data: JSON.stringify(result),
+                        contentType:"application/json",
+                        success: function (){
+                          location.href='/seller/fail'
+                        },
+                        error: function (){
+
+                        }
+                      })
+                    },
+                    error: function (error){
+
+                    }
+                  })
 
                 },
                 error : function(error) {

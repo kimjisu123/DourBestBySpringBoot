@@ -3,11 +3,11 @@ package com.won.dourbest.seller.service;
 import com.won.dourbest.seller.dao.SellerMapper;
 import com.won.dourbest.seller.dto.*;
 import com.won.dourbest.user.dto.*;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class SellerServiceImpl implements SellerService {
@@ -36,15 +36,20 @@ public class SellerServiceImpl implements SellerService {
             System.out.println("신청 성공");
         } else if (memberCode == null) {
             System.out.println("판매자 신청 실패");
+            throw new RuntimeException();
+
         }
+
+
+
 
         return memberCode;
     }
 
     @Override
-    public FundingOptionDTO selectProductName() {
+    public FundingOptionDTO selectProductName(int optionCode) {
 
-        FundingOptionDTO productName = mapper.selectProductName();
+        FundingOptionDTO productName = mapper.selectProductName(optionCode);
 
 
         return productName;
@@ -95,27 +100,36 @@ public class SellerServiceImpl implements SellerService {
 
     @Override
     public ProductDTO registCoupon(String choiceCoupon, int optionCode) {
-        int result = 0;
-        int totalPrice = 0;
+//        int result = 0;
+//        int totalPrice = 0;
+//        ProductDTO productPrice = mapper.selectProduct(optionCode);
+//        for (int i = 0; i < choiceCoupon.length(); i++) {
+//            if (choiceCoupon.equals("10%할인")) {
+//                result = (int)(productPrice.getOptionPrice()*0.1);
+//                totalPrice = productPrice.getOptionPrice() - result;
+//            } else if(choiceCoupon.equals("5%할인")) {
+//                result = (int)(productPrice.getOptionPrice()*0.05);
+//                totalPrice = productPrice.getOptionPrice() - result;
+//            } else if(choiceCoupon.equals("무료배송")) {
+//                result = mapper.deleteDelivery();
+//                if (result == 1) {
+//                    totalPrice = productPrice.getOptionPrice();
+//                }
+//            }
+//        }
+//        productPrice.setDisCount(result);
+//        productPrice.setPointTotalAmount(totalPrice);
+//        productPrice.setDisCount(result);
         ProductDTO productPrice = mapper.selectProduct(optionCode);
-        for (int i = 0; i < choiceCoupon.length(); i++) {
-            if (choiceCoupon.equals("10%할인")) {
-                result = (int)(productPrice.getOptionPrice()*0.1);
-                totalPrice = productPrice.getOptionPrice() - result;
-            } else if(choiceCoupon.equals("5%할인")) {
-                result = (int)(productPrice.getOptionPrice()*0.05);
-                totalPrice = productPrice.getOptionPrice() - result;
-            } else if(choiceCoupon.equals("무료배송")) {
-                result = mapper.deleteDelivery();
-                if (result == 1) {
-                    totalPrice = productPrice.getOptionPrice();
-                }
-            }
-        }
-        productPrice.setDisCount(result);
-        productPrice.setPointTotalAmount(totalPrice);
-        productPrice.setDisCount(result);
 
+        ProductDTO disCount = mapper.selectCoupon(choiceCoupon);
+
+        int result = productPrice.getOptionPrice()*(disCount.getCouponDisCount())/100;
+        int total = productPrice.getOptionPrice() - result;
+        productPrice.setCouponDisCount(result);
+        productPrice.setPointTotalAmount(total);
+
+        System.out.println("result : " + result);
 
         return productPrice;
     }
@@ -135,7 +149,10 @@ public class SellerServiceImpl implements SellerService {
         
         
         ProductDTO point = mapper.selectPoint(id);
+
         System.out.println("point.getPoint() = " + point.getPointTotalAmount());
+
+
 
         return point;
 
@@ -169,11 +186,9 @@ public class SellerServiceImpl implements SellerService {
         
         
         int result = mapper.insertOrder(order);
-        int orderCode = order.getOrderCode();
-
-        System.out.println("orderCode = " + orderCode);
+        System.out.println("order = " + order);
         // 오더코드
-
+        int orderCode = order.getOrderCode();
 
         if(result >= 1) {
             System.out.println("주문 등록 성공");
@@ -184,7 +199,116 @@ public class SellerServiceImpl implements SellerService {
 
 
 
+
         return order;
+    }
+
+    @Override
+    public PaymentDTO insertPayment(PaymentDTO payment) {
+
+        Random random = new Random();
+
+        int credit = mapper.insertPayment(payment);
+
+        if (credit >= 1) {
+            System.out.println("결제 등록 성공");
+        } else {
+            System.out.println("결제 등록 실패");
+        }
+
+        System.out.println("paymentCode = " + payment.getPaymentCode());
+
+        long num = (long) (Math.random() * 999999999999L + 100000000000L);
+        // 운송장 번호 랜덤으로 만듬
+//        List<Integer> deliveryNumber = new ArrayList<>();
+//        for (int i = 1; i <= 12; i++) {
+//            deliveryNumber.add( random.nextInt(9) + 1);
+//
+//        }
+//        System.out.println(deliveryNumber);
+//
+//        String num = "";
+//
+//        for(int j = 0; j < deliveryNumber.size(); j++) {
+//            num += deliveryNumber.get(j);
+//        }
+        // 운송장 번호
+        System.out.println(num);
+
+
+
+        SellerDeliveryDTO delivery = new SellerDeliveryDTO();
+        delivery.setDeliveryNumber(num);
+        delivery.setPaymentCode(payment.getPaymentCode());
+
+        int result = mapper.insertDelivery(delivery);
+
+        if (result >= 1 ){
+            System.out.println("배송등록 성공");
+        } else {
+            System.out.println("배송등록 실패");
+        }
+
+        System.out.println(delivery.getDeliveryCode());
+
+        int deliveryLIst = mapper.insertDeliveryList(delivery.getDeliveryCode());
+
+        if (deliveryLIst >= 1) {
+            System.out.println("배송리스트 등록 성공");
+        } else {
+            System.out.println("배송리스트 등록 실패");
+        }
+
+        return payment;
+    }
+
+    @Override
+    @Transactional
+    public int insertFundingCreditList(int paymentCode) {
+
+        int fundingCredit = mapper.insertFundingCreditList(paymentCode);
+
+        if (fundingCredit >= 1) {
+            System.out.println("펀딩 결제 내역 등록 성공");
+        } else {
+            System.out.println("펀팅 결제 내역 등록 실패");
+        }
+
+
+        return paymentCode;
+    }
+
+    @Override
+    @Transactional
+    public int updateCoupon(DisCountDTO dc, int memberCode) {
+
+        // 쿠폰 사용 업데이트
+        int couponCode = mapper.updateCoupon(memberCode);
+
+        if (couponCode >= 1) {
+            System.out.println("쿠폰 사용처리 성공");
+        } else {
+            System.out.println("쿠폰 사용처리 실패");
+        }
+        // 포인트 사용
+
+        int point = mapper.updatePoint(dc.getUsePoint(),memberCode);
+
+        return 0;
+    }
+
+    @Override
+    public ProductDTO selectUserPoint(String memberId, int usePoint) {
+
+        ProductDTO point = mapper.selectPoint(memberId);
+
+        if (point.getPointTotalAmount() < usePoint) {
+           throw new RuntimeException();
+        }
+
+        System.out.println("point.getPoint() = " + point.getPointTotalAmount());
+
+        return null;
     }
 
 
