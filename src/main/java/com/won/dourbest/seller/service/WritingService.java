@@ -4,4 +4,6 @@ import com.won.dourbest.seller.dto.QuestionDTO;
 
 public interface WritingService {
     int registWriting(QuestionDTO question);
+
+    void registNoticeWriting(QuestionDTO question);
 }

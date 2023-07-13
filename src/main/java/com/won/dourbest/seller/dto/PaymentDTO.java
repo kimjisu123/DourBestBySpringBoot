@@ -10,7 +10,8 @@ import lombok.*;
 public class PaymentDTO {
 
     private String bankName;
-    private String totalPrice;
-    private String bankNum;
-    private String orderCode;
+    private int totalPrice;
+    private int bankNum;
+    private int orderCode;
+    private int paymentCode;
 }

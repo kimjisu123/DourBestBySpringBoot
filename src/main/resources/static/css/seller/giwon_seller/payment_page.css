@@ -55,8 +55,8 @@
 
 .product-name {
     position: relative;
-    left: 347px;
-    bottom: 133px;
+    left: 67px;
+    bottom: -108px;
     font-size: 1.0em;
 }
 
@@ -408,7 +408,7 @@ select::-ms-expand {
 .point-application {
     position: relative;
     left: 23px;
-    top: -121px;
+    top: -145px;
 }
 
 .button-interval {
