@@ -34,7 +34,7 @@ public class FundingController {
 
         int status = (int) map.get("status");
 
-        if(status == 0) {
+        if(status == 1) {
             return "seller/funding/notOpenFunding";
         }
 
