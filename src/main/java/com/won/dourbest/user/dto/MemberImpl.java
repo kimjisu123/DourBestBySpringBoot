@@ -24,10 +24,14 @@ public class MemberImpl extends User {
     private MemberShipDTO membership;  //멤버쉽
 
     private List<MemberAuthListDTO> memberRoleList; // 권한
+
+    public MemberImpl(String username, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
+        super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
+    }
+
     public MemberImpl(String username, String password, Collection<? extends GrantedAuthority> authorities) {
         super(username, password, authorities);
     }
-
     public void setDetail(MemberDTO member){
         this.memberCode = member.getMemberCode();
         this.memberId = member.getMemberId();

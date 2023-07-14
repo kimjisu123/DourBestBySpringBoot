@@ -1,5 +1,6 @@
 package com.won.dourbest.user.service;
 
+import com.won.dourbest.common.exception.member.MemberRemoveException;
 import com.won.dourbest.common.exception.user.EmailNotFoundException;
 import com.won.dourbest.user.dao.*;
 import com.won.dourbest.user.dto.*;
@@ -87,7 +88,17 @@ public class MemberServiceImpl implements MemberService {
         List<GrantedAuthority> authorities = new ArrayList<>();
 
         memberAuthList.forEach(list -> authorities.add(new SimpleGrantedAuthority(list.getMemberAuth().getMemberAuthName())));
-        MemberImpl user = new MemberImpl(member.getMemberId(),member.getMemberPwd(),authorities);
+
+        MemberImpl user = new MemberImpl(
+                member.getMemberId(),
+                member.getMemberPwd(),
+                member.getWithdrawalStatus() != 'Y',
+                true,
+                member.getWithdrawalStatus() != 'Y',
+                member.getWithdrawalStatus() != 'Y',
+                authorities
+        );
+
 
         user.setDetail(member);
         log.info("member={}", user.getPassword());
@@ -127,12 +138,17 @@ public class MemberServiceImpl implements MemberService {
         }
     }
 
+    @Transactional
+    @Override
     public int quitMember(String memberId){
+
+        int ingFunding = mapper.findIngFunding(memberId);
+
+        if(ingFunding > 0) throw new MemberRemoveException("회원탈퇴가 불가능합니다");
 
         return mapper.deleteMember(memberId);
 
         }
-
 
     }
 

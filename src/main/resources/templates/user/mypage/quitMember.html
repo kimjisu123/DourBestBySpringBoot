@@ -134,11 +134,10 @@
                         <h1>상기 탈퇴시 유의사항을 확인하였습니다.</h1>
                     </div>
                     <div class="button2">
-                            <form action="/mypage/quitMember" method="post" onsubmit="return">
-                            <button class="withdrawButton"  type="button" id="button2">
-                                    <span>
-                                        탈퇴하기
-                                    </span>
+                            <form action="/mypage/quitMember" method="post" >
+                            <input type="hidden" name="memberId" th:value="${info.memberId}">
+                            <button class="withdrawButton"  type="submit" id="button2">
+                                탈퇴하기
                             </button>
                         </form>
                     </div>
@@ -147,28 +146,20 @@
         </div>
     </main>
     <script th:src="@{/js/user/member/check.js}"></script>
-    <script>
+    <script th:inline="javascript">
         $(document).ready(function(){
             $('#button2').click(function() {
 
                 if(!delectCheck.checked){
-
                     alert("동의에 체크를 해주세요.")
 
                 } else{
+                    const result = confirm('정말로 탈퇴하시겠습니까?');
 
-                    var result = confirm('정말로 탈퇴하시겠습니까?');
-
-                    if(result) {
-                        //yes
-                        location.replace('/mypage/quitMemberS');
-
-                    } else {
-                        //no
+                    if(!result) {
                         location.replace('/mypage/');
                     }
                 }
-
             });
         });
     </script>

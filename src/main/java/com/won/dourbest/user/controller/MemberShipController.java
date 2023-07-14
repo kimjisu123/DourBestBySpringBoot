@@ -62,7 +62,6 @@ public class MemberShipController {
         return iamportClient.paymentByImpUid(imp_uid);
     }
 
-
     @PostMapping(value = "/rank", produces = "application/json")
     @ResponseBody
     public ResponseEntity<CommonResponse> memberShipUpdate(@RequestBody MemberShipCreditDTO memberShipCredit){

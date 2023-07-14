@@ -5,6 +5,7 @@ import com.won.dourbest.common.dto.CategoryDTO;
 import com.won.dourbest.common.dto.CommonResponse;
 import com.won.dourbest.common.dto.Pagination;
 import com.won.dourbest.common.dto.SearchCriteria;
+import com.won.dourbest.common.exception.member.MemberRemoveException;
 import com.won.dourbest.seller.dto.SellerInquiryDTO;
 import com.won.dourbest.user.dto.*;
 import com.won.dourbest.user.mypage.service.MypageCommonService;
@@ -301,8 +302,8 @@ public class MypageController {
 
     }
 
-    // 회원탈퇴 메소드
-    @GetMapping("/quitMember")    //이동할 페이지
+    // 회원탈퇴페이지 이동
+    @GetMapping("/quitMember")
     public String quitMember(@AuthenticationPrincipal MemberImpl user, Model model) {
 
         MypageMainDTO info = mypageService.info(user.getUsername());
@@ -312,30 +313,21 @@ public class MypageController {
         System.out.println("user = " + user);
         MemberDTO mypageInfo = memberService.findUser(user.getMemberId()).orElseThrow();
         model.addAttribute("mypageInfo", mypageInfo);  //멤버 배송지 모두 담겨있음.
-//        model.addAttribute("mypageInfo", mypageInfo);
         System.out.println("mypageInfo.getMemberId() ======================== " + mypageInfo.getMemberId());
 
         return "/user/mypage/quitMember";
     }
 
 
-//     회원 탈퇴  =====================================================================================================
-    @GetMapping("/quitMemberS")
-    public String quitMember(@AuthenticationPrincipal MemberImpl user) {
+    // 회원 탈퇴
+    @PostMapping("/quitMember")
+    public String quitMember(@RequestParam String memberId) {
 
-        System.out.println("user ======================== " + user);
-        MemberDTO mypageInfo = memberService.findUser(user.getMemberId()).orElseThrow();
-        System.out.println("mypageInfo = " + mypageInfo);
-        int success = memberService.quitMember(mypageInfo.getMemberId());
-        System.out.println(" success ======================== " + success );
+        int result = memberService.quitMember(memberId);
 
-        if(success == 1) {
+        if(result > 0) SecurityContextHolder.clearContext();
 
-        }
-
-        SecurityContextHolder.clearContext();
         return "redirect:/user/quitMember-success" ;
-
     }
 
 
@@ -379,7 +371,6 @@ public class MypageController {
             memberService.changePwd(member1);
             return "redirect:/mypage";
         }
-
         return "user/mypage/changePwd";
     }
 
@@ -446,8 +437,6 @@ public class MypageController {
             model.addAttribute("member",findMember);
             model.addAttribute("inquir" ,inquir);
             model.addAttribute("showAnswer", true);
-//        System.out.println("membercode ============================ " + findMember.getMemberCode());
-//        System.out.println("inquir ============================ " + inquir);
 
 
         } else {

@@ -600,7 +600,7 @@
             SELECT
             COUNT(*)
             FROM TBL_MEMBER M
-            JOIN TBL_SELLER_INQUIRY TSI on M.MEMBER_CODE = TSI.MEMBER_CODE
+            JOIN TBL_SELLER_INQUIRY TSI on M.MEMBER_CODE = T\SI.MEMBER_CODE
             JOIN TBL_CATEGORY TC on TSI.CATEGORY_CODE = TC.CATEGORY_CODE
             WHERE M.MEMBER_ID = #{ userId }
             <include refid="search"/>

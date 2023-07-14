@@ -174,38 +174,26 @@ public class MemberController {
         MemberDTO findMember = service.findUser(user.getMemberId()).orElseThrow();
         model.addAttribute("user", user);
         model.addAttribute( "mypageInfo", findMember);
-//        log.info("user = " +  user);
-//        log.info("pwd = " +  pwd);
         boolean result = passwordEncoder.matches( pwd , user.getPassword());
-//        log.info("result = " + result);
+
         if(result) {
             return "redirect:/mypage/quitMember";
         } else {
-//
             return "redirect:/mypage/beforequitMember";
         }
     }
 
-    // 회원탈퇴 성공
+    // 회원탈퇴성공페이지
     @GetMapping("/quitMember-success")    //이동할 페이지
     public String quitMemberSuccess() {
-
-//        System.out.println("user = " + user);
-//        MemberDTO mypageInfo = service.findUser(user.getMemberId()).orElseThrow();
-//        model.addAttribute("mypageInfo", mypageInfo);  //멤버 배송지 모두 담겨있음.
-
 
         return "user/mypage/quitMemberSuc";
     }
 
+
     // 회원가입 성공 페이지
     @GetMapping("/signup-success")    //이동할 페이지
     public String signupSuccess() {
-
-//        System.out.println("user = " + user);
-//        MemberDTO mypageInfo = service.findUser(user.getMemberId()).orElseThrow();
-//        model.addAttribute("mypageInfo", mypageInfo);  //멤버 배송지 모두 담겨있음.
-
 
         return "user/signupSuc";
     }

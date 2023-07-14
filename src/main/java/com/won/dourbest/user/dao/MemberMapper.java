@@ -47,6 +47,8 @@ public interface MemberMapper {
 
     int deleteMember(String memberId);
 
+    int findIngFunding(String memberId);
+
     int couponInsert(@Param("memberCode")int memberCode, @Param("couponCode") int couponCode);
 
 }
