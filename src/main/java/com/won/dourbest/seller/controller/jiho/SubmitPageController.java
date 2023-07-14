@@ -114,14 +114,6 @@ public class SubmitPageController {
             , @RequestParam String searchTag, @RequestParam String startDate
             , @RequestParam String endDate, HttpServletRequest request) {
 
-//        System.out.println("inputMoney = " + inputMoney);
-//        System.out.println("planCode = " + planCode);
-//        System.out.println("fundTitle = " + fundTitle);
-//        System.out.println("mainImg = " + mainImg);
-//        System.out.println("searchTag = " + searchTag);
-//        System.out.println("startDate = " + startDate);
-//        System.out.println("endDate = " + endDate);
-
         /* 파일 저장 경로 생성 */
         String root = "C:\\dev\\fundingImg\\";
         System.out.println("root = " + root);
@@ -153,8 +145,13 @@ public class SubmitPageController {
         String[] sarr = tag.split(",");
         int result = submitService.insertTag(sarr);
 
-        if (result == 0) System.out.println("원래 있는 태그를 입력");
-        else System.out.println("새로운 태그를 입력");
+
+
+
+
+
+//        if (result == 0) System.out.println("원래 있는 태그를 입력");
+//        else System.out.println("새로운 태그를 입력");
 
 
 

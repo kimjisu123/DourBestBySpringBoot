@@ -78,7 +78,14 @@ public class SellerController {
     }
 
     @PostMapping("/success")
-    public String success1() {
+    public String success1(@RequestParam String refundRule, @RequestParam int fundingCode) {
+
+        Map<String, Object> map = new HashMap<>();
+
+        map.put("refundRule", refundRule);
+        map.put("fundingCode", fundingCode);
+
+        int result = service.insertRefundRule(map);
 
         return "seller/giwon_seller/seller_success";
     }
