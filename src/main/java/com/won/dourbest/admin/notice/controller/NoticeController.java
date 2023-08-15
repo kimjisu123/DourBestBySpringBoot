@@ -57,8 +57,6 @@ public class NoticeController {
         }
 
 
-
-
         List<AdminNoticeDTO> adminNoticeList = noticeServiceImpl.selectNoticeList(selectCriteria);
         mv.addObject("selectCriteria", selectCriteria);
         mv.addObject("adminNoticeList", adminNoticeList);
@@ -76,13 +74,14 @@ public class NoticeController {
         searchMap.put("searchValue", searchValue);
 
         // 조건이 있을시에 보여지는 페이지의 갯수
-        int totalPage = noticeServiceImpl.selectTotalPage(searchMap);
+        int totalPage = noticeServiceImpl.selectTotalOngoingPage(searchMap);
 
         // 한 페이지에 보여줄 게시물 수
         int limit = 8;
 
         // 한번에 보여줄 페이징 버튼 수
         int button = 5;
+
 
         SelectCriteria selectCriteria = null;
 
@@ -93,8 +92,6 @@ public class NoticeController {
         }
 
 
-
-
         List<AdminEventDTO> ongoingEventList = noticeServiceImpl.selectOngoingEventList(selectCriteria);
         mv.addObject("selectCriteria", selectCriteria);
         mv.addObject("ongoingEventList", ongoingEventList);
@@ -103,6 +100,7 @@ public class NoticeController {
         return mv;
     }
 
+    // 종료된 펀딩 목록
     @GetMapping("/finshedEvent")
     public ModelAndView finshedEvent(ModelAndView mv, @RequestParam(required = false) String searchValue, @RequestParam(defaultValue = "1", value="currentPage") int pageNO){
 
@@ -110,13 +108,14 @@ public class NoticeController {
         searchMap.put("searchValue", searchValue);
 
         // 조건이 있을시에 보여지는 페이지의 갯수
-        int totalPage = noticeServiceImpl.selectTotalPage(searchMap);
+        int totalPage = noticeServiceImpl.selectTotalFinshPage(searchMap);
 
         // 한 페이지에 보여줄 게시물 수
         int limit = 8;
 
         // 한번에 보여줄 페이징 버튼 수
         int button = 5;
+
 
         SelectCriteria selectCriteria = null;
 

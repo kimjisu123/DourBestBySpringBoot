@@ -122,4 +122,12 @@ public class CouponServiceImpl implements CouponService{
 
     }
 
+    @Override
+    public int selectRegiTotalPage(Map<String, String> searchMap) {
+
+        int reusult = mapper.selectRegiTotalPage();
+
+        return reusult;
+    }
+
 }

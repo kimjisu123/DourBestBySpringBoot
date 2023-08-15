@@ -13,7 +13,7 @@ public interface ReportService {
 
     int selectTotalPage(Map<String, String> searchMap);
 
-    String answerRegist(AnswerRegistDTO answerRegist);
+    String answerRegist(AnswerRegistDTO answerRegist, int adminCode);
 
     List<CustomerInquiryDTO> selectInquiry(SelectCriteria selectCriteria);
 

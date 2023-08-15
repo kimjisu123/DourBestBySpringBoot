@@ -42,4 +42,7 @@ public interface NoticeMapper {
     int finishedEventDelete(String eventCode);
 
 
+    int selectTotalOngoingPage(Map<String, String> searchMap);
+
+    int selectTotalFinshPage(Map<String, String> searchMap);
 }

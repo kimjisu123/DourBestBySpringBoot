@@ -26,7 +26,7 @@ public class ConstomerController {
     @GetMapping("/customerService")
     public String customerService(Model model){
 
-    List<ConstomerContactDTO> contactList = constomerServiceImpl.selectCoupon();
+    List<ConstomerContactDTO> contactList = constomerServiceImpl.selectContact();
 
     List<CategoryDTO> categoryList = constomerServiceImpl.selectCategory();
 

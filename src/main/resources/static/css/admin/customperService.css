@@ -121,19 +121,18 @@
 
 .FrequentlyHelpContainor{
     display: flex;
-    margin-top: 00px;
 }
 
 .FrequentlyHelp{
-    margin-left:420px;
-    margin-bottom : 20px;
+    margin-left: 420px;
+    margin-bottom: 20px;
     font-size: 40px;
     font-weight: bold;
+    width: 1400px;
+    height: 500px;
 }
 
-.QuestionsListContainer{
-    margin-left:200px;
-}
+
 
 .QuestionsHead{
     font-size: 25px;
@@ -149,10 +148,6 @@
     height: 100px;
     background: linear-gradient(to right,  rgb(205, 217, 229) 60%, rgba(164, 185, 204, 0.9));
 }
-
-
-
-
 
 
 

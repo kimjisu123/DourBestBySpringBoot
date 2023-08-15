@@ -85,4 +85,8 @@ public interface SellerMapper {
     int couponUpdate(Map<String, Object> couponCode);
 
     int selectCoupon1(Map<String, Object> cp);
+
+    int insertPurchase(Map<String, Object> map);
+
+    int insertRefundRule(Map<String, Object> map);
 }

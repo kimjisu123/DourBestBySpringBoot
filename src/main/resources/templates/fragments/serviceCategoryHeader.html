@@ -9,7 +9,7 @@
       <div class="header-container">
         <!-- 헤더 상단 메뉴 -->
         <div class="header-top">
-            <img id="headerlogo" th:src="@{/images/common/logo.jpeg}" alt="DourBest로고">
+            <img th:onclick="|location.href='@{/customerService/customerService}'|"  id="headerlogo" th:src="@{/images/common/logo.jpeg}" alt="DourBest로고">
           <th:block sec:authorize="hasRole('ROLE_USER')">
             <button class="contactBtn">문의 등록</button>
           </th:block>

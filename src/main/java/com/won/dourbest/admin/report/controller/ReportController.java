@@ -7,6 +7,8 @@ import com.won.dourbest.admin.report.dto.*;
 import com.won.dourbest.admin.report.service.ReportServiceImpl;
 import com.won.dourbest.common.exception.member.NoLoginException;
 import com.won.dourbest.user.dto.MemberImpl;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -17,23 +19,23 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+@Slf4j
 @Controller
 @RequestMapping("/admin")
+@RequiredArgsConstructor
 public class ReportController {
 
     private final ReportServiceImpl reportServiceImpl;
 
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-    public ReportController(ReportServiceImpl reportServiceImpl) {
-
-        this.reportServiceImpl = reportServiceImpl;
-
-    }
+//    public ReportController(ReportServiceImpl reportServiceImpl) {
+//
+//        this.reportServiceImpl = reportServiceImpl;
+//
+//    }
 
     @GetMapping("reportDetails")
-    public ModelAndView reportDetails(ModelAndView mv, @RequestParam(required = false) String searchValue, @RequestParam(defaultValue = "1", value="currentPage") int pageNO){
+    public ModelAndView reportDetails(ModelAndView mv, @RequestParam(required = false) String searchValue, @RequestParam(defaultValue = "1", value="currentPage") int pageNO,   @AuthenticationPrincipal AdminImpl admin){
 
         Map<String, String> searchMap = new HashMap<>();
         searchMap.put("searchValue", searchValue);
@@ -54,6 +56,12 @@ public class ReportController {
         } else {
             selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button);           // 조건이 없을 경우
         }
+
+        if(admin == null){
+            throw new NoLoginException();
+        }
+
+        int adminCode = admin.getAdminCode();
 
 
         List<ReportDetailsDTO> reportDetailsList = reportServiceImpl.selectReportDetails(selectCriteria);
@@ -65,26 +73,24 @@ public class ReportController {
     }
 
     @GetMapping("answerReport")
-    public ModelAndView blackList(ModelAndView mv, @RequestParam(required = false) String searchValue, @RequestParam(defaultValue = "1", value="currentPage") int pageNO){
+    public ModelAndView blackList(ModelAndView mv, @RequestParam(required = false) String searchValue,
+                                    @RequestParam(defaultValue = "1", value="currentPage") int pageNO){
 
         Map<String, String> searchMap = new HashMap<>();
         searchMap.put("searchValue", searchValue);
 
-        // 조건이 있을시에 보여지는 페이지의 갯수
         int totalPage = reportServiceImpl.selectTotalPage(searchMap);
 
-        // 한 페이지에 보여줄 게시물 수
         int limit = 8;
 
-        // 한번에 보여줄 페이징 버튼 수
         int button = 5;
 
         SelectCriteria selectCriteria = null;
 
         if(searchValue != "" && searchValue != null){
-            selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button,searchValue);  // 조건이 있을 경우
+            selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button,searchValue);
         } else {
-            selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button);           // 조건이 없을 경우
+            selectCriteria = Pagenation.getSelectCriteria(pageNO, totalPage, limit, button);
         }
 
 
@@ -94,13 +100,14 @@ public class ReportController {
         mv.addObject("responseList", responseList);
         mv.setViewName("admin/report/answerReport");
 
-        log.info("responseList : " + responseList);
 
         return mv;
     }
 
     @GetMapping("/customerInquiry")
     public ModelAndView customerInquiry(ModelAndView mv, @RequestParam(required = false) String searchValue, @RequestParam(defaultValue = "1", value="currentPage") int pageNO){
+
+
 
         Map<String, String> searchMap = new HashMap<>();
         searchMap.put("searchValue", searchValue);
@@ -137,11 +144,15 @@ public class ReportController {
     // 제재 답변
     @PostMapping("answerRegist")
     @ResponseBody
-    public String answerRegist(@RequestBody AnswerRegistDTO answer){
+    public String answerRegist(@RequestBody AnswerRegistDTO answer, @AuthenticationPrincipal AdminImpl admin){
 
-        System.out.println("answer = " + answer);
+        if(admin == null){
+            throw new NoLoginException();
+        }
+
+        int adminCode = admin.getAdminCode();
         
-        String message = reportServiceImpl.answerRegist(answer);
+        String message = reportServiceImpl.answerRegist(answer, adminCode);
 
         return message;
     }

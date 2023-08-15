@@ -190,6 +190,9 @@ public class SellerServiceImpl implements SellerService {
         FundingDTO fundingCode = mapper.selectfundingCode(order.getFundingOptionCode());
         System.out.println("fundingCode = " + fundingCode);
 
+        int fundCode = fundingCode.getFundingCode();
+
+
         int optionCode = Integer.parseInt(order.getFundingOptionCode());
 
         int update = mapper.update(optionCode);
@@ -197,7 +200,9 @@ public class SellerServiceImpl implements SellerService {
         String cp = order.getCoupon();
         Map<String, Object> map = new HashMap<>();
         map.put("mCode" , mCode);
+        map.put("fundCode", fundCode);
         map.put("cp", cp);
+        int purchase = mapper.insertPurchase(map);
         int couponCode = mapper.selectCoupon1(map);
         map.put("couponCode", couponCode);
         int result1 = mapper.couponUpdate(map);
@@ -355,6 +360,13 @@ public class SellerServiceImpl implements SellerService {
         int categoryCode = mapper.selectCatogory(fundingCode);
 
         return categoryCode;
+    }
+
+    public int insertRefundRule(Map<String, Object> map) {
+
+        int result = mapper.insertRefundRule(map);
+
+        return result;
     }
 }
 

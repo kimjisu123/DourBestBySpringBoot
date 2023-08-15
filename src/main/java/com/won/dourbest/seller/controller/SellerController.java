@@ -78,7 +78,14 @@ public class SellerController {
     }
 
     @PostMapping("/success")
-    public String success1() {
+    public String success1(@RequestParam String refundRule, @RequestParam int fundingCode) {
+
+        Map<String, Object> map = new HashMap<>();
+
+        map.put("refundRule", refundRule);
+        map.put("fundingCode", fundingCode);
+
+        int result = service.insertRefundRule(map);
 
         return "seller/giwon_seller/seller_success";
     }
@@ -217,7 +224,6 @@ public class SellerController {
         order.setMemberCode(memberCode);
         System.out.println("order : " + order);
         OrderDTO insertOrder = service.insertOrder(order, memberCode);
-
 
         System.out.println(insertOrder.getOrderCode());
 

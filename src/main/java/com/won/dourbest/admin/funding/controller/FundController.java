@@ -68,7 +68,7 @@ public class FundController {
         searchMap.put("searchValue", searchValue);
 
         // 조건이 있을시에 보여지는 페이지의 갯수
-        int totalPage = fundingListService.selectTotalPage(searchMap);
+        int totalPage = fundingListService.selectOngoingTotalPage(searchMap);
 
         // 한 페이지에 보여줄 게시물 수
         int limit = 8;
@@ -169,7 +169,7 @@ public class FundController {
         searchMap.put("searchValue", searchValue);
 
         // 조건이 있을시에 보여지는 페이지의 갯수
-        int totalPage = fundingListService.selectTotalPage(searchMap);
+        int totalPage = fundingListService.selectOngoingTotalPage(searchMap);
 
         // 한 페이지에 보여줄 게시물 수
         int limit = 8;
@@ -270,15 +270,22 @@ public class FundController {
         return message;
     }
 
+
+
+
     // 신청한 펀딩 승인
     @PostMapping("approved")
     @ResponseBody
     public String approved(@RequestBody ApprovedDTO apporved){
 
+        System.out.println("apporved = " + apporved);
+        
         String message = fundingListService.insertFunding(apporved);
 
         return message;
     }
+
+
 
     @PostMapping("drop")
     @ResponseBody

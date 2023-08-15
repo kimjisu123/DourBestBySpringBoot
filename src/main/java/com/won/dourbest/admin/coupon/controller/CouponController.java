@@ -64,7 +64,7 @@ public class CouponController {
         searchMap.put("searchValue", searchValue);
 
         // 조건이 있을시에 보여지는 페이지의 갯수
-        int totalPage = couponServiceImpl.selectTotalPage(searchMap);
+        int totalPage = couponServiceImpl.selectRegiTotalPage(searchMap);
 
         // 한 페이지에 보여줄 게시물 수
         int limit = 8;
