@@ -193,6 +193,18 @@
         WHERE MEMBER_ID = #{ memberId }
     </update>
 
+    <!-- 탈퇴 전 펀딩 유무 확인 -->
+    <select id="findIngFunding">
+        SELECT
+            COUNT(*)
+        FROM TBL_MEMBER M
+                 JOIN TBL_SELLER S ON M.MEMBER_CODE = S.MEMBER_CODE
+                 JOIN TBL_FUNDING F ON S.SELLER_CODE = F.SELLER_CODE
+                 JOIN TBL_FUNDING_STATUSLIST TFS ON F.FUNDING_CODE = TFS.FUNDING_CODE
+        WHERE M.MEMBER_ID = #{memberId}
+          AND (TFS.FUNDING_STATUS_CODE=4 OR TFS.FUNDING_STATUS_CODE=1 OR TFS.FUNDING_STATUS_CODE=2)
+    </select>
+
     <!--   비밀번호 변경  -->
     <update id="changePwd" parameterType="MemberDTO">
         UPDATE TBL_MEMBER

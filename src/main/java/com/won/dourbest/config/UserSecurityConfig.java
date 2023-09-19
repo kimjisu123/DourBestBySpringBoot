@@ -27,6 +27,7 @@ public class UserSecurityConfig {
     private final BCryptPasswordEncoder passwordEncoder;
 
     @Bean
+
     public DaoAuthenticationProvider userAuthenticationProvider(){
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setPasswordEncoder(passwordEncoder);
@@ -59,15 +60,6 @@ public class UserSecurityConfig {
                 .and().build();
 
     }
-//
-//    //사용자 인증
-//    @Bean
-//    public AuthenticationManager userAuthManager(HttpSecurity http) throws Exception {
-//        return http.getSharedObject(AuthenticationManagerBuilder.class)
-//                .userDetailsService(memberService)
-//                .passwordEncoder(passwordEncoder)
-//                .and().build();
-//    }
 
 
 }
