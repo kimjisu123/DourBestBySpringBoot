@@ -34,7 +34,8 @@ public class NoticeController {
 
     // 공지사항 조회
     @GetMapping("/notice")
-    public ModelAndView notice(ModelAndView mv, @RequestParam(required = false) String searchValue, @RequestParam(defaultValue = "1", value="currentPage") int pageNO){
+    public ModelAndView notice(ModelAndView mv, @RequestParam(required = false) String searchValue,
+                                @RequestParam(defaultValue = "1", value="currentPage") int pageNO){
 
         Map<String, String> searchMap = new HashMap<>();
         searchMap.put("searchValue", searchValue);
