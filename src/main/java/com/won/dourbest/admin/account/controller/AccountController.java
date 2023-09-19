@@ -37,11 +37,9 @@ public class AccountController {
     }
 
     // 모든 회원 목록 조회
-    @GetMapping("/admin")                                                                      // input hidden으로 넣어뒀던 현재 페이지
-    public ModelAndView account(ModelAndView mv, @RequestParam(required = false) String searchValue, @RequestParam(defaultValue = "1", value="currentPage") int pageNO
-    ){
-
-
+    @GetMapping("/admin")                             // input hidden으로 넣어뒀던 현재 페이지
+    public ModelAndView account(ModelAndView mv, @RequestParam(required = false) String searchValue,
+                                @RequestParam(defaultValue = "1", value="currentPage") int pageNO ){
 
         Map<String, String> searchMap = new HashMap<>();
         searchMap.put("searchValue", searchValue);

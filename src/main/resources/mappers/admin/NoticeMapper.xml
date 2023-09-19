@@ -41,7 +41,7 @@
             FROM TBL_NOTICE A
             ORDER BY REGI_DATE ASC)
         <if test="searchValue != null and searchValue != ''">
-            WHERE A.NOTICE_TITLE LIKE '%' || #{ searchValue } || '%'
+            WHERE NOTICE_TITLE LIKE '%' || #{ searchValue } || '%'
         </if>
         ORDER BY ROWNUM ASC
         OFFSET #{startRow} -1 ROWS FETCH NEXT (#{endRow} - #{startRow} + 1) ROWS ONLY

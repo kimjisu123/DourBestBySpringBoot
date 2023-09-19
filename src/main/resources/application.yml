@@ -11,7 +11,7 @@ mybatis:
 spring:
   datasource:
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-    url: jdbc:log4jdbc:oracle:thin:@oracle.coffit.site:1521:XE
+    url: jdbc:log4jdbc:oracle:thin:@oracle.coffit.today:1521:XE
     username: C##DOURBEST
     password: DOURBEST
   servlet:
