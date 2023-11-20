@@ -1,3 +1,15 @@
+# DourBest PROJECT
+
+### Team 5jwon(권지은, 김지수, 이기원, 박지호, 주진선)
+
+## Introduce
+
+### *넓은사업 확장성을 가진 “F&B 프랜차이즈 기업”을 타겟으로 한 그룹웨어 시스템*
+
+매장 하나를 시작으로  문어발처럼 확장하는 F&B 사업체들에게 필요한 그룹웨어 시스템을 만들고자 기획했습니다.
+
+**AUTOCS**는 **F&B기업들을 위한 그룹웨어 시스템**입니다.
+
 # DourBestBySpringBoot
 <img src="https://capsule-render.vercel.app/api?type=shark&color=auto&height=300&section=header&text=DourBest&fontSize=90" />
  <div> 
